@@ -4,6 +4,15 @@ from collections import defaultdict
 from utils import clean_split, list_files
 
 
+"""
+Optimisation ideas:
+- While(True) loop in individual files until all loci have been found
+- Check for unnecessary split() and rstrip() - only do it when line needs to be processed.
+- Check other parts of the code for unnecessary complex procedures
+- Check data structures too.
+"""
+
+
 class File_infos:
 
     def __init__(self, path):
@@ -16,6 +25,15 @@ class File_infos:
         self.id = self.tabs[2]
         self.sex = self.id[0]
         self.number = self.id[1:]
+
+
+def init_dict(spec_tags):
+    spec_loci = dict()
+    for k, v in spec_tags.items():
+        for i, j in v.items():
+            if j not in spec_loci.keys():
+                spec_loci[j] = {}
+    return spec_loci
 
 
 def output_files(infos, output_dir, suffix):
@@ -38,17 +56,16 @@ def load_tags(file):
             male = True
         elif "#FEMALES" in line:
             male = False
-        elif line.strip() != '':
+        elif line != '\n':
             tabs = clean_split(line)
             catalog_locus = tabs[0]
             for i in tabs[1].split(','):
                 individual = i.split('_')[0]
                 individual_locus = i.split('_')[1]
-            if male:
-                male_tags[individual][individual_locus] = catalog_locus
-            else:
-                female_tags[individual][individual_locus] = catalog_locus
-
+                if male:
+                    male_tags[individual][individual_locus] = catalog_locus
+                else:
+                    female_tags[individual][individual_locus] = catalog_locus
     return male_tags, female_tags
 
 
@@ -89,11 +106,11 @@ def export_loci(loci_dict, file):
         file.write('Locus: ' + k + '\n')
         for individual, data in v.items():
             file.write('ID: ' + individual + '\n')
-            file.write('Consensus: ' + data['consensus'] + '\n')
+            file.write('Consensus' + '\t' + data['consensus'] + '\n')
             for allele_id, allele_data in data['alleles'].items():
-                file.write('Allele: ' + allele_id + '\n')
-                file.write('Sequence: ' + allele_data['sequence'] + '\n')
-                file.write('Coverage: ' + str(allele_data['coverage']) + '\n')
+                file.write(allele_id + '\t')
+                file.write(str(allele_data['coverage']) + '\t')
+                file.write(allele_data['sequence'] + '\n')
             file.write('\n')
         file.write('\n\n')
 
@@ -123,10 +140,10 @@ def process_file(file_infos, spec_dict, poly_dict, env_dict, spec_tags, poly_tag
         locus = tabs[2]
         if locus in spec_tags[id_n].keys():
             extract_info(tabs, spec_tags[id_n][locus], file_infos.id, spec_dict)
-        # if locus in poly_tags:
-        #     extract_info(tabs, locus, file_infos.id, poly_dict)
-        # if locus in poly_tags:
-        #     extract_info(tabs, locus, file_infos.id, env_dict)
+        if locus in poly_tags[id_n].keys():
+            extract_info(tabs, poly_tags[id_n][locus], file_infos.id, poly_dict)
+        if locus in env_tags[id_n].keys():
+            extract_info(tabs, env_tags[id_n][locus], file_infos.id, env_dict)
 
 
 def sex_variable(file_spec, file_poly, file_env, data_dir, output_dir):
@@ -141,29 +158,21 @@ def sex_variable(file_spec, file_poly, file_env, data_dir, output_dir):
              'file_base': '_'.join(base.split('_')[:3]),
              'path': path}
 
-    male_spec_f, female_spec_f = output_files(infos, output_dir, 'spec')
-    # male_poly_f, female_poly_f = output_files(infos, output_dir, 'poly')
-    # male_env_f, female_env_f = output_files(infos, output_dir, 'env')
-
     print(' - Loading sex-specific tags')
     male_spec_tags, female_spec_tags = load_tags(file_spec)
-    # print(' - Loading sex-polymorphic tags')
-    # male_poly_tags, female_poly_tags = load_tags(file_poly)
-    # print(' - Loading sex-polymorphic tags')
-    # male_env_tags, female_env_tags = load_tags(file_env)
-    male_poly_tags = {}
-    female_poly_tags = {}
-    male_env_tags = {}
-    female_env_tags = {}
+    print(' - Loading sex-polymorphic tags')
+    male_poly_tags, female_poly_tags = load_tags(file_poly)
+    print(' - Loading sex-polymorphic tags')
+    male_env_tags, female_env_tags = load_tags(file_env)
 
     tag_files = find_tag_files(infos, data_dir)
 
-    male_spec_loci = defaultdict(lambda: dict())
-    female_spec_loci = defaultdict(lambda: dict())
-    male_poly_loci = defaultdict(lambda: dict())
-    female_poly_loci = defaultdict(lambda: dict())
-    male_env_loci = defaultdict(lambda: dict())
-    female_env_loci = defaultdict(lambda: dict())
+    male_spec_loci = init_dict(male_spec_tags)
+    female_spec_loci = init_dict(female_spec_tags)
+    male_poly_loci = init_dict(male_poly_tags)
+    female_poly_loci = init_dict(female_poly_tags)
+    male_env_loci = init_dict(male_env_tags)
+    female_env_loci = init_dict(female_env_tags)
 
     print(' - Extracting data from individual tags files')
     n_files = str(len(tag_files))
@@ -175,15 +184,19 @@ def sex_variable(file_spec, file_poly, file_env, data_dir, output_dir):
                          male_spec_tags, male_poly_tags, male_env_tags)
         elif file_infos.sex == 'F':
             process_file(file_infos, female_spec_loci, female_poly_loci, female_env_loci,
-                         female_spec_tags, female_poly_tags, female_env_loci)
+                         female_spec_tags, female_poly_tags, female_env_tags)
             print('        - File ' + str(i + 1) + '/' + n_files + ' (Female) : ' + file_infos.base)
         else:
             pass
 
     print(' - Exporting results')
+    male_spec_f, female_spec_f = output_files(infos, output_dir, 'spec')
+    male_poly_f, female_poly_f = output_files(infos, output_dir, 'poly')
+    male_env_f, female_env_f = output_files(infos, output_dir, 'env')
+
     export_loci(male_spec_loci, male_spec_f)
-    # export_loci(female_spec_loci, female_spec_f)
-    # export_loci(male_poly_loci, male_poly_f)
-    # export_loci(female_poly_loci, female_poly_f)
-    # export_loci(male_env_loci, male_env_f)
-    # export_loci(female_env_loci, female_env_f)
+    export_loci(female_spec_loci, female_spec_f)
+    export_loci(male_poly_loci, male_poly_f)
+    export_loci(female_poly_loci, female_poly_f)
+    export_loci(male_env_loci, male_env_f)
+    export_loci(female_env_loci, female_env_f)

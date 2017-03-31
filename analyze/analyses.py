@@ -15,14 +15,12 @@ def write_output_file(data, file, correspondance):
 
     # Refactorize this shit
     file.write('#MALES\n')
-    for i, locus in enumerate(data[MALES]):
+    for locus in data[MALES]:
         file.write(locus + '\t' + correspondance[locus] + '\n')
     file.write('\n\n')
     file.write('#FEMALES\n')
-    for i, locus in enumerate(data[FEMALES]):
-        file.write(locus)
-        if i < len(data[FEMALES]) - 1:
-            file.write(', ')
+    for locus in data[FEMALES]:
+        file.write(locus + '\t' + correspondance[locus] + '\n')
 
 
 def analyse(file_path, catalog_path, output_dir, margin_ratios):
@@ -122,9 +120,14 @@ def analyse(file_path, catalog_path, output_dir, margin_ratios):
     for line in catalog:
         tabs = clean_split(line)
         locus_id = tabs[2]
-        if locus_id in sex_specific[MALES]:
+        if (locus_id in sex_specific[MALES] or
+                locus_id in sex_specific[FEMALES] or
+                locus_id in sex_polymorphic[MALES] or
+                locus_id in sex_polymorphic[FEMALES] or
+                locus_id in environmental[MALES] or
+                locus_id in environmental[FEMALES]):
             correspondance[locus_id] = tabs[8]
 
     write_output_file(sex_specific, o_specific_f, correspondance)
-    # write_output_file(sex_polymorphic, o_polymorphic_f)
-    # write_output_file(environmental, o_environmental_f)
+    write_output_file(sex_polymorphic, o_polymorphic_f, correspondance)
+    write_output_file(environmental, o_environmental_f, correspondance)
