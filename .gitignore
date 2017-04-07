@@ -95,3 +95,4 @@ test/
 resources.txt
 *denovo_map.sh
 user.json
+*.pyc
