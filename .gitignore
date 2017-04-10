@@ -96,3 +96,5 @@ resources.txt
 *denovo_map.sh
 user.json
 *.pyc
+results_10/*
+output/*
