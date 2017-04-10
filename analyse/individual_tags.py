@@ -26,7 +26,7 @@ def write_output(loci_data, output_path, names):
     for locus, individuals in loci_data.items():
         for individual, alleles in individuals.items():
             for name, data in alleles.items():
-                output_file.write(locus + '\t' + individual + '\t' + name + '\t' +
+                output_file.write(locus + '\t' + names[individual] + '\t' + name + '\t' +
                                   data[SEQUENCE] + '\t' + str(data[COVERAGE]) + '\n')
 
 
