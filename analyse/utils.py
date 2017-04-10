@@ -20,7 +20,7 @@ def get_info(file):
     return infos
 
 
-def list_files(directory, end=('.tsv', '.txt')):
+def list_files(directory, end=('tsv', 'txt')):
 
     files = [os.path.join(directory, f) for f in os.listdir(directory)
              if os.path.isfile(os.path.join(directory, f)) and
