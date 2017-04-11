@@ -23,8 +23,6 @@ colnames(data) = c("Frequency", "Count")
 
 g = ggplot(data, aes(x=Frequency, y=Count/sum(Count))) +
     geom_bar(stat="identity", colour="black", fill="#CCCCCC") +
-    geom_vline(xintercept = mean(data$Frequency), colour = "red") +
-    geom_vline(xintercept = median(data$Frequency), colour = "blue") +
     ggtitle(paste("Total tags: ", dim(data)[1], sep='')) + theme(plot.title = element_text(hjust = 0.5)) +
     xlab("Number of individuals in which a tag is present") + ylab("Frequency (%)") +
     scale_y_continuous(labels=percent)
