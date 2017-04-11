@@ -54,7 +54,7 @@ def process_individual(file_path, loci_to_extract, loci_data):
                     loci_data[catalog_id][individual][name][COVERAGE] += 1
 
 
-def analyse(tags_paths, loci_to_extract, output_dir):
+def analyse(tags_paths, loci_to_extract, global_parameters):
 
     loci_data = {}
 
@@ -72,8 +72,7 @@ def analyse(tags_paths, loci_to_extract, output_dir):
         process_individual(file_path, loci_to_extract, loci_data)
 
     print('\n    # Saving data ...')
-    output_path = os.path.join(output_dir, 'alleles.tsv')
-    write_output(loci_data, output_path, names)
+    write_output(loci_data, global_parameters.alleles_file, names)
     print('    > Data extracted ...')
 
     return loci_data
