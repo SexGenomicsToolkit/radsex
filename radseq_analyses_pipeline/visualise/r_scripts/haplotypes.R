@@ -10,19 +10,16 @@ if (length(args)==0) {
 
 suppressMessages(library(readr))
 suppressMessages(library(ggplot2))
+suppressMessages(library(gridExtra))
 
 file = args[1]
 output_dir = args[2]
-
-file = "~/work/code/radseq_analyses_pipeline/output/haplotypes_data.tsv"
-output_dir = "~/work/code/radseq_analyses_pipeline/results/"
+threshold = args[3]
 
 png_name = paste("sex_variable_haplotypes.png", sep='')
 
 data <- suppressMessages(read_delim(file, "\t", col_names = TRUE, escape_double = FALSE, trim_ws = TRUE))
 names(data) = c('Locus', 'Sequence', 'Males', 'Females', 'Male_outliers', 'Female_outliers')
-
-threshold = 5
 
 males = data.frame(table(data$Males[which(data$Males > threshold)], data$Females[which(data$Males > threshold)]))
 names(males) = c('Males', 'Females', 'Count')
@@ -36,4 +33,7 @@ g = g + geom_bar(stat='identity', position=position_dodge(), colour='black')
 h <- ggplot(females, aes(x = Females, y = Count, fill = Males))
 h = h + geom_bar(stat='identity', position=position_dodge(), colour='black')
 
+png(paste(output_dir, png_name, sep=''), width=1600, height=1000, res=130)
 grid.arrange(g, h, ncol=2)
+x = dev.off()
+
