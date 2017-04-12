@@ -2,23 +2,11 @@ from collections import defaultdict
 import re
 from .utils import clean_split
 from .commons import *
-
-
-class Locus:
-    '''
-    Object storing information about a locus: ID, sequence, number of males and
-    females, outliers for each sex
-    '''
-
-    def __init__(self, locus_id):
-        self.id = locus_id
-        self.seq = ''
-        self.males = 0
-        self.females = 0
-        self.outliers = {MALES: set(), FEMALES: set()}
+from loci_data import Locus
 
 
 def parse_header(header):
+
     '''
     Analyse header line from haplotype file to extract individual columns
     '''
@@ -44,13 +32,24 @@ def write_output(haplotypes_file, loci_of_interest):
 
     output = haplotypes_file
     with open(output, 'w') as o:
-        o.write('Locus' + '\t' + 'Sequence' + '\t' + 'Males' + '\t' + 'Females' + '\t' + 'Male_outliers' + '\t' + 'Female_outliers' + '\n')
-        for locus in loci_of_interest:
-            o.write(str(locus.id) + '\t' + str(locus.seq) + '\t' + str(locus.males) + '\t' + str(locus.females) + '\t' +
-                    '-'.join(str(i) for i in locus.outliers[MALES]) + '\t' + '-'.join(str(i) for i in locus.outliers[FEMALES]) + '\n')
+        o.write('Locus' + '\t' + 'Male_haplotype' + '\t' + 'Male_haplotype_number' + '\t' +
+                'Female_haplotype' + '\t' + 'Female_haplotype_number' + '\t' +
+                '\t' + 'Males' + '\t' + 'Females' + '\t' + 'Male_outliers' +
+                '\t' + 'Female_outliers' + '\n')
+        for locus, data in loci_of_interest.items():
+            o.write(str(locus) + '\t' +
+                    str(data.haplotypes[MALES][0]) + '\t' +
+                    str(data.haplotypes[MALES][1]) + '\t' +
+                    str(data.haplotypes[FEMALES][0]) + '\t' +
+                    str(data.haplotypes[FEMALES][1]) + '\t' +
+                    str(data.n_males) + '\t' +
+                    str(data.n_females) + '\t' +
+                    '-'.join(str(i) for i in data.outliers[MALES]) + '\t' +
+                    '-'.join(str(i) for i in data.outliers[FEMALES]) + '\n')
 
 
 def get_haplotypes(file_path):
+
     '''
     Input: path to a haplotype file (batch_X.haplotypes.tsv)
     Output:
@@ -81,6 +80,47 @@ def get_haplotypes(file_path):
     return haplotypes, numbers
 
 
+def check_tag(tag, numbers, main, margins):
+
+    if tag == '-':
+        return None
+
+    MAIN = main
+    if MAIN == FEMALES:
+        OPPOSITE = MALES
+    else:
+        OPPOSITE = FEMALES
+
+    sex_variable = None
+    if numbers[MAIN] > margins[SPEC][MAIN][HIGH]:
+        if numbers[OPPOSITE] < margins[SPEC][OPPOSITE][LOW]:
+            sex_variable = 'full'
+
+    # elif numbers[MAIN] > margins[POLY][OPPOSITE][LOW] and numbers[MAIN] < margins[POLY][OPPOSITE][HIGH]:
+    #     if numbers[OPPOSITE] < margins[SPEC][OPPOSITE][LOW]:
+    #         sex_variable = 'half'
+
+    return sex_variable
+
+
+def sex_haplotypes(haplotypes):
+
+    max_m = 0
+    max_f = 0
+    hap_m = None
+    hap_f = None
+
+    for haplotype, count in haplotypes.items():
+        if count[MALES] > max_m:
+            hap_m = haplotype
+            max_m = count[MALES]
+        if count[FEMALES] > max_f:
+            hap_f = haplotype
+            max_f = count[FEMALES]
+
+    return {MALES: (hap_m, max_m), FEMALES: (hap_f, max_f)}
+
+
 def filter(haplotypes, numbers, error_threshold):
 
     cst_m = int(numbers[MALES] * error_threshold)
@@ -91,12 +131,12 @@ def filter(haplotypes, numbers, error_threshold):
                       FEMALES: {HIGH: numbers[FEMALES] / 2 + cst_f, LOW: numbers[FEMALES] / 2 - cst_f}}
                }
 
-    loci_of_interest = set()
+    loci_of_interest = {}
 
     for locus_id, haplotype in haplotypes.items():
 
-        males = tuple((i, m) for i, m in enumerate(haplotype[MALES]) if m != '-')
-        females = tuple((i, m) for i, m in enumerate(haplotype[FEMALES]) if m != '-')
+        males = tuple((i, m) for i, m in enumerate(haplotype[MALES]))
+        females = tuple((i, m) for i, m in enumerate(haplotype[FEMALES]))
 
         tags = defaultdict(lambda: {MALES: 0, FEMALES: 0})
 
@@ -105,53 +145,21 @@ def filter(haplotypes, numbers, error_threshold):
         for tag in females:
             tags[tag[1]][FEMALES] += 1
 
+        sex_variable = None
         for tag, numbers in tags.items():
+            sex_variable = check_tag(tag, numbers, MALES, margins)
+            sex_variable = check_tag(tag, numbers, FEMALES, margins)
 
-            main = MALES
-            opposite = FEMALES
-
-            if numbers[main] > margins[SPEC][main][HIGH]:
-                if numbers[opposite] < margins[SPEC][opposite][LOW]:
-                    locus = Locus(locus_id)
-                    locus.seq = tag
-                    locus.males = numbers[MALES]
-                    locus.females = numbers[FEMALES]
-                    locus.outliers[main] = tuple(i for i, m in enumerate(haplotype[main]) if m != locus.seq)
-                    locus.outliers[opposite] = tuple(i for i, m in enumerate(haplotype[opposite]) if m == locus.seq)
-                    loci_of_interest.add(locus)
-
-            elif numbers[main] > margins[POLY][opposite][LOW] and numbers[main] < margins[POLY][opposite][HIGH]:
-                if numbers[opposite] < margins[SPEC][opposite][LOW]:
-                    locus = Locus(locus_id)
-                    locus.seq = tag
-                    locus.males = numbers[MALES]
-                    locus.females = numbers[FEMALES]
-                    locus.outliers[main] = tuple(i for i, m in enumerate(haplotype[main]) if m == locus.seq)
-                    locus.outliers[opposite] = tuple(i for i, m in enumerate(haplotype[opposite]) if m == locus.seq)
-                    loci_of_interest.add(locus)
-
-            main = FEMALES
-            opposite = MALES
-
-            if numbers[main] > margins[SPEC][main][HIGH]:
-                if numbers[opposite] < margins[SPEC][opposite][LOW]:
-                    locus = Locus(locus_id)
-                    locus.seq = tag
-                    locus.males = numbers[MALES]
-                    locus.females = numbers[FEMALES]
-                    locus.outliers[main] = tuple(i for i, m in enumerate(haplotype[main]) if m != locus.seq)
-                    locus.outliers[opposite] = tuple(i for i, m in enumerate(haplotype[opposite]) if m == locus.seq)
-                    loci_of_interest.add(locus)
-
-            elif numbers[main] > margins[POLY][opposite][LOW] and numbers[main] < margins[POLY][opposite][HIGH]:
-                if numbers[opposite] < margins[SPEC][opposite][LOW]:
-                    locus = Locus(locus_id)
-                    locus.seq = tag
-                    locus.males = numbers[MALES]
-                    locus.females = numbers[FEMALES]
-                    locus.outliers[main] = tuple(i for i, m in enumerate(haplotype[main]) if m == locus.seq)
-                    locus.outliers[opposite] = tuple(i for i, m in enumerate(haplotype[opposite]) if m == locus.seq)
-                    loci_of_interest.add(locus)
+        if sex_variable:
+            locus = Locus()
+            locus.haplotypes = tags
+            locus.individual_haplotypes = haplotype
+            locus.n_males = numbers[MALES]
+            locus.n_females = numbers[FEMALES]
+            locus.haplotypes = sex_haplotypes(tags)
+            locus.outliers[MALES] = {i for i, m in enumerate(haplotype[MALES]) if m != locus.haplotypes[MALES][0]}
+            locus.outliers[FEMALES] = {i for i, m in enumerate(haplotype[FEMALES]) if m != locus.haplotypes[FEMALES][0]}
+            loci_of_interest[locus_id] = locus
 
     return loci_of_interest
 

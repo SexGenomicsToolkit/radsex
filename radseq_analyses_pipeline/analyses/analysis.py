@@ -19,12 +19,10 @@ def run(global_parameters):
     tags_paths = [f for f in files if 'tags' in f and 'catalog' not in f]
 
     print(' - Extracting sex variable loci from haplotypes file ...')
-    loci_of_interest = haplotypes.analyse(haplotype_path, global_parameters)
-    for k in loci_of_interest:
-        print('KEY: ', k.id)
+    loci_data = haplotypes.analyse(haplotype_path, global_parameters)
 
     print(' - Extracting corresponding IDs from catalog file ...')
-    loci_to_extract = catalog.analyse(catalog_path, loci_of_interest, global_parameters)
+    loci_to_extract = catalog.analyse(catalog_path, loci_data, global_parameters)
 
     print(' - Extracting data from individual files...')
-    # individual_tags.analyse(tags_paths, loci_to_extract, global_parameters)
+    individual_tags.analyse(tags_paths, loci_to_extract, loci_data, global_parameters)

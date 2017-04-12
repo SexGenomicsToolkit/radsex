@@ -5,7 +5,7 @@ from collections import defaultdict
 def analyse(catalog_path, loci_of_interest, global_parameters):
 
     # Set of loci catalog ID to extract
-    loci_to_extract = {locus.id for locus in loci_of_interest}
+    loci_to_extract = {locus for locus, data in loci_of_interest.items()}
 
     catalog = gzip.open(catalog_path, 'rt')
     catalog.readline()
