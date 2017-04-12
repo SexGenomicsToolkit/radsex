@@ -1,7 +1,7 @@
 import os
 
 
-class GlobalParameters:
+class Parameters:
 
     def __init__(self, root_dir='', files_dir='', output_dir='output',
                  results_dir='results', error_threshold=0.1,

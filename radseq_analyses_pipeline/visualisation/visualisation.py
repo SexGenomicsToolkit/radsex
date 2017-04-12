@@ -2,7 +2,7 @@ import os
 from . import r_plots
 
 
-def visualise(global_parameters):
+def run(global_parameters):
 
     results_dir = os.path.join(global_parameters.results_dir, '')
     print(' - Plotting frequencies data')

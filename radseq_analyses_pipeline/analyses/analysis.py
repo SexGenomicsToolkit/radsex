@@ -4,7 +4,7 @@ from . import catalog
 from . import individual_tags
 
 
-def analyse_directory(global_parameters):
+def run(global_parameters):
 
     # Get all required files in the directory
     files = list_files(global_parameters.files_dir, ('tsv.gz', 'tsv'))
@@ -20,9 +20,11 @@ def analyse_directory(global_parameters):
 
     print(' - Extracting sex variable loci from haplotypes file ...')
     loci_of_interest = haplotypes.analyse(haplotype_path, global_parameters)
+    for k in loci_of_interest:
+        print('KEY: ', k.id)
 
     print(' - Extracting corresponding IDs from catalog file ...')
     loci_to_extract = catalog.analyse(catalog_path, loci_of_interest, global_parameters)
 
     print(' - Extracting data from individual files...')
-    individual_tags.analyse(tags_paths, loci_to_extract, global_parameters)
+    # individual_tags.analyse(tags_paths, loci_to_extract, global_parameters)

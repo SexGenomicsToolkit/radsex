@@ -5,6 +5,10 @@ from .commons import *
 
 
 class Locus:
+    '''
+    Object storing information about a locus: ID, sequence, number of males and
+    females, outliers for each sex
+    '''
 
     def __init__(self, locus_id):
         self.id = locus_id
