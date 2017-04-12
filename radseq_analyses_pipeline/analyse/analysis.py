@@ -4,10 +4,10 @@ from . import catalog
 from . import individual_tags
 
 
-def analyse_directory(dir_path, output_path):
+def analyse_directory(global_parameters):
 
     # Get all required files in the directory
-    files = list_files(dir_path, ('tsv.gz', 'tsv'))
+    files = list_files(global_parameters.files_dir, ('tsv.gz', 'tsv'))
 
     # Path to catalog tags file (batch_X.catalog.tags.tsv.gz)
     catalog_path = [f for f in files if 'catalog.tags' in f][0]
@@ -19,10 +19,10 @@ def analyse_directory(dir_path, output_path):
     tags_paths = [f for f in files if 'tags' in f and 'catalog' not in f]
 
     print(' - Extracting sex variable loci from haplotypes file ...')
-    loci_of_interest = haplotypes.analyse(haplotype_path, output_path)
+    loci_of_interest = haplotypes.analyse(haplotype_path, global_parameters)
 
     print(' - Extracting corresponding IDs from catalog file ...')
-    loci_to_extract = catalog.analyse(catalog_path, loci_of_interest, output_path)
+    loci_to_extract = catalog.analyse(catalog_path, loci_of_interest, global_parameters)
 
     print(' - Extracting data from individual files...')
-    individual_tags.analyse(tags_paths, loci_to_extract, output_path)
+    individual_tags.analyse(tags_paths, loci_to_extract, global_parameters)

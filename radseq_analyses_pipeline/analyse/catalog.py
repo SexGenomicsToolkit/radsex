@@ -1,9 +1,8 @@
 import gzip
-import os
 from collections import defaultdict
 
 
-def analyse(catalog_path, loci_of_interest, output_dir):
+def analyse(catalog_path, loci_of_interest, global_parameters):
 
     # Set of loci catalog ID to extract
     loci_to_extract = {locus.id for locus in loci_of_interest}
@@ -24,7 +23,7 @@ def analyse(catalog_path, loci_of_interest, output_dir):
                 temp = individual.split('_')
                 correspondance[temp[0]][temp[1]] = locus_id
 
-    output = os.path.join(output_dir, 'frequencies_data.tsv')
+    output = global_parameters.frequencies_file
     with open(output, 'w') as o:
         o.write('Frequency' + '\t' + 'Count' + '\n')
         for frequency, count in frequencies.items():

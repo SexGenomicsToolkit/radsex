@@ -1,5 +1,4 @@
 from collections import defaultdict
-import os
 import re
 from .utils import clean_split
 from .commons import *
@@ -37,9 +36,9 @@ def parse_header(header):
     return columns, names
 
 
-def write_output(output_dir, loci_of_interest):
+def write_output(haplotypes_file, loci_of_interest):
 
-    output = os.path.join(output_dir, 'haplotypes_data.tsv')
+    output = haplotypes_file
     with open(output, 'w') as o:
         o.write('Locus' + '\t' + 'Sequence' + '\t' + 'Males' + '\t' + 'Females' + '\t' + 'Male_outliers' + '\t' + 'Female_outliers' + '\n')
         for locus in loci_of_interest:
@@ -78,13 +77,14 @@ def get_haplotypes(file_path):
     return haplotypes, numbers
 
 
-def filter(haplotypes, numbers):
+def filter(haplotypes, numbers, error_threshold):
 
-    cst = 3
-    margins = {SPEC: {MALES: {HIGH: numbers[MALES] - cst, LOW: cst},
-                      FEMALES: {HIGH: numbers[FEMALES] - cst, LOW: cst}},
-               POLY: {MALES: {HIGH: numbers[MALES] / 2 + cst, LOW: numbers[MALES] / 2 - cst},
-                      FEMALES: {HIGH: numbers[FEMALES] / 2 + cst, LOW: numbers[FEMALES] / 2 - cst}}
+    cst_m = int(numbers[MALES] * error_threshold)
+    cst_f = int(numbers[FEMALES] * error_threshold)
+    margins = {SPEC: {MALES: {HIGH: numbers[MALES] - cst_m, LOW: cst_m},
+                      FEMALES: {HIGH: numbers[FEMALES] - cst_f, LOW: cst_f}},
+               POLY: {MALES: {HIGH: numbers[MALES] / 2 + cst_m, LOW: numbers[MALES] / 2 - cst_m},
+                      FEMALES: {HIGH: numbers[FEMALES] / 2 + cst_f, LOW: numbers[FEMALES] / 2 - cst_f}}
                }
 
     loci_of_interest = set()
@@ -152,13 +152,13 @@ def filter(haplotypes, numbers):
     return loci_of_interest
 
 
-def analyse(file_path, output_dir):
+def analyse(file_path, global_parameters):
 
     print('    # Parsing haplotype file ...')
     haplotypes, numbers = get_haplotypes(file_path)
     print('    # Filtering sex variable loci ...')
-    loci_of_interest = filter(haplotypes, numbers)
+    loci_of_interest = filter(haplotypes, numbers, global_parameters.error_threshold)
     print('    > Sex variable loci extracted')
-    write_output(output_dir, loci_of_interest)
+    write_output(global_parameters.haplotypes_file, loci_of_interest)
 
     return loci_of_interest

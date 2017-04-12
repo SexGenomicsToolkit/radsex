@@ -1,4 +1,5 @@
 import os
+from global_parameters import GlobalParameters
 from analyse.analysis import analyse_directory
 from visualise.visualisation import visualise
 
@@ -7,5 +8,13 @@ files_dir = os.path.join(root_dir, 'results_10')
 output_dir = os.path.join(root_dir, 'output')
 results_dir = os.path.join(root_dir, 'results')
 
-# analyse_directory(files_dir, output_dir)
-visualise(output_dir, results_dir, 3)
+error_threshold = 0.1
+
+global_parameters = GlobalParameters(root_dir=root_dir,
+                                     files_dir=files_dir,
+                                     output_dir=output_dir,
+                                     results_dir=results_dir,
+                                     error_threshold=error_threshold)
+
+analyse_directory(global_parameters)
+visualise(global_parameters)
