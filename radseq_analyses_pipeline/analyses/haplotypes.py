@@ -128,7 +128,10 @@ def filter(haplotypes, numbers, error_threshold):
         sex_variable = None
         for tag, numbers in tags.items():
             sex_variable = check_tag(tag, numbers, MALES, margins)
-            sex_variable = check_tag(tag, numbers, FEMALES, margins)
+            if not sex_variable:
+                sex_variable = check_tag(tag, numbers, FEMALES, margins)
+            if sex_variable:
+                break
 
         if sex_variable:
             locus = Locus()
