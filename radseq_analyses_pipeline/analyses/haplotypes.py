@@ -2,7 +2,7 @@ from collections import defaultdict
 import re
 from .utils import clean_split
 from .commons import *
-from loci_data import Locus
+from ..loci_data import Locus
 
 
 def parse_header(header):
@@ -26,26 +26,6 @@ def parse_header(header):
                 columns[FEMALES].add(i)
 
     return columns, names
-
-
-def write_output(haplotypes_file, loci_of_interest):
-
-    output = haplotypes_file
-    with open(output, 'w') as o:
-        o.write('Locus' + '\t' + 'Male_haplotype' + '\t' + 'Male_haplotype_number' + '\t' +
-                'Female_haplotype' + '\t' + 'Female_haplotype_number' + '\t' +
-                '\t' + 'Males' + '\t' + 'Females' + '\t' + 'Male_outliers' +
-                '\t' + 'Female_outliers' + '\n')
-        for locus, data in loci_of_interest.items():
-            o.write(str(locus) + '\t' +
-                    str(data.haplotypes[MALES][0]) + '\t' +
-                    str(data.haplotypes[MALES][1]) + '\t' +
-                    str(data.haplotypes[FEMALES][0]) + '\t' +
-                    str(data.haplotypes[FEMALES][1]) + '\t' +
-                    str(data.n_males) + '\t' +
-                    str(data.n_females) + '\t' +
-                    '-'.join(str(i) for i in data.outliers[MALES]) + '\t' +
-                    '-'.join(str(i) for i in data.outliers[FEMALES]) + '\n')
 
 
 def get_haplotypes(file_path):
@@ -171,6 +151,5 @@ def analyse(file_path, global_parameters):
     print('    # Filtering sex variable loci ...')
     loci_of_interest = filter(haplotypes, numbers, global_parameters.error_threshold)
     print('    > Sex variable loci extracted')
-    write_output(global_parameters.haplotypes_file, loci_of_interest)
 
     return loci_of_interest

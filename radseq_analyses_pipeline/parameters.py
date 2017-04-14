@@ -14,6 +14,6 @@ class Parameters:
         self.output_dir = output_dir
         self.results_dir = results_dir
         self.error_threshold = error_threshold
-        self.frequencies_file = os.path.join(self.output_dir, frequencies_file)
-        self.haplotypes_file = os.path.join(self.output_dir, haplotypes_file)
-        self.alleles_file = os.path.join(self.output_dir, alleles_file)
+        self.frequencies_file = os.path.join(output_dir, frequencies_file)
+        self.haplotypes_file = os.path.join(output_dir, haplotypes_file)
+        self.alleles_file = os.path.join(output_dir, alleles_file)

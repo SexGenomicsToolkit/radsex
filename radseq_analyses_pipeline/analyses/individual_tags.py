@@ -1,7 +1,7 @@
 import gzip
 import os
 from .commons import *
-from progress.bar import Bar
+# from progress.bar import Bar
 
 
 def names_correspondances(tags_paths):
@@ -60,9 +60,9 @@ def analyse(tags_paths, loci_to_extract, loci_data, global_parameters):
 
     names = names_correspondances(tags_paths)
 
-    progress_bar = Bar('    # Processing individual files', max=len(tags_paths))
+    # progress_bar = Bar('    # Processing individual files', max=len(tags_paths))
     for i, file_path in enumerate(tags_paths):
-        progress_bar.next()
+        # progress_bar.next()
         process_individual(file_path, loci_to_extract, loci_data, names)
 
     print('\n    # Saving data ...')
