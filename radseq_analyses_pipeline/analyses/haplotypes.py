@@ -126,10 +126,10 @@ def filter(haplotypes, numbers, error_threshold):
             tags[tag[1]][FEMALES] += 1
 
         sex_variable = None
-        for tag, numbers in tags.items():
-            sex_variable = check_tag(tag, numbers, MALES, margins)
+        for tag, tag_numbers in tags.items():
+            sex_variable = check_tag(tag, tag_numbers, MALES, margins)
             if not sex_variable:
-                sex_variable = check_tag(tag, numbers, FEMALES, margins)
+                sex_variable = check_tag(tag, tag_numbers, FEMALES, margins)
             if sex_variable:
                 break
 
