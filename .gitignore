@@ -98,4 +98,4 @@ user.json
 *.pyc
 results_10/*
 output/*
-results/*
+results*/*
