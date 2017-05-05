@@ -19,12 +19,15 @@ threshold = args[3]
 png_name = paste("sex_variable_haplotypes.png", sep='')
 
 data <- suppressMessages(read_delim(file, "\t", col_names = TRUE, escape_double = FALSE, trim_ws = TRUE))
-names(data) = c('Locus', 'Sequence', 'Males', 'Females', 'Male_outliers', 'Female_outliers')
+names(data) = c('Locus', 'Male_haplotype', 'Male_haplotype_number',
+                'Female_haplotype', 'Female_haplotype_number',
+                'Males', 'Females', 'Male_outliers',
+                'Female_outliers', 'Consensus')
 
-males = data.frame(table(data$Males[which(data$Males > threshold)], data$Females[which(data$Males > threshold)]))
+males = data.frame(table(data$Male_haplotype_number[which(data$Male_haplotype_number > threshold)], data$Female_haplotype_number[which(data$Male_haplotype_number > threshold)]))
 names(males) = c('Males', 'Females', 'Count')
 
-females = data.frame(table(data$Males[which(data$Females > threshold)], data$Females[which(data$Females > threshold)]))
+females = data.frame(table(data$Male_haplotype_number[which(data$Female_haplotype_number > threshold)], data$Female_haplotype_number[which(data$Female_haplotype_number > threshold)]))
 names(females) = c('Males', 'Females', 'Count')
 
 g <- ggplot(males, aes(x = Males, y = Count, fill = Females))
