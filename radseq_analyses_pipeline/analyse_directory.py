@@ -3,7 +3,7 @@ from .parameters import Parameters
 from . import analyses, visualisation
 
 
-def analyse_directory(files_dir, analyses_dir, error_threshold, visualize):
+def analyse_directory(root_dir, files_dir, analyses_dir, error_threshold, visualize):
 
     output_dir = os.path.join(analyses_dir, 'output')
     if not os.path.isdir(output_dir):
@@ -12,7 +12,8 @@ def analyse_directory(files_dir, analyses_dir, error_threshold, visualize):
     if not os.path.isdir(results_dir):
         os.mkdir(results_dir)
 
-    parameters = Parameters(files_dir=files_dir,
+    parameters = Parameters(root_dir=root_dir,
+                            files_dir=files_dir,
                             output_dir=output_dir,
                             results_dir=results_dir,
                             error_threshold=error_threshold)

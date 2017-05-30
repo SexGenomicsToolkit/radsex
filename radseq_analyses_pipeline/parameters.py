@@ -7,7 +7,9 @@ class Parameters:
                  results_dir='results', error_threshold=0.1,
                  frequencies_file='frequencies_data.tsv',
                  haplotypes_file='haplotypes_data.tsv',
-                 alleles_file='alleles_data.tsv'):
+                 alleles_file='alleles_data.tsv',
+                 neomales_file='neomales_data.tsv',
+                 n_threads=1):
 
         self.root_dir = root_dir
         self.files_dir = files_dir
@@ -17,3 +19,5 @@ class Parameters:
         self.frequencies_file = os.path.join(output_dir, frequencies_file)
         self.haplotypes_file = os.path.join(output_dir, haplotypes_file)
         self.alleles_file = os.path.join(output_dir, alleles_file)
+        self.neomales_file = os.path.join(output_dir, neomales_file)
+        self.n_threads = n_threads

@@ -1,3 +1,4 @@
+import os
 from .utils import list_files
 from . import haplotypes
 from . import catalog
@@ -26,3 +27,11 @@ def run(global_parameters):
 
     print(' - Extracting data from individual files...')
     individual_tags.analyse(tags_paths, loci_to_extract, loci_data, global_parameters)
+
+    print(' - Testing for neomales...')
+    cmd = os.path.join(global_parameters.root_dir, 'include', 'radseq_bootstrap')
+    cmd += ' -t ' + global_parameters.n_threads
+    cmd += ' -o ' + global_parameters.neomales_file
+    cmd += ' -f ' + haplotype_path
+
+    os.sys(cmd)
