@@ -2,6 +2,12 @@ import gzip
 import os
 from .commons import *
 
+'''
+The individual tags files contain all reads for each locus for an individual.
+We use this file to extract sequence information in sex-linked loci, and to
+compute coverage data.
+'''
+
 
 def names_correspondances(tags_paths):
 

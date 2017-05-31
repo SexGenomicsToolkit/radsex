@@ -4,6 +4,11 @@ from .utils import clean_split
 from .commons import *
 from ..loci_data import Locus
 
+'''
+The haplotype file regroups haplotype information for each individual and
+each locus. We use it as a base to find sex-linked loci.
+'''
+
 
 def parse_header(header):
 

@@ -1,5 +1,9 @@
 import os
 
+'''
+Perform neomales analyses using home-made radseq_bootstrap program.
+'''
+
 
 def analyse(haplotype_path, global_parameters):
 

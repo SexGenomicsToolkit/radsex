@@ -1,6 +1,10 @@
 import os
 import re
 
+'''
+Collection of general-use utilities.
+'''
+
 
 def clean_split(line, sep='\t'):
     return line.rstrip('\n').split(sep)

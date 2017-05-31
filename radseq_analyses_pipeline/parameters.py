@@ -9,7 +9,7 @@ class Parameters:
                  haplotypes_file='haplotypes_data.tsv',
                  alleles_file='alleles_data.tsv',
                  neomales_file='neomales_data.tsv',
-                 n_threads=1):
+                 n_threads=1, popmap={}):
 
         self.root_dir = root_dir
         self.files_dir = files_dir
@@ -21,3 +21,4 @@ class Parameters:
         self.alleles_file = os.path.join(output_dir, alleles_file)
         self.neomales_file = os.path.join(output_dir, neomales_file)
         self.n_threads = n_threads
+        self.popmap = popmap

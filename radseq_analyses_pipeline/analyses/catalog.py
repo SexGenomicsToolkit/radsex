@@ -2,6 +2,11 @@ import gzip
 from collections import defaultdict
 from .commons import *
 
+'''
+The catalog file gives correspondances between locus ID in haplotype file and
+locus ID in individual tags files.
+'''
+
 
 def write_output(output, loci_data):
 
