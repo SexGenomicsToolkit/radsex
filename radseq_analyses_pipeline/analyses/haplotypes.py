@@ -1,5 +1,4 @@
 from collections import defaultdict
-import re
 from .utils import clean_split
 from .commons import *
 from ..loci_data import Locus
@@ -10,30 +9,25 @@ each locus. We use it as a base to find sex-linked loci.
 '''
 
 
-def parse_header(header):
+def parse_header(header, global_parameters):
 
     '''
     Analyse header line from haplotype file to extract individual columns
     '''
 
-    individual_regex = re.compile(r'(.+)_(.+)_(\D+)(\d+)')
     tabs = clean_split(header)
-    columns = {MALES: set(), FEMALES: set()}
-    names = []
-
+    columns = {MALES: [], FEMALES: []}
     for i, tab in enumerate(tabs):
-        individuals = individual_regex.search(tab)
-        if individuals:
-            names.append(tab)
-            if individuals.group(3) == 'M':
-                columns[MALES].add(i)
-            elif individuals.group(3) == 'F':
-                columns[FEMALES].add(i)
+        if tab in global_parameters.popmap.keys():
+            if global_parameters.popmap[tab] is 'M':
+                columns[MALES].append(i)
+            elif global_parameters.popmap[tab] is 'F':
+                columns[FEMALES].append(i)
 
-    return columns, names
+    return columns
 
 
-def get_haplotypes(file_path):
+def get_haplotypes(file_path, global_parameters):
 
     '''
     Input: path to a haplotype file (batch_X.haplotypes.tsv)
@@ -47,7 +41,7 @@ def get_haplotypes(file_path):
 
     # Haplotypes file has a first line containing the name of each individual
     header = haplotype_file.readline()
-    columns, names = parse_header(header)
+    columns = parse_header(header, global_parameters)
     numbers = {MALES: len(columns[MALES]), FEMALES: len(columns[FEMALES])}
 
     # Data structures
@@ -155,7 +149,7 @@ def filter(haplotypes, numbers, error_threshold):
 def analyse(file_path, global_parameters):
 
     print('    # Parsing haplotype file ...')
-    haplotypes, numbers = get_haplotypes(file_path)
+    haplotypes, numbers = get_haplotypes(file_path, global_parameters)
     print('    # Filtering sex variable loci ...')
     loci_of_interest = filter(haplotypes, numbers, global_parameters.error_threshold)
     print('    > Sex variable loci extracted')

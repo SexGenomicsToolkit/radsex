@@ -12,6 +12,8 @@ error_threshold = 0.1
 # Number of threads to use when possible
 n_threads = 4
 
+popmap_path = os.path.join(root_dir, 'data', 'popmap.tsv')
+
 analyse_directory(root_dir, files_dir, analyses_dir,
-                  error_threshold, n_threads, visualize=True)
+                  error_threshold, n_threads, popmap_path)
 # visualise_directory(files_dir, analyses_dir, error_threshold)
