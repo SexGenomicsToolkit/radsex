@@ -1,4 +1,5 @@
 from collections import defaultdict
+import os
 from .commons import *
 from ..loci_data import Locus
 
