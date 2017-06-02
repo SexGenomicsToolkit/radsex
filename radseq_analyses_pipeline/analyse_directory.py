@@ -4,8 +4,8 @@ from . import analyses, visualisation
 from .popmap import get_popmap
 
 
-def analyse_directory(root_dir=None, files_dir, analyses_dir, error_threshold=0,
-                      n_threads=1, popmap_path, visualize=False):
+def analyse_directory(root_dir=None, files_dir=None, analyses_dir=None, error_threshold=0,
+                      n_threads=1, popmap_path=None, visualize=False):
 
     if not os.path.isdir(analyses_dir):
         os.mkdir(analyses_dir)
