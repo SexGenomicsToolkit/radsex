@@ -11,7 +11,7 @@ def run(global_parameters):
     files = list_files(global_parameters.files_dir, ('tsv.gz', 'tsv'))
 
     # Path to catalog tags file (batch_X.catalog.tags.tsv.gz)
-    # catalog_path = [f for f in files if 'catalog.tags' in f][0]
+    catalog_path = [f for f in files if 'catalog.tags' in f][0]
 
     # Path to haplotypes file (batch_X.haplotypes.tsv)
     haplotype_path = [f for f in files if 'haplotypes' in f]
@@ -20,12 +20,10 @@ def run(global_parameters):
         loci_data = haplotypes.analyse(haplotype_path[0], global_parameters)
 
     # Paths to all individual tags files (individual.tags.tsv.gz)
-    # tags_paths = [f for f in files if 'tags' in f and 'catalog' not in f]
-
-
+    tags_paths = [f for f in files if 'tags' in f and 'catalog' not in f]
 
     # print(' - Extracting corresponding IDs from catalog file ...')
-    # loci_to_extract = catalog.analyse(catalog_path, loci_data, global_parameters)
+    loci_to_extract = catalog.analyse(catalog_path, loci_data, global_parameters)
 
     # print(' - Extracting data from individual files...')
     # individual_tags.analyse(tags_paths, loci_to_extract, loci_data, global_parameters)

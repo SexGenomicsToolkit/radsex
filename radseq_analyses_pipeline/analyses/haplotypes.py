@@ -49,60 +49,60 @@ def fill_matrix(tags, loci_matrix):
             loci_matrix[tag_numbers[FEMALES]][tag_numbers[MALES]] += 1
 
 
-# def check_sex_variable(tags, margins):
+def check_sex_variable(tags, margins):
 
-#     for tag, tag_numbers in tags.items():
-#         sex_variable = check_tag(tag, tag_numbers, MALES, margins)
-#         if not sex_variable:
-#             sex_variable = check_tag(tag, tag_numbers, FEMALES, margins)
-#         if sex_variable:
-#             break
+    for tag, tag_numbers in tags.items():
+        sex_variable = check_tag(tag, tag_numbers, MALES, margins)
+        if not sex_variable:
+            sex_variable = check_tag(tag, tag_numbers, FEMALES, margins)
+        if sex_variable:
+            break
 
-#     return sex_variable
-
-
-# def check_tag(tag, numbers, main, margins):
-
-#     MAIN = main
-#     if MAIN == FEMALES:
-#         OPPOSITE = MALES
-#     else:
-#         OPPOSITE = FEMALES
-
-#     sex_variable = False
-#     if numbers[MAIN] > margins[MAIN][HIGH]:
-#         if numbers[OPPOSITE] < margins[OPPOSITE][LOW]:
-#             sex_variable = True
-
-#     return sex_variable
+    return sex_variable
 
 
-# def sex_haplotypes(haplotypes):
+def check_tag(tag, numbers, main, margins):
 
-#     max_m = 0
-#     max_f = 0
-#     hap_m = None
-#     hap_f = None
+    MAIN = main
+    if MAIN == FEMALES:
+        OPPOSITE = MALES
+    else:
+        OPPOSITE = FEMALES
 
-#     for haplotype, count in haplotypes.items():
-#         if count[MALES] > max_m:
-#             hap_m = haplotype
-#             max_m = count[MALES]
-#         if count[FEMALES] > max_f:
-#             hap_f = haplotype
-#             max_f = count[FEMALES]
+    sex_variable = False
+    if numbers[MAIN] > margins[MAIN][HIGH]:
+        if numbers[OPPOSITE] < margins[OPPOSITE][LOW]:
+            sex_variable = True
 
-#     return {MALES: (hap_m, max_m), FEMALES: (hap_f, max_f)}
+    return sex_variable
+
+
+def sex_haplotypes(haplotypes):
+
+    max_m = 0
+    max_f = 0
+    hap_m = None
+    hap_f = None
+
+    for haplotype, count in haplotypes.items():
+        if count[MALES] > max_m:
+            hap_m = haplotype
+            max_m = count[MALES]
+        if count[FEMALES] > max_f:
+            hap_f = haplotype
+            max_f = count[FEMALES]
+
+    return {MALES: (hap_m, max_m), FEMALES: (hap_f, max_f)}
 
 
 def filter(haplotypes, numbers, results_dir):
 
-    # cst_m = int(numbers[MALES] * error_threshold)
-    # cst_f = int(numbers[FEMALES] * error_threshold)
-    # margins = {MALES: {HIGH: numbers[MALES] - cst_m, LOW: cst_m},
-    #            FEMALES: {HIGH: numbers[FEMALES] - cst_f, LOW: cst_f}}
+    cst_m = int(numbers[MALES] * error_threshold)
+    cst_f = int(numbers[FEMALES] * error_threshold)
+    margins = {MALES: {HIGH: numbers[MALES] - cst_m, LOW: cst_m},
+               FEMALES: {HIGH: numbers[FEMALES] - cst_f, LOW: cst_f}}
 
-    # loci_of_interest = {}
+    loci_of_interest = {}
 
     matrix_file = open(os.path.join(results_dir, 'loci_matrix.tsv'), 'w')
 
@@ -123,18 +123,18 @@ def filter(haplotypes, numbers, results_dir):
 
         fill_matrix(tags, loci_matrix)
 
-    #     sex_variable = check_sex_variable(tags, margins)
+        sex_variable = check_sex_variable(tags, margins)
 
-    #     if sex_variable:
-    #         locus = Locus()
-    #         locus.haplotypes = tags
-    #         locus.individual_haplotypes = haplotype
-    #         locus.n_males = numbers[MALES]
-    #         locus.n_females = numbers[FEMALES]
-    #         locus.haplotypes = sex_haplotypes(tags)
-    #         locus.outliers[MALES] = {i for i, m in enumerate(haplotype[MALES]) if m != locus.haplotypes[MALES][0]}
-    #         locus.outliers[FEMALES] = {i for i, m in enumerate(haplotype[FEMALES]) if m != locus.haplotypes[FEMALES][0]}
-    #         loci_of_interest[locus_id] = locus
+        if sex_variable:
+            locus = Locus()
+            locus.haplotypes = tags
+            locus.individual_haplotypes = haplotype
+            locus.n_males = numbers[MALES]
+            locus.n_females = numbers[FEMALES]
+            locus.haplotypes = sex_haplotypes(tags)
+            locus.outliers[MALES] = {i for i, m in enumerate(haplotype[MALES]) if m != locus.haplotypes[MALES][0]}
+            locus.outliers[FEMALES] = {i for i, m in enumerate(haplotype[FEMALES]) if m != locus.haplotypes[FEMALES][0]}
+            loci_of_interest[locus_id] = locus
 
     for i in range(len(loci_matrix)):
         for j in range(len(loci_matrix[0])):
@@ -144,7 +144,7 @@ def filter(haplotypes, numbers, results_dir):
             else:
                 matrix_file.write('\n')
 
-    # return loci_of_interest
+    return loci_of_interest
 
 
 def analyse(file_path, global_parameters):
@@ -154,8 +154,8 @@ def analyse(file_path, global_parameters):
     print('    # Parsing haplotype file ...')
     haplotypes, numbers = get_haplotypes(file_path, global_parameters)
     print('    # Filtering sex variable loci ...')
-    # loci_of_interest = filter(haplotypes, numbers, global_parameters.error_threshold)
-    filter(haplotypes, numbers, global_parameters.output_dir)
+    loci_of_interest = filter(haplotypes, numbers, global_parameters.error_threshold)
+    # filter(haplotypes, numbers, global_parameters.output_dir)
     print('    > Sex variable loci extracted')
 
     return loci_of_interest
