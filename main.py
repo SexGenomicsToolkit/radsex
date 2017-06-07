@@ -2,7 +2,7 @@ import os
 from radseq_analyses_pipeline import analyse_directory
 
 root_dir = '/home/rferon/work/code/radseq_analyses_pipeline/'
-files_dir = os.path.join(root_dir, 'data', 'astyanax_mexicanus_1')
+files_dir = os.path.join(root_dir, 'data', 'umbra_pygmaea')
 analyses_dir = os.path.join(root_dir, 'data', 'analyses')
 
 # Maximum proportion of individuals deviating from the population
@@ -12,7 +12,7 @@ error_threshold = 0.1
 n_threads = 4
 
 # Path to population map
-popmap_path = os.path.join(root_dir, 'data', 'astyanax_mexicanus_1_popmap.csv')
+popmap_path = os.path.join(root_dir, 'data', 'umbra_pygmaea_popmap.csv')
 
 analyse_directory(root_dir, files_dir, analyses_dir,
                   error_threshold, n_threads, popmap_path)

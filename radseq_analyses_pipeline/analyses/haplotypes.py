@@ -154,7 +154,7 @@ def analyse(file_path, global_parameters):
     print('    # Parsing haplotype file ...')
     haplotypes, numbers = get_haplotypes(file_path, global_parameters)
     print('    # Filtering sex variable loci ...')
-    loci_of_interest = filter(haplotypes, global_parameters.output_dir, numbers, global_parameters.error_threshold)
+    loci_of_interest = filter(haplotypes, numbers, global_parameters.output_dir, global_parameters.error_threshold)
     # filter(haplotypes, numbers, global_parameters.output_dir)
     print('    > Sex variable loci extracted')
 
