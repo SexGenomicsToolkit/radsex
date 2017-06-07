@@ -95,7 +95,7 @@ def sex_haplotypes(haplotypes):
     return {MALES: (hap_m, max_m), FEMALES: (hap_f, max_f)}
 
 
-def filter(haplotypes, numbers, results_dir):
+def filter(haplotypes, numbers, results_dir, error_threshold):
 
     cst_m = int(numbers[MALES] * error_threshold)
     cst_f = int(numbers[FEMALES] * error_threshold)
@@ -154,7 +154,7 @@ def analyse(file_path, global_parameters):
     print('    # Parsing haplotype file ...')
     haplotypes, numbers = get_haplotypes(file_path, global_parameters)
     print('    # Filtering sex variable loci ...')
-    loci_of_interest = filter(haplotypes, numbers, global_parameters.error_threshold)
+    loci_of_interest = filter(haplotypes, global_parameters.output_dir, numbers, global_parameters.error_threshold)
     # filter(haplotypes, numbers, global_parameters.output_dir)
     print('    > Sex variable loci extracted')
 
