@@ -2,7 +2,6 @@ from .utils import list_files
 from . import haplotypes
 from . import catalog
 from . import individual_tags
-from . import neomales
 
 
 def run(global_parameters):
@@ -26,7 +25,4 @@ def run(global_parameters):
     loci_to_extract = catalog.analyse(catalog_path, loci_data, global_parameters)
 
     # print(' - Extracting data from individual files...')
-    # individual_tags.analyse(tags_paths, loci_to_extract, loci_data, global_parameters)
-
-    # print(' - Testing for neomales...(progress in neomales_data.log)')
-    neomales.analyse(haplotype_path[0], global_parameters)
+    individual_tags.analyse(tags_paths, loci_to_extract, loci_data, global_parameters)
