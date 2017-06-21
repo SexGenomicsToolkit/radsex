@@ -1,1 +1,1 @@
-from .analyse_directory import analyse_directory, visualise_directory
+from .analyse_directory import analyse_directory

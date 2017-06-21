@@ -49,32 +49,14 @@ def fill_matrix(tags, loci_matrix):
             loci_matrix[tag_numbers[FEMALES]][tag_numbers[MALES]] += 1
 
 
-def check_sex_variable(tags, margins):
+def check_sex_variable(tags, positions_list):
 
     for tag, tag_numbers in tags.items():
-        sex_variable = check_tag(tag, tag_numbers, MALES, margins)
-        if not sex_variable:
-            sex_variable = check_tag(tag, tag_numbers, FEMALES, margins)
-        if sex_variable:
-            break
+        for position in positions_list:
+            if tag_numbers[FEMALES] == position[1] and tag_numbers[MALES] == position[0]:
+                return True
 
-    return sex_variable
-
-
-def check_tag(tag, numbers, main, margins):
-
-    MAIN = main
-    if MAIN == FEMALES:
-        OPPOSITE = MALES
-    else:
-        OPPOSITE = FEMALES
-
-    sex_variable = False
-    if numbers[MAIN] > margins[MAIN][HIGH]:
-        if numbers[OPPOSITE] < margins[OPPOSITE][LOW]:
-            sex_variable = True
-
-    return sex_variable
+    return False
 
 
 def sex_haplotypes(haplotypes):
@@ -95,12 +77,7 @@ def sex_haplotypes(haplotypes):
     return {MALES: (hap_m, max_m), FEMALES: (hap_f, max_f)}
 
 
-def filter(haplotypes, numbers, results_dir, error_threshold):
-
-    cst_m = int(numbers[MALES] * error_threshold)
-    cst_f = int(numbers[FEMALES] * error_threshold)
-    margins = {MALES: {HIGH: numbers[MALES] - cst_m, LOW: cst_m},
-               FEMALES: {HIGH: numbers[FEMALES] - cst_f, LOW: cst_f}}
+def filter(haplotypes, numbers, results_dir, positions_list):
 
     loci_of_interest = {}
 
@@ -123,7 +100,7 @@ def filter(haplotypes, numbers, results_dir, error_threshold):
 
         fill_matrix(tags, loci_matrix)
 
-        sex_variable = check_sex_variable(tags, margins)
+        sex_variable = check_sex_variable(tags, positions_list)
 
         if sex_variable:
             locus = Locus()
@@ -154,7 +131,7 @@ def analyse(file_path, global_parameters):
     print('    # Parsing haplotype file ...')
     haplotypes, numbers = get_haplotypes(file_path, global_parameters)
     print('    # Filtering sex variable loci ...')
-    loci_of_interest = filter(haplotypes, numbers, global_parameters.output_dir, global_parameters.error_threshold)
+    loci_of_interest = filter(haplotypes, numbers, global_parameters.output_dir, global_parameters.positions_list)
     # filter(haplotypes, numbers, global_parameters.output_dir)
     print('    > Sex variable loci extracted')
 
