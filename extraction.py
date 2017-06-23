@@ -12,7 +12,12 @@ positions_list = [(34, 0), (33, 0)]
 root_dir = '/work/bimarazene/work/radseq_all/'
 extraction_dir = os.path.join(root_dir, 'analyses', 'extraction')
 
+if not os.path.isdir(os.path.join(extraction_dir, species)):
+    os.mkdir(os.path.join(extraction_dir, species))
+
 if replicate:
+    if not os.path.isdir(os.path.join(extraction_dir, species, replicate)):
+        os.mkdir(os.path.join(extraction_dir, species, replicate))
     files_dir = os.path.join(root_dir, 'results', species, replicate, str(m_value))
     analyses_dir = os.path.join(extraction_dir, species, replicate, str(m_value))
 else:
