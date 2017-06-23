@@ -13,11 +13,11 @@ root_dir = '/work/bimarazene/work/radseq_all/'
 extraction_dir = os.path.join(root_dir, 'analyses', 'extraction')
 
 if replicate:
-    files_dir = os.path.join(root_dir, 'results', species, replicate, m_value)
-    analyses_dir = os.path.join(extraction_dir, species, replicate, m_value)
+    files_dir = os.path.join(root_dir, 'results', species, replicate, str(m_value))
+    analyses_dir = os.path.join(extraction_dir, species, replicate, str(m_value))
 else:
-    files_dir = os.path.join(root_dir, 'results', species, m_value)
-    analyses_dir = os.path.join(extraction_dir, species, m_value)
+    files_dir = os.path.join(root_dir, 'results', species, str(m_value))
+    analyses_dir = os.path.join(extraction_dir, species, str(m_value))
 
 # Path to population map
 popmap_path = os.path.join(root_dir, 'data', 'popmaps', species + '_popmap.csv')
