@@ -9,7 +9,7 @@ m_value = 5
 positions_list = [(34, 0), (33, 0)]
 
 
-root_dir = '/work/bimarazene/work/radseq_all/'
+root_dir = '/work/bimarazene/radseq_all/'
 extraction_dir = os.path.join(root_dir, 'analyses', 'extraction')
 
 if not os.path.isdir(os.path.join(extraction_dir, species)):
