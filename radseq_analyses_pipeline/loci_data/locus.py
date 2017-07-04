@@ -17,7 +17,6 @@ class Locus:
 
         self.consensus = None
         self.haplotypes = {}
-        self.haplotypes = {}
         self.individual_haplotypes = {}
         self.n_males = 0
         self.n_females = 0
