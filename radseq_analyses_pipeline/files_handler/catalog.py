@@ -1,13 +1,25 @@
 import gzip
 from collections import defaultdict
-from .commons import *
 
 
-def analyse(catalog_path):
+def catalog(catalog_path):
+
+    '''
+    Extract consensus sequences and loci ID correspondance for each individual
+    from the catalog file.
+    Input:
+        - path to a catalog file (batch_X.catalog.tsv)
+    Output:
+        1) ID correspondance for each locus and each individual:
+           { Catalog locus ID:  { Individual name: individual locus ID } }
+        2) Consensus sequences:
+           { Catalog locus ID: consensus sequence }
+    '''
 
     catalog = gzip.open(catalog_path, 'rt')
     catalog.readline()
     correspondance = defaultdict(lambda: defaultdict())
+    consensus = dict()
 
     for line in catalog:
         tabs = line.split('\t')
@@ -16,6 +28,6 @@ def analyse(catalog_path):
         for individual in indiv_ids:
             temp = individual.split('_')
             correspondance[temp[0]][temp[1]] = locus_id
-            loci_data[locus_id].consensus = tabs[9]
+        consensus[locus_id] = tabs[9]
 
-    return correspondance
+    return correspondance, consensus
