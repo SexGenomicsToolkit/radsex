@@ -3,7 +3,7 @@ from collections import defaultdict
 from .commons import *
 
 
-def individual_file(individual_file_path, loci_to_extract=None):
+def get_individual_sequences(individual_file_path, loci_to_extract=None):
 
     # Open file, read 2nd line, extract individual number and reset to 2nd line
     individual_file = gzip.open(individual_file_path, 'rt')

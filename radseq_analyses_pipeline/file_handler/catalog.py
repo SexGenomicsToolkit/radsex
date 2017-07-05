@@ -2,7 +2,7 @@ import gzip
 from collections import defaultdict
 
 
-def catalog(catalog_path):
+def get_info_from_catalog(catalog_path):
 
     '''
     Extract consensus sequences and loci ID correspondance for each individual
