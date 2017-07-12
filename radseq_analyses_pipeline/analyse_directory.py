@@ -1,6 +1,6 @@
 import os
 from .shared import Parameters
-from .modules import extraction
+from .modules import sex_linked_haplotypes
 from .file_handler import load_popmap
 
 
@@ -19,4 +19,4 @@ def analyse_directory(files_dir=None, analyses_dir=None, positions_list=None,
     haplotypes_file_path = os.path.join(files_dir, 'batch_0.haplotypes.tsv')
     catalog_file_path = os.path.join(files_dir, 'batch_0.catalog.tags.tsv.gz')
 
-    extraction(haplotypes_file_path, catalog_file_path, parameters)
+    sex_linked_haplotypes(haplotypes_file_path, catalog_file_path, parameters)

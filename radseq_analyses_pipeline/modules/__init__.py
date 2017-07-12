@@ -1,2 +1,2 @@
-from .extraction import analysis as extraction
+from .sex_linked_haplotypes import analysis as sex_linked_haplotypes
 from .loci_matrix import analysis as loci_matrix
