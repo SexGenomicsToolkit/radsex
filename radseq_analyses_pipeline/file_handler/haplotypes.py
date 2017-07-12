@@ -9,6 +9,8 @@ def get_haplotypes(haplotypes_file_path, global_parameters):
     Input:
         - path to a haplotypes file (batch_X.haplotypes.tsv)
     Output:
+        - for each locus, haplotype for each individual
+        { Locus ID: { Individual : Haplotype }}
         - for each locus, male and female count of each haplotype:
         { Locus ID:  { Haplotype: { Males: N, Females: M } } }
     '''
@@ -41,4 +43,4 @@ def get_haplotypes(haplotypes_file_path, global_parameters):
 
         haplotypes_numbers[locus_id] = tags
 
-    return haplotypes_numbers
+    return haplotypes, haplotypes_numbers

@@ -2,7 +2,7 @@ import gzip
 from collections import defaultdict
 
 
-def get_info_from_catalog(catalog_path):
+def get_info_from_catalog(catalog_path, loci_list=None):
 
     '''
     Extract consensus sequences and loci ID correspondance for each individual
@@ -24,10 +24,11 @@ def get_info_from_catalog(catalog_path):
     for line in catalog:
         tabs = line.split('\t')
         locus_id = tabs[2]
-        indiv_ids = tabs[8].split(',')
-        for individual in indiv_ids:
-            temp = individual.split('_')
-            correspondance[temp[0]][temp[1]] = locus_id
-        consensus[locus_id] = tabs[9]
+        if (loci_list and locus_id in loci_list) or not loci_list:
+            indiv_ids = tabs[8].split(',')
+            for individual in indiv_ids:
+                temp = individual.split('_')
+                correspondance[temp[0]][temp[1]] = locus_id
+            consensus[locus_id] = tabs[9]
 
     return correspondance, consensus

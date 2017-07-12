@@ -15,9 +15,7 @@ class Locus:
 
     def __init__(self):
 
-        self.consensus = None
-        self.haplotypes = {}
-        self.individual_haplotypes = {}
+        self.sequence = None
         self.n_males = 0
         self.n_females = 0
         self.outliers = {'males': set(), 'females': set()}
