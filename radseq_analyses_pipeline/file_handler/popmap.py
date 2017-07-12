@@ -9,5 +9,5 @@ def load_popmap(popmap_file_path, global_parameters):
 
     global_parameters.popmap = popmap
 
-    global_parameters.n_males = popmap.values().count('M'),
-    global_parameters.n_females = popmap.values().count('F')
+    global_parameters.n_males = list(popmap.values()).count('M')
+    global_parameters.n_females = list(popmap.values()).count('F')

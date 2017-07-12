@@ -1,4 +1,4 @@
-from .commons import *
+from radseq_analyses_pipeline.shared import *
 
 
 def individual_sequences(output_file_path, individual_data):

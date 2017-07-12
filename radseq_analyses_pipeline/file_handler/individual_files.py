@@ -1,6 +1,6 @@
 import gzip
 from collections import defaultdict
-from .commons import *
+from radseq_analyses_pipeline.shared import *
 
 
 def get_individual_sequences(individual_file_path, loci_to_extract=None):
