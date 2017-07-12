@@ -19,12 +19,8 @@ def sex_linked_haplotypes(output_file_path, loci_data):
 
         for locus, data in loci_data.items():
             output_file.write(str(locus) + '\t' +
-                              str(data.haplotypes[MALES][0]) + '\t' +
-                              str(data.haplotypes[MALES][1]) + '\t' +
-                              str(data.haplotypes[FEMALES][0]) + '\t' +
-                              str(data.haplotypes[FEMALES][1]) + '\t' +
                               str(data.n_males) + '\t' +
                               str(data.n_females) + '\t' +
-                              '-'.join(str(i) for i in data.outliers[MALES]) + '\t' +
-                              '-'.join(str(i) for i in data.outliers[FEMALES]) + '\t' +
-                              str(data.consensus) + '\n')
+                              data.sequence + '\t' +
+                              ','.join(str(i) for i in data.outliers[MALES]) + '\t' +
+                              ','.join(str(i) for i in data.outliers[FEMALES]) + '\n')

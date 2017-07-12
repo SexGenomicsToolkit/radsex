@@ -1,6 +1,6 @@
 import os
 from .shared import Parameters
-from .modules import loci_matrix
+from .modules import extraction
 from .file_handler import load_popmap
 
 
@@ -17,5 +17,6 @@ def analyse_directory(files_dir=None, analyses_dir=None, positions_list=None,
     load_popmap(popmap_path, parameters)
 
     haplotypes_file_path = os.path.join(files_dir, 'batch_0.haplotypes.tsv')
+    catalog_file_path = os.path.join(files_dir, 'batch_0.catalog.tags.tsv.gz')
 
-    loci_matrix(haplotypes_file_path, parameters)
+    extraction(haplotypes_file_path, catalog_file_path, parameters)
