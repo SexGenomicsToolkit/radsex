@@ -1,13 +1,15 @@
 import os
+import sys
 from radseq_analyses_pipeline import analyse_directory
+from radseq_analyses_pipeline.parameters.positions import get_positions_list
 
 
 species = 'ameirus_melas'
 replicate = None
-m_value = 5
+m_value = 3
 
-positions_list = [(34, 0), (33, 0)]
-
+positions_file_path = sys.argv[1]
+positions_list = get_positions_list(positions_file_path)
 
 root_dir = '/work/bimarazene/radseq_all/'
 extraction_dir = os.path.join(root_dir, 'analyses', 'extraction')
