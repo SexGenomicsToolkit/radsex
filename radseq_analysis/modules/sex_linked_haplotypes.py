@@ -68,7 +68,7 @@ def analysis(haplotypes_file_path, catalog_file_path, global_parameters):
     for locus_id, sequence in consensus.items():
         loci_to_extract[locus_id].sequence = sequence
 
-    output.sex_linked_haplotypes(global_parameters.haplotypes_output_file,
+    output.sex_linked_haplotypes(global_parameters.output_file_path,
                                  loci_to_extract)
 
     return loci_to_extract
