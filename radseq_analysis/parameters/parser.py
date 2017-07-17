@@ -46,11 +46,13 @@ Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_m
                             help='Path to output file', nargs='?',
                             default='haplotypes_matrix.tsv')
         args = parser.parse_args(sys.argv[2:])
-        if (not args.input_folder or
-                not os.path.isdir(args.input_folder) or
-                not args.popmap or
-                not os.path.isfile(args.popmap)):
+        if not args.input_folder or not os.path.isdir(args.input_folder):
+            print('\nError: no valid input folder specified\n')
+            parser.print_usage()
             print()
+            exit(1)
+        if not args.popmap or not os.path.isfile(args.popmap):
+            print('\nError: no valid popmap file specified\n')
             parser.print_usage()
             print()
             exit(1)
@@ -79,13 +81,18 @@ Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_m
                             help='Path to output file', nargs='?',
                             default='extracted_haplotypes.tsv')
         args = parser.parse_args(sys.argv[2:])
-        if (not args.input_folder or
-                not os.path.isdir(args.input_folder) or
-                not args.popmap or
-                not os.path.isfile(args.popmap) or
-                not args.positions or
-                not os.path.isfile(args.positions)):
+        if not args.input_folder or not os.path.isdir(args.input_folder):
+            print('\nError: no valid input folder specified\n')
+            parser.print_usage()
             print()
+            exit(1)
+        if not args.popmap or not os.path.isfile(args.popmap):
+            print('\nError: no valid popmap file specified\n')
+            parser.print_usage()
+            print()
+            exit(1)
+        if not args.positions or not os.path.isfile(args.positions):
+            print('\nError: no valid positions file specified\n')
             parser.print_usage()
             print()
             exit(1)
