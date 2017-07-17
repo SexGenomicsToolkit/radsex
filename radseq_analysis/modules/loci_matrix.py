@@ -1,6 +1,6 @@
-from radseq_analyses_pipeline.shared.commons import *
-from radseq_analyses_pipeline import file_handler
-from radseq_analyses_pipeline import output
+from radseq_analysis.shared.commons import *
+from radseq_analysis import file_handler
+from radseq_analysis import output
 
 
 def fill_loci_matrix(haplotypes_file_path, global_parameters):

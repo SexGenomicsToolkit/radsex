@@ -1,3 +1,0 @@
-[submodule "include/radseq_bootstrap"]
-	path = include/radseq_bootstrap
-	url = https://github.com/INRA-LPGP/radseq_bootstrap

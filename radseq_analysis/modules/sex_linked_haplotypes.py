@@ -1,6 +1,6 @@
-from radseq_analyses_pipeline.shared import *
-from radseq_analyses_pipeline import file_handler
-from radseq_analyses_pipeline import output
+from radseq_analysis.shared import *
+from radseq_analysis import file_handler
+from radseq_analysis import output
 
 
 def get_majority_haplotypes(data):

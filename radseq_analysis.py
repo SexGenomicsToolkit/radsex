@@ -1,5 +1,9 @@
 import os
-from radseq_analyses_pipeline import analyse_directory
+from radseq_analysis import analyse_directory
+from radseq_analysis.parameters.parser import Pipeline
+
+
+Pipeline()
 
 root_dir = '/home/rferon/work/data/sample_denovo_results/'
 files_dir = os.path.join(root_dir, 'm_5')

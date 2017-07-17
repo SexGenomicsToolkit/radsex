@@ -1,6 +1,6 @@
 
 
-def get_positions_list(positions_file_path):
+def get_positions_list(positions_file_path, global_parameters):
 
     positions = []
 
@@ -13,4 +13,4 @@ def get_positions_list(positions_file_path):
                 print('Error: cannot read positions file')
                 exit(1)
 
-    return positions
+    global_parameters.positions_list = positions

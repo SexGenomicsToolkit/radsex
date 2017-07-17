@@ -1,5 +1,5 @@
 from collections import defaultdict
-from radseq_analyses_pipeline.shared.commons import *
+from radseq_analysis.shared.commons import *
 
 
 def get_haplotypes(haplotypes_file_path, global_parameters):

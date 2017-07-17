@@ -1,3 +1,4 @@
+# TODO: verifications
 
 
 def load_popmap(popmap_file_path, global_parameters):

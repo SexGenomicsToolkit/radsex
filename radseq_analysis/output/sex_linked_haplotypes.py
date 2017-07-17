@@ -1,4 +1,4 @@
-from radseq_analyses_pipeline.shared import *
+from radseq_analysis.shared import *
 
 
 def sex_linked_haplotypes(output_file_path, loci_data):
