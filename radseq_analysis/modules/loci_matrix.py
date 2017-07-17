@@ -26,4 +26,4 @@ def fill_loci_matrix(haplotypes_file_path, global_parameters):
 def analysis(haplotypes_file_path, global_parameters):
 
     loci_matrix = fill_loci_matrix(haplotypes_file_path, global_parameters)
-    output.loci_matrix(global_parameters.loci_matrix_output_file, loci_matrix)
+    output.loci_matrix(global_parameters.output_file_path, loci_matrix)

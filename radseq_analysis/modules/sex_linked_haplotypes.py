@@ -23,6 +23,8 @@ def get_majority_haplotypes(data):
 
 def locus_in_position_list(tags, positions_list):
 
+    # if tags['consensus'][FEMALES] == 0 and tags['consensus'][MALES] == 34:
+    #     print(tags)
     if set(tags.keys()).issubset(['consensus', '-']):
         for position in positions_list:
             if (tags['consensus'][FEMALES] == position[1] and

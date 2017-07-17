@@ -1,6 +1,6 @@
 
 
-def get_positions_list(positions_file_path, global_parameters):
+def load_positions_list(positions_file_path, global_parameters):
 
     positions = []
 
@@ -8,7 +8,7 @@ def get_positions_list(positions_file_path, global_parameters):
         for line in positions_file:
             try:
                 fields = line[:-1].split('\t')
-                positions.append(tuple(fields[0], fields[1]))
+                positions.append(tuple([int(fields[0]), int(fields[1])]))
             except IndexError:
                 print('Error: cannot read positions file')
                 exit(1)
