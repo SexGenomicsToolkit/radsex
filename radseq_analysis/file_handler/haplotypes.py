@@ -36,10 +36,12 @@ def get_haplotypes(haplotypes_file_path, global_parameters):
 
         for individual, haplotype in data.items():
 
-            if global_parameters.popmap[individual] is 'M':
-                tags[haplotype][MALES] += 1
-            elif global_parameters.popmap[individual] is 'F':
-                tags[haplotype][FEMALES] += 1
+            if individual in popmap.keys():
+
+                if global_parameters.popmap[individual] is 'M':
+                    tags[haplotype][MALES] += 1
+                elif global_parameters.popmap[individual] is 'F':
+                    tags[haplotype][FEMALES] += 1
 
         haplotypes_numbers[locus_id] = tags
 
