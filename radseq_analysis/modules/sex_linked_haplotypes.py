@@ -23,8 +23,6 @@ def get_majority_haplotypes(data):
 
 def locus_in_position_list(tags, positions_list):
 
-    # if tags['consensus'][FEMALES] == 0 and tags['consensus'][MALES] == 34:
-    #     print(tags)
     if set(tags.keys()).issubset(['consensus', '-']):
         for position in positions_list:
             if (tags['consensus'][FEMALES] == position[1] and
@@ -61,9 +59,8 @@ def filter(haplotypes_file_path, global_parameters):
 
 def analysis(haplotypes_file_path, catalog_file_path, global_parameters):
 
-    print('    # Filtering sex variable loci ...')
     loci_to_extract = filter(haplotypes_file_path, global_parameters)
-    correspondance, consensus = file_handler.get_info_from_catalog(catalog_file_path, loci_to_extract)
+    consensus = file_handler.get_info_from_catalog(catalog_file_path, loci_to_extract)
 
     for locus_id, sequence in consensus.items():
         loci_to_extract[locus_id].sequence = sequence

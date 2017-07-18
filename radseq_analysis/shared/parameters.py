@@ -10,8 +10,6 @@ class Parameters:
                  loci_matrix_output_file='haplotypes_matrix.tsv',
                  haplotypes_output_file='extracted_haplotypes.tsv',
                  individuals_output_file='individual_sequences.tsv',
-                 neomales_output_file='neomales_analysis_results.tsv',
-                 neofemales_output_file='neofemales_analysis_results.tsv',
                  popmap={},
                  n_males=0,
                  n_females=0
@@ -24,8 +22,6 @@ class Parameters:
         self.loci_matrix_output_file = loci_matrix_output_file
         self.haplotypes_output_file = haplotypes_output_file
         self.individuals_output_file = individuals_output_file
-        self.neomales_output_file = neomales_output_file
-        self.neofemales_output_file = neofemales_output_file
         self.popmap = popmap
         self.n_males = n_males
         self.n_females = n_females

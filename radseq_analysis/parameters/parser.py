@@ -13,6 +13,7 @@ class Pipeline():
 
 Command:  heatmap\tGenerates a matrix of haplotypes sex distribution
 \t  haplotypes\tExtract haplotypes present in a given number of males and females
+\t  frequencies\tCalculate haplotypes frequencies distribution in the population
 '''
         )
         parser.add_argument('command', help='Command to run', nargs='?')
@@ -101,3 +102,26 @@ Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_m
                  output_file_path=args.output_file,
                  positions_file_path=args.positions,
                  analysis='haplotypes')
+
+    def frequencies(self):
+        parser = argparse.ArgumentParser(
+            description='Calculate haplotypes frequencies distribution in the population',
+            usage='''python3 radseq_analysis.py frequencies -i input_folder [-o output_file]
+
+Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_map
+\t  -o\t--output_file\tPath to output file (default: haplotypes_frequencies.tsv)
+''')
+        parser.add_argument('--input-folder', '-i',
+                            help='Path to a folder containing the output of denovo_map')
+        parser.add_argument('--output-file', '-o',
+                            help='Path to output file', nargs='?',
+                            default='haplotypes_frequencies.tsv')
+        args = parser.parse_args(sys.argv[2:])
+        if not args.input_folder or not os.path.isdir(args.input_folder):
+            print('\nError: no valid input folder specified\n')
+            parser.print_usage()
+            print()
+            exit(1)
+        analysis(input_dir=args.input_folder,
+                 output_file_path=args.output_file,
+                 analysis='frequencies')
