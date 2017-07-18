@@ -4,7 +4,7 @@ import os
 from radseq_analysis.modules import analysis
 
 
-class Pipeline():
+class Parser():
 
     def __init__(self):
         parser = argparse.ArgumentParser(

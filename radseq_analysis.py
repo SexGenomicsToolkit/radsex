@@ -1,3 +1,3 @@
-from radseq_analysis.parameters.parser import Pipeline
+from radseq_analysis.parameters.parser import Parser
 
-Pipeline()
+Parser()
