@@ -3,6 +3,7 @@ from radseq_analysis.shared import Parameters
 from radseq_analysis.modules import sex_linked_haplotypes
 from radseq_analysis.modules import loci_matrix
 from radseq_analysis.modules import stacks_privacy
+from radseq_analysis.modules import rescue
 from radseq_analysis.file_handler import load_popmap
 from radseq_analysis.file_handler import load_positions_list
 
@@ -11,6 +12,7 @@ def analysis(input_dir=None,
              popmap_file_path=None,
              output_file_path=None,
              positions_file_path=None,
+             sequences_file_path=None,
              analysis=None):
 
     parameters = Parameters(files_dir=input_dir,
@@ -32,3 +34,5 @@ def analysis(input_dir=None,
         sex_linked_haplotypes(haplotypes_file_path, catalog_file_path, parameters)
     elif analysis == 'frequencies':
         stacks_privacy(catalog_file_path, parameters)
+    elif analysis == 'rescue':
+        rescue(sequences_file_path, catalog_file_path, parameters)

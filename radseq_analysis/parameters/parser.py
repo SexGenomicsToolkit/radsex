@@ -14,6 +14,7 @@ class Parser():
 Command:  heatmap\tGenerates a matrix of haplotypes sex distribution
 \t  haplotypes\tExtract haplotypes present in a given number of males and females
 \t  frequencies\tCalculate haplotypes frequencies distribution in the population
+\t  rescue\tRegroup stacks into alleles after analysis
 '''
         )
         parser.add_argument('command', help='Command to run', nargs='?')
@@ -37,7 +38,7 @@ Command:  heatmap\tGenerates a matrix of haplotypes sex distribution
 
 Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_map
 \t  -m\t--popmap\tPath to population map
-\t  -o\t--output_file\tPath to output file (default: haplotypes_matrix.tsv)
+\t  -o\t--output-file\tPath to output file (default: haplotypes_matrix.tsv)
 ''')
         parser.add_argument('--input-folder', '-i',
                             help='Path to a folder containing the output of denovo_map')
@@ -70,7 +71,7 @@ Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_m
 Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_map
 \t  -m\t--popmap\tPath to population map
 \t  -p\t--positions\tPath to a file containing the list of positions to etract
-\t  -o\t--output_file\tPath to output file (default: extracted_haplotypes.tsv)
+\t  -o\t--output-file\tPath to output file (default: extracted_haplotypes.tsv)
 ''')
         parser.add_argument('--input-folder', '-i',
                             help='Path to a folder containing the output of denovo_map')
@@ -109,7 +110,7 @@ Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_m
             usage='''python3 radseq_analysis.py frequencies -i input_folder [-o output_file]
 
 Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_map
-\t  -o\t--output_file\tPath to output file (default: haplotypes_frequencies.tsv)
+\t  -o\t--output-file\tPath to output file (default: haplotypes_frequencies.tsv)
 ''')
         parser.add_argument('--input-folder', '-i',
                             help='Path to a folder containing the output of denovo_map')
@@ -125,3 +126,35 @@ Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_m
         analysis(input_dir=args.input_folder,
                  output_file_path=args.output_file,
                  analysis='frequencies')
+
+    def rescue(self):
+        parser = argparse.ArgumentParser(
+            description='Regroup stacks into alleles after analysis',
+            usage='''python3 radseq_analysis.py rescue -i input_folder -s sequences_file [-o output_file]
+
+Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_map
+\t  -s\t--sequences\tPath to sequences file (result of haplotypes analysis)
+\t  -o\t--output-file\tPath to output file (default: extracted_alleles.tsv)
+''')
+        parser.add_argument('--input-folder', '-i',
+                            help='Path to a folder containing the output of denovo_map')
+        parser.add_argument('--sequences', '-s',
+                            help='Path to sequences file')
+        parser.add_argument('--output-file', '-o',
+                            help='Path to output file', nargs='?',
+                            default='extracted_alleles.tsv')
+        args = parser.parse_args(sys.argv[2:])
+        if not args.input_folder or not os.path.isdir(args.input_folder):
+            print('\nError: no valid input folder specified\n')
+            parser.print_usage()
+            print()
+            exit(1)
+        if not args.sequences or not os.path.isfile(args.sequences):
+            print('\nError: no valid sequences file specified\n')
+            parser.print_usage()
+            print()
+            exit(1)
+        analysis(input_dir=args.input_folder,
+                 sequences_file_path=args.sequences,
+                 output_file_path=args.output_file,
+                 analysis='rescue')
