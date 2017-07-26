@@ -27,6 +27,9 @@ def analysis(input_dir=None,
     # TODO: support more batch numbers + move this inside analyses?
     haplotypes_file_path = os.path.join(input_dir, 'batch_0.haplotypes.tsv')
     catalog_file_path = os.path.join(input_dir, 'batch_0.catalog.tags.tsv.gz')
+    individual_files_paths = [os.path.join(input_dir, f) for
+                              f in os.listdir(input_dir) if
+                              'tags' in f and 'catalog' not in f]
 
     if analysis == 'heatmap':
         loci_matrix(haplotypes_file_path, parameters)
@@ -35,4 +38,4 @@ def analysis(input_dir=None,
     elif analysis == 'frequencies':
         stacks_privacy(catalog_file_path, parameters)
     elif analysis == 'rescue':
-        rescue(sequences_file_path, catalog_file_path, parameters)
+        rescue(sequences_file_path, catalog_file_path, individual_files_paths, parameters)

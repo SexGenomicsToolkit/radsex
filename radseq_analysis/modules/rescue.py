@@ -1,84 +1,82 @@
 from radseq_analysis import file_handler
+from radseq_analysis import output
+from radseq_analysis.modules import blast
+from radseq_analysis.shared import Stack
 import os
 from collections import defaultdict
 
-'''
-BIG WARNING
-IF MULTIPLE INSTANCES ARE RUNNING CONCURRENTLY, FILE NAMES WILL MESS IT UP
-NEED TO FIND A GOOD WAY TO RESOLVE THIS
-'''
 
+def make_stacks(blast_results, consensus):
 
-def create_temp_seq_file(sequences):
+    stacks = {}
 
-    with open('sequences.temp', 'w') as o:
-        for locus_id, locus in sequences.items():
-            o.write('>' +
-                    str(locus_id) + '_' +
-                    str(locus.n_males) + '_' +
-                    str(locus.n_females) + '\n')
-            o.write(locus.sequence + '\n')
-
-
-def create_temp_catalog_file(sequences):
-
-    with open('catalog.temp', 'w') as o:
-        for locus_id, sequence in sequences.items():
-            o.write('>' + str(locus_id) + '\n')
-            o.write(sequence + '\n')
-
-
-# Todo: better system calls
-def create_blast_db():
-
-    cmd = 'makeblastdb -in catalog.temp -dbtype nucl'
-    os.system(cmd)
-
-
-def run_blast():
-
-    cmd = ('blastn -db catalog.temp' +
-           ' -query sequences.temp' +
-           ' -outfmt "6 qseqid sseqid length nident mismatch gaps qseq sseq"' +
-           ' > blast_results.temp')
-    os.system(cmd)
-
-
-def cleanup_temp_files():
-
-    os.remove('catalog.temp')
-    os.remove('catalog.temp.nhr')
-    os.remove('catalog.temp.nin')
-    os.remove('catalog.temp.nsq')
-    os.remove('sequences.temp')
-    os.remove('blast_results.temp')
-
-
-def filter_blast_output():
-
-    stacks = defaultdict(lambda: dict())
-    results = open('blast_results.temp')
-    for line in results:
-        fields = line[:-1].split('\t')
-        if fields[2] == '94' and int(fields[3]) >= 90:
-            stacks[fields[0]][fields[1]] = [fields[3], fields[4], fields[5]]
+    for stack_id, haplotypes in blast_results.items():
+        s = Stack()
+        s.sequence = consensus[stack_id.split('_')[0]]
+        for haplotype_id, data in haplotypes.items():
+            s.add_haplotype(haplotype_id, consensus[haplotype_id], data)
+        stacks[stack_id] = s
 
     return stacks
 
 
-def analysis(sequences_file_path, catalog_file_path, global_parameters):
+def get_individual_data(individual_files_paths, correspondance, bar=False):
 
+    individual_data = {}
+
+    # individual_files_paths = individual_files_paths[:2]  # Testing
+
+    try:
+        from progress.bar import Bar
+        bar = True
+    except ImportError:
+        bar = False
+
+    if bar:
+        progress_bar = Bar(' - Extracting individual data :', max=len(individual_files_paths))
+    else:
+        print(' - Extracting individual data ...')
+
+    for individual_file_path in individual_files_paths:
+        if bar:
+            progress_bar.next()
+        name = os.path.split(individual_file_path)[1].split('.')[0]
+        data = file_handler.get_individual_sequences(individual_file_path,
+                                                     correspondance)
+        individual_data[name] = data
+
+    if bar:
+        print()
+
+    return individual_data
+
+
+def fill_individual_data(stacks, individual_data):
+
+    for stack_id, stack in stacks.items():
+        for haplotype_id, haplotype in stack.haplotypes.items():
+            temp = defaultdict(int)
+            for name, data in individual_data.items():
+                if haplotype_id in data.keys():
+                    temp[name] = data[haplotype_id]
+                else:
+                    temp[name] = 0
+            stacks[stack_id].haplotypes[haplotype_id].individuals = temp
+
+
+def analysis(sequences_file_path, catalog_file_path,
+             individual_files_paths, global_parameters):
+
+    print(' - Loading extracted sequences and catalog data ...')
     sequences = file_handler.get_sequences(sequences_file_path)
-
-    catalog_data = file_handler.get_info_from_catalog(catalog_file_path)
-
-    create_temp_seq_file(sequences)
-    create_temp_catalog_file(catalog_data)
-    create_blast_db()
-    run_blast()
-    stacks = filter_blast_output()
-    # cleanup_temp_files()
-    for stack, data in stacks.items():
-        print(stack)
-        for name, sequence in data.items():
-            print(name, sequence)
+    consensus, correspondance = file_handler.get_info_from_catalog(catalog_file_path,
+                                                                   consensus=True,
+                                                                   correspondance=True)
+    print(' - Finding similar sequences with blast ...')
+    blast_results = blast.get_matching_sequences(sequences, consensus)
+    print(' - Creating stacks ...')
+    stacks = make_stacks(blast_results, consensus)
+    individual_data = get_individual_data(individual_files_paths, correspondance)
+    print(' - Merging individual data in stacks ...')
+    fill_individual_data(stacks, individual_data)
+    output.stacks(global_parameters.output_file_path, stacks, global_parameters.popmap)

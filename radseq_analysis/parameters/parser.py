@@ -140,6 +140,8 @@ Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_m
                             help='Path to a folder containing the output of denovo_map')
         parser.add_argument('--sequences', '-s',
                             help='Path to sequences file')
+        parser.add_argument('--popmap', '-m',
+                            help='Path to a popmap file')
         parser.add_argument('--output-file', '-o',
                             help='Path to output file', nargs='?',
                             default='extracted_alleles.tsv')
@@ -154,7 +156,13 @@ Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_m
             parser.print_usage()
             print()
             exit(1)
+        if not args.popmap or not os.path.isfile(args.popmap):
+            print('\nError: no valid popmap file specified\n')
+            parser.print_usage()
+            print()
+            exit(1)
         analysis(input_dir=args.input_folder,
                  sequences_file_path=args.sequences,
+                 popmap_file_path=args.popmap,
                  output_file_path=args.output_file,
                  analysis='rescue')

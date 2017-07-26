@@ -1,6 +1,5 @@
 import gzip
 from collections import defaultdict
-from radseq_analysis.shared import *
 
 
 def get_individual_sequences(individual_file_path, loci_to_extract=None):
@@ -13,7 +12,7 @@ def get_individual_sequences(individual_file_path, loci_to_extract=None):
     individual_file = gzip.open(individual_file_path, 'rt')
     individual_file.readline()
 
-    individual_data = defaultdict(lambda: defaultdict())
+    individual_data = defaultdict(int)
 
     for line in individual_file:
 
@@ -23,20 +22,15 @@ def get_individual_sequences(individual_file_path, loci_to_extract=None):
         if (not loci_to_extract or individual_locus_id in
                 loci_to_extract[individual_number].keys()):
 
-            catalog_id = loci_to_extract[individual][individual_locus_id]
-            sequence = tabs[9]
+            catalog_id = loci_to_extract[individual_number][individual_locus_id]
 
             sequence_name = tabs[6]
             if tabs[7] != '':
                 sequence_name += '_' + tabs[7]
 
-            if sequence_name == 'model':
+            if sequence_name in ['model', 'consensus']:
                 pass
             else:
-                if sequence_name in individual_data[catalog_id].keys():
-                    individual_data[catalog_id][sequence_name][COVERAGE] += 1
-                else:
-                    individual_data[catalog_id][sequence_name] = {SEQUENCE: sequence,
-                                                                  COVERAGE: 1}
+                individual_data[catalog_id] += 1
 
     return individual_data
