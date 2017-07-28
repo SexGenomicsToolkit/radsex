@@ -9,6 +9,7 @@ def stacks(output_file_path, stacks_data, popmap):
 
     output_file = open(output_file_path, 'w')
     output_file.write('Stack_ID' + '\t' + 'Haplotype_ID' + '\t' + 'Sequence' + '\t')
+    output_file.write('Matches' + '\t' + 'Mismatches' + '\t' + 'Gaps' + '\t')
     males = [i for i, s in popmap.items() if s == 'M']
     females = [i for i, s in popmap.items() if s == 'F']
 
