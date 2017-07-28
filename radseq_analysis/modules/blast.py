@@ -8,9 +8,11 @@ NEED TO FIND A GOOD WAY TO RESOLVE THIS
 '''
 
 
-def create_temp_seq_file(sequences):
+def create_temp_seq_file(sequences, species):
 
-    with open('sequences.temp', 'w') as o:
+    temp_sequences_name = species + '_sequences.temp'
+
+    with open(temp_sequences_name, 'w') as o:
         for locus_id, locus in sequences.items():
             o.write('>' +
                     str(locus_id) + '_' +
@@ -19,47 +21,64 @@ def create_temp_seq_file(sequences):
             o.write(locus.sequence + '\n')
 
 
-def create_temp_catalog_file(catalog_data):
+def create_temp_catalog_file(catalog_data, species):
 
-    with open('catalog.temp', 'w') as o:
+    temp_db_name = species + '_catalog.temp'
+
+    with open(temp_db_name, 'w') as o:
         for locus_id, sequence in catalog_data.items():
             o.write('>' + str(locus_id) + '\n')
             o.write(sequence + '\n')
 
 
 # Todo: better system calls
-def create_blast_db():
+def create_blast_db(species):
 
-    cmd = 'makeblastdb -in catalog.temp -dbtype nucl > blast_db_logs.temp'
+    temp_db_name = species + '_catalog.temp'
+    temp_db_logs_name = species + '_blast_db_logs.temp'
+    cmd = ('makeblastdb -in ' + temp_db_name + ' -dbtype nucl > ' +
+           temp_db_logs_name)
     os.system(cmd)
 
 
-def run_blast():
+def run_blast(species):
 
-    cmd = ('blastn -db catalog.temp' +
-           ' -query sequences.temp' +
+    temp_sequences_name = species + '_sequences.temp'
+    temp_db_name = species + '_catalog.temp'
+    temp_blast_logs_name = species + '_blast_logs.temp'
+    temp_blast_results_name = species + '_blast_results.temp'
+
+    cmd = ('blastn -db ' + temp_db_name +
+           ' -query ' + temp_sequences_name +
            ' -outfmt "6 qseqid sseqid length nident mismatch gaps qseq sseq"' +
-           ' -out blast_results.temp' +
-           ' > blast_logs.temp')
+           ' -out ' + temp_blast_results_name +
+           ' > ' + temp_blast_logs_name)
     os.system(cmd)
 
 
-def cleanup_temp_files():
+def cleanup_temp_files(species):
 
-    os.remove('catalog.temp')
-    os.remove('catalog.temp.nhr')
-    os.remove('catalog.temp.nin')
-    os.remove('catalog.temp.nsq')
-    os.remove('sequences.temp')
-    os.remove('blast_results.temp')
-    os.remove('blast_logs.temp')
-    os.remove('blast_db_logs.temp')
+    temp_sequences_name = species + '_sequences.temp'
+    temp_db_name = species + '_catalog.temp'
+    temp_blast_logs_name = species + '_blast_logs.temp'
+    temp_blast_results_name = species + '_blast_results.temp'
+    temp_db_logs_name = species + '_blast_db_logs.temp'
+
+    os.remove(temp_db_name)
+    os.remove(temp_db_name + '.nhr')
+    os.remove(temp_db_name + '.nin')
+    os.remove(temp_db_name + '.nsq')
+    os.remove(temp_sequences_name)
+    os.remove(temp_blast_results_name)
+    os.remove(temp_blast_logs_name)
+    os.remove(temp_db_logs_name)
 
 
-def filter_blast_output():
+def filter_blast_output(species):
 
     stacks = defaultdict(lambda: dict())
-    results = open('blast_results.temp')
+    temp_blast_results_name = species + '_blast_results.temp'
+    results = open(temp_blast_results_name)
     for line in results:
         fields = line[:-1].split('\t')
         if fields[2] == '94' and int(fields[3]) >= 90:
@@ -68,11 +87,11 @@ def filter_blast_output():
     return stacks
 
 
-def get_matching_sequences(sequences, catalog_data):
-    create_temp_seq_file(sequences)
-    create_temp_catalog_file(catalog_data)
-    create_blast_db()
-    run_blast()
-    stacks = filter_blast_output()
-    cleanup_temp_files()
+def get_matching_sequences(sequences, catalog_data, species):
+    create_temp_seq_file(sequences, species)
+    create_temp_catalog_file(catalog_data, species)
+    create_blast_db(species)
+    run_blast(species)
+    stacks = filter_blast_output(species)
+    cleanup_temp_files(species)
     return stacks

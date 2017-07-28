@@ -20,6 +20,10 @@ def analysis(input_dir=None,
 
     if popmap_file_path:
         load_popmap(popmap_file_path, parameters)
+        species = os.path.split(popmap_file_path)[1]
+        species = os.path.splitext(species)[0]
+        species = '_'.join(s for s in species.split('_')[:-1])
+        parameters.species = species
 
     if positions_file_path:
         load_positions_list(positions_file_path, parameters)

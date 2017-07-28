@@ -73,7 +73,7 @@ def analysis(sequences_file_path, catalog_file_path,
                                                                    consensus=True,
                                                                    correspondance=True)
     print(' - Finding similar sequences with blast ...')
-    blast_results = blast.get_matching_sequences(sequences, consensus)
+    blast_results = blast.get_matching_sequences(sequences, consensus, global_parameters.species)
     print(' - Creating stacks ...')
     stacks = make_stacks(blast_results, consensus)
     individual_data = get_individual_data(individual_files_paths, correspondance)

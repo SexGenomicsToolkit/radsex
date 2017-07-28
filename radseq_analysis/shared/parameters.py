@@ -12,7 +12,8 @@ class Parameters:
                  individuals_output_file='individual_sequences.tsv',
                  popmap={},
                  n_males=0,
-                 n_females=0
+                 n_females=0,
+                 species=None
                  ):
 
         self.files_dir = files_dir
@@ -25,3 +26,4 @@ class Parameters:
         self.popmap = popmap
         self.n_males = n_males
         self.n_females = n_females
+        self.species = species
