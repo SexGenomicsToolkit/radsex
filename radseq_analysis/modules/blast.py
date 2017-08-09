@@ -6,6 +6,7 @@ BIG WARNING
 IF MULTIPLE INSTANCES ARE RUNNING CONCURRENTLY, FILE NAMES WILL MESS IT UP
 NEED TO FIND A GOOD WAY TO RESOLVE THIS
 SOLVED FOR DIFFERENT SPECIES BUT NOW SHOULD HAVE CONFIG FOR BLAST .....
+TODO: better system calls (check for errors)
 '''
 
 
@@ -32,7 +33,6 @@ def create_temp_catalog_file(catalog_data, species):
             o.write(sequence + '\n')
 
 
-# Todo: better system calls
 def create_blast_db(species):
 
     temp_db_name = species + '_catalog.temp'

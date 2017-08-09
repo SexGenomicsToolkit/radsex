@@ -13,6 +13,7 @@ def analysis(input_dir=None,
              output_file_path=None,
              positions_file_path=None,
              sequences_file_path=None,
+             coverage_file_path=None,
              analysis=None):
 
     parameters = Parameters(files_dir=input_dir,
@@ -42,4 +43,4 @@ def analysis(input_dir=None,
     elif analysis == 'frequencies':
         stacks_privacy(catalog_file_path, parameters)
     elif analysis == 'rescue':
-        rescue(sequences_file_path, catalog_file_path, individual_files_paths, parameters)
+        rescue(sequences_file_path, catalog_file_path, individual_files_paths, coverage_file_path, parameters)
