@@ -6,7 +6,7 @@ from radseq_analysis import output
 def fill_loci_matrix(haplotypes_file_path, global_parameters):
 
     print(' - Loading haplotypes from file ...')
-    haplotypes, numbers = file_handler.get_haplotypes(haplotypes_file_path, global_parameters)
+    numbers = file_handler.get_haplotypes(haplotypes_file_path, global_parameters, haplotypes=False, numbers=True)
 
     loci_matrix = [[0 for x in range(int(global_parameters.n_males) + 1)] for
                    y in range(int(global_parameters.n_females) + 1)]

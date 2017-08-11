@@ -24,8 +24,6 @@ def get_individual_data(individual_files_paths, correspondance, bar=False):
 
     individual_data = {}
 
-    # individual_files_paths = individual_files_paths[:2]  # Testing
-
     try:
         from progress.bar import Bar
         bar = True
@@ -51,23 +49,30 @@ def get_individual_data(individual_files_paths, correspondance, bar=False):
     return individual_data
 
 
-def fill_individual_data(stacks, individual_data):
+def fill_individual_data(stacks, individual_data, coverage):
 
     for stack_id, stack in stacks.items():
         for haplotype_id, haplotype in stack.haplotypes.items():
             temp = defaultdict(int)
             for name, data in individual_data.items():
                 if haplotype_id in data.keys():
-                    temp[name] = data[haplotype_id]
+                    if coverage:
+                        temp[name] = int(int(data[haplotype_id]) * coverage[name])
+                    else:
+                        temp[name] = data[haplotype_id]
+
                 else:
                     temp[name] = 0
             stacks[stack_id].haplotypes[haplotype_id].individuals = temp
 
 
 def analysis(sequences_file_path, catalog_file_path,
-             individual_files_paths, global_parameters):
+             individual_files_paths, coverage_file_path, global_parameters):
 
     print(' - Loading extracted sequences and catalog data ...')
+    coverage = None
+    if coverage_file_path:
+        coverage = file_handler.get_coverage(coverage_file_path)
     sequences = file_handler.get_sequences(sequences_file_path)
     consensus, correspondance = file_handler.get_info_from_catalog(catalog_file_path,
                                                                    consensus=True,
@@ -78,5 +83,5 @@ def analysis(sequences_file_path, catalog_file_path,
     stacks = make_stacks(blast_results, consensus)
     individual_data = get_individual_data(individual_files_paths, correspondance)
     print(' - Merging individual data in stacks ...')
-    fill_individual_data(stacks, individual_data)
+    fill_individual_data(stacks, individual_data, coverage)
     output.stacks(global_parameters.output_file_path, stacks, global_parameters.popmap)
