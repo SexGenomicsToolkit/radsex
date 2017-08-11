@@ -57,7 +57,7 @@ def fill_individual_data(stacks, individual_data, coverage):
             for name, data in individual_data.items():
                 if haplotype_id in data.keys():
                     if coverage:
-                        temp[name] = int(int(data[haplotype_id]) * coverage[name])
+                        temp[name] = int(int(data[haplotype_id]) / coverage[name])
                     else:
                         temp[name] = data[haplotype_id]
 
