@@ -48,7 +48,7 @@ def run_blast(species):
     temp_blast_logs_name = species + '_blast_logs.temp'
     temp_blast_results_name = species + '_blast_results.temp'
 
-    cmd = ('blastn -db ' + temp_db_name +
+    cmd = ('blastn+ -db ' + temp_db_name +
            ' -query ' + temp_sequences_name +
            ' -outfmt "6 qseqid sseqid length nident mismatch gaps qseq sseq"' +
            ' -out ' + temp_blast_results_name +
