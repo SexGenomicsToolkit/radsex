@@ -4,11 +4,13 @@ from radseq_analysis.modules import sex_linked_haplotypes
 from radseq_analysis.modules import loci_matrix
 from radseq_analysis.modules import stacks_privacy
 from radseq_analysis.modules import rescue
+from radseq_analysis.modules import visualization
 from radseq_analysis.file_handler import load_popmap
 from radseq_analysis.file_handler import load_positions_list
 
 
 def analysis(input_dir=None,
+             input_file_path=None,
              popmap_file_path=None,
              output_file_path=None,
              positions_file_path=None,
@@ -30,11 +32,12 @@ def analysis(input_dir=None,
         load_positions_list(positions_file_path, parameters)
 
     # TODO: support more batch numbers + move this inside analyses?
-    haplotypes_file_path = os.path.join(input_dir, 'batch_0.haplotypes.tsv')
-    catalog_file_path = os.path.join(input_dir, 'batch_0.catalog.tags.tsv.gz')
-    individual_files_paths = [os.path.join(input_dir, f) for
-                              f in os.listdir(input_dir) if
-                              'tags' in f and 'catalog' not in f]
+    if input_dir:
+        haplotypes_file_path = os.path.join(input_dir, 'batch_0.haplotypes.tsv')
+        catalog_file_path = os.path.join(input_dir, 'batch_0.catalog.tags.tsv.gz')
+        individual_files_paths = [os.path.join(input_dir, f) for
+                                  f in os.listdir(input_dir) if
+                                  'tags' in f and 'catalog' not in f]
 
     if analysis == 'heatmap':
         loci_matrix(haplotypes_file_path, parameters)
@@ -44,3 +47,5 @@ def analysis(input_dir=None,
         stacks_privacy(catalog_file_path, parameters)
     elif analysis == 'rescue':
         rescue(sequences_file_path, catalog_file_path, individual_files_paths, coverage_file_path, parameters)
+    elif analysis == 'visualize':
+        visualization(input_file_path, output_file_path, parameters)

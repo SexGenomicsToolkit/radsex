@@ -13,7 +13,8 @@ class Parameters:
                  popmap={},
                  n_males=0,
                  n_females=0,
-                 species=None
+                 species=None,
+                 m_value=None
                  ):
 
         self.files_dir = files_dir
@@ -27,3 +28,4 @@ class Parameters:
         self.n_males = n_males
         self.n_females = n_females
         self.species = species
+        self.m_value = m_value
