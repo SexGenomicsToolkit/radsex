@@ -1,11 +1,11 @@
 import os
 
 
-def haplotypes(input_file, output_file, species_name):
+def haplotypes(input_file_path, output_file_path, species_name):
 
     scripts_d = ''.join(os.path.split(os.path.realpath(__file__))[:-1])
     cmd = ('Rscript ' + os.path.join(scripts_d, 'r_scripts', 'heatmap.R') +
-           ' ' + input_file +
-           ' ' + output_file +
+           ' ' + input_file_path +
+           ' ' + output_file_path +
            ' ' + species_name)
     os.system(cmd)

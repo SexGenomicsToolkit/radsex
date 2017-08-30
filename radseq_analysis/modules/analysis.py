@@ -48,4 +48,4 @@ def analysis(input_dir=None,
     elif analysis == 'rescue':
         rescue(sequences_file_path, catalog_file_path, individual_files_paths, coverage_file_path, parameters)
     elif analysis == 'visualize':
-        visualization(input_file_path, output_file_path, parameters)
+        visualization(input_file_path, popmap_file_path, output_file_path, parameters)
