@@ -1,1 +1,1 @@
-from .analyse_directory import analyse_directory
+from radseq_analysis.analyse_directory import analyse_directory
