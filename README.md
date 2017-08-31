@@ -25,7 +25,7 @@ This software is part of the RADSex pipeline, a method to detect sex-linked sequ
 - Clone: `git clone git@github.com:INRA-LPGP/radseq_analysis.git`
 - Download the archive and unzip it
 - *Optional* : install recommended python packages with `pip3 install -r requirements.txt`
-- *Optinal* : install R packages for visualization with `Rscript install_packages.R`
+- *Optional* : install R packages for visualization with `Rscript install_packages.R`
 
 ### Usage
 
