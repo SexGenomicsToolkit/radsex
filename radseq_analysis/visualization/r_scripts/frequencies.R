@@ -22,7 +22,7 @@ colnames(data) = c("Frequency", "Count")
 g = ggplot(data, aes(x=Frequency, y=Count/sum(Count))) +
     geom_bar(stat="identity", colour="black", fill="#CCCCCC") +
     ggtitle(paste("Total tags: ", sum(data$Count), sep='')) + theme(plot.title = element_text(hjust = 0.5)) +
-    xlab("Number of individuals in which a tag is present") + ylab("Frequency (%)") +
+    xlab("Number of individuals in which a tag is present") + ylab("Frequency of haplotypes (%)") +
     scale_y_continuous(labels=percent)
 
 png(output_file_path, width=1600, height=1000, res=130)

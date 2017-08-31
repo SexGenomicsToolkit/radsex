@@ -12,7 +12,7 @@ popmap_file_path = args[nargs - 1]
 output_dir_path = args[nargs]
 
 if (substr(output_dir_path, nchar(output_dir_path), nchar(output_dir_path)) != "/") {
-    output_dir_path = cat(output_dir_path, "/")
+    output_dir_path = paste(output_dir_path, "/", sep="")
 }
 
 script_dir = ""
