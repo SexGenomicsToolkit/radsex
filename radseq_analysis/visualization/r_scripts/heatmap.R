@@ -27,9 +27,10 @@ sex_heatmap = function(file_path, species_name="none"){
     data = suppressMessages(read_delim(file_path, "\t", escape_double = FALSE, col_names = FALSE, trim_ws = TRUE))
 
     bins = c(0, 1, 2, 5, 25, 100, 1000)
-    bin_labels = c('0', '1', '2-4', '5-24', '25-99', '100-999', '>1000')
+    bin_labels = c('0', '1', '2', '5-24', '25-99', '100-999', '>1000')
     get_palette = colorRampPalette(c("white", "navyblue"))
-    palette = get_palette(length(bins))
+    palette = get_palette(length(bin_labels))
+    names(palette) = bins
 
     males = rep(seq(0, dim(data)[2] - 1), dim(data)[1])
     females = c()
@@ -42,13 +43,13 @@ sex_heatmap = function(file_path, species_name="none"){
     }
 
     d = data.frame('Males' = males, 'Females' = females, 'Loci' = loci)
-    d$Loci = d$Loci + 1
+    d$Loci = d$Loci
 
     group = c()
     for (i in 1:dim(d)[1]) {
         group = c(group, bins[tail(which(d$Loci[i]>=bins), n=1)])
     }
-    d$Bin = factor(group)
+    d$Bin = factor(group, levels=bins)
 
     title = ""
     if (species_name != "none") {
@@ -58,12 +59,13 @@ sex_heatmap = function(file_path, species_name="none"){
     g = ggplot(d, aes(x=Males, y=Females)) +
         geom_tile(aes(fill=Bin), color = "grey") +
         ggtitle(title) + theme(plot.title = element_text(hjust = 0.5)) +
-        scale_fill_manual(name="Number of\nhaplotypes", values = palette, labels = bin_labels) +
+        scale_fill_manual(name="Number of\nhaplotypes", breaks=bins, values = palette, labels = bin_labels, drop=FALSE) +
         scale_x_continuous(breaks = seq(0, max(d$Males), 5), minor_breaks = seq(0, max(d$Males), 1)) +
         scale_y_continuous(breaks = seq(0, max(d$Females), 5), minor_breaks = seq(0, max(d$Females), 1))
 
     return(g)
 }
+
 
 heatmap = sex_heatmap(input_file_path, species_name)
 
