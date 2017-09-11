@@ -2,8 +2,12 @@
 args = commandArgs(trailingOnly=TRUE)
 
 # test if there is at least one argument: if not, return an error
-if (length(args) != 3){
-    stop("Usage: R frequencies.R input_file.tsv output_file.png species_name")
+if (length(args) > 3 | length(args) < 2){
+    stop("Usage: R heatmap.R input_file.tsv output_file.png [species_name]")
+} else if (length(args == 3)) {
+    species_name = args[3]
+} else if (length(args == 2)) {
+    species_name="none"
 }
 
 suppressMessages(require(readr))
@@ -11,7 +15,6 @@ suppressMessages(require(ggplot2))
 
 input_file_path = args[1]
 output_file_path = args[2]
-species_name = args[3]
 
 g_legend<-function(a.gplot){
     tmp <- ggplot_gtable(ggplot_build(a.gplot))

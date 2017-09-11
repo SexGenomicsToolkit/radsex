@@ -21,12 +21,15 @@ def analysis(input_dir=None,
     parameters = Parameters(files_dir=input_dir,
                             output_file_path=output_file_path)
 
+    species = None
     if popmap_file_path:
         load_popmap(popmap_file_path, parameters)
         species = os.path.split(popmap_file_path)[1]
         species = os.path.splitext(species)[0]
-        species = '_'.join(s for s in species.split('_')[:-1])
-        parameters.species = species
+        if len(species.split('_')) > 1:
+            species = '_'.join(s for s in species.split('_')[:-1])
+
+    parameters.species = species
 
     if positions_file_path:
         load_positions_list(positions_file_path, parameters)
