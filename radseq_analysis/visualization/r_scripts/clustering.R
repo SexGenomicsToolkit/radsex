@@ -80,6 +80,10 @@ filter_coverage = function(data, popmap, min_ratio=0.5) {
     data = data[, c(2, 7:dim(data)[2])]
     data = unique(data)
 
+    if (dim(data)[1] == 0) {
+        stop()
+    }
+
     temp = suppressMessages(melt(data))
     temp[temp == 0] = NA
     max_coverage = round(quantile(temp$value, c(.99), na.rm = TRUE)[1])
@@ -153,16 +157,17 @@ plot_heatmap = function(data, popmap=data.frame(), x_axis='individuals',
 
         g = ggplot(melted, aes(x=Individuals, y=Haplotype_ID, fill=Values)) +
             geom_tile(color="grey") +
-            theme(axis.text.x = element_text(angle=60, hjust = 1), legend.title = element_blank()) +
+            theme(axis.text.x = element_text(angle=60, hjust = 1)) +
             ylab("Loci") + xlab("Individuals")
 
         if (length(unique(melted$Values)) != 2) {
             temp = melted
             temp$Values[temp$Values==0] = NA
             stats = summary(temp$Values, na.rm=TRUE)
-            g = g + scale_fill_gradientn(colours = palette, values = c(0, 0.001, stats[4]/stats[6], stats[5]/stats[6], 1))
+            g = g + scale_fill_gradientn(name = "Coverage", colours = palette, values = c(0, 0.001, stats[4]/stats[6], stats[5]/stats[6], 1))
         } else {
-            g = g + scale_fill_manual(breaks = c("0", "1"), labels = c("Absent", "Present"), values = c("0"=absence.color, "1"=presence.color))
+            g = g + scale_fill_manual(breaks = c("0", "1"), labels = c("Absent", "Present"), values = c("0"=absence.color, "1"=presence.color)) +
+                theme(legend.title=element_blank())
         }
 
         if (length(popmap) > 0) {
@@ -200,16 +205,17 @@ plot_heatmap = function(data, popmap=data.frame(), x_axis='individuals',
 
         g = ggplot(melted, aes(x=Haplotype_ID, y=Individuals, fill=Values)) +
             geom_tile(color="grey") +
-            theme(axis.text.x = element_text(angle=60, hjust = 1), legend.title = element_blank()) +
+            theme(axis.text.x = element_text(angle=60, hjust = 1)) +
             xlab("Loci") + ylab("Individuals")
 
         if (length(unique(melted$Values)) != 2) {
             temp = melted
             temp$Values[temp$Values==0] = NA
             stats = summary(temp$Values, na.rm=TRUE)
-            g = g + scale_fill_gradientn(colours = palette, values = c(0, 0.001, stats[4]/stats[6], stats[5]/stats[6], 1))
+            g = g + scale_fill_gradientn(name="Coverage", colours = palette, values = c(0, 0.001, stats[4]/stats[6], stats[5]/stats[6], 1))
         } else {
-            g = g + scale_fill_manual(breaks = c("0", "1"), labels = c("Absent", "Present"), values = c("0"=absence.color, "1"=presence.color))
+            g = g + scale_fill_manual(breaks = c("0", "1"), labels = c("Absent", "Present"), values = c("0"=absence.color, "1"=presence.color)) +
+                theme(legend.title=element_blank())
         }
 
         if (length(popmap) > 0) {
@@ -258,10 +264,12 @@ coverage_heatmap = function(coverage_file, popmap_file, min_individuals_ratio=0.
     data = filter_coverage(data, popmap, min_ratio=min_individuals_ratio)
     data = extract_XY_alleles(data, popmap)
 
-    plot_heatmap(data, popmap,
-                 distance=distance, clustering=clustering,
-                 x_axis=x_axis, individuals.dendrogram=individuals.dendrogram, loci.dendrogram=loci.dendrogram,
-                 males.color=males.color, females.color=females.color, palette=palette)
+    if (dim(data)[1] > 0) {
+        plot_heatmap(data, popmap,
+                     distance=distance, clustering=clustering,
+                     x_axis=x_axis, individuals.dendrogram=individuals.dendrogram, loci.dendrogram=loci.dendrogram,
+                     males.color=males.color, females.color=females.color, palette=palette)
+    }
 }
 
 
@@ -276,9 +284,11 @@ presence_heatmap = function(coverage_file, popmap_file, read.length=94,
 
     data = convert_to_presence_data(data, read.length=read.length)
 
-    plot_heatmap(data, popmap,
-                 distance=distance, clustering=clustering,
-                 x_axis=x_axis, individuals.dendrogram=individuals.dendrogram, loci.dendrogram=loci.dendrogram,
-                 males.color=males.color, females.color=females.color,
-                 absence.color=absence.color, presence.color=presence.color)
+    if (dim(data)[1] > 0) {
+        plot_heatmap(data, popmap,
+                     distance=distance, clustering=clustering,
+                     x_axis=x_axis, individuals.dendrogram=individuals.dendrogram, loci.dendrogram=loci.dendrogram,
+                     males.color=males.color, females.color=females.color,
+                     absence.color=absence.color, presence.color=presence.color)
+    }
 }
