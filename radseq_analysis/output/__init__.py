@@ -2,3 +2,5 @@ from radseq_analysis.output.loci_matrix import loci_matrix
 from radseq_analysis.output.sex_linked_haplotypes import sex_linked_haplotypes
 from radseq_analysis.output.stacks_privacy import stacks_privacy
 from radseq_analysis.output.stacks import stacks
+from radseq_analysis.output.plink_map_file import plink_map_file
+from radseq_analysis.output.plink_ped_file import plink_ped_file
