@@ -18,7 +18,7 @@ def plink_ped_file(output_file_root, popmap, haplotypes):
                 output_file.write('1' + '\t')
                 output_file.write('1' + '\t')
             else:
-                output_file.write('2' + '\t')
+                output_file.write('1' + '\t')
                 output_file.write(individual + '\t')
                 output_file.write('0' + '\t')
                 output_file.write('0' + '\t')
