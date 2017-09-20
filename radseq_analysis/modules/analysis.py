@@ -4,7 +4,6 @@ from radseq_analysis.modules import sex_linked_haplotypes
 from radseq_analysis.modules import loci_matrix
 from radseq_analysis.modules import stacks_privacy
 from radseq_analysis.modules import rescue
-from radseq_analysis.modules import association
 from radseq_analysis.modules import visualization
 from radseq_analysis.file_handler import load_popmap
 from radseq_analysis.file_handler import load_positions_list
@@ -53,5 +52,3 @@ def analysis(input_dir=None,
         rescue(sequences_file_path, catalog_file_path, individual_files_paths, coverage_file_path, parameters)
     elif analysis == 'visualize':
         visualization(input_file_path, popmap_file_path, output_file_path, parameters)
-    elif analysis == 'association':
-        association(haplotypes_file_path, parameters)
