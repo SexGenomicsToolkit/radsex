@@ -13,7 +13,11 @@ TODO: better system calls (check for errors)
 def create_temp_seq_file(sequences, species):
 
     temp_sequences_name = species + '_sequences.temp'
-
+    read_lengths = {len(data.sequence) for locus, data in sequences.items()}
+    if len(read_lengths) == 1:
+        read_length = list(read_lengths)[0]
+    else:
+        exit('Error: input sequences have variable lengths')
     with open(temp_sequences_name, 'w') as o:
         for locus_id, locus in sequences.items():
             o.write('>' +
@@ -21,6 +25,7 @@ def create_temp_seq_file(sequences, species):
                     str(locus.n_males) + '_' +
                     str(locus.n_females) + '\n')
             o.write(locus.sequence + '\n')
+    return read_length
 
 
 def create_temp_catalog_file(catalog_data, species):
@@ -75,24 +80,23 @@ def cleanup_temp_files(species):
     os.remove(temp_db_logs_name)
 
 
-def filter_blast_output(species):
+def filter_blast_output(species, read_length, n_mismatches=4):
 
     stacks = defaultdict(lambda: dict())
     temp_blast_results_name = species + '_blast_results.temp'
     results = open(temp_blast_results_name)
     for line in results:
         fields = line[:-1].split('\t')
-        if fields[2] == '94' and int(fields[3]) >= 90:
+        if fields[2] == str(read_length) and int(fields[3]) >= read_length - n_mismatches:
             stacks[fields[0]][fields[1]] = [fields[3], fields[4], fields[5]]
-
     return stacks
 
 
 def get_matching_sequences(sequences, catalog_data, species):
-    create_temp_seq_file(sequences, species)
+    read_length = create_temp_seq_file(sequences, species)
     create_temp_catalog_file(catalog_data, species)
     create_blast_db(species)
     run_blast(species)
-    stacks = filter_blast_output(species)
+    stacks = filter_blast_output(species, read_length=read_length, n_mismatches=4)
     cleanup_temp_files(species)
     return stacks

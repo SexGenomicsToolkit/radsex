@@ -131,7 +131,7 @@ Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_m
     def rescue(self):
         parser = argparse.ArgumentParser(
             description='Regroup stacks into alleles after analysis',
-            usage='''python3 radseq_analysis.py rescue -i input_folder -s sequences_file [-c coverage_file -o output_file]
+            usage='''python3 radseq_analysis.py rescue -i input_folder -m popmap -s sequences_file [-c coverage_file -o output_file]
 
 Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_map
 \t  -s\t--sequences\tPath to sequences file (result of haplotypes analysis)
@@ -161,11 +161,7 @@ Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_m
             parser.print_usage()
             print()
             exit(1)
-        if not args.popmap or not os.path.isfile(args.popmap):
-            print('\nError: no valid popmap file specified\n')
-            parser.print_usage()
-            print()
-            exit(1)
+
         analysis(input_dir=args.input_folder,
                  sequences_file_path=args.sequences,
                  popmap_file_path=args.popmap,
