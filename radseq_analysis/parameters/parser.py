@@ -15,6 +15,7 @@ Command:  heatmap\tGenerates a matrix of haplotypes sex distribution
 \t  haplotypes\tExtract haplotypes present in a given number of males and females
 \t  frequencies\tCalculate haplotypes frequencies distribution in the population
 \t  rescue\tRegroup stacks into alleles after analysis
+\t  coverage\tExtract individual coverage for a set of markers
 \t  visualize\tVisualize analyses results using R
 '''
         )
@@ -168,6 +169,43 @@ Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_m
                  output_file_path=args.output_file,
                  coverage_file_path=args.coverage_file,
                  analysis='rescue')
+
+    def coverage(self):
+        parser = argparse.ArgumentParser(
+            description='Extract individual coverage for a set of markers',
+            usage='''python3 radseq_analysis.py coverage -i input_folder -a markers_file [-c coverage_file -o output_file]
+
+Options:  -i\t--input-folder\tPath to a folder containing the output of denovo_map
+\t  -a\t--markers\tPath to markers file (list of markers to extract)
+\t  -c\t--coverage-file\tPath to a coverage file (result of coverage analysis)
+\t  -o\t--output-file\tPath to output file (default: markers_coverage.tsv)
+''')
+        parser.add_argument('--input-folder', '-i',
+                            help='Path to a folder containing the output of denovo_map')
+        parser.add_argument('--markers', '-a',
+                            help='Path to markers file')
+        parser.add_argument('--coverage-file', '-c',
+                            help='Path to coverage file', nargs='?')
+        parser.add_argument('--output-file', '-o',
+                            help='Path to output file', nargs='?',
+                            default='extracted_alleles.tsv')
+        args = parser.parse_args(sys.argv[2:])
+        if not args.input_folder or not os.path.isdir(args.input_folder):
+            print('\nError: no valid input folder specified\n')
+            parser.print_usage()
+            print()
+            exit(1)
+        if not args.markers or not os.path.isfile(args.markers):
+            print('\nError: no valid markers file specified\n')
+            parser.print_usage()
+            print()
+            exit(1)
+
+        analysis(input_dir=args.input_folder,
+                 markers_file_path=args.markers,
+                 output_file_path=args.output_file,
+                 coverage_file_path=args.coverage_file,
+                 analysis='coverage')
 
     def visualize(self):
         parser = argparse.ArgumentParser(
