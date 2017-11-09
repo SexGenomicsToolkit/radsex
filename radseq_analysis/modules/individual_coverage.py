@@ -5,7 +5,6 @@ import os
 from collections import defaultdict
 
 
-
 def get_individual_names(individual_files_paths):
 
     return [os.path.split(file)[1].split('.')[0] for file in individual_files_paths]
