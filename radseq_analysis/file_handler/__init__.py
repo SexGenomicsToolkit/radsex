@@ -4,4 +4,5 @@ from radseq_analysis.file_handler.individual_files import get_individual_sequenc
 from radseq_analysis.file_handler.popmap import load_popmap
 from radseq_analysis.file_handler.positions import load_positions_list
 from radseq_analysis.file_handler.sequences import get_sequences
+from radseq_analysis.file_handler.markers import get_markers
 from radseq_analysis.file_handler.coverage import get_coverage

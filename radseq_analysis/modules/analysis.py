@@ -4,6 +4,7 @@ from radseq_analysis.modules import sex_linked_haplotypes
 from radseq_analysis.modules import loci_matrix
 from radseq_analysis.modules import stacks_privacy
 from radseq_analysis.modules import rescue
+from radseq_analysis.modules import individual_coverage
 from radseq_analysis.modules import visualization
 from radseq_analysis.file_handler import load_popmap
 from radseq_analysis.file_handler import load_positions_list
@@ -16,6 +17,7 @@ def analysis(input_dir=None,
              positions_file_path=None,
              sequences_file_path=None,
              coverage_file_path=None,
+             markers_file_path=None,
              analysis=None):
 
     parameters = Parameters(files_dir=input_dir,
@@ -50,5 +52,7 @@ def analysis(input_dir=None,
         stacks_privacy(catalog_file_path, parameters)
     elif analysis == 'rescue':
         rescue(sequences_file_path, catalog_file_path, individual_files_paths, coverage_file_path, parameters)
+    elif analysis == 'coverage':
+        individual_coverage(markers_file_path, catalog_file_path, individual_files_paths, coverage_file_path, parameters)
     elif analysis == 'visualize':
         visualization(input_file_path, popmap_file_path, output_file_path, parameters)
