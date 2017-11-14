@@ -13,9 +13,7 @@ def fill_loci_matrix(parameters):
     print(' - Generating loci matrix ...')
 
     for locus_id, data in haplotypes.items():
-        n_males = len({i for i in data if parameters.popmap[parameters.order[i]] is 'M'})
-        n_females = len({i for i in data if parameters.popmap[parameters.order[i]] is 'F'})
-        loci_matrix[n_females][n_males] += 1
+        loci_matrix[data['n_females']][data['n_males']] += 1
 
     print(' - Generating output ...')
 
