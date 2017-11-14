@@ -1,26 +1,31 @@
-from radseq_analysis.shared import *
 
 
-def sex_linked_haplotypes(output_file_path, loci_data):
+def locus_in_position_list(locus, positions_list):
+
+    for position in positions_list:
+        if (locus['n_females'] == position[1] and
+                locus['n_males'] == position[0]):
+            return True
+    return False
+
+
+def sex_linked_haplotypes(parameters, haplotypes):
 
     '''
     Output information on sex-linked haplotypes in the following format:
     TODO
     '''
 
-    with open(output_file_path, 'w') as output_file:
+    with open(parameters.output_file_path, 'w') as output_file:
 
         output_file.write('Locus' + '\t' +
                           'Males' + '\t' +
                           'Females' + '\t' +
-                          'Sequence' + '\t' +
-                          'Male_outliers' + '\t' +
-                          'Female_outliers' + '\n')
+                          'Sequence' + '\n')
 
-        for locus, data in loci_data.items():
-            output_file.write(str(locus) + '\t' +
-                              str(data.n_males) + '\t' +
-                              str(data.n_females) + '\t' +
-                              data.sequence + '\t' +
-                              ','.join(str(i) for i in data.outliers[MALES]) + '\t' +
-                              ','.join(str(i) for i in data.outliers[FEMALES]) + '\n')
+        for locus, data in haplotypes.items():
+            if locus_in_position_list(data, parameters.positions_list):
+                output_file.write(str(locus) + '\t' +
+                                  str(data['n_males']) + '\t' +
+                                  str(data['n_females']) + '\t' +
+                                  data['sequence'] + '\n')
