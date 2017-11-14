@@ -67,7 +67,7 @@ def get_info_from_catalog(catalog_path,
         return frequencies_data
 
 
-def get_haplotypes(parameters):
+def get_haplotypes(parameters, individuals_only=False):
 
     '''
     Extract haplotypes information, sorted by sex, from a catalog file
@@ -87,11 +87,14 @@ def get_haplotypes(parameters):
         tabs = line.split('\t')
         locus_id = tabs[2]
         indiv_ids = tabs[8].split(',')
-        haplotypes_data[locus_id] = {}
-        haplotypes_data[locus_id]['sequence'] = tabs[9]
-        haplotypes_data[locus_id]['individuals'] = {}
-        for individual in indiv_ids:
-            haplotypes_data[locus_id]['individuals'][individual.split('_')[0]] = individual.split('_')[1]
+        if not individuals_only:
+            haplotypes_data[locus_id] = {}
+            haplotypes_data[locus_id]['sequence'] = tabs[9]
+            haplotypes_data[locus_id]['individuals'] = {}
+            for individual in indiv_ids:
+                haplotypes_data[locus_id]['individuals'][individual.split('_')[0]] = individual.split('_')[1]
+        else:
+            haplotypes_data[locus_id] = [individual.split('_')[0] for individual in indiv_ids]
 
     catalog.close()
 

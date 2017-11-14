@@ -5,7 +5,7 @@ from radseq_analysis import output
 def fill_loci_matrix(parameters):
 
     print(' - Loading haplotypes from file ...')
-    haplotypes = file_handler.get_haplotypes(parameters)
+    haplotypes = file_handler.get_haplotypes(parameters, individuals_only=True)
 
     loci_matrix = [[0 for x in range(int(parameters.n_males) + 1)] for
                    y in range(int(parameters.n_females) + 1)]
@@ -13,10 +13,8 @@ def fill_loci_matrix(parameters):
     print(' - Generating loci matrix ...')
 
     for locus_id, data in haplotypes.items():
-        n_males = len({i for i in data['individuals'].keys() if
-                       parameters.popmap[parameters.order[i]] is 'M'})
-        n_females = len({i for i in data['individuals'].keys() if
-                         parameters.popmap[parameters.order[i]] is 'F'})
+        n_males = len({i for i in data if parameters.popmap[parameters.order[i]] is 'M'})
+        n_females = len({i for i in data if parameters.popmap[parameters.order[i]] is 'F'})
         loci_matrix[n_females][n_males] += 1
 
     print(' - Generating output ...')
