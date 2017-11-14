@@ -11,6 +11,7 @@ class Parameters:
                  haplotypes_output_file='extracted_haplotypes.tsv',
                  individuals_output_file='individual_sequences.tsv',
                  popmap={},
+                 order={},
                  n_males=0,
                  n_females=0,
                  species=None,
@@ -25,6 +26,7 @@ class Parameters:
         self.haplotypes_output_file = haplotypes_output_file
         self.individuals_output_file = individuals_output_file
         self.popmap = popmap
+        self.order = order
         self.n_males = n_males
         self.n_females = n_females
         self.species = species
