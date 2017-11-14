@@ -1,5 +1,5 @@
 from radseq_analysis.file_handler.catalog import get_info_from_catalog
-from radseq_analysis.file_handler.haplotypes import get_haplotypes
+from radseq_analysis.file_handler.catalog import get_haplotypes
 from radseq_analysis.file_handler.individual_files import get_individual_sequences
 from radseq_analysis.file_handler.popmap import load_popmap
 from radseq_analysis.file_handler.positions import load_positions_list

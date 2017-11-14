@@ -65,3 +65,34 @@ def get_info_from_catalog(catalog_path,
         return correspondance_data
     elif frequencies:
         return frequencies_data
+
+
+def get_haplotypes(parameters):
+
+    '''
+    Extract haplotypes information, sorted by sex, from a catalog file
+    Input:
+        - path to a catalog file (batch_X.catalog.tsv)
+    Output:
+        - for each locus, haplotype for each individual
+        { Locus ID: { sequence: sequence, individuals: { individual_id: individual_locus_id } }}
+    '''
+
+    catalog = open_all(parameters.catalog_file_path)
+    catalog.readline()
+
+    haplotypes_data = {}
+
+    for line in catalog:
+        tabs = line.split('\t')
+        locus_id = tabs[2]
+        indiv_ids = tabs[8].split(',')
+        haplotypes_data[locus_id] = {}
+        haplotypes_data[locus_id]['sequence'] = tabs[9]
+        haplotypes_data[locus_id]['individuals'] = {}
+        for individual in indiv_ids:
+            haplotypes_data[locus_id]['individuals'][individual.split('_')[0]] = individual.split('_')[1]
+
+    catalog.close()
+
+    return haplotypes_data
