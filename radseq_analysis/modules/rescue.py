@@ -66,22 +66,21 @@ def fill_individual_data(stacks, individual_data, coverage):
             stacks[stack_id].haplotypes[haplotype_id].individuals = temp
 
 
-def analysis(sequences_file_path, catalog_file_path,
-             individual_files_paths, coverage_file_path, global_parameters):
+def analysis(parameters):
 
     print(' - Loading extracted sequences and catalog data ...')
     coverage = None
-    if coverage_file_path:
-        coverage = file_handler.get_coverage(coverage_file_path)
-    sequences = file_handler.get_sequences(sequences_file_path)
-    consensus, correspondance = file_handler.get_info_from_catalog(catalog_file_path,
+    if parameters.coverage_file_path:
+        coverage = file_handler.get_coverage(parameters.coverage_file_path)
+    sequences = file_handler.get_sequences(parameters.sequences_file_path)
+    consensus, correspondance = file_handler.get_info_from_catalog(parameters.catalog_file_path,
                                                                    consensus=True,
                                                                    correspondance=True)
     print(' - Finding similar sequences with blast ...')
-    blast_results = blast.get_matching_sequences(sequences, consensus, global_parameters.species)
+    blast_results = blast.get_matching_sequences(sequences, consensus, parameters.species)
     print(' - Creating stacks ...')
     stacks = make_stacks(blast_results, consensus)
-    individual_data = get_individual_data(individual_files_paths, correspondance)
+    individual_data = get_individual_data(parameters.individual_files_paths, correspondance)
     print(' - Merging individual data in stacks ...')
     fill_individual_data(stacks, individual_data, coverage)
-    output.stacks(global_parameters.output_file_path, stacks, global_parameters.popmap)
+    output.stacks(parameters.output_file_path, stacks, parameters.popmap)

@@ -68,22 +68,21 @@ def fill_individual_data(markers, individual_data, coverage):
             markers[stack_id].haplotypes[haplotype_id].individuals = temp
 
 
-def analysis(markers_file_path, catalog_file_path,
-             individual_files_paths, coverage_file_path, global_parameters):
+def analysis(parameters):
 
     print(' - Loading extracted markers and catalog data ...')
     coverage = None
-    if coverage_file_path:
-        coverage = file_handler.get_coverage(coverage_file_path)
-    markers_list = file_handler.get_markers(markers_file_path)
-    correspondance = file_handler.get_info_from_catalog(catalog_file_path,
+    if parameters.coverage_file_path:
+        coverage = file_handler.get_coverage(parameters.coverage_file_path)
+    markers_list = file_handler.get_markers(parameters.markers_file_path)
+    correspondance = file_handler.get_info_from_catalog(parameters.catalog_file_path,
                                                         loci_list=markers_list,
                                                         consensus=False,
                                                         correspondance=True)
-    individual_names = get_individual_names(individual_files_paths)
+    individual_names = get_individual_names(parameters.individual_files_paths)
     print(' - Creating stacks ...')
     markers = initialize_markers(markers_list)
-    individual_data = get_individual_data(individual_files_paths, correspondance)
+    individual_data = get_individual_data(parameters.individual_files_paths, correspondance)
     print(' - Merging individual data in stacks ...')
     fill_individual_data(markers, individual_data, coverage)
-    output.markers(global_parameters.output_file_path, markers, individual_names)
+    output.markers(parameters.output_file_path, markers, individual_names)

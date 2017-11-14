@@ -1,7 +1,7 @@
 from radseq_analysis.file_handler.file_open import open_all
 
 
-def get_individuals_order(log_path, global_parameters):
+def get_individuals_order(log_path):
 
     '''
     Parse the denovo_map.log to find the order in which individuals were processed,
@@ -34,4 +34,4 @@ def get_individuals_order(log_path, global_parameters):
         individuals_order[str(order)] = line.split(':')[0]
         order += 1
 
-    global_parameters.order = individuals_order
+    return individuals_order

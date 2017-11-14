@@ -1,7 +1,7 @@
 from radseq_analysis.file_handler.file_open import open_all
 
 
-def load_positions_list(positions_file_path, global_parameters):
+def load_positions_list(positions_file_path):
 
     positions = []
 
@@ -15,4 +15,4 @@ def load_positions_list(positions_file_path, global_parameters):
                     print('Error: cannot read positions file')
                     exit(1)
 
-    global_parameters.positions_list = positions
+    return positions

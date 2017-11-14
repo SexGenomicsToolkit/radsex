@@ -3,13 +3,13 @@ from radseq_analysis import file_handler
 from radseq_analysis import output
 
 
-def fill_loci_matrix(haplotypes_file_path, global_parameters):
+def fill_loci_matrix(parameters):
 
     print(' - Loading haplotypes from file ...')
-    numbers = file_handler.get_haplotypes(haplotypes_file_path, global_parameters, haplotypes=False, numbers=True)
+    numbers = file_handler.get_haplotypes(parameters, haplotypes=False, numbers=True)
 
-    loci_matrix = [[0 for x in range(int(global_parameters.n_males) + 1)] for
-                   y in range(int(global_parameters.n_females) + 1)]
+    loci_matrix = [[0 for x in range(int(parameters.n_males) + 1)] for
+                   y in range(int(parameters.n_females) + 1)]
 
     print(' - Generating loci matrix ...')
 
@@ -23,7 +23,7 @@ def fill_loci_matrix(haplotypes_file_path, global_parameters):
     return loci_matrix
 
 
-def analysis(haplotypes_file_path, global_parameters):
+def analysis(parameters):
 
-    loci_matrix = fill_loci_matrix(haplotypes_file_path, global_parameters)
-    output.loci_matrix(global_parameters.output_file_path, loci_matrix)
+    loci_matrix = fill_loci_matrix(parameters)
+    output.loci_matrix(parameters.output_file_path, loci_matrix)

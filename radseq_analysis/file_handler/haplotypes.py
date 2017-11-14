@@ -3,7 +3,7 @@ from radseq_analysis.shared.commons import *
 from radseq_analysis.file_handler.file_open import open_all
 
 
-def get_haplotypes(haplotypes_file_path, global_parameters, haplotypes=True, numbers=True):
+def get_haplotypes(parameters, haplotypes=True, numbers=True):
 
     '''
     Extract haplotypes information, sorted by sex, from a haplotypes file
@@ -16,7 +16,7 @@ def get_haplotypes(haplotypes_file_path, global_parameters, haplotypes=True, num
         { Locus ID:  { Haplotype: { Males: N, Females: M } } }
     '''
 
-    haplotypes_file = open_all(haplotypes_file_path)
+    haplotypes_file = open_all(parameters.haplotypes_file_path)
 
     line = haplotypes_file.readline()
     names = line[:-1].split('\t')[2:]
@@ -36,10 +36,10 @@ def get_haplotypes(haplotypes_file_path, global_parameters, haplotypes=True, num
         if numbers:
             tags = defaultdict(lambda: {MALES: 0, FEMALES: 0})
             for individual, haplotype in temp.items():
-                if individual in global_parameters.popmap.keys():
-                    if global_parameters.popmap[individual] is 'M':
+                if individual in parameters.popmap.keys():
+                    if parameters.popmap[individual] is 'M':
                         tags[haplotype][MALES] += 1
-                    elif global_parameters.popmap[individual] is 'F':
+                    elif parameters.popmap[individual] is 'F':
                         tags[haplotype][FEMALES] += 1
             haplotypes_numbers[locus_id] = tags
 
