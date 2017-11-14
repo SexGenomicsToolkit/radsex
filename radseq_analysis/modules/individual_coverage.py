@@ -77,9 +77,9 @@ def analysis(markers_file_path, catalog_file_path,
         coverage = file_handler.get_coverage(coverage_file_path)
     markers_list = file_handler.get_markers(markers_file_path)
     correspondance = file_handler.get_info_from_catalog(catalog_file_path,
-                                                                     loci_list=markers_list,
-                                                                     consensus=False,
-                                                                     correspondance=True)
+                                                        loci_list=markers_list,
+                                                        consensus=False,
+                                                        correspondance=True)
     individual_names = get_individual_names(individual_files_paths)
     print(' - Creating stacks ...')
     markers = initialize_markers(markers_list)

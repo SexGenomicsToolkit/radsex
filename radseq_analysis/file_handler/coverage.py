@@ -1,4 +1,5 @@
 import statistics
+from radseq_analysis.file_handler.file_open import open_all
 
 
 def get_coverage(coverage_file_path):
@@ -13,7 +14,7 @@ def get_coverage(coverage_file_path):
 
     coverage_data = {}
     temp = {}
-    coverage_file = open(coverage_file_path)
+    coverage_file = open_all(coverage_file_path)
 
     for line in coverage_file:
         fields = line[:-1].split('\t')

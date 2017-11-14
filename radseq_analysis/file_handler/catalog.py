@@ -1,5 +1,5 @@
-import gzip
 from collections import defaultdict
+from radseq_analysis.file_handler.file_open import open_all
 
 
 def get_info_from_catalog(catalog_path,
@@ -22,7 +22,7 @@ def get_info_from_catalog(catalog_path,
            { Number of individuals with haplotype: count }
     '''
 
-    catalog = gzip.open(catalog_path, 'rt')
+    catalog = open_all(catalog_path)
     catalog.readline()
 
     if correspondance:

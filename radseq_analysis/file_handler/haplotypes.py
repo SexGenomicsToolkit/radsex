@@ -1,5 +1,6 @@
 from collections import defaultdict
 from radseq_analysis.shared.commons import *
+from radseq_analysis.file_handler.file_open import open_all
 
 
 def get_haplotypes(haplotypes_file_path, global_parameters, haplotypes=True, numbers=True):
@@ -15,7 +16,7 @@ def get_haplotypes(haplotypes_file_path, global_parameters, haplotypes=True, num
         { Locus ID:  { Haplotype: { Males: N, Females: M } } }
     '''
 
-    haplotypes_file = open(haplotypes_file_path)
+    haplotypes_file = open_all(haplotypes_file_path)
 
     line = haplotypes_file.readline()
     names = line[:-1].split('\t')[2:]

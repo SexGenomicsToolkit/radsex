@@ -1,5 +1,6 @@
 from radseq_analysis.shared import *
 from radseq_analysis.shared import Locus
+from radseq_analysis.file_handler.file_open import open_all
 
 
 def get_sequences(sequences_file_path):
@@ -10,7 +11,7 @@ def get_sequences(sequences_file_path):
 
     sequences = {}
 
-    sequences_file = open(sequences_file_path)
+    sequences_file = open_all(sequences_file_path)
     sequences_file.readline()
 
     for line in sequences_file:

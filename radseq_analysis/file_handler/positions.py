@@ -1,10 +1,11 @@
+from radseq_analysis.file_handler.file_open import open_all
 
 
 def load_positions_list(positions_file_path, global_parameters):
 
     positions = []
 
-    with open(positions_file_path) as positions_file:
+    with open_all(positions_file_path) as positions_file:
         for line in positions_file:
             if line[:-1]:
                 try:

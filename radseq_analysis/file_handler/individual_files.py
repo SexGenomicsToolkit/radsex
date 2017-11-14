@@ -1,15 +1,15 @@
-import gzip
 from collections import defaultdict
+from radseq_analysis.file_handler.file_open import open_all
 
 
 def get_individual_sequences(individual_file_path, loci_to_extract=None):
 
     # Open file, read 2nd line, extract individual number and reset to 2nd line
-    individual_file = gzip.open(individual_file_path, 'rt')
+    individual_file = open_all(individual_file_path, 'rt')
     individual_file.readline()
     individual_number = individual_file.readline().split('\t')[1]
     individual_file.close()
-    individual_file = gzip.open(individual_file_path, 'rt')
+    individual_file = open_all(individual_file_path, 'rt')
     individual_file.readline()
 
     individual_data = defaultdict(int)
