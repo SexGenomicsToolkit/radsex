@@ -1,3 +1,3 @@
-from radseq_analysis.parameters.parser import Parser
+from radseq_analysis.parser import Parser
 
 Parser()
