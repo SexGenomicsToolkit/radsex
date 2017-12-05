@@ -67,7 +67,7 @@ def get_info_from_catalog(catalog_path,
         return frequencies_data
 
 
-def get_haplotypes(parameters, individuals_only=False):
+def get_haplotypes(parameters, sequence=False, correspondance=False, numbers=True):
 
     '''
     Extract haplotypes information, sorted by sex, from a catalog file
@@ -87,22 +87,20 @@ def get_haplotypes(parameters, individuals_only=False):
         tabs = line.split('\t')
         locus_id = tabs[2]
         indiv_ids = tabs[8].split(',')
-        haplotypes_data[locus_id] = {}
-        if not individuals_only:
-            haplotypes_data[locus_id]['sequence'] = tabs[9]
-            haplotypes_data[locus_id]['individuals'] = {}
-            for individual in indiv_ids:
+        haplotypes_data[locus_id] = {'n_males': 0, 'n_females': 0}
+        for individual in indiv_ids:
+            temp = individual.split('_')[0]
+            if correspondance:
                 haplotypes_data[locus_id]['individuals'][individual.split('_')[0]] = individual.split('_')[1]
-                haplotypes_data[locus_id]['n_males'] = len({i for i in haplotypes_data[locus_id]['individuals'].keys() if
-                                                            parameters.popmap[parameters.order[i]] is 'M'})
-                haplotypes_data[locus_id]['n_females'] = len({i for i in haplotypes_data[locus_id]['individuals'].keys() if
-                                                              parameters.popmap[parameters.order[i]] is 'F'})
-        else:
-            haplotypes_data[locus_id]['individuals'] = [individual.split('_')[0] for individual in indiv_ids]
-            haplotypes_data[locus_id]['n_males'] = len({i for i in haplotypes_data[locus_id]['individuals'] if
-                                                        parameters.popmap[parameters.order[i]] is 'M'})
-            haplotypes_data[locus_id]['n_females'] = len({i for i in haplotypes_data[locus_id]['individuals'] if
-                                                          parameters.popmap[parameters.order[i]] is 'F'})
+            else:
+                haplotypes_data[locus_id]['individuals'] = [individual.split('_')[0] for individual in indiv_ids]
+            if numbers:
+                if parameters.popmap[parameters.order[temp[0]]] is 'M':
+                    haplotypes_data[locus_id]['n_males'] += 1
+                elif parameters.popmap[parameters.order[temp[0]]] is 'F':
+                    haplotypes_data[locus_id]['n_females'] += 1
+            if sequence:
+                haplotypes_data[locus_id]['sequence'] = tabs[9]
 
     catalog.close()
 
