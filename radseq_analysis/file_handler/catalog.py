@@ -88,19 +88,16 @@ def get_haplotypes(parameters, sequence=False, correspondance=False, numbers=Tru
         locus_id = tabs[2]
         indiv_ids = tabs[8].split(',')
         haplotypes_data[locus_id] = {'n_males': 0, 'n_females': 0}
-        for individual in indiv_ids:
-            temp = individual.split('_')[0]
-            if correspondance:
-                haplotypes_data[locus_id]['individuals'][individual.split('_')[0]] = individual.split('_')[1]
-            else:
-                haplotypes_data[locus_id]['individuals'] = [individual.split('_')[0] for individual in indiv_ids]
-            if numbers:
-                if parameters.popmap[parameters.order[temp[0]]] is 'M':
-                    haplotypes_data[locus_id]['n_males'] += 1
-                elif parameters.popmap[parameters.order[temp[0]]] is 'F':
-                    haplotypes_data[locus_id]['n_females'] += 1
-            if sequence:
-                haplotypes_data[locus_id]['sequence'] = tabs[9]
+        temp = [[individual.split('_')[0], individual.split('_')[1]] for individual in indiv_ids]
+        if correspondance:
+            haplotypes_data[locus_id]['individuals'] = {t[0]: t[1] for t in temp}
+        else:
+            haplotypes_data[locus_id]['individuals'] = [t[0] for t in temp]
+        if numbers:
+            haplotypes_data[locus_id]['n_males'] = [parameters.popmap[parameters.order[i[0]]] for i in temp].count('M')
+            haplotypes_data[locus_id]['n_females'] = [parameters.popmap[parameters.order[i[0]]] for i in temp].count('F')
+        if sequence:
+            haplotypes_data[locus_id]['sequence'] = tabs[9]
 
     catalog.close()
 
