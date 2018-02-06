@@ -21,6 +21,7 @@ struct Parameters {
                                  Parameter("n_threads", "Number of threads", "-t", "1", "int", "int", "", false),
                                  Parameter("min_cov", "Minimum coverage to consider a marker", "-c", "1", "int", "int", "", false),
                                  Parameter("popmap_file_path", "Path to a popmap file", "-p", "", "string", "ifile", "", true),
+                                 Parameter("barcodes_file_path", "Path to a barcodes file", "-b", "", "string", "ifile", "", true),
                                  Parameter("min_males", "Minimum number of males in the subset", "--min-males", "0", "int", "int", "", false),
                                  Parameter("min_females", "Minimum number of females in the subset", "--min-females", "0", "int", "int", "", false),
                                  Parameter("max_males", "Maximum number of males in the subset", "--max-males", "n.males", "int", "int", "", false),
