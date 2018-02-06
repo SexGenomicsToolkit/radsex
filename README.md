@@ -1,5 +1,7 @@
 ## RADSeq_analysis
 
+### Note: this python version is a legacy version of the pipeline to be used with stacks and is not maintained anymore.
+
 ### Overview
 
 This software is part of the RADSex pipeline, a method to detect sex-linked sequences in RADSeq data. As such, it is only designed to work with the output of Stacks using specific parameter values. This pipeline was developed for the PhyloSex project, which investigates sex determining factors in a wide range of fish species.
