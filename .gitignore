@@ -102,6 +102,6 @@ output/*
 results*/*
 data/*
 html/*
-bin/
-build/
+bin/*
+build/*
 TODO.txt

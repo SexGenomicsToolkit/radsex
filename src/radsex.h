@@ -6,6 +6,7 @@
 #include "process_reads.h"
 #include "subset.h"
 #include "frequencies.h"
+#include "demultiplexing.h"
 
 class RadSex {
 

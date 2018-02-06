@@ -16,7 +16,8 @@ HEADERS += \
     src/sequence_file.h \
     src/popmap_file.h \
     src/subset.h \
-    src/frequencies.h
+    src/frequencies.h \
+    src/demultiplexing.h
 
 SOURCES += \
     src/main.cpp \
@@ -28,4 +29,5 @@ SOURCES += \
     src/sequence_file.cpp \
     src/popmap_file.cpp \
     src/subset.cpp \
-    src/frequencies.cpp
+    src/frequencies.cpp \
+    src/demultiplexing.cpp
