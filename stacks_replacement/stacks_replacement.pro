@@ -7,7 +7,7 @@ SOURCES += \
     src/main.cpp \
     src/arg_parser.cpp \
     src/utils.cpp \
-    analysis.cpp \
+    src/analysis.cpp \
     src/analysis.cpp \
     src/input_dir.cpp \
     src/process_file.cpp \
@@ -18,7 +18,7 @@ HEADERS += \
     src/arg_parser.h \
     src/parameters.h \
     src/utils.h \
-    analysis.h \
+    src/analysis.h \
     src/analysis.h \
     src/input_dir.h \
     src/process_file.h \

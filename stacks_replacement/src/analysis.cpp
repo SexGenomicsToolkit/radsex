@@ -33,6 +33,7 @@ void file_processor(std::vector<InputFile>& input_files, std::unordered_map<std:
             if (not it->processed) {
                 it->processed = true;
                 remaining_files = true;
+                files_mutex.unlock();
                 process_file(*it, results, results_mutex);
                 break;
             } else {

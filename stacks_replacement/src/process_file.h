@@ -2,6 +2,7 @@
 #include <mutex>
 #include <unordered_map>
 #include "gzstream.h"
+#include "zlib.h"
 #include "input_file.h"
 #include "utils.h"
 

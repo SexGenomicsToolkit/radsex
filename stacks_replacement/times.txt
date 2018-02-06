@@ -1,0 +1,71 @@
+## Current implementation
+
+Threads: 1
+Start: 08:36:36
+End: 08:40:36
+--> 240s
+
+Threads: 3
+Start: 08:40:36
+End: 08:44:36
+--> 240s
+
+## Just reading the files
+
+Threads: 1
+Start: 08:45:28
+End: 08:47:16
+--> 108s
+
+Threads: 3
+Start: 08:47:16
+End: 08:48:00
+--> 44s
+
+## Copy map at the end
+
+Threads: 1
+Start: 09:27:20
+End: 09:31:15
+--> 235s
+
+Threads: 3
+Start: 09:31:15
+End: 09:34:07
+--> 172s
+
+## Buffer 2048 + Copy map at the end
+
+Threads: 1
+Start: 10:11:01
+End: 10:15:23
+--> 262s
+
+Threads: 3
+Start: 10:15:23
+End: 10:18:32
+--> 189s
+
+## Buffer 65536 + Copy map at the end
+
+Threads: 1
+Start: 10:20:32
+End: 10:24:49
+--> 257s
+
+Threads: 3
+Start: 10:24:49
+End: 10:27:41
+--> 172s
+
+## Buffer 1048576 + Copy map at the end
+
+Threads: 1
+Start: 10:35:58
+End: 10:40:17
+--> 259s
+
+Threads: 3
+Start: 10:40:17
+End: 10:43:15
+--> 178s
