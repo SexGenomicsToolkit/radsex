@@ -92,6 +92,7 @@ ENV/
 *.test
 test.*
 test/
+tests/
 resources.txt
 *denovo_map.sh
 user.json
@@ -101,3 +102,5 @@ output/*
 results*/*
 data/*
 html/*
+bin/
+build/

@@ -29,7 +29,7 @@ class RadSex {
                                                                               std::vector<std::string> {"input_dir_path", "output_file_path", "n_threads", "min_cov"},
                                                                               process_reads)},
                                                    {"subset", Analysis("subset",
-                                                                       "Extracts a subset of a coverage matrix, from a sex distribution file",
+                                                                       "Extracts a subset of the coverage matrix",
                                                                        std::vector<std::string> {"input_file_path", "output_file_path", "min_cov", "popmap_file_path",
                                                                                                  "min_males", "min_females", "max_males", "max_females"},
                                                                        subset)}
