@@ -23,20 +23,20 @@ class RadSex {
 
         // Define all analyses
         std::map<std::string, Analysis> analyses { {"sex_distribution", Analysis("sex_distribution", "Compute a matrix of sequences distribution between sexes",
-                                                                                 std::vector<std::string> {"input_file_path", "output_file_path", "min_cov", "popmap_file_path"},
+                                                                                 std::vector<std::string> {"input_file_path", "output_file_path", "popmap_file_path", "min_cov"},
                                                                                  sex_distribution)},
                                                    {"process_reads", Analysis("process_reads", "Compute a matrix of coverage from a set of demultiplexed reads files",
                                                                               std::vector<std::string> {"input_dir_path", "output_file_path", "n_threads", "min_cov"},
                                                                               process_reads)},
                                                    {"subset", Analysis("subset", "Extract a subset of the coverage matrix",
-                                                                       std::vector<std::string> {"input_file_path", "output_file_path", "min_cov", "popmap_file_path",
+                                                                       std::vector<std::string> {"input_file_path", "output_file_path", "popmap_file_path", "min_cov",
                                                                                                  "min_males", "min_females", "max_males", "max_females"},
                                                                        subset)},
                                                    {"frequencies", Analysis("frequencies", "Calculate the frequency of markers in the population",
                                                                             std::vector<std::string> {"input_file_path", "output_file_path", "min_cov"},
                                                                             frequencies)},
                                                    {"demultiplexing", Analysis("demultiplexing", "Demultiplexes a set of reads files",
-                                                                            std::vector<std::string> {"input_file_path", "output_file_path", "min_cov", "barcodes_file_path"},
+                                                                            std::vector<std::string> {"input_file_path", "output_dir_path", "barcodes_file_path", "min_cov"},
                                                                             demultiplexing)},
                                                  };
 

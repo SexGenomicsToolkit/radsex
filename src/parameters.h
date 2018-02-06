@@ -18,6 +18,7 @@ struct Parameters {
                                  Parameter("input_file_path", "Path to an input file", "-f", "", "string", "ifile", "", true),
                                  Parameter("input_dir_path", "Path to an input directory", "-d", "", "string", "dir", "", true),
                                  Parameter("output_file_path", "Path to an output file", "-o", "", "string", "ofile", "", true),
+                                 Parameter("output_dir_path", "Path to an output directory", "-u", "", "string", "dir", "", true),
                                  Parameter("n_threads", "Number of threads", "-t", "1", "int", "int", "", false),
                                  Parameter("min_cov", "Minimum coverage to consider a marker", "-c", "1", "int", "int", "", false),
                                  Parameter("popmap_file_path", "Path to a popmap file", "-p", "", "string", "ifile", "", true),
