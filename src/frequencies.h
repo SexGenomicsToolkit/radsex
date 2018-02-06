@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include <unordered_map>
+#include <map>
 #include "utils.h"
 #include "parameters.h"
 #include "popmap_file.h"
