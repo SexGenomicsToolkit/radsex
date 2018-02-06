@@ -1,0 +1,32 @@
+#### Buffer implementation (can't handle FASTQ correctly)
+
+./bin/radsex process_reads -d ./test/fastq/ -o ./test.tsv  25,72s user 1,32s system 92% cpu 29,297 total
+2628535 ./test.tsv
+
+
+./bin/radsex process_reads -d ./test/fasta/ -o ./test.tsv  23,75s user 2,10s system 77% cpu 33,437 total
+2628991 ./test.tsv
+
+
+./bin/radsex process_reads -d ./test/fastqgz/ -o ./test.tsv  44,65s user 1,52s system 84% cpu 54,520 total
+2628535 ./test.tsv
+
+
+./bin/radsex process_reads -d ./test/fastagz/ -o ./test.tsv  33,05s user 1,04s system 83% cpu 40,755 total
+2628991 ./test.tsv
+
+
+
+#### Using KSEQ
+
+./bin/radsex process_reads -d ./test/fastq/ -o ./test.tsv  39,05s user 2,14s system 71% cpu 57,846 total
+2631957 ./test.tsv
+
+
+./bin/radsex process_reads -d ./test/fasta/ -o ./test.tsv  27,41s user 1,27s system 87% cpu 32,833 total
+2631957 ./test.tsv
+
+
+./bin/radsex process_reads -d ./test/fastqgz/ -o ./test.tsv  49,03s user 1,07s system 95% cpu 52,449 total
+
+./bin/radsex process_reads -d ./test/fastagz/ -o ./test.tsv  36,66s user 0,86s system 94% cpu 39,526 total

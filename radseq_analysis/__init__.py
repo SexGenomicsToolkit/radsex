@@ -1,1 +1,0 @@
-from radseq_analysis.analyse_directory import analyse_directory
