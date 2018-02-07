@@ -17,7 +17,8 @@ HEADERS += \
     src/popmap_file.h \
     src/subset.h \
     src/frequencies.h \
-    src/demultiplexing.h
+    src/demultiplexing.h \
+    src/barcodes_file.h
 
 SOURCES += \
     src/main.cpp \
@@ -30,4 +31,5 @@ SOURCES += \
     src/popmap_file.cpp \
     src/subset.cpp \
     src/frequencies.cpp \
-    src/demultiplexing.cpp
+    src/demultiplexing.cpp \
+    src/barcodes_file.cpp
