@@ -7,6 +7,7 @@
 #include "subset.h"
 #include "frequencies.h"
 #include "demultiplexing.h"
+#include "group_loci.h"
 
 class RadSex {
 
@@ -38,6 +39,10 @@ class RadSex {
 //                                                   {"demultiplexing", Analysis("demultiplexing", "Demultiplexes a set of reads files",
 //                                                                            std::vector<std::string> {"input_file_path", "output_dir_path", "barcodes_file_path", "min_cov"},
 //                                                                            demultiplexing)},
+                                                   {"group_loci", Analysis("group_loci", "Recreate polymorphic loci from a subset of coverage matrix",
+                                                                              std::vector<std::string> {"input_file_path", "coverage_matrix_path", "output_file_path",
+                                                                                                        "max_distance", "n_threads", "min_cov"},
+                                                                              group_loci)},
                                                  };
 
         // In the constructor, the type of analysis is detected and all analysis objects are initialized

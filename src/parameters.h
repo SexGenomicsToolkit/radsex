@@ -14,13 +14,16 @@ struct Parameters {
 
     // Initialize all possible parameters to be used in the analyses
     // Arguments: name, help message, flag, default value, type, internal type, value, required
+    // Flags : -h, -f, -d, -o, -u, -t, -c, -p, -b, -a, -m, --min-males, --min-females, --max-males, --max-females
     std::vector<Parameter> list {Parameter("help", "Prints this message", "-h", "0", "bool", "bool", "", false),
                                  Parameter("input_file_path", "Path to an input file", "-f", "", "string", "ifile", "", true),
                                  Parameter("input_dir_path", "Path to an input directory", "-d", "", "string", "dir", "", true),
                                  Parameter("output_file_path", "Path to an output file", "-o", "", "string", "ofile", "", true),
                                  Parameter("output_dir_path", "Path to an output directory", "-u", "", "string", "dir", "", true),
+                                 Parameter("coverage_matrix_path", "Path to an coverage matrix file", "-a", "", "string", "ifile", "", true),
                                  Parameter("n_threads", "Number of threads", "-t", "1", "int", "int", "", false),
                                  Parameter("min_cov", "Minimum coverage to consider a marker", "-c", "1", "int", "int", "", false),
+                                 Parameter("max_distance", "Maximum distance between two sequences in a locus", "-m", "1", "int", "int", "", false),
                                  Parameter("popmap_file_path", "Path to a popmap file", "-p", "", "string", "ifile", "", true),
                                  Parameter("barcodes_file_path", "Path to a barcodes file", "-b", "", "string", "ifile", "", true),
                                  Parameter("min_males", "Minimum number of males in the subset", "--min-males", "0", "int", "int", "", false),

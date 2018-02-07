@@ -18,7 +18,8 @@ HEADERS += \
     src/subset.h \
     src/frequencies.h \
     src/demultiplexing.h \
-    src/barcodes_file.h
+    src/barcodes_file.h \
+    src/group_loci.h
 
 SOURCES += \
     src/main.cpp \
@@ -32,4 +33,5 @@ SOURCES += \
     src/subset.cpp \
     src/frequencies.cpp \
     src/demultiplexing.cpp \
-    src/barcodes_file.cpp
+    src/barcodes_file.cpp \
+    src/group_loci.cpp

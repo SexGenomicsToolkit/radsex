@@ -12,6 +12,11 @@
 #define DTTMFMT "%Y-%m-%d %H:%M:%S"
 #define DTTMSZ 21
 
+struct Locus {
+    std::string id;
+    std::string sequence;
+    std::vector<std::string> coverage;
+};
 
 // Output current date and time in format specified with DMTTMFMT and DTTMSZ
 char* print_time (char *buff);
