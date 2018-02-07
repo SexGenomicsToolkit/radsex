@@ -35,9 +35,9 @@ class RadSex {
                                                    {"frequencies", Analysis("frequencies", "Calculate the frequency of markers in the population",
                                                                             std::vector<std::string> {"input_file_path", "output_file_path", "min_cov"},
                                                                             frequencies)},
-                                                   {"demultiplexing", Analysis("demultiplexing", "Demultiplexes a set of reads files",
-                                                                            std::vector<std::string> {"input_file_path", "output_dir_path", "barcodes_file_path", "min_cov"},
-                                                                            demultiplexing)},
+//                                                   {"demultiplexing", Analysis("demultiplexing", "Demultiplexes a set of reads files",
+//                                                                            std::vector<std::string> {"input_file_path", "output_dir_path", "barcodes_file_path", "min_cov"},
+//                                                                            demultiplexing)},
                                                  };
 
         // In the constructor, the type of analysis is detected and all analysis objects are initialized
