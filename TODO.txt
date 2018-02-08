@@ -1,0 +1,5 @@
+TODO:
+- Implement frequencies
+- Implement demultiplexing
+- Implement recovery of similar sequences (check if libraries to blast c++)
+- Visualization
