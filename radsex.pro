@@ -15,7 +15,11 @@ HEADERS += \
     src/utils.h \
     src/sequence_file.h \
     src/popmap_file.h \
-    src/subset.h
+    src/subset.h \
+    src/frequencies.h \
+    src/demultiplexing.h \
+    src/barcodes_file.h \
+    src/group_loci.h
 
 SOURCES += \
     src/main.cpp \
@@ -26,4 +30,8 @@ SOURCES += \
     src/utils.cpp \
     src/sequence_file.cpp \
     src/popmap_file.cpp \
-    src/subset.cpp
+    src/subset.cpp \
+    src/frequencies.cpp \
+    src/demultiplexing.cpp \
+    src/barcodes_file.cpp \
+    src/group_loci.cpp

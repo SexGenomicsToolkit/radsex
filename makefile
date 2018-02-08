@@ -8,26 +8,32 @@ LDFLAGS = -pthread -static-libstdc++ -lz
 BASEDIR = .
 BIN = $(BASEDIR)/bin
 BUILD = $(BASEDIR)/build
+LIBBUILD = $(BASEDIR)/build
 INCLUDE = $(BASEDIR)/include
 SRC = $(BASEDIR)/src
 CPP = $(wildcard $(SRC)/*.cpp) $(wildcard $(SRC)/*/*.cpp)
+LIBCPP = $(wildcard $(INCLUDE)/*/*.cpp)
 
 # Target
 TARGET = radsex
 
 # Variables
 OBJS = $(addprefix $(BUILD)/, $(notdir $(CPP:.cpp=.o)))
+LIBOBJS = $(addprefix $(LIBBUILD)/, $(notdir $(LIBCPP:.cpp=.o)))
 
 # Rules
 
-all: init print-OBJS print-CPP $(TARGET)
+all: init print-OBJS print-LIBOBJS $(TARGET)
 
 print-%  : ; @echo $* = $($*)
 
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) $(LIBOBJS)
 	$(CC) $(CFLAGS) -I $(INCLUDE) -o $(BIN)/$(TARGET) $^ $(LDFLAGS)
 
 $(BUILD)/%.o: $(SRC)/%.cpp
+	$(CC) $(CFLAGS) -I $(INCLUDE) -c -o $@ $^
+
+$(LIBBUILD)/%.o: $(INCLUDE)/*/%.cpp
 	$(CC) $(CFLAGS) -I $(INCLUDE) -c -o $@ $^
 
 clean:

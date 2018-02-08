@@ -1,5 +1,4 @@
 #include "radsex.h"
-#include "kseq.h"
 
 
 int main(int argc, char* argv[]) {

@@ -1,6 +1,7 @@
 #include "output.h"
 #include <iostream>
 
+
 void output_process_reads(std::string& output_file_path, std::vector<std::string>& individuals, std::unordered_map<std::string, std::unordered_map<std::string, uint16_t>>& results) {
 
     /* Input:
@@ -58,5 +59,55 @@ void output_sex_distribution(std::string& output_file_path, std::unordered_map<u
         }
         output_file << "\n";
         i=0;
+    }
+}
+
+
+
+void output_group_loci(std::string& output_file_path, std::unordered_map<std::string, std::vector<Locus>>& results) {
+
+    /* Input:
+     * - Path to an output file
+     * - A matrix of loci [Sequence ID: [Associated sequences]]
+     * Output:
+     * - A table with following columns:
+     * Locus ID | Sequence ID | Sequence Status | Sequence | Cov Ind. 1 | Cov Ind. 2 ...
+     */
+
+    std::ofstream output_file;
+    output_file.open(output_file_path);
+
+    std::string seq_id;
+    uint locus_id = 0;
+
+    for (auto sequence: results) {
+        seq_id = sequence.first;
+
+        // First iteration to output the original sequence
+        for (auto locus: sequence.second) {
+            if (locus.id == seq_id) {
+                output_file << locus_id << "\t" << locus.id << "\t" << locus.sequence << "\t";
+                if (seq_id == locus.id) output_file << "Original" << "\t"; else output_file << "Recovered" << "\t";
+                for (uint i=0; i<locus.coverage.size(); ++i) {
+                    output_file << locus.coverage[i];
+                    if (i < locus.coverage.size() - 1) output_file << "\t";
+                }
+                output_file << "\n";
+            }
+        }
+
+        // Second iteration to output the other sequences (this is not optimized but this step is not intensive anyway)
+        for (auto locus: sequence.second) {
+            if (locus.id != seq_id) {
+                output_file << locus_id << "\t" << locus.id << "\t" << locus.sequence << "\t";
+                if (seq_id == locus.id) output_file << "Original" << "\t"; else output_file << "Recovered" << "\t";
+                for (uint i=0; i<locus.coverage.size(); ++i) {
+                    output_file << locus.coverage[i];
+                    if (i < locus.coverage.size() - 1) output_file << "\t";
+                }
+                output_file << "\n";
+            }
+        }
+        ++locus_id;
     }
 }

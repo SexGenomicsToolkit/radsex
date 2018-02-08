@@ -123,6 +123,26 @@ void RadSex::parse() {
     }
 
     this->parameters.simple_print(this->analysis.options);
+
+    // Test all parameter values and output an appropriate error message is the test fails
+    bool success = true;
+    for (auto p: this->analysis.options) {
+        option = this->parameters.get_from_name(p);
+        if (!option.test_value()) {
+            std::cout << "**Error: incorrect value \"" << option.value << "\" for parameter \"" << option.name << "\", which should be";
+            if (option.internal_type == "bool") std::cout << " a boolean (0/1).";
+            else if (option.internal_type == "int") std::cout << " an integer.";
+            else if (option.internal_type == "ifile") std::cout << " a path to an existing file.";
+            else if (option.internal_type == "ofile") std::cout << " a valid path to an output file.";
+            else if (option.internal_type == "dir") std::cout << " a path to an existing directory.";
+            std::cout << std::endl;
+            success = false;
+        }
+    }
+    if (!success) {
+        this->usage(this->analysis);
+        exit(0);
+    }
 }
 
 

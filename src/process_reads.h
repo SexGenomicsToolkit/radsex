@@ -7,7 +7,7 @@
 #include "parameters.h"
 #include "sequence_file.h"
 #include "output.h"
-#include "kseq.h"
+#include "kseq/kseq.h"
 
 // Main function implementing the analysis
 void process_reads(Parameters& parameters);
