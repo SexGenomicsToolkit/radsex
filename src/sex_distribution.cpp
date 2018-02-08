@@ -9,6 +9,12 @@ void sex_distribution(Parameters& parameters) {
      */
 
     std::unordered_map<std::string, bool> popmap = load_popmap(parameters);
+    // Find number of males and females
+    uint n_males = 0, n_females = 0;
+    for (auto i: popmap) if (i.second) ++n_males; else ++n_females;
+    // Extra increment for easier comparison
+    ++n_males;
+    ++n_females;
 
     std::string par = "input_file_path";
     std::ifstream input_file;
@@ -87,6 +93,6 @@ void sex_distribution(Parameters& parameters) {
         std::string output_file_path = parameters.get_value_from_name<std::string>(par);
 
         // Generate the output file
-        output_sex_distribution(output_file_path, results);
+        output_sex_distribution(output_file_path, results, n_males, n_females);
     }
 }

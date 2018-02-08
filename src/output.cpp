@@ -37,7 +37,7 @@ void output_process_reads(std::string& output_file_path, std::vector<std::string
 
 
 
-void output_sex_distribution(std::string& output_file_path, std::unordered_map<uint, std::unordered_map<uint, uint64_t>>& results) {
+void output_sex_distribution(std::string& output_file_path, std::unordered_map<uint, std::unordered_map<uint, uint64_t>>& results, uint n_males, uint n_females) {
 
     /* Input:
      * - Path to an output file
@@ -49,7 +49,7 @@ void output_sex_distribution(std::string& output_file_path, std::unordered_map<u
     std::ofstream output_file;
     output_file.open(output_file_path);
 
-    uint n_males = results.size(), n_females = results[0].size(), i = 0;
+    uint i = 0;
 
     for (uint f=0; f < n_females; ++f) {
         for (uint m=0; m < n_males; ++m) {
