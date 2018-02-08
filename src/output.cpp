@@ -54,7 +54,7 @@ void output_sex_distribution(std::string& output_file_path, std::unordered_map<u
     for (uint f=0; f < n_females; ++f) {
         for (uint m=0; m < n_males; ++m) {
             output_file << results[m][f];
-            if (i < n_females - 1) output_file << "\t";
+            if (i < n_males - 1) output_file << "\t";
             ++i;
         }
         output_file << "\n";
