@@ -43,7 +43,7 @@ void sex_distribution(Parameters& parameters) {
         // Define variables used to read the file
         char buffer[65536];
         uint k = 0, field_n = 0;
-        std::unordered_map<uint, std::unordered_map<uint, uint>> results;
+        std::unordered_map<uint, std::unordered_map<uint, uint64_t>> results;
         uint sex_count[3] = {0, 0, 0}; // Index: 0 = male, 1 = female, 2 = no sex
 
         do {

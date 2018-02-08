@@ -37,7 +37,7 @@ void output_process_reads(std::string& output_file_path, std::vector<std::string
 
 
 
-void output_sex_distribution(std::string& output_file_path, std::unordered_map<uint, std::unordered_map<uint, uint>>& results) {
+void output_sex_distribution(std::string& output_file_path, std::unordered_map<uint, std::unordered_map<uint, uint64_t>>& results) {
 
     /* Input:
      * - Path to an output file
