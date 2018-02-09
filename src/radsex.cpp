@@ -118,6 +118,7 @@ void RadSex::parse() {
         std::string par = "max_males";
         option = this->parameters.get_from_name(par);
         if (option.value == option.default_value) this->parameters.set_value_from_name(par, n_males);
+        par = "max_females";
         option = this->parameters.get_from_name(par);
         if (option.value == option.default_value) this->parameters.set_value_from_name(par, n_females);
     }
