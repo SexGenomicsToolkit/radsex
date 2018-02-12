@@ -56,6 +56,7 @@ void output_process_reads(std::string& output_file_path, std::vector<std::string
 
             ++id;
         }
+        print = false;
     }
 
     fclose(output_file);
