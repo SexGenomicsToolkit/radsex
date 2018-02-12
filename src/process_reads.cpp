@@ -15,6 +15,9 @@ void process_reads(Parameters& parameters) {
     std::vector<InputFile> input_files = get_input_files(parameters.get_value_from_name<std::string>(par));
     std::unordered_map<std::string, std::unordered_map<std::string, uint16_t>> results;
 
+    par = "min_cov";
+    uint min_cov = parameters.get_value_from_name<int>(par) - 1;
+
     par = "n_threads";
     std::vector<std::thread> threads;
     std::mutex results_mutex, files_mutex;
@@ -34,7 +37,7 @@ void process_reads(Parameters& parameters) {
     for (auto i: input_files) individuals.push_back(i.individual_name);
 
     // Generate the output file
-    output_process_reads(output_file_path, individuals, results);
+    output_process_reads(output_file_path, individuals, results, min_cov);
 
 }
 

@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-void output_process_reads(std::string& output_file_path, std::vector<std::string>& individuals, std::unordered_map<std::string, std::unordered_map<std::string, uint16_t>>& results) {
+void output_process_reads(std::string& output_file_path, std::vector<std::string>& individuals, std::unordered_map<std::string, std::unordered_map<std::string, uint16_t>>& results, uint min_cov) {
 
     /* Input:
      * - Path to an output file
@@ -12,27 +12,53 @@ void output_process_reads(std::string& output_file_path, std::vector<std::string
      * - A matrix of coverage [Individual: [Sequence, Coverage]]
      */
 
-    std::ofstream output_file;
-    output_file.open(output_file_path);
+//    std::ofstream output_file;
+//    output_file.open(output_file_path);
+
+    FILE* output_file;
+    output_file = fopen(output_file_path.c_str(), "w");
 
     uint id = 0;
 
     // Prints the header
-    output_file << "id" << "\t" << "sequence";
-    for (auto i: individuals) {
-        output_file << "\t" << i;
-    }
-    output_file << "\n";
+//    output_file << "id" << "\t" << "sequence";
+//    for (auto i: individuals) {
+//        output_file << "\t" << i;
+//    }
+//    output_file << "\n";
 
+    std::fprintf(output_file, "id\tsequence");
+    for (auto i: individuals) {
+        std::fprintf(output_file, "\t%s", i.c_str());
+    }
+    std::fprintf(output_file, "\n");
+
+    bool print = false;
     // Fill line by line
     for (auto r: results) {
-        output_file << id << "\t" << r.first;
-        for (auto i: individuals) {
-            output_file << "\t" << r.second[i];
+        for (auto i: r.second) {
+            if (i.second > min_cov) {
+                print = true;
+                break;
+            }
         }
-        output_file << "\n";
-        ++id;
+        if (print) {
+//            output_file << id << "\t" << r.first;
+//            for (auto i: individuals) {
+//                output_file << "\t" << r.second[i];
+//            }
+//            output_file << "\n";
+            std::fprintf(output_file, "%i\t%s", id, r.first.c_str());
+            for (auto i: individuals) {
+                std::fprintf(output_file, "\t%i", r.second[i]);
+            }
+            std::fprintf(output_file, "\n");
+
+            ++id;
+        }
     }
+
+    fclose(output_file);
 }
 
 
