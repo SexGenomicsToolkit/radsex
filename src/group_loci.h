@@ -16,7 +16,7 @@
 void group_loci(Parameters& parameters);
 
 // Load the coverage matrix in memory
-std::vector<Locus> load_coverage_matrix(std::string& file_path, int min_cov, bool print);
+std::vector<Locus> load_coverage_matrix(std::string& file_path, int min_cov, bool print, std::vector<std::string>& header);
 
 // Pick the next sequence from the sequences vector and process it
 void sequence_processor(std::vector<Locus>::iterator& sequence, std::vector<Locus>& sequences, std::vector<Locus>& coverage_matrix,

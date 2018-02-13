@@ -13,11 +13,12 @@ void group_loci(Parameters& parameters) {
     int min_cov = parameters.get_value_from_name<int>(par) - 1; // -1 to compare with > instead of >= later
 
     std::cout << " - Loading coverage matrix :\n" << std::endl;
-    std::vector<Locus> coverage_matrix = load_coverage_matrix(coverage_matrix_path, min_cov, true);
+    std::vector<std::string> header;
+    std::vector<Locus> coverage_matrix = load_coverage_matrix(coverage_matrix_path, min_cov, true, header);
 
     par = "input_file_path";
     std::string input_file_path = parameters.get_value_from_name<std::string>(par);
-    std::vector<Locus> sequences = load_coverage_matrix(input_file_path, 1, false);
+    std::vector<Locus> sequences = load_coverage_matrix(input_file_path, 1, false, header);
 
     par = "max_distance";
     int max_distance = parameters.get_value_from_name<int>(par) + 1; // +1 to compare with < instead of <= later
@@ -37,12 +38,12 @@ void group_loci(Parameters& parameters) {
 
     par = "output_file_path";
     std::string output_file_path = parameters.get_value_from_name<std::string>(par);
-    output_group_loci(output_file_path, results);
+    output_group_loci(output_file_path, results, header);
 }
 
 
 
-std::vector<Locus> load_coverage_matrix(std::string& file_path, int min_cov, bool print) {
+std::vector<Locus> load_coverage_matrix(std::string& file_path, int min_cov, bool print, std::vector<std::string>& header) {
 
     /* Load a coverage matrix in memory
      */
@@ -52,9 +53,10 @@ std::vector<Locus> load_coverage_matrix(std::string& file_path, int min_cov, boo
 
     if (input_file) {
 
-        // First line is the header. The header is not used here.
+        // First line is the header. The header is used when printing the output.
         std::string temp;
         std::getline(input_file, temp);
+        if (print) header = split(temp,"\t");
         temp = "";
 
         // Define variables used to read the file

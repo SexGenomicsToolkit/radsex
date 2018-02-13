@@ -79,18 +79,25 @@ void output_sex_distribution(std::string& output_file_path, std::unordered_map<u
 
 
 
-void output_group_loci(std::string& output_file_path, std::unordered_map<std::string, std::vector<Locus>>& results) {
+void output_group_loci(std::string& output_file_path, std::unordered_map<std::string, std::vector<Locus>>& results, std::vector<std::string>& header) {
 
     /* Input:
      * - Path to an output file
      * - A matrix of loci [Sequence ID: [Associated sequences]]
      * Output:
      * - A table with following columns:
-     * Locus ID | Sequence ID | Sequence Status | Sequence | Cov Ind. 1 | Cov Ind. 2 ...
+     * Locus ID | Marker ID | Sequence | Origin | Cov Ind. 1 | Cov Ind. 2 ...
      */
 
     std::ofstream output_file;
     output_file.open(output_file_path);
+
+    output_file << "Locus" << "\t" << "Marker" << "\t" << "Sequence" << "\t" << "Origin" << "\t";
+    for (uint i=2; i<header.size(); ++i) {
+        output_file << header[i];
+        if (i < header.size() - 1) output_file << "\t";
+    }
+    output_file << "\n";
 
     std::string seq_id;
     uint locus_id = 0;
