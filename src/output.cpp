@@ -12,8 +12,6 @@ void output_process_reads(std::string& output_file_path, std::vector<std::string
      * - A matrix of coverage [Individual: [Sequence, Coverage]]
      */
 
-//    std::ofstream output_file;
-//    output_file.open(output_file_path);
 
     FILE* output_file;
     output_file = fopen(output_file_path.c_str(), "w");
@@ -21,12 +19,6 @@ void output_process_reads(std::string& output_file_path, std::vector<std::string
     uint id = 0;
 
     // Prints the header
-//    output_file << "id" << "\t" << "sequence";
-//    for (auto i: individuals) {
-//        output_file << "\t" << i;
-//    }
-//    output_file << "\n";
-
     std::fprintf(output_file, "id\tsequence");
     for (auto i: individuals) {
         std::fprintf(output_file, "\t%s", i.c_str());
@@ -43,11 +35,6 @@ void output_process_reads(std::string& output_file_path, std::vector<std::string
             }
         }
         if (print) {
-//            output_file << id << "\t" << r.first;
-//            for (auto i: individuals) {
-//                output_file << "\t" << r.second[i];
-//            }
-//            output_file << "\n";
             std::fprintf(output_file, "%i\t%s", id, r.first.c_str());
             for (auto i: individuals) {
                 std::fprintf(output_file, "\t%i", r.second[i]);
