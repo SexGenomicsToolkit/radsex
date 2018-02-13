@@ -9,6 +9,7 @@ void sex_distribution(Parameters& parameters) {
      */
 
     std::unordered_map<std::string, bool> popmap = load_popmap(parameters);
+
     // Find number of males and females
     uint n_males = 0, n_females = 0;
     for (auto i: popmap) if (i.second) ++n_males; else ++n_females;

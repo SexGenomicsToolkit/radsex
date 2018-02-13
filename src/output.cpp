@@ -12,7 +12,6 @@ void output_process_reads(std::string& output_file_path, std::vector<std::string
      * - A matrix of coverage [Individual: [Sequence, Coverage]]
      */
 
-
     FILE* output_file;
     output_file = fopen(output_file_path.c_str(), "w");
 
@@ -64,6 +63,8 @@ void output_sex_distribution(std::string& output_file_path, std::unordered_map<u
     output_file.open(output_file_path);
 
     uint i = 0;
+
+    results[0][0] = 0; // Sequences found in none of the individuals (after filtering for minimum coverage) should not appear in the results
 
     for (uint f=0; f < n_females; ++f) {
         for (uint m=0; m < n_males; ++m) {
