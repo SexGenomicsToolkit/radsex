@@ -139,6 +139,8 @@ void sequence_processor(std::vector<Locus>::iterator& sequence, std::vector<Locu
 
 }
 
+
+
 void process_sequence(Locus& locus, std::vector<Locus>& coverage_matrix, std::unordered_map<std::string, std::vector<Locus>>& results, std::mutex& results_mutex, int max_distance) {
 
     uint seq_len = locus.sequence.size();
@@ -157,4 +159,9 @@ void process_sequence(Locus& locus, std::vector<Locus>& coverage_matrix, std::un
     results_mutex.lock();
     for (auto l: temp_results) results[l.first] = l.second;
     results_mutex.unlock();
+}
+
+
+void filter(std::unordered_map<std::string, std::vector<Locus>>& results) {
+
 }
