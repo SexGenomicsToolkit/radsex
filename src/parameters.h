@@ -14,7 +14,7 @@ struct Parameters {
 
     // Initialize all possible parameters to be used in the analyses
     // Arguments: name, help message, flag, default value, type, internal type, value, required
-    // Flags : -h, -f, -d, -o, -u, -t, -c, -p, -b, -a, -m, --min-males, --min-females, --max-males, --max-females
+    // Flags : -h, -f, -d, -o, -u, -t, -c, -p, -b, -a, -m, --min-males, --min-females, --max-males, --max-females, --min-individuals
     std::vector<Parameter> list {Parameter("help", "Prints this message", "-h", "0", "bool", "bool", "", false),
                                  Parameter("input_file_path", "Path to an input file", "-f", "", "string", "ifile", "", true),
                                  Parameter("input_dir_path", "Path to an input directory", "-d", "", "string", "dir", "", true),
@@ -29,7 +29,9 @@ struct Parameters {
                                  Parameter("min_males", "Minimum number of males in the subset", "--min-males", "0", "int", "int", "", false),
                                  Parameter("min_females", "Minimum number of females in the subset", "--min-females", "0", "int", "int", "", false),
                                  Parameter("max_males", "Maximum number of males in the subset", "--max-males", "n.males", "int", "int", "", false),
-                                 Parameter("max_females", "Maximum number of females in the subset", "--max-females", "n.females", "int", "int", "", false)
+                                 Parameter("max_females", "Maximum number of females in the subset", "--max-females", "n.females", "int", "int", "", false),
+                                 Parameter("min_individuals", "Minimum number of individuals in the subset (overrides sex parameters)", "--min-individuals", "0", "int", "int", "", false),
+                                 Parameter("max_individuals", "Maxmimum number of individuals in the subset (overrides sex parameters)", "--max-individuals", "n.individual", "int", "int", "", false),
                                  };
 
 

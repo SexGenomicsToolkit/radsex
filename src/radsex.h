@@ -31,7 +31,7 @@ class RadSex {
                                                                               process_reads)},
                                                    {"subset", Analysis("subset", "Extract a subset of the coverage matrix",
                                                                        std::vector<std::string> {"input_file_path", "output_file_path", "popmap_file_path", "min_cov",
-                                                                                                 "min_males", "min_females", "max_males", "max_females"},
+                                                                                                 "min_males", "min_females", "max_males", "max_females", "min_individuals", "max_individuals"},
                                                                        subset)},
                                                    {"frequencies", Analysis("frequencies", "Calculate the frequency of markers in the population",
                                                                             std::vector<std::string> {"input_file_path", "output_file_path", "min_cov"},

@@ -115,12 +115,16 @@ void RadSex::parse() {
         for (auto i: popmap) { if (i.second) ++_n_males; else ++_n_females;}
         std::string n_males = std::to_string(_n_males);
         std::string n_females = std::to_string(_n_females);
+        std::string n_individuals = std::to_string(popmap.size());
         std::string par = "max_males";
         option = this->parameters.get_from_name(par);
         if (option.value == option.default_value) this->parameters.set_value_from_name(par, n_males);
         par = "max_females";
         option = this->parameters.get_from_name(par);
         if (option.value == option.default_value) this->parameters.set_value_from_name(par, n_females);
+        par = "max_individuals";
+        option = this->parameters.get_from_name(par);
+        if (option.value == option.default_value) this->parameters.set_value_from_name(par, n_individuals);
     }
 
     this->parameters.simple_print(this->analysis.options);
