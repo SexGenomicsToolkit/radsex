@@ -8,6 +8,7 @@
 #include "frequencies.h"
 #include "demultiplexing.h"
 #include "group_loci.h"
+#include "significant_sequences.h"
 
 class RadSex {
 
@@ -43,6 +44,9 @@ class RadSex {
                                                                               std::vector<std::string> {"input_file_path", "coverage_matrix_path", "output_file_path",
                                                                                                         "max_distance", "n_threads", "min_cov"},
                                                                               group_loci)},
+                                                   {"significant_sequences", Analysis("significant_sequences", "Extract sequences significantly associated with sex from the coverage matrix.",
+                                                                              std::vector<std::string> {"input_file_path", "output_file_path", "popmap_file_path", "min_cov"},
+                                                                              significant_sequences)},
                                                  };
 
         // In the constructor, the type of analysis is detected and all analysis objects are initialized

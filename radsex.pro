@@ -19,7 +19,8 @@ HEADERS += \
     src/frequencies.h \
     src/demultiplexing.h \
     src/barcodes_file.h \
-    src/group_loci.h
+    src/group_loci.h \
+    src/significant_sequences.h
 
 SOURCES += \
     src/main.cpp \
@@ -34,4 +35,5 @@ SOURCES += \
     src/frequencies.cpp \
     src/demultiplexing.cpp \
     src/barcodes_file.cpp \
-    src/group_loci.cpp
+    src/group_loci.cpp \
+    src/significant_sequences.cpp
