@@ -108,7 +108,6 @@ void significant_sequences(Parameters& parameters) {
         // Second pass: filter with bonferroni
         for (auto sequence: candidate_sequences) {
             if (sequence.second < significance_threshold) {
-                std::cout << sequence.second << "\t" << significance_threshold << "\n";
                 output_file << sequence.first << "\n";
             }
         }
