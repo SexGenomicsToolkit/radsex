@@ -48,7 +48,7 @@ void output_process_reads(std::string& output_file_path, std::vector<std::string
 
 
 
-void output_sex_distribution_matrix(std::string& output_file_path, std::unordered_map<uint, std::unordered_map<uint, uint64_t>>& results, uint n_males, uint n_females) {
+void output_sex_distribution_matrix(std::string& output_file_path, sd_table& results, uint n_males, uint n_females) {
 
     /* Input:
      * - Path to an output file
@@ -62,11 +62,11 @@ void output_sex_distribution_matrix(std::string& output_file_path, std::unordere
 
     uint i = 0;
 
-    results[0][0] = 0; // Sequences found in none of the individuals (after filtering for minimum coverage) should not appear in the results
+    results[0][0].first = 0; // Sequences found in none of the individuals (after filtering for minimum coverage) should not appear in the results
 
     for (uint f=0; f < n_females; ++f) {
         for (uint m=0; m < n_males; ++m) {
-            output_file << results[m][f];
+            output_file << results[m][f].first;
             if (i < n_males - 1) output_file << "\t";
             ++i;
         }
@@ -77,7 +77,7 @@ void output_sex_distribution_matrix(std::string& output_file_path, std::unordere
 
 
 
-void output_sex_distribution(std::string& output_file_path, std::unordered_map<uint, std::unordered_map<uint, uint64_t>>& results, uint n_males, uint n_females) {
+void output_sex_distribution(std::string& output_file_path, sd_table& results, uint n_males, uint n_females) {
 
     /* Input:
      * - Path to an output file
@@ -94,8 +94,8 @@ void output_sex_distribution(std::string& output_file_path, std::unordered_map<u
     output_file << "Males" << "\t" << "Females" << "\t" << "Sequences" << "\t" << "P-value" << "\t" << "Significant" << "\n";
 
     // Generate output file
-    for (uint f=0; f < n_females; ++f) {
-        for (uint m=0; m < n_males; ++m) {
+    for (uint m=0; m < n_males; ++m) {
+        for (uint f=0; f < n_females; ++f) {
             if (f + m != 0) {
                 output_file << m << "\t" << f << "\t" << results[m][f].first << "\t" << results[m][f].second << "\n";
             }

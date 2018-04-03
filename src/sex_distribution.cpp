@@ -106,7 +106,7 @@ void sex_distribution(Parameters& parameters) {
             for (uint m=0; m < n_males; ++m) {
                 if (f + m != 0) {
                     chi_squared = get_chi_squared(m, f, n_males, n_females);
-                    results[m][f].second = get_chi_squared_p(chi_squared) * n_sequences;
+                    results[m][f].second = std::min(1.0, get_chi_squared_p(chi_squared) * n_sequences); // p-value corrected with Bonferroni, with max of 1
                 }
             }
         }
