@@ -14,7 +14,8 @@ struct Parameters {
 
     // Initialize all possible parameters to be used in the analyses
     // Arguments: name, help message, flag, default value, type, internal type, value, required
-    // Flags : -h, -f, -d, -o, -u, -t, -c, -p, -b, -a, -m, --min-males, --min-females, --max-males, --max-females, --min-individuals
+    // Flags : -h, -f, -d, -o, -u, -t, -c, -p, -b, -a, -m, --min-males, --min-females, --max-males, --max-females, --min-individuals, --output-matrix
+    // Parameter constructor: Parameter(name, description, flag, default_value, type, internal_type, value, required)
     std::vector<Parameter> list {Parameter("help", "Prints this message", "-h", "0", "bool", "bool", "", false),
                                  Parameter("input_file_path", "Path to an input file", "-f", "", "string", "ifile", "", true),
                                  Parameter("input_dir_path", "Path to an input directory", "-d", "", "string", "dir", "", true),
@@ -32,6 +33,7 @@ struct Parameters {
                                  Parameter("max_females", "Maximum number of females in the subset", "--max-females", "n.females", "int", "int", "", false),
                                  Parameter("min_individuals", "Minimum number of individuals in the subset (overrides sex parameters)", "--min-individuals", "0", "int", "int", "", false),
                                  Parameter("max_individuals", "Maxmimum number of individuals in the subset (overrides sex parameters)", "--max-individuals", "n.individual", "int", "int", "", false),
+                                 Parameter("output_matrix", "Output the sex distribution table as a matrix", "--output-matrix", "0", "bool", "bool", "", false)
                                  };
 
 

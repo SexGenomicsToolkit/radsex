@@ -114,7 +114,14 @@ void sex_distribution(Parameters& parameters) {
         par = "output_file_path";
         std::string output_file_path = parameters.get_value_from_name<std::string>(par);
 
+        par = "output_matrix";
+        bool output_matrix = parameters.get_value_from_name<bool>(par);
+
         // Generate the output file
-        output_sex_distribution(output_file_path, results, n_males, n_females);
+        if (!output_matrix) {
+            output_sex_distribution(output_file_path, results, n_males, n_females);
+        } else {
+            output_sex_distribution_matrix(output_file_path, results, n_males, n_females);
+        }
     }
 }

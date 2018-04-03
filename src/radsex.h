@@ -24,6 +24,7 @@ class RadSex {
         Parameters parameters;
 
         // Define all analyses
+        // Analysis constructor: Analysis(name, description, parameters, function ref)
         std::map<std::string, Analysis> analyses { {"sex_distribution",
                                                     Analysis("sex_distribution",
                                                              "Compute a matrix of sequences distribution between sexes",
