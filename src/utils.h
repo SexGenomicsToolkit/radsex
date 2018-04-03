@@ -19,6 +19,8 @@ struct Locus {
     std::vector<std::string> coverage;
 };
 
+typedef std::unordered_map<uint, std::unordered_map<uint, std::pair<uint64_t, float>>> sd_table;
+
 // Output current date and time in format specified with DMTTMFMT and DTTMSZ
 char* print_time (char *buff);
 
