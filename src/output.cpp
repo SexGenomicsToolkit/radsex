@@ -1,6 +1,4 @@
 #include "output.h"
-#include <iostream>
-
 
 void output_process_reads(std::string& output_file_path, std::vector<std::string>& individuals, std::unordered_map<std::string, std::unordered_map<std::string, uint16_t>>& results, uint min_cov) {
 
@@ -50,7 +48,7 @@ void output_process_reads(std::string& output_file_path, std::vector<std::string
 
 
 
-void output_sex_distribution(std::string& output_file_path, std::unordered_map<uint, std::unordered_map<uint, uint64_t>>& results, uint n_males, uint n_females) {
+void output_sex_distribution_matrix(std::string& output_file_path, std::unordered_map<uint, std::unordered_map<uint, uint64_t>>& results, uint n_males, uint n_females) {
 
     /* Input:
      * - Path to an output file
@@ -74,6 +72,34 @@ void output_sex_distribution(std::string& output_file_path, std::unordered_map<u
         }
         output_file << "\n";
         i=0;
+    }
+}
+
+
+
+void output_sex_distribution(std::string& output_file_path, std::unordered_map<uint, std::unordered_map<uint, uint64_t>>& results, uint n_males, uint n_females) {
+
+    /* Input:
+     * - Path to an output file
+     * - A matrix of counts [Males: [Females: Count]]
+     * Output: a table with the following structure:
+     * Number of males | Number of females | Number of sequences | P-value
+     *     <int>       |       <int>       |       <int>         | <float>
+     */
+
+    std::ofstream output_file;
+    output_file.open(output_file_path);
+
+    // Output file header
+    output_file << "Males" << "\t" << "Females" << "\t" << "Sequences" << "\t" << "P-value" << "\t" << "Significant" << "\n";
+
+    // Generate output file
+    for (uint f=0; f < n_females; ++f) {
+        for (uint m=0; m < n_males; ++m) {
+            if (f + m != 0) {
+                output_file << m << "\t" << f << "\t" << results[m][f].first << "\t" << results[m][f].second << "\n";
+            }
+        }
     }
 }
 

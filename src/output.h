@@ -5,6 +5,7 @@
 #include <fstream>
 #include <cstdio>
 #include "utils.h"
+#include "stats.h"
 
 // Create output file for the process reads analysis
 void output_process_reads(std::string& output_file_path, std::vector<std::string>& individuals, std::unordered_map<std::string, std::unordered_map<std::string, uint16_t>>& results, uint min_cov);
