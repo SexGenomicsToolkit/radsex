@@ -83,3 +83,5 @@ html/*
 bin/
 build/
 TODO.txt
+*.pro
+*.pro.user
