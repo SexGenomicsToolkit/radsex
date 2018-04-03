@@ -23,7 +23,7 @@ struct Parameters {
                                  Parameter("coverage_matrix_path", "Path to an coverage matrix file", "-a", "", "string", "ifile", "", true),
                                  Parameter("n_threads", "Number of threads", "-t", "1", "int", "int", "", false),
                                  Parameter("min_cov", "Minimum coverage to consider a marker", "-c", "1", "int", "int", "", false),
-                                 Parameter("max_distance", "Maximum distance between two sequences in a locus", "-m", "1", "int", "int", "", false),
+                                 Parameter("max_distance", "Maximum Levenstein distance between two sequences in a locus", "-m", "1", "int", "int", "", false),
                                  Parameter("popmap_file_path", "Path to a popmap file", "-p", "", "string", "ifile", "", true),
                                  Parameter("barcodes_file_path", "Path to a barcodes file", "-b", "", "string", "ifile", "", true),
                                  Parameter("min_males", "Minimum number of males in the subset", "--min-males", "0", "int", "int", "", false),
