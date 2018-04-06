@@ -1,129 +1,191 @@
 #include "mapping.h"
 
-//KSEQ_INIT(gzFile, gzread)
-
-
 void mapping(Parameters& parameters) {
 
-//    bwaidx_t *index;
-//    gzFile sequences_file;
-//    kseq_t *ks;
-//    mem_opt_t *opt;
+    /* The mapping function maps all sequences from a coverage table (obtained from process, subset, or signif functions) to a reference genome and
+     * generates an output file with the following format:
+     *
+     * SequenceID | Contig | Position | SexBias | P
+     *
+     * - SequenceID: the ID of the mapped sequence
+     * - Contig: name of the contig where the sequence mapped
+     * - Position: mapping position on this contig
+     * - SexBias: (number of males with the sequence)/(total number of males) - (number of females with the sequence)/(total number of females)
+     * - P: probability of association with sex given by chi-squared test with Bonferroni correction.
+     *
+     * Sequences are mapped using bwa by Heng Li (https://github.com/lh3/bwa). Sequences are mapped using mem_align1() they are considered correctly mapped if:
+     * - Their mapping quality is > threshold given by the mapping_quality parameter
+     * - They are mapped uniquely, that is, there is no other mapping position with the same mapping score for this sequence.     *
+     */
 
-//    std::string genome_file_path = "/home/rferon/work/data/genomes/gadus_morhua/gadus_morhua_genome.fasta";
-//    std::string sequences_file_path = "/home/rferon/work/analyses/radsex/results/genome_mapping/gadus_morhua/data/extracted_haplotypes.fasta";
+    // Popmap
+    std::unordered_map<std::string, bool> popmap = load_popmap(parameters);
 
-//    std::string output_file_path = "/home/rferon/work/analyses/radsex/results/sex_distribution/esox_lucius_euro/test.tsv";
-//    std::ofstream output_file;
-//    output_file.open(output_file_path);
+    // Input file
+    std::string par = "input_file_path";
+    std::ifstream input_file;
+    input_file.open(parameters.get_value_from_name<std::string>(par));
 
-//    std::string rejects_file_path = "/home/rferon/work/analyses/radsex/results/sex_distribution/esox_lucius_euro/test_rejects.tsv";
-//    std::ofstream rejects_file;
-//    rejects_file.open(rejects_file_path);
+    if (not input_file) {
+        exit(1);
+    }
 
-//    // load the BWA index
-//    index = bwa_idx_load(genome_file_path.c_str(), BWA_IDX_ALL);
+    // Output file
+    par = "output_file_path";
+    std::ofstream output_file;
+    output_file.open(parameters.get_value_from_name<std::string>(par));
 
-//    if (NULL == index) {
-//        fprintf(stderr, "Index load failed.\n");
-//        exit(EXIT_FAILURE);
-//    }
+    if (not output_file) {
+        exit(1);
+    }
 
-//    sequences_file = strcmp(sequences_file_path.c_str(), "-")? gzopen(sequences_file_path.c_str(), "r") : gzdopen(fileno(stdin), "r");
+    output_file << "Sequence" << "\t" << "Contig" << "\t" << "Position" << "\t" << "SexBias" << "\t" << "P" << "\n";
 
-//    if (NULL == sequences_file) {
-//        fprintf(stderr, "Couldn't open %s : %s\n",
-//                strcmp(sequences_file_path.c_str(), "-") ? sequences_file_path.c_str() : "stdin",
-//                errno ? strerror(errno) : "Out of memory");
-//        exit(EXIT_FAILURE);
-//    }
+    // Genome file path
+    par = "genome_file_path";
+    std::string genome_file_path = parameters.get_value_from_name<std::string>(par);
 
-//    ks = kseq_init(sequences_file); // initialize the FASTA/Q parser
-//    opt = mem_opt_init(); // initialize the BWA-MEM parameters to the default values
+    // Minimum coverage
+    par = "min_cov";
+    int min_cov = parameters.get_value_from_name<int>(par) - 1; // -1 allows comparison with > instead of >=
 
-//    mem_alnreg_v ar;
-//    mem_aln_t a, best;
-//    std::vector<mem_aln_t> other_alignments;
-//    uint i;
-//    double p, sex_bias;
-//    std::string cigar;
+    // Minimum mapping quality
+    par = "min_quality";
+    int min_quality = parameters.get_value_from_name<int>(par) - 1; // -1 allows comparison with > instead of >=
 
-//    output_file << "Sequence" << "\t" << "Contig" << "\t" << "Position" << "\t" << "SexBias" << "\t" << "P" << "\n";
+    // Minimum frequency in at least one sex
+    par = "min_frequency";
+    float min_frequency = parameters.get_value_from_name<float>(par);
 
-//    rejects_file << "Sequence" << "\t" << "Contig" << "\t" << "Position" << "\t" << "SexBias" << "\t" << "P" << "\t" << "Nmaps" << "\t" << "Quality" <<  "\n";
+    // BWA mem parameters
+    mem_opt_t *opt;
+    opt = mem_opt_init(); // initialize the BWA-MEM parameters to the default values
 
-//    while (kseq_read(ks) >= 0) { // Loop over sequences in input file
+    // First line of the input file is the header. The header is parsed to get the sex of each field in the table.
+    std::vector<std::string> line;
+    std::string temp = "";
+    std::getline(input_file, temp);
+    line = split(temp, "\t");
 
-//        ar = mem_align1(opt, index->bwt, index->bns, index->pac, ks->seq.l, ks->seq.s); // Map the sequence
+    // Map with column number --> index of sex_count (0 = male, 1 = female, 2 = no sex)
+    std::unordered_map<uint, uint> sex_columns;
 
-//        int best_alignment[3] {0, -1, 0}; // Index, score, count
+    // Detection of individuals is based on the popmap, so individuals without sex should still be in the popmap
+    for (uint i=0; i<line.size(); ++i) {
+        if (popmap.find(line[i]) != popmap.end()) {
+            if (popmap[line[i]]) {
+                sex_columns[i] = 0; // Male --> column 0
+            } else {
+                sex_columns[i] = 1; // Female --> column 1
+            }
+        } else {
+            sex_columns[i] = 2; // First and second columns (id and sequence) are counted as no sex
+        }
+    }
 
+    // Minimum number of males and females
+    uint n_males_total = 0, n_females_total = 0;
+    for (auto i: popmap) if (i.second) ++n_males_total; else ++n_females_total;
+    uint min_males = uint(min_frequency * n_males_total) - 1; // -1 allows comparison with > instead of >=
+    uint min_females = uint(min_frequency * n_females_total) - 1; // -1 allows comparison with > instead of >=
 
-//        for (i = 0; i < ar.n; ++i) { // Loop over alignments
+    // BWA index
+    bwaidx_t *index; // BWA index read from indexed file
 
-////            if (ar.a[i].secondary >= 0) continue; // Skip secondary alignments
+    std::cout << " - Loading BWA index file ..." << std::endl;
+    index = bwa_idx_load(genome_file_path.c_str(), BWA_IDX_ALL); // load the BWA index
 
-//            cigar = "";
-//            a = mem_reg2aln(opt, index->bns, index->pac, ks->seq.l, ks->seq.s, &ar.a[i]); // Get forward-strand position and CIGAR
+    if (NULL == index) {
+        std::cout << "Failed to load index for genome file \"" + genome_file_path + "\"." << std::endl;
+        exit(1);
+    }
 
-////            if (ar.a[i].score > best_alignment[1]) {
-////                best_alignment[0] = i;
-////                best_alignment[1] = ar.a[i].truesc;
-////                best_alignment[2] = 0;
-////            } else if (ar.a[i].score == best_alignment[1]) {
-////                ++best_alignment[2];
-////            }
+    // Variables used to read the file
+    char buffer[65536];
+    std::string sequence, id;
+    uint k = 0, field_n = 0, total_n_sequences = 0;
+    uint sex_count[3] = {0, 0, 0}; // Index: 0 = male, 1 = female, 2 = no sex
+    int sequence_length = 0;
 
-//            for (int k = 0; k < a.n_cigar; ++k) {
-//                cigar += std::to_string(a.cigar[k]>>4);
-//                cigar += "MIDSH"[a.cigar[k]&0xf];
-//            }
+    // BWA mem objects and variables
+    mem_alnreg_v ar;
+    mem_aln_t best;
+    uint j;
+    double chi_squared, p, sex_bias;
+    int best_alignment[3] {0, -1, 0}; // Index, score, count
 
-//            if (ks->name.s == std::string("40329_34_32")) {
-//                std::cout << ks->name.s << "\t" << index->bns->anns[a.rid].name << "\t" << a.pos << "\t" << a.mapq << "\t" << a.score << "\t" << cigar << "\n";
-//            }
+    std::cout << " - Mapping the sequences ..." << std::endl;
 
-//            if (a.score > best_alignment[1]) {
-//                best_alignment[0] = i;
-//                best_alignment[1] = a.score;
-//                best_alignment[2] = 0;
-//                best = a;
-//                other_alignments.resize(0);
-//            } else if (a.score == best_alignment[1]) {
-//                ++best_alignment[2];
-//                other_alignments.push_back(a);
-//            }
+    do {
 
-//            free(a.cigar); // Deallocate CIGAR
-//        }
+        // Read a chunk of size given by the buffer
+        input_file.read(buffer, sizeof(buffer));
+        k = input_file.gcount();
 
-//        p = 0.75;
-//        sex_bias = 0.5;
+        for (uint i=0; i<k; ++i) {
 
-//        if (best_alignment[2] < 1 and best.mapq > 19) {
-//            output_file << ks->name.s << "\t" << index->bns->anns[best.rid].name << "\t" << best.pos << "\t" << sex_bias << "\t" << p << "\n";
-//        } else {
-//            rejects_file << ks->name.s << "\t" << index->bns->anns[best.rid].name << "\t" << best.pos << "\t" << sex_bias << "\t" << p << "\t" <<
-//                            best_alignment[2] << "\t" << best.mapq << "\t" << best.score << "\t";
-//            for (auto al: other_alignments) {
-//                rejects_file << index->bns->anns[al.rid].name << "::" << al.pos << "::" << al.mapq << "::" << al.score << ",";
-//            }
-//            rejects_file << "\n";
-//        }
+            // Read the buffer character by character
+            switch(buffer[i]) {
 
-////        if (a.mapq > 19 and best_alignment[2] < 1) { // Keep reads with mapping quality > 20 and no other mapping positions
-////            output_file << ks->name.s << "\t" << index->bns->anns[a.rid].name << "\t" << a.pos << "\t" << sex_bias << "\t" << p << "\n";
-////        } else {
-////            rejects_file << ks->name.s << "\t" << index->bns->anns[a.rid].name << "\t" << a.pos << "\t" << sex_bias << "\t" << p << "\n";
-////        }
+            case '\r':
+                break;
+            case '\t':  // New field
+                if (sex_columns[field_n] != 2 and std::stoi(temp) > min_cov) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
+                temp = "";
+                ++field_n;
+                break;
+            case '\n':  // New line (also a new field)
+                if (sex_columns[field_n] != 2 and std::stoi(temp) > min_cov) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
+                if (sex_count[0] > min_males and sex_count[1] > min_females) {
+                    ar = mem_align1(opt, index->bwt, index->bns, index->pac, sequence_length, sequence.c_str()); // Map the sequence
+                    for (j = 0; j < ar.n; ++j) { // Loop through alignments
+                        if (ar.a[j].score > best_alignment[1]) { // Find alignment with best score
+                            best_alignment[0] = j;
+                            best_alignment[1] = ar.a[j].score;
+                            best_alignment[2] = 0;
+                        } else if (ar.a[j].score == best_alignment[1]) {
+                            ++best_alignment[2];
+                        }
+                    }
+                    best = mem_reg2aln(opt, index->bns, index->pac, sequence_length, sequence.c_str(), &ar.a[best_alignment[0]]); // Get mapping quality
+                    if (best_alignment[2] < 1 and best.mapq > min_quality) { // Keep sequences with unique best alignment and with mapq > minimum quality
+                        sex_bias = float(sex_count[0]) / float(n_males_total) - float(sex_count[1]) / float(n_females_total); // Sex bias. There should never be 0 males or females in the entire population.
+                        chi_squared = get_chi_squared(sex_count[0], sex_count[1], n_males_total, n_females_total);
+                        (chi_squared == chi_squared) ? p = get_chi_squared_p(chi_squared) : p = 1; // chi square is NaN --> sequence found in all individuals --> set p to 1
+                        output_file << id << "\t" << index->bns->anns[best.rid].name << "\t" << best.pos << "\t" << sex_bias << "\t" << p << "\n";
+                    }
+                    free(best.cigar); // Deallocate cigar string for best hit
+                    free(ar.a); // Deallocate the hit list
+                    ++total_n_sequences;
+                    if (total_n_sequences % 10000 == 0 and total_n_sequences / 10000 != 0) std::cout << "   > Processed " << total_n_sequences / 1000 << " K. sequences." << std::endl;
+                }
+                best_alignment[0] = 0;
+                best_alignment[1] = -1;
+                best_alignment[2] = 0;
+                // Reset variables
+                temp = "";
+                sequence = "";
+                id = "";
+                sequence_length = 0;
+                field_n = 0;
+                sex_count[0] = 0;
+                sex_count[1] = 0;
+                break;
+            default:
+                temp += buffer[i];
+                if (field_n == 0) id += buffer[i];
+                if (field_n == 1) {
+                    sequence += buffer[i];
+                    ++sequence_length;
+                }
+                break;
+            }
+        }
 
-////        if (best_alignment[2] > 1) std::cout << ks->name.s << "\t" << index->bns->anns[a.rid].name << "\t" << a.pos << "\t" << sex_bias << "\t" << p << std::endl;
+    } while (input_file);
 
-//        free(ar.a); // Deallocate the hit list
-//    }
-
-//    free(opt);
-//    kseq_destroy(ks);
-//    gzclose(sequences_file);
-//    bwa_idx_destroy(index);
+    output_file.close();
+    input_file.close();
+    free(opt);
+    bwa_idx_destroy(index);
 }

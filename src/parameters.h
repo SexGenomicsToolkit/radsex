@@ -35,7 +35,8 @@ struct Parameters {
                                  Parameter("min_individuals", "Minimum number of individuals in the subset (overrides sex parameters)", "--min-individuals", "0", "int", "int", "", false),
                                  Parameter("max_individuals", "Maxmimum number of individuals in the subset (overrides sex parameters)", "--max-individuals", "n.individual", "int", "int", "", false),
                                  Parameter("output_matrix", "Output the sex distribution table as a matrix", "--output-matrix", "0", "bool", "bool", "", false),
-                                 Parameter("min_quality", "Minimum mapping quality to keep a mapped read", "-q", "20", "int", "int", "", false)
+                                 Parameter("min_quality", "Minimum mapping quality to keep a mapped read", "-q", "20", "int", "int", "", false),
+                                 Parameter("min_frequency", "Minimum frequency of a sequence in at least one sex.", "--min-frequency", "0.25", "float", "float", "", false)
                                  };
 
 
@@ -107,6 +108,8 @@ struct Parameters {
                     return p.value != "0"; // TODO: handle more bool values in the future
                 } else if (p.internal_type == "int") {
                     return std::stoi(p.value);
+                } else if (p.internal_type == "float") {
+                    return std::stod(p.value);
                 } else {
                     return p.value;
                 }

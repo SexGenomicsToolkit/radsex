@@ -51,6 +51,8 @@ struct Parameter {
             if (this->value == "0" or this->value == "1") return true; else return false;
         } else if (this->internal_type == "int") {
             return this->value.find_first_not_of( "0123456789" ) == std::string::npos;
+        } else if (this->internal_type == "float") {
+            return this->value.find_first_not_of( "0123456789." ) == std::string::npos;
         } else if (this->internal_type == "ifile") {
             std::ifstream file;
             file.open(this->value);

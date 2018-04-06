@@ -1,6 +1,6 @@
 # Compiler options
 CC = g++
-OPTCFLAGS = -Ofast
+OPTCFLAGS = -O2
 CFLAGS = -Wall -std=c++11 $(OPTCFLAGS)
 LDFLAGS = -pthread -static-libstdc++ -lz
 
