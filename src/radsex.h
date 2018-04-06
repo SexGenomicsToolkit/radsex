@@ -9,6 +9,7 @@
 #include "demultiplexing.h"
 #include "group_loci.h"
 #include "significant_sequences.h"
+#include "mapping.h"
 
 class RadSex {
 
@@ -81,6 +82,17 @@ class RadSex {
                                                                                        "popmap_file_path",
                                                                                        "min_cov"},
                                                              significant_sequences)},
+
+                                                   {"mapping",
+                                                    Analysis("mapping",
+                                                             "Map a subset of sequences (coverage table or fasta format) to a reference genome.",
+                                                             std::vector<std::string> {"input_file_path",
+                                                                                       "output_file_path",
+                                                                                       "popmap_file_path",
+                                                                                       "genome_file_path",
+                                                                                       "min_quality",
+                                                                                       "min_cov",},
+                                                             mapping)},
 //                                                   {"demultiplexing", Analysis("demultiplexing", "Demultiplexes a set of reads files",
 //                                                                            std::vector<std::string> {"input_file_path", "output_dir_path", "barcodes_file_path", "min_cov"},
 //                                                                            demultiplexing)},

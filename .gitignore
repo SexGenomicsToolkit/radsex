@@ -85,3 +85,5 @@ build/
 TODO.txt
 *.pro
 *.pro.user
+/include/*/*.o
+/include/*/*.a

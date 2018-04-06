@@ -14,7 +14,7 @@ struct Parameters {
 
     // Initialize all possible parameters to be used in the analyses
     // Arguments: name, help message, flag, default value, type, internal type, value, required
-    // Flags : -h, -f, -d, -o, -u, -t, -c, -p, -b, -a, -m, --min-males, --min-females, --max-males, --max-females, --min-individuals, --output-matrix
+    // Flags : -h, -f, -d, -o, -u, -t, -c, -p, -b, -a, -m, -g, --min-males, --min-females, --max-males, --max-females, --min-individuals, --output-matrix, -q,
     // Parameter constructor: Parameter(name, description, flag, default_value, type, internal_type, value, required)
     std::vector<Parameter> list {Parameter("help", "Prints this message", "-h", "0", "bool", "bool", "", false),
                                  Parameter("input_file_path", "Path to an input file", "-f", "", "string", "ifile", "", true),
@@ -27,13 +27,15 @@ struct Parameters {
                                  Parameter("max_distance", "Maximum Levenstein distance between two sequences in a locus", "-m", "1", "int", "int", "", false),
                                  Parameter("popmap_file_path", "Path to a popmap file", "-p", "", "string", "ifile", "", true),
                                  Parameter("barcodes_file_path", "Path to a barcodes file", "-b", "", "string", "ifile", "", true),
+                                 Parameter("genome_file_path", "Path to a genome file in fasta format", "-g", "", "string", "ifile", "", true),
                                  Parameter("min_males", "Minimum number of males in the subset", "--min-males", "0", "int", "int", "", false),
                                  Parameter("min_females", "Minimum number of females in the subset", "--min-females", "0", "int", "int", "", false),
                                  Parameter("max_males", "Maximum number of males in the subset", "--max-males", "n.males", "int", "int", "", false),
                                  Parameter("max_females", "Maximum number of females in the subset", "--max-females", "n.females", "int", "int", "", false),
                                  Parameter("min_individuals", "Minimum number of individuals in the subset (overrides sex parameters)", "--min-individuals", "0", "int", "int", "", false),
                                  Parameter("max_individuals", "Maxmimum number of individuals in the subset (overrides sex parameters)", "--max-individuals", "n.individual", "int", "int", "", false),
-                                 Parameter("output_matrix", "Output the sex distribution table as a matrix", "--output-matrix", "0", "bool", "bool", "", false)
+                                 Parameter("output_matrix", "Output the sex distribution table as a matrix", "--output-matrix", "0", "bool", "bool", "", false),
+                                 Parameter("min_quality", "Minimum mapping quality to keep a mapped read", "-q", "20", "int", "int", "", false)
                                  };
 
 

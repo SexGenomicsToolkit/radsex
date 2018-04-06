@@ -13,22 +13,24 @@ INCLUDE = $(BASEDIR)/include
 SRC = $(BASEDIR)/src
 CPP = $(wildcard $(SRC)/*.cpp) $(wildcard $(SRC)/*/*.cpp)
 LIBCPP = $(wildcard $(INCLUDE)/*/*.cpp)
+BWAC = $(wildcard $(INCLUDE)/bwa/*.c)
 
 # Target
 TARGET = radsex
 
 # Variables
 OBJS = $(addprefix $(BUILD)/, $(notdir $(CPP:.cpp=.o)))
-LIBOBJS = $(addprefix $(LIBBUILD)/, $(notdir $(LIBCPP:.cpp=.o)))
+LIBOBJS = $(LIBCPP:.cpp=.o)
+BWAOBJS = $(BWAC:.c=.o)
 
 # Rules
 
-all: init print-OBJS print-LIBOBJS $(TARGET)
+all: init BWA $(TARGET)
 
-print-%  : ; @echo $* = $($*)
+print-%: ; @echo $* = $($*)
 
-$(TARGET): $(OBJS) $(LIBOBJS)
-	$(CC) $(CFLAGS) -I $(INCLUDE) -o $(BIN)/$(TARGET) $^ $(LDFLAGS)
+$(TARGET): $(OBJS) $(LIBOBJS) $(BWAOBJS) $(INCLUDE)/bwa/libbwa.a
+	$(CC) $(CFLAGS) -I $(INCLUDE) -L $(INCLUDE)/bwa -lbwa -o $(BIN)/$(TARGET) $^ $(LDFLAGS)
 
 $(BUILD)/%.o: $(SRC)/%.cpp
 	$(CC) $(CFLAGS) -I $(INCLUDE) -c -o $@ $^
@@ -39,9 +41,14 @@ $(LIBBUILD)/%.o: $(INCLUDE)/*/%.cpp
 clean:
 	@rm -rf $(BUILD)/*.o
 	@rm -rf $(BIN)/$(TARGET)
+	@cd $(INCLUDE)/bwa && $(MAKE) clean
 
 init:
 	@mkdir -p $(BUILD) $(BUILD)
 	@mkdir -p $(BIN) $(BIN)
 
-rebuild: clean $(TARGET)
+rebuild: clean BWA $(TARGET)
+
+BWA:
+	@cd $(INCLUDE)/bwa && $(MAKE)
+
