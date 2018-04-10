@@ -103,7 +103,7 @@ void mapping(Parameters& parameters) {
     // Variables used to read the file
     char buffer[65536];
     std::string sequence, id;
-    uint k = 0, field_n = 0, total_n_sequences = 0;
+    uint k = 0, field_n = 0, total_n_sequences = 0, retained_sequences = 0;
     uint sex_count[3] = {0, 0, 0}; // Index: 0 = male, 1 = female, 2 = no sex
     int sequence_length = 0;
 
@@ -136,7 +136,7 @@ void mapping(Parameters& parameters) {
                 break;
             case '\n':  // New line (also a new field)
                 if (sex_columns[field_n] != 2 and std::stoi(temp) > min_cov) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
-                if (sex_count[0] > min_males and sex_count[1] > min_females) {
+                if (sex_count[0] > min_males or sex_count[1] > min_females) {
                     ar = mem_align1(opt, index->bwt, index->bns, index->pac, sequence_length, sequence.c_str()); // Map the sequence
                     for (j = 0; j < ar.n; ++j) { // Loop through alignments
                         if (ar.a[j].score > best_alignment[1]) { // Find alignment with best score
@@ -153,16 +153,18 @@ void mapping(Parameters& parameters) {
                         chi_squared = get_chi_squared(sex_count[0], sex_count[1], n_males_total, n_females_total);
                         (chi_squared == chi_squared) ? p = get_chi_squared_p(chi_squared) : p = 1; // chi square is NaN --> sequence found in all individuals --> set p to 1
                         output_file << id << "\t" << index->bns->anns[best.rid].name << "\t" << best.pos << "\t" << sex_bias << "\t" << p << "\n";
+                        ++retained_sequences;
                     }
                     free(best.cigar); // Deallocate cigar string for best hit
                     free(ar.a); // Deallocate the hit list
-                    ++total_n_sequences;
-                    if (total_n_sequences % 10000 == 0 and total_n_sequences / 10000 != 0) std::cout << "   > Processed " << total_n_sequences / 1000 << " K. sequences." << std::endl;
                 }
+                ++total_n_sequences;
+                if (total_n_sequences % 10000 == 0 and total_n_sequences / 10000 != 0) std::cout << "   > Processed " << total_n_sequences / 1000 << " K. sequences and retained "
+                                                                                                 << retained_sequences / 1000 << " K. sequences." << std::endl;
+                // Reset variables
                 best_alignment[0] = 0;
                 best_alignment[1] = -1;
                 best_alignment[2] = 0;
-                // Reset variables
                 temp = "";
                 sequence = "";
                 id = "";
@@ -181,7 +183,6 @@ void mapping(Parameters& parameters) {
                 break;
             }
         }
-
     } while (input_file);
 
     output_file.close();

@@ -8,7 +8,7 @@ double get_chi_squared_p(double chi_squared) {
      * DF is always 1 in our case
      */
 
-    return 1 - kf_gammap(0.5, chi_squared/2);
+    return std::min(1.0, 1 - kf_gammap(0.5, chi_squared/2));
 }
 
 
