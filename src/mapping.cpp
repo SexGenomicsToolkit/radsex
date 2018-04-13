@@ -151,7 +151,8 @@ void mapping(Parameters& parameters) {
                     if (best_alignment[2] < 1 and best.mapq > min_quality) { // Keep sequences with unique best alignment and with mapq > minimum quality
                         sex_bias = float(sex_count[0]) / float(n_males_total) - float(sex_count[1]) / float(n_females_total); // Sex bias. There should never be 0 males or females in the entire population.
                         chi_squared = get_chi_squared(sex_count[0], sex_count[1], n_males_total, n_females_total);
-                        (chi_squared == chi_squared) ? p = get_chi_squared_p(chi_squared) : p = 1; // chi square is NaN --> sequence found in all individuals --> set p to 1
+                        (chi_squared == chi_squared) ? p = get_chi_squared_p(chi_squared) : p = 1.0; // chi square is NaN --> sequence found in all individuals --> set p to 1
+                        p < 0.0000000000000001 ? p = 0.0000000000000001 : p = p;
                         output_file << id << "\t" << index->bns->anns[best.rid].name << "\t" << best.pos << "\t" << sex_bias << "\t" << p << "\n";
                         ++retained_sequences;
                     }
