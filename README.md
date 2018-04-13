@@ -1,36 +1,27 @@
-## RadSex
+# RadSex
 
-### Overview
+## Overview
 
-The RADSex pipeline is used to analyze RADSeq data with focus on sex. This pipeline was developed for the PhyloSex project, which investigates sex determining factors in a wide range of fish species.
+The RADSex pipeline implements several functions for the analysis of RAD-Sequencing data with focus on sex. This pipeline was developed for the PhyloSex project, which investigates sex determining factors in a wide range of fish species.
 
-### Requirements
+The RADSex pipeline was developed by Romain Feron and Yann Guiguen while working at INRA, Rennes, France.
+
+## Requirements
 
 - A C++11 compliant compiler (GCC >= 4.8.1, Clang >= 3.3)
-- The zlib library (should be installed on linux by default)
-- *Optional (for visualization)* : R 3.3 or higher with the following packages:
-    + readr
-    + ggplot2
-    + reshape2
-    + ggdendro
-    + grid
-    + gtable
-    + base
-    + svglite
-    + scales
+- The zlib library (which should be installed on linux by default)
 
-### Installation
+## Installation
 
 - Clone: `git clone git@github.com:INRA-LPGP/RadSex.git`
 - Alternative: Download the archive and unzip it
 - Go to the RadSex directory (`cd RadSex`)
 - Run `make`
-- *Optional* : install R packages for visualization with `Rscript install_packages.R`
+- The compiled `radsex` binary is located in `RadSex/bin/`
 
-### Usage
+## Usage
 
-
-#### General
+### General
 
 `radsex <command> [options]`
 
@@ -38,16 +29,17 @@ The RADSex pipeline is used to analyze RADSeq data with focus on sex. This pipel
 
 Command            | Description
 ------------------ | ------------
-`process_reads`    | Compute a matrix of coverage from a set of demultiplexed reads files
-`sex_distribution` | Calculate a distribution of sequences between sexes
+`process`    | Compute a matrix of coverage from a set of demultiplexed reads files
+`distrib` | Compute the distribution of sequences between sexes
 `subset` | Extract a subset of the coverage matrix
+`signif` | Extract sequences significantly associated with sex
+`loci` | Recreate polymorphic loci from a subset of coverage matrix
+`mapping` | Map a subset of sequences (coverage table or fasta) to a reference genome and output sex-association metrics for each mapped sequence
+`freq` | Compute sequence frequencies for the population
 
+### process
 
-<br/>
-
-#### Process reads
-
-`radsex process_reads -d input_dir_path -o output_file_path [ -t n_threads -c min_cov ]`
+`radsex process -d input_dir_path -o output_file_path [ -t n_threads -c min_cov ]`
 
 *Generates a matrix of coverage for all individuals and all sequences. The output is a tabulated file, where each line contains the ID, sequence and coverage for each individual of a marker.*
 
@@ -60,55 +52,41 @@ Option | Full name | Description
 `-t` | `n_threads` | Number of threads to use (default: 1) |
 `-c` | `min_cov` | Minimum coverage to consider a marker in an individual (default: 1) |
 
-<br/>
+### distrib
 
-#### Sex distribution
+`radsex distrib -f input_file_path -o output_file_path -p popmap_file_path [ -c min_cov --output-matrix ]`
 
-`radsex sex_distribution -f input_file_path -o output_file_path -p popmap_file_path [ -c min_cov ]`
-
-*Generates a matrix of dimensions (Number of males) x (Number of females). The value at coordinates **(i, j)** corresponds to the number of haplotypes found in precisely **i** males and **j** females.*
+*Generates a table which contains the number of sequences present with coverage higher than min_cov and the probability of association with sex for every combination of number of males and number of females.*
 
 **Options** :
 
 Option | Full name | Description
 --- | --- | ---
-`-f` | `input_file_path` | Path to an input file (result of process_reads) |
+`-f` | `input_file_path` | Path to an coverage matrix obtained with `process` |
 `-o` | `output_file_path` | Path to the output file |
-`-p` | `popmap_file_path` | Path to a popmap file (indicating the sex of each individual) |
-`-c` | `min_cov` | Minimum coverage to consider a marker in an individual (default: 1) |
+`-p` | `popmap_file_path` | Path to a popmap file indicating the sex of each individual |
+`-c` | `min_cov` | Minimum coverage to consider a sequence present in an individual (default: 1) |
 
-<br/>
+### Subset
 
-#### Subset
+`radsex subset -f input_file_path -o output_file_path -p popmap_file_path [ -c min_cov --min-males min_males --min-females min_females --max-males max_males --max-females max_females --min-individuals min_individuals --max-individuals max_individuals]`
 
-`radsex subset -f input_file_path -o output_file_path -p popmap_file_path [ -c min_cov --min-males min_males --min-females min_females --max-males max_males --max-females max_females ]`
-
-*Filters the coverage matrix to export markers matching the values of min_males, min_females, max_males, and max_females (i.e. markers found in M males with min_males <= M <= max_males and F females with min_females <= F <= max_females)*
+*Filters the coverage matrix to only export sequences present in any combination of M males and F females, with min_males ≤ M ≤ max_males, min_females ≤ F ≤ max_females, and min_individuals ≤ M + F ≤ max_individuals*
 
 **Options** :
 
 Option | Full name | Description
 --- | --- | ---
-`-f` | `input_file_path` | Path to an input file (result of process_reads) |
+`-f` | `input_file_path` | Path to an coverage matrix obtained with `process` |
 `-o` | `output_file_path` | Path to the output file |
-`-p` | `popmap_file_path` | Path to a popmap file (indicating the sex of each individual) |
-`-c` | `min_cov` | Minimum coverage to consider a marker in an individual (default: 1) |
-`--min-males` | `min_males` | Minimum number of males with a marker |
-`--min-females` | `min_females` | Minimum number of females with a marker |
-`--max-males` | `max_males` | Maximum number of males with a marker |
-`--max-females` | `max_females` | Maximum number of females with a marker |
-
-<br/>
-
-**Example output** :
-
-- heatmap :
-![Heatmap](./examples/plots/heatmap.png)
-- clustering :
-![Presence/Absence](./examples/plots/presence_clustering.png)
-![Coverage](./examples/plots/coverage_clustering.png)
-- frequencies:
-![Coverage](./examples/plots/frequencies.png)
+`-p` | `popmap_file_path` | Path to a popmap file indicating the sex of each individual |
+`-c` | `min_cov` | Minimum coverage to consider a sequence in an individual (default: 1) |
+`--min-males` | `min_males` | Minimum number of males with the sequence |
+`--min-females` | `min_females` | Minimum number of females with the sequence |
+`--max-males` | `max_males` | Maximum number of males with the sequence |
+`--max-females` | `max_females` | Maximum number of females with the sequence |
+`--max-individuals` | `max_individuals` | Maximum number of individuals with the sequence |
+`--max-individuals` | `max_individuals` | Maximum number of individuals with the sequence |
 
 ### LICENSE
 
