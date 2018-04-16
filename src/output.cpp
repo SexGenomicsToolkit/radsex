@@ -91,7 +91,7 @@ void output_sex_distribution(std::string& output_file_path, sd_table& results, u
     output_file.open(output_file_path);
 
     // Output file header
-    output_file << "Males" << "\t" << "Females" << "\t" << "Sequences" << "\t" << "P-value" << "\n";
+    output_file << "Males" << "\t" << "Females" << "\t" << "Sequences" << "\t" << "P" << "\n";
 
     // Generate output file
     for (uint m=0; m < n_males; ++m) {
