@@ -89,7 +89,21 @@ void mapping(Parameters& parameters) {
     uint min_males = uint(min_frequency * n_males_total) - 1; // -1 allows comparison with > instead of >=
     uint min_females = uint(min_frequency * n_females_total) - 1; // -1 allows comparison with > instead of >=
 
-    // BWA index
+    // Generate BWA index if it does not exist
+    std::ifstream bwa_index_temp;
+    bool indexed = true;
+    std::string extensions[5] = {"amb", "ann", "bwa", "pac", "sa"};
+
+    for (auto i=0; i<5; ++i) {
+        bwa_index_temp.open(genome_file_path + "." + extensions[i]);
+        if (not bwa_index_temp.is_open()) indexed = false;
+    }
+
+    if (not indexed) {
+        bwa_idx_build(genome_file_path.c_str(), genome_file_path.c_str(), 0, 10000000); // Genome file, prefix, algorithm (default 0), block size (default 10000000)
+    }
+
+    // Load BWA index
     bwaidx_t *index; // BWA index read from indexed file
 
     std::cout << " - Loading BWA index file ..." << std::endl;
