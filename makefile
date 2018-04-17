@@ -50,5 +50,5 @@ init:
 rebuild: clean BWA $(TARGET)
 
 BWA:
-	@cd $(INCLUDE)/bwa && $(MAKE)
+	@cd $(INCLUDE)/bwa && $(MAKE) -j 4
 
