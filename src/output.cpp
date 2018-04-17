@@ -60,10 +60,11 @@ void output_sex_distribution_matrix(std::string& output_file_path, sd_table& res
     std::ofstream output_file;
     output_file.open(output_file_path);
 
-    uint i = 0;
-
     results[0][0].first = 0; // Sequences found in none of the individuals (after filtering for minimum coverage) should not appear in the results
 
+    uint i = 0;
+
+    // Generate output
     for (uint f=0; f < n_females; ++f) {
         for (uint m=0; m < n_males; ++m) {
             output_file << results[m][f].first;
@@ -91,13 +92,25 @@ void output_sex_distribution(std::string& output_file_path, sd_table& results, u
     output_file.open(output_file_path);
 
     // Output file header
-    output_file << "Males" << "\t" << "Females" << "\t" << "Sequences" << "\t" << "P" << "\n";
+    output_file << "Males" << "\t" << "Females" << "\t" << "Sequences" << "\t" << "P" << "\t" << "Signif" << "\n";
+
+    uint n_sequences = 0;
+    double threshold = 0.05;
+
+    // Determine the total number of sequences
+    for (uint f=0; f < n_females; ++f) {
+        for (uint m=0; m < n_males; ++m) {
+            if (f + m != 0) n_sequences += results[m][f].first; // Exclude sequences present in 0 individuals
+        }
+    }
+
+    threshold /= n_sequences;
 
     // Generate output file
     for (uint m=0; m < n_males; ++m) {
         for (uint f=0; f < n_females; ++f) {
             if (f + m != 0) {
-                output_file << m << "\t" << f << "\t" << results[m][f].first << "\t" << results[m][f].second << "\n";
+                output_file << m << "\t" << f << "\t" << results[m][f].first << "\t" << results[m][f].second << "\t" << (results[m][f].second < threshold ? "True" : "False") << "\n";
             }
         }
     }
@@ -158,4 +171,23 @@ void output_group_loci(std::string& output_file_path, std::unordered_map<std::st
         }
         ++locus_id;
     }
+}
+
+
+
+void output_mapping(std::string& output_file_path, std::vector<MappedSequence> sequences) {
+
+    std::ofstream output_file;
+    output_file.open(output_file_path);
+
+    output_file << "Sequence" << "\t" << "Contig" << "\t" << "Position" << "\t" << "SexBias" << "\t" << "P" << "\t" << "Signif" << "\n";
+
+    double threshold = 0.05 / sequences.size();
+
+    for (auto s: sequences) {
+        output_file << s.id << "\t" << s.contig << "\t" << s.position << "\t" << s.sex_bias << "\t" << s.p << "\t" <<
+                       (s.p < threshold ? "True" : "False") << "\n";
+    }
+
+    output_file.close();
 }

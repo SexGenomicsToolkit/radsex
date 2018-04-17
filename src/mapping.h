@@ -8,4 +8,5 @@
 #include "bwa/bwamem.h"
 #include "bwa/kseq.h"
 
+
 void mapping(Parameters& parameters);

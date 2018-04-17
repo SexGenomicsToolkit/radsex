@@ -91,22 +91,14 @@ void sex_distribution(Parameters& parameters) {
         input_file.close();
 
         // Calculate p-values for association with sex for each combination of males and females
-        uint n_sequences = 0;
         double chi_squared = 0;
 
-        // First pass to determine the total number of sequences (faster than counter when reading the file)
-        for (uint f=0; f < n_females; ++f) {
-            for (uint m=0; m < n_males; ++m) {
-                if (f + m != 0) n_sequences += results[m][f].first;
-            }
-        }
-
-        // Second pass to compute p-values
+        // Compute p-values
         for (uint f=0; f < n_females; ++f) {
             for (uint m=0; m < n_males; ++m) {
                 if (f + m != 0) {
                     chi_squared = get_chi_squared(m, f, n_males, n_females);
-                    results[m][f].second = std::min(1.0, get_chi_squared_p(chi_squared) * n_sequences); // p-value corrected with Bonferroni, with max of 1
+                    results[m][f].second = std::min(1.0, get_chi_squared_p(chi_squared)); // p-value corrected with Bonferroni, with max of 1
                 }
             }
         }

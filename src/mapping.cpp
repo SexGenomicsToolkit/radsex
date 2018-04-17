@@ -30,17 +30,6 @@ void mapping(Parameters& parameters) {
         exit(1);
     }
 
-    // Output file
-    par = "output_file_path";
-    std::ofstream output_file;
-    output_file.open(parameters.get_value_from_name<std::string>(par));
-
-    if (not output_file) {
-        exit(1);
-    }
-
-    output_file << "Sequence" << "\t" << "Contig" << "\t" << "Position" << "\t" << "SexBias" << "\t" << "P" << "\n";
-
     // Genome file path
     par = "genome_file_path";
     std::string genome_file_path = parameters.get_value_from_name<std::string>(par);
@@ -125,8 +114,10 @@ void mapping(Parameters& parameters) {
     mem_alnreg_v ar;
     mem_aln_t best;
     uint j;
-    double chi_squared, p, sex_bias;
+    double chi_squared;
     int best_alignment[3] {0, -1, 0}; // Index, score, count
+    MappedSequence seq;
+    std::vector<MappedSequence> sequences;
 
     std::cout << " - Mapping the sequences ..." << std::endl;
 
@@ -163,18 +154,21 @@ void mapping(Parameters& parameters) {
                     }
                     best = mem_reg2aln(opt, index->bns, index->pac, sequence_length, sequence.c_str(), &ar.a[best_alignment[0]]); // Get mapping quality
                     if (best_alignment[2] < 1 and best.mapq > min_quality) { // Keep sequences with unique best alignment and with mapq > minimum quality
-                        sex_bias = float(sex_count[0]) / float(n_males_total) - float(sex_count[1]) / float(n_females_total); // Sex bias. There should never be 0 males or females in the entire population.
+                        seq.sex_bias = float(sex_count[0]) / float(n_males_total) - float(sex_count[1]) / float(n_females_total); // Sex bias. There should never be 0 males or females in the entire population.
                         chi_squared = get_chi_squared(sex_count[0], sex_count[1], n_males_total, n_females_total);
-                        (chi_squared == chi_squared) ? p = get_chi_squared_p(chi_squared) : p = 1.0; // chi square is NaN --> sequence found in all individuals --> set p to 1
-                        p < 0.0000000000000001 ? p = 0.0000000000000001 : p = p;
-                        output_file << id << "\t" << index->bns->anns[best.rid].name << "\t" << best.pos << "\t" << sex_bias << "\t" << p << "\n";
+                        (chi_squared == chi_squared) ? seq.p = get_chi_squared_p(chi_squared) : seq.p = 1.0; // chi square is NaN --> sequence found in all individuals --> set p to 1
+                        seq.p < 0.0000000000000001 ? seq.p = 0.0000000000000001 : seq.p = seq.p;
+                        seq.id = id;
+                        seq.contig = index->bns->anns[best.rid].name;
+                        seq.position = best.pos;
+                        sequences.push_back(seq);
                         ++retained_sequences;
                     }
                     free(best.cigar); // Deallocate cigar string for best hit
                     free(ar.a); // Deallocate the hit list
                 }
                 ++total_n_sequences;
-                if (total_n_sequences % 10000 == 0 and total_n_sequences / 10000 != 0) std::cout << "   > Processed " << total_n_sequences / 1000 << " K. sequences and retained "
+                if (total_n_sequences % 100000 == 0 and total_n_sequences / 100000 != 0) std::cout << "   > Processed " << total_n_sequences / 1000 << " K. sequences and retained "
                                                                                                  << retained_sequences / 1000 << " K. sequences." << std::endl;
                 // Reset variables
                 best_alignment[0] = 0;
@@ -200,7 +194,12 @@ void mapping(Parameters& parameters) {
         }
     } while (input_file);
 
-    output_file.close();
+    par = "output_file_path";
+    std::string output_file_path = parameters.get_value_from_name<std::string>(par);
+
+    // Generate the output file
+    output_mapping(output_file_path, sequences);
+
     input_file.close();
     free(opt);
     bwa_idx_destroy(index);
