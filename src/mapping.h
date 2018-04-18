@@ -5,6 +5,7 @@
 #include "popmap_file.h"
 #include "output.h"
 #include "stats.h"
+#include "scaffold_lengths.h"
 #include "bwa/bwamem.h"
 #include "bwa/kseq.h"
 

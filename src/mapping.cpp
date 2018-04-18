@@ -88,6 +88,8 @@ void mapping(Parameters& parameters) {
         if (not bwa_index_temp.is_open()) indexed = false;
     }
 
+    scaffold_lengths(genome_file_path);
+
     if (not indexed) {
         bwa_idx_build(genome_file_path.c_str(), genome_file_path.c_str(), 0, 10000000); // Genome file, prefix, algorithm (default 0), block size (default 10000000)
     }
