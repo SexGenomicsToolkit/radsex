@@ -81,17 +81,29 @@ void mapping(Parameters& parameters) {
     // Generate BWA index if it does not exist
     std::ifstream bwa_index_temp;
     bool indexed = true;
-    std::string extensions[5] = {"amb", "ann", "bwa", "pac", "sa"};
+    std::string extensions[5] = {"amb", "ann", "bwt", "pac", "sa"};
 
-    for (auto i=0; i<5; ++i) {
-        bwa_index_temp.open(genome_file_path + "." + extensions[i]);
-        if (not bwa_index_temp.is_open()) indexed = false;
+    std::cout << " - Checking for contig lengths file : ";
+    bwa_index_temp.open(genome_file_path + ".lengths");
+    if (not bwa_index_temp.is_open()) {
+        std::cout << " not found." << "\n" << " - Creating contig lengths file ..." << "\n";
+        scaffold_lengths(genome_file_path);
+    } else {
+        std::cout << " found." << "\n";
+        bwa_index_temp.close();
     }
 
-    scaffold_lengths(genome_file_path);
+    std::cout << " - Checking for genome index files : ";
+    for (auto i=0; i<5; ++i) {
+        bwa_index_temp.open(genome_file_path + "." + extensions[i]);
+        if (not bwa_index_temp.is_open()) indexed = false; else bwa_index_temp.close();
+    }
 
     if (not indexed) {
+        std::cout << " not found." << "\n" << " - Indexing the genome ..." << "\n";
         bwa_idx_build(genome_file_path.c_str(), genome_file_path.c_str(), 0, 10000000); // Genome file, prefix, algorithm (default 0), block size (default 10000000)
+    } else {
+        std::cout << " found." << "\n";
     }
 
     // Load BWA index
