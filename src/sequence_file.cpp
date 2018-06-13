@@ -29,14 +29,11 @@ std::vector<InputFile> get_input_files(const std::string& input_dir_path) {
         split_name = split(current_file, ".");
         size_t s = split_name.size();
         extension = "";
-        if (s > 2) {
-            extension += split_name[s-1] + "." + split_name[s - 2];
-        } else if (s == 2) {
-            extension = "." + split_name[1];
-        }
 
         // Careful: this will fail if the file name contains "." ... TODO: solve this problem
-        for (uint i=1; i<split_name.size(); ++i) extension += "." + split_name[i];
+        if (s > 1) {
+            for (uint i=1; i<split_name.size(); ++i) extension += "." + split_name[i];
+        }
 
         if(std::find(extensions.begin(), extensions.end(), extension) != extensions.end()) {
             temp.individual_name = split_name[0];

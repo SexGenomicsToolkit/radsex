@@ -41,6 +41,7 @@ $(LIBBUILD)/%.o: $(INCLUDE)/*/%.cpp
 clean:
 	@rm -rf $(BUILD)/*.o
 	@rm -rf $(BIN)/$(TARGET)
+	@rm -rf $(INCLUDE)/*/*.o
 	@cd $(INCLUDE)/bwa && $(MAKE) clean
 
 init:
