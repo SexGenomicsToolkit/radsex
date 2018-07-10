@@ -84,7 +84,7 @@ struct Parameters {
 
     // Get the value of a parameter from its name
     template<typename T>
-    T get_value_from_name(std::string& name) {
+    T get_value_from_name(const std::string& name) {
         T output;
         for (auto p: this->list) {
             if (p.name == name) {
@@ -180,3 +180,7 @@ struct Parameters {
         std::cout << "\n";
     }
 };
+
+// Template specialization for converting string in order to handle spaces in strings
+template<>
+std::string Parameters::get_value_from_name<std::string>(const std::string& name);
