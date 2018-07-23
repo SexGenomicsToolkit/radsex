@@ -35,6 +35,9 @@ void subset(Parameters& parameters) {
     par = "max_individuals";
     int max_individuals = parameters.get_value_from_name<int>(par) + 1; // +1 allows comparison with < instead of <=
 
+    par = "output_format";
+    bool fasta = parameters.get_value_from_name<std::string>(par) == "fasta";
+
     if (input_file) {
 
         par = "output_file_path";
@@ -45,7 +48,7 @@ void subset(Parameters& parameters) {
         std::vector<std::string> line;
         std::string temp = "";
         std::getline(input_file, temp);
-        output_file << temp << "\n"; // Copy the header line to the subset output file
+        if (not fasta) output_file << temp << "\n"; // Copy the header line to the subset output file
         line = split(temp, "\t");
 
         // Map with column number --> index of sex_count (0 = male, 1 = female, 2 = no sex)
@@ -93,9 +96,13 @@ void subset(Parameters& parameters) {
                 case '\n':  // New line (also a new field)
                     if (sex_columns[field_n] != 2 and std::stoi(temp) > min_cov) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
                     n_individuals = sex_count[0] + sex_count[1] + sex_count[2];
-                    if (sex_count[0] > min_males and sex_count[0] < max_males and sex_count[1] > min_females and sex_count[1] < max_females and
-                            n_individuals > min_individuals and n_individuals < max_individuals) {
-                        output_file << temp_line << "\n";
+                    if (sex_count[0] > min_males and sex_count[0] < max_males and sex_count[1] > min_females and sex_count[1] < max_females and n_individuals > min_individuals and n_individuals < max_individuals) {
+                        if (fasta) {
+                            line = split(temp_line, "\t");
+                            output_file << ">" << line[0] << "_" << sex_count[0] << "M_" << sex_count[1] << "F_cov:" << min_cov + 1 << "\n" << line[1] << "\n";
+                        } else {
+                            output_file << temp_line << "\n";
+                        }
                     }
                     // Reset variables
                     temp = "";

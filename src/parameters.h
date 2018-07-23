@@ -16,18 +16,18 @@ struct Parameters {
     // Arguments: name, help message, flag, default value, type, internal type, value, required
     // Flags : -h, -f, -d, -o, -u, -t, -c, -p, -b, -a, -m, -g, --min-males, --min-females, --max-males, --max-females, --min-individuals, --output-matrix, -q,
     // Parameter constructor: Parameter(name, description, flag, default_value, type, internal_type, value, required)
-    std::vector<Parameter> list {Parameter("help", "Prints this message", "-h", "0", "bool", "bool", "", false),
-                                 Parameter("input_file_path", "Path to an input file", "-f", "", "string", "ifile", "", true),
-                                 Parameter("input_dir_path", "Path to an input directory", "-d", "", "string", "dir", "", true),
-                                 Parameter("output_file_path", "Path to an output file", "-o", "", "string", "ofile", "", true),
-                                 Parameter("output_dir_path", "Path to an output directory", "-u", "", "string", "dir", "", true),
-                                 Parameter("coverage_matrix_path", "Path to an coverage matrix file", "-a", "", "string", "ifile", "", true),
-                                 Parameter("n_threads", "Number of threads", "-t", "1", "int", "int", "", false),
-                                 Parameter("min_cov", "Minimum coverage to consider a marker", "-c", "1", "int", "int", "", false),
-                                 Parameter("max_distance", "Maximum Levenstein distance between two sequences in a locus", "-m", "1", "int", "int", "", false),
-                                 Parameter("popmap_file_path", "Path to a popmap file", "-p", "", "string", "ifile", "", true),
-                                 Parameter("barcodes_file_path", "Path to a barcodes file", "-b", "", "string", "ifile", "", true),
-                                 Parameter("genome_file_path", "Path to a genome file in fasta format", "-g", "", "string", "ifile", "", true),
+    std::vector<Parameter> list {Parameter("help", "Prints this message", "--help", "0", "bool", "bool", "", false),
+                                 Parameter("input_file_path", "Path to an input file", "--input-file", "", "string", "ifile", "", true),
+                                 Parameter("input_dir_path", "Path to an input directory", "--input-dir", "", "string", "dir", "", true),
+                                 Parameter("output_file_path", "Path to an output file", "--output-file", "", "string", "ofile", "", true),
+                                 Parameter("output_dir_path", "Path to an output directory", "--output-dir", "", "string", "dir", "", true),
+                                 Parameter("coverage_matrix_path", "Path to an coverage table file", "--coverage-table", "", "string", "ifile", "", true),
+                                 Parameter("n_threads", "Number of threads", "--threads", "1", "int", "int", "", false),
+                                 Parameter("min_cov", "Minimum coverage to consider a marker", "--min-cov", "1", "int", "int", "", false),
+                                 Parameter("max_distance", "Maximum Levenstein distance between two sequences in a locus", "--max-distance", "1", "int", "int", "", false),
+                                 Parameter("popmap_file_path", "Path to a popmap file", "--popmap-file", "", "string", "ifile", "", true),
+                                 Parameter("barcodes_file_path", "Path to a barcodes file", "--barcodes-file", "", "string", "ifile", "", true),
+                                 Parameter("genome_file_path", "Path to a genome file in fasta format", "--genome-file", "", "string", "ifile", "", true),
                                  Parameter("min_males", "Minimum number of males in the subset", "--min-males", "0", "int", "int", "", false),
                                  Parameter("min_females", "Minimum number of females in the subset", "--min-females", "0", "int", "int", "", false),
                                  Parameter("max_males", "Maximum number of males in the subset", "--max-males", "n.males", "int", "int", "", false),
@@ -35,8 +35,9 @@ struct Parameters {
                                  Parameter("min_individuals", "Minimum number of individuals in the subset (overrides sex parameters)", "--min-individuals", "0", "int", "int", "", false),
                                  Parameter("max_individuals", "Maxmimum number of individuals in the subset (overrides sex parameters)", "--max-individuals", "n.individual", "int", "int", "", false),
                                  Parameter("output_matrix", "Output the sex distribution table as a matrix", "--output-matrix", "0", "bool", "bool", "", false),
-                                 Parameter("min_quality", "Minimum mapping quality to keep a mapped read", "-q", "20", "int", "int", "", false),
-                                 Parameter("min_frequency", "Minimum frequency of a sequence in at least one sex.", "--min-frequency", "0.25", "float", "float", "", false)
+                                 Parameter("min_quality", "Minimum mapping quality to keep a mapped read", "--min-quality", "20", "int", "int", "", false),
+                                 Parameter("min_frequency", "Minimum frequency of a sequence in at least one sex", "--min-frequency", "0.25", "float", "float", "", false),
+                                 Parameter("output_format", "Output format, either \"table\" or \"fasta\"", "--output-format", "table", "string", "string", "", false)
                                  };
 
 

@@ -175,6 +175,7 @@ void output_group_loci(std::string& output_file_path, std::unordered_map<std::st
 
 
 
+// Create output file for the mapping analysis
 void output_mapping(std::string& output_file_path, std::vector<MappedSequence> sequences) {
 
     std::ofstream output_file;
