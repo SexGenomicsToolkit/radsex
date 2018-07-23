@@ -133,12 +133,12 @@ Command            | Description
 
 **Options** :
 
-Option | Full name | Description
---- | --- | ---
-`--input-dir` | `input_dir_path` | Path to a folder containing demultiplexed reads |
-`--output-file` | `output_file_path` | Path to the output file |
-`--threads` | `n_threads` | Number of threads to use (default: 1) |
-`--min-coverage` | `min_cov` | Minimum coverage to consider a sequence in an individual (default: 1) |
+Option | Description
+--- | ---
+`--input-dir` | Path to a folder containing demultiplexed reads |
+`--output-file` | Path to the output file |
+`--threads` | Number of threads to use (default: 1) |
+`--min-coverage` | Minimum coverage to consider a sequence in an individual (default: 1) |
 
 ### distrib
 
@@ -148,13 +148,13 @@ Option | Full name | Description
 
 **Options** :
 
-Option | Full name | Description
------- | --------- | -------------
-`--input-file` | `input_file_path` | Path to an coverage table obtained with `process` |
-`--output-file` | `output_file_path` | Path to the output file |
-`--popmap-file` | `popmap_file_path` | Path to a popmap file indicating the sex of each individual |
-`--min-coverage` | `min_cov` | Minimum coverage to consider a sequence present in an individual (default: 1) |
-`--output-matrix` | `output_matrix` | If true, outputs the resutls as a matrix with males in columns and females in rows instead of a table (default: false) |
+Option | Description
+------ | -------------
+`--input-file` | Path to an coverage table obtained with `process` |
+`--output-file` | Path to the output file |
+`--popmap-file` | Path to a popmap file indicating the sex of each individual |
+`--min-coverage` | Minimum coverage to consider a sequence present in an individual (default: 1) |
+`--output-matrix` | If true, outputs the resutls as a matrix with males in columns and females in rows instead of a table (default: false) |
 
 ### subset
 
@@ -164,19 +164,19 @@ Option | Full name | Description
 
 **Options** :
 
-Option | Full name | Description
---- | --- | ---
-`--input-file` | `input_file_path` | Path to an coverage table obtained with `process` |
-`--output-file` | `output_file_path` | Path to the output file |
-`--popmap-file` | `popmap_file_path` | Path to a popmap file indicating the sex of each individual |
-`--output-format` | `output-format` | Output format, either "table" or "fasta" |
-`--min-coverage` | `min_cov` | Minimum coverage to consider a sequence present in an individual (default: 1) |
-`--min-males` | `min_males` | Minimum number of males with a retained sequence |
-`--min-females` | `min_females` | Minimum number of females with a retained sequence |
-`--max-males` | `max_males` | Maximum number of males with a retained sequence |
-`--max-females` | `max_females` | Maximum number of females with a retained sequence |
-`--max-individuals` | `max_individuals` | Maximum number of individuals with a retained sequence |
-`--max-individuals` | `max_individuals` | Maximum number of individuals with a retained sequence |
+Option | Description
+--- | ---
+`--input-file` | Path to an coverage table obtained with `process` |
+`--output-file` | Path to the output file |
+`--popmap-file` | Path to a popmap file indicating the sex of each individual |
+`--output-format` | Output format, either "table" or "fasta" |
+`--min-coverage` | Minimum coverage to consider a sequence present in an individual (default: 1) |
+`--min-males` | Minimum number of males with a retained sequence |
+`--min-females` | Minimum number of females with a retained sequence |
+`--max-males` | Maximum number of males with a retained sequence |
+`--max-females` | Maximum number of females with a retained sequence |
+`--max-individuals` | Maximum number of individuals with a retained sequence |
+`--max-individuals` | Maximum number of individuals with a retained sequence |
 
 ### signif
 
@@ -186,13 +186,13 @@ Option | Full name | Description
 
 **Options** :
 
-Option | Full name | Description
---- | --- | ---
-`--input-file` | `input_file_path` | Path to an coverage table obtained with `process` |
-`--output-file` | `output_file_path` | Path to the output file |
-`--popmap-file` | `popmap_file_path` | Path to a popmap file indicating the sex of each individual |
-`--output-format` | `output-format` | Output format, either "table" or "fasta" |
-`--min-coverage` | `min_cov` | Minimum coverage to consider a sequence present in an individual (default: 1) |
+Option | Description
+--- | ---
+`--input-file` | Path to an coverage table obtained with `process` |
+`--output-file` | Path to the output file |
+`--popmap-file` | Path to a popmap file indicating the sex of each individual |
+`--output-format` | Output format, either "table" or "fasta" |
+`--min-coverage` | Minimum coverage to consider a sequence present in an individual (default: 1) |
 
 ### map
 
@@ -202,15 +202,15 @@ Option | Full name | Description
 
 **Options** :
 
-Option | Full name | Description
---- | --- | ---
-`--input-file` | `input_file_path` | Path to an coverage table obtained with `process` |
-`--output-file` | `output_file_path` | Path to the output file |
-`--popmap-file` | `popmap_file_path` | Path to a popmap file indicating the sex of each individual |
-`--genome-file` | `genome_file_path` | Path to a reference genome file in fasta format |
-`--min-coverage` | `min_cov` | Minimum coverage to consider a sequence present in an individual (default: 1) |
-`--min-quality` | `min_quality` | Minimum mapping quality, as defined in BWA, to consider a sequence properly mapped (default: 20) |
-`--min-frequency` | `min_frequency` | Minimum frequency in at least one sex for a sequence to be retained (default: 0.25) |
+Option | Description
+--- | ---
+`--input-file` | Path to an coverage table obtained with `process` |
+`--output-file` | Path to the output file |
+`--popmap-file` | Path to a popmap file indicating the sex of each individual |
+`--genome-file` | Path to a reference genome file in fasta format |
+`--min-coverage` | Minimum coverage to consider a sequence present in an individual (default: 1) |
+`--min-quality` | Minimum mapping quality, as defined in BWA, to consider a sequence properly mapped (default: 20) |
+`--min-frequency` | Minimum frequency in at least one sex for a sequence to be retained (default: 0.25) |
 
 ### freq
 
@@ -220,11 +220,11 @@ Option | Full name | Description
 
 **Options** :
 
-Option | Full name | Description
---- | --- | ---
-`--input-file` | `input_file_path` | Path to an coverage table obtained with `process` |
-`--output-file` | `output_file_path` | Path to the output file |
-`--min-coverage` | `min_cov` | Minimum coverage to consider a sequence present in an individual (default: 1) |
+Option | Description
+--- | ---
+`--input-file` | Path to an coverage table obtained with `process` |
+`--output-file` | Path to the output file |
+`--min-coverage` | Minimum coverage to consider a sequence present in an individual (default: 1) |
 
 ## FILE FORMATS
 
