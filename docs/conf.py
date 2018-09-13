@@ -19,14 +19,22 @@
 
 # -- Project information -----------------------------------------------------
 
+from recommonmark.parser import CommonMarkParser
+
+source_parsers = {
+    '.md': CommonMarkParser,
+}
+
+source_suffix = ['.rst', '.md']
+
 project = 'RADSex'
 copyright = '2018, Romain Feron'
 author = 'Romain Feron'
 
 # The short X.Y version
-version = ''
+version = '0.1'
 # The full version, including alpha/beta/rc tags
-release = ''
+release = '0.1.0'
 
 
 # -- General configuration ---------------------------------------------------
