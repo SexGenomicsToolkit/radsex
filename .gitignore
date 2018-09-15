@@ -87,3 +87,4 @@ TODO.txt
 *.pro.user
 /include/*/*.o
 /include/*/*.a
+*/_build/*
