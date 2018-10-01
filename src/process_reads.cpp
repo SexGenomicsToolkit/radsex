@@ -26,7 +26,7 @@ void process_reads(Parameters& parameters) {
     for (int i=0; i<parameters.get_value_from_name<int>(par); ++i) {
         threads.push_back(std::thread(file_processor, std::ref(input_files), std::ref(results), std::ref(results_mutex), std::ref(files_mutex)));
     }
-
+    
     for (auto &t : threads) t.join();
 
     par = "output_file_path";
@@ -35,6 +35,7 @@ void process_reads(Parameters& parameters) {
     // Create list of individuals
     std::vector<std::string> individuals;
     for (auto i: input_files) individuals.push_back(i.individual_name);
+
 
     // Generate the output file
     output_process_reads(output_file_path, individuals, results, min_cov);
@@ -49,6 +50,7 @@ inline void file_processor(std::vector<InputFile>& input_files, std::unordered_m
      * It is meant to be used in parallel to increase throughput
      * A mutex protects the list of input files and another mutex protects the results structure
      */
+
 
     bool remaining_files = true;
 
@@ -89,6 +91,7 @@ inline void process_file(InputFile& input_file, std::unordered_map<std::string, 
     // Read through the file and store the results
     while ((line_n = kseq_read(sequence)) >= 0) {
         ++temp_results[sequence->seq.s];
+        if (line_n % 1000 == 0) std::cout << line_n / 1000 << std::endl;
     }
 
     kseq_destroy(sequence); // Destroy the seq object
