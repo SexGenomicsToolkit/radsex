@@ -11,6 +11,8 @@ uint8_t revcomp_table[] = {
     'p', 'q', 'y', 's', 'a', 'a', 'b', 'w', 'x', 'r', 'z', 123, 124, 125, 126, 127
 };
 
+
+
 // Output current date and time in format specified in utils.h
 char* print_time (char *buff) {
 

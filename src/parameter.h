@@ -64,7 +64,10 @@ struct Parameter {
         } else if (this->internal_type == "dir") {
             DIR* dir = opendir(this->value.c_str());
             return (dir != NULL);
-        }else {
+        } else if (this->name == "output_format"){
+            if (this->value == "fasta" or this->value == "table") return true;
+            return false;
+        } else {
             return true;
         }
     }

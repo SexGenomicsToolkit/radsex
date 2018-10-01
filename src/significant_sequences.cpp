@@ -20,6 +20,9 @@ void significant_sequences(Parameters& parameters) {
     par = "min_cov";
     int min_cov = parameters.get_value_from_name<int>(par) - 1; // -1 allows comparison with > instead of >=
 
+    par = "output_format";
+    bool fasta = parameters.get_value_from_name<std::string>(par) == "fasta";
+
     if (input_file) {
 
         par = "output_file_path";
@@ -30,7 +33,7 @@ void significant_sequences(Parameters& parameters) {
         std::vector<std::string> line;
         std::string temp = "";
         std::getline(input_file, temp);
-        output_file << temp << "\n"; // Copy the header line to the subset output file
+        if (not fasta) output_file << temp << "\n"; // Copy the header line to the subset output file
         line = split(temp, "\t");
 
         // Map with column number --> index of sex_count (0 = male, 1 = female, 2 = no sex)
@@ -56,7 +59,7 @@ void significant_sequences(Parameters& parameters) {
         int sex_count[3] = {0, 0, 0}; // Index: 0 = male, 1 = female, 2 = no sex information
         double chi_squared = 0, p = 0;
 
-        std::map<std::string, double> candidate_sequences;
+        std::map<std::string, double[3]> candidate_sequences;
 
         do {
 
@@ -84,7 +87,9 @@ void significant_sequences(Parameters& parameters) {
                         chi_squared = get_chi_squared(sex_count[0], sex_count[1], total_males, total_females);
                         p = get_chi_squared_p(chi_squared);
                         if (p < 0.05) { // First pass: we filter sequences with at least one male or one female and non-corrected p < 0.05
-                            candidate_sequences[temp_line] = p;
+                            candidate_sequences[temp_line][0] = p;
+                            candidate_sequences[temp_line][1] = sex_count[0];
+                            candidate_sequences[temp_line][2] = sex_count[1];
                         }
                     }
                     // Reset variables
@@ -107,8 +112,13 @@ void significant_sequences(Parameters& parameters) {
 
         // Second pass: filter with bonferroni
         for (auto sequence: candidate_sequences) {
-            if (sequence.second < significance_threshold) {
-                output_file << sequence.first << "\n";
+            if (sequence.second[0] < significance_threshold) {
+                if (fasta) {
+                    line = split(sequence.first, "\t");
+                    output_file << ">" << line[0] << "_" << int(sequence.second[1]) << "M_" << int(sequence.second[2]) << "F_cov:" << min_cov + 1 << "_p:" << sequence.second[0] << "\n" << line[1] << "\n";
+                } else {
+                    output_file << sequence.first << "\n";
+                }
             }
         }
 

@@ -140,6 +140,7 @@ void RadSex::parse() {
             else if (option.internal_type == "ifile") std::cout << " a path to an existing file.";
             else if (option.internal_type == "ofile") std::cout << " a valid path to an output file.";
             else if (option.internal_type == "dir") std::cout << " a path to an existing directory.";
+            else if (option.name == "output_format") std::cout << " either \"table\" or \"fasta\"";
             std::cout << std::endl;
             success = false;
         }

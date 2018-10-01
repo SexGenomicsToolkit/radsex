@@ -1,10 +1,15 @@
 # RADSex
 
-The RADSex pipeline is **currently under development** and has not been officially released yet. Missing features are been implemented, and some bugs are to be expected in this current development version. Please contact me by email or on Github, or open an issue if you encounter bugs or would like to discuss a feature !
+The RADSex pipeline is **currently under development** and has not been officially released yet. 
+Missing features are been implemented, and some bugs are to be expected in this current development version. 
+Please contact me by email or on Github, or open an issue if you encounter bugs or would like to discuss a feature !
 
 ## Overview
 
-RADSex is a software package for the analysis of sex-determination using RAD-Sequencing data. The `process` function generates a data structure summarizing a set of demultiplexed RAD reads, and other functions use this data structure to infer information about the type of sex-determination system, identify sex-biased sequences, and map the RAD sequences to a reference genome. The results of RADSex are meant to be visualized with the `radsex-vis` R package, available here: https://github.com/INRA-LPGP/radsex-vis.
+RADSex is a software package for the analysis of sex-determination using RAD-Sequencing data. 
+The `process` function generates a data structure summarizing a set of demultiplexed RAD reads, 
+and other functions use this data structure to infer information about the type of sex-determination system, identify sex-biased sequences, and map the RAD sequences to a reference genome. 
+The results of RADSex are meant to be visualized with the `radsex-vis` R package, available here: https://github.com/INRA-LPGP/radsex-vis.
 
 This pipeline was developed for the PhyloSex project, which investigates sex determining factors in a wide range of fish species.
 
@@ -15,7 +20,7 @@ This pipeline was developed for the PhyloSex project, which investigates sex det
 
 ## Installation
 
-- Clone: `git clone git@github.com:INRA-LPGP/RadSex.git`
+- Clone: `git clone https://github.com/RomainFeron/RadSex.git`
 - *Alternative: download the archive and unzip it*
 - Go to the RadSex directory (`cd RadSex`)
 - Run `make`
@@ -26,27 +31,38 @@ This pipeline was developed for the PhyloSex project, which investigates sex det
 #### Before starting
 
 Before running the pipeline, you should prepare the following elements:
-- A **set of demultiplexed reads**. The current version of RADSex does not implement demultiplexing; raw sequencing reads can be demultiplexed using [Stacks](http://catchenlab.life.illinois.edu/stacks/comp/process_radtags.php) or [pyRAD](http://nbviewer.jupyter.org/gist/dereneaton/af9548ea0e94bff99aa0/pyRAD_v.3.0.ipynb#The-seven-steps-described). 
-- A **population map** (popmap): a tabulated file with individual ID as the first column and sex as the second column. It is important that the individual IDs in the popmap are the same as the names of the demultiplexed reads files (see the [popmap section](#population-map) for details).
-- If you want to map the sequences to a reference genome: a **reference genome** in fasta format. Note that when visualizing `mapping` results with `radsex-vis`, linkage groups / chromosomes are automatically inferred from scaffold names in the reference sequence if their name starts with *LG*, *chr*, or *chromosome* (case unsensitive). If chromosomes are named differently in the reference genome, you should prepare a tabulated file with reference scaffold ID in the first column and corresponding chromosome name in the second column (see the [chromosomes names section](#chromosomes-names) for details)
+- A **set of demultiplexed reads**. The current version of RADSex does not implement demultiplexing;
+  raw sequencing reads can be demultiplexed using [Stacks](http://catchenlab.life.illinois.edu/stacks/comp/process_radtags.php)
+  or [pyRAD](http://nbviewer.jupyter.org/gist/dereneaton/af9548ea0e94bff99aa0/pyRAD_v.3.0.ipynb#The-seven-steps-described).
+- A **population map** (popmap): a tabulated file with individual ID as the first column and sex as the second column.
+  It is important that the individual IDs in the popmap are the same as the names of the demultiplexed reads files (see the [popmap section](#population-map) for details).
+- If you want to map the sequences to a reference genome: a **reference genome** in fasta format.
+  Note that when visualizing `mapping` results with `radsex-vis`, linkage groups / chromosomes are automatically inferred from scaffold names in the reference sequence
+  if their name starts with *LG*, *chr*, or *chromosome* (case unsensitive).
+  If chromosomes are named differently in the reference genome, you should prepare a tabulated file with
+  reference scaffold ID in the first column and corresponding chromosome name in the second column (see the [chromosomes names section](#chromosomes-names) for details)
 
 #### Computing the coverage table
 
 The first step of RADSex is to create a table of coverage for the dataset using the `process` command:
 
-`radsex process -d ./samples -o coverage_table.tsv -t 16 -c 1`
+`radsex process --input-dir ./samples --output-file coverage_table.tsv --threads 16 --min-coverage 1`
 
-In this example, demultiplexed reads are stored in `./samples` and the coverage table generated by `process` will be stored in `coverage_table.tsv`. The parameter `-t` specifies the number of threads to use.
+In this example, demultiplexed reads are stored in `./samples` and the coverage table generated by `process` will be stored in `coverage_table.tsv`. The parameter `--threads` specifies the number of threads to use.
 
-The parameter `-c` specifies the minimum coverage value to consider a sequence present in an individual: sequences which are not present with coverage higher than this value in at least one individual will not be retained in the coverage table. It is advised to keep the minimum coverage to 1 for this step, as it can be adjusted for each analysis later.
+The parameter `--min-coverage` specifies the minimum coverage value to consider a sequence present in an individual: 
+sequences which are not present with coverage higher than this value in at least one individual will not be retained in the coverage table. 
+It is advised to keep the minimum coverage to 1 for this step, as it can be adjusted for each analysis later.
 
 #### Computing the distribution of sequences between sexes
 
 After generating the coverage table, the `distrib` command is used to compute the distribution of sequences between sexes:
 
-`radsex distrib -f coverage_table.tsv -o distribution.tsv -p popmap.tsv -c 5`
+`radsex distrib --input-file coverage_table.tsv --output-file distribution.tsv --popmap-file popmap.tsv --min-coverage 5`
 
-In this example, the input file `-f` is the coverage table generated in the [previous step](#computing-the-coverage-table), and the distribution of sequences between sexes will be stored in `distribution.tsv`. The sex of each individual in the population is given by `popmap.tsv` (see the [popmap section](#population-map) for details). The minimum coverage to consider a sequence present in an individual is set to 5, meaning that sequences present with coverage (depth) lower than 5 in one individual will not be counted in this individual.
+In this example, the input file `--input-file` is the coverage table generated in the [previous step](#computing-the-coverage-table), and the distribution of sequences between sexes will be stored in `distribution.tsv`. 
+The sex of each individual in the population is given by `popmap.tsv` (see the [popmap section](#population-map) for details). 
+The minimum coverage to consider a sequence present in an individual is set to 5, meaning that sequences present with coverage (depth) lower than 5 in one individual will not be counted in this individual.
 
 The resulting file `distribution.tsv` is a table with four columns:
 - **Males** : number of males in which a sequence was present.
@@ -60,9 +76,12 @@ This distribution can be visualized with the `plot_sex_distribution()` function 
 
 Sequences significantly associated with sex can be obtained with the `signif` command:
 
-`radsex signif -f coverage_table.tsv -o sequences.tsv -p popmap.tsv -c 5`
+`radsex signif --input-file coverage_table.tsv --output-file sequences.tsv --popmap-file popmap.tsv --min-coverage 5 [ --output-format fasta ]`
 
-In this example, the input file `-f` is the coverage table generated in the [first step](#computing-the-coverage-table), and the sequences significantly associated with sex will be stored in `sequences.tsv`. The sex of each individual in the population is given by `popmap.tsv` (see the [popmap section](#population-map) for details), and the minimum coverage to consider a sequence present in an individual is set to 5 (see the [previous section](#computing-the-distribution-of-sequences-between-sexes)). By default, the `signif` function exports a small coverage table; sequences can be exported to fasta using the `--fasta` parameter.
+In this example, the input file `--input-file` is the coverage table generated in the [first step](#computing-the-coverage-table), and the sequences significantly associated with sex will be stored in `sequences.tsv`. 
+The sex of each individual in the population is given by `popmap.tsv` (see the [popmap section](#population-map) for details), 
+and the minimum coverage to consider a sequence present in an individual is set to 5 (see the [previous section](#computing-the-distribution-of-sequences-between-sexes)). 
+By default, the `signif` function exports a small coverage table; sequences can be exported to fasta using the `--output-format` parameter.
 
 The coverage table generated by `signif` can be visualized with the `plot_coverage()` function of `radsex-vis`, which generates a [coverage heatmap](./examples/figures/coverage.png)
 
@@ -70,9 +89,13 @@ The coverage table generated by `signif` can be visualized with the `plot_covera
 
 Sequences can be mapped to a reference genome using the `map` command:
 
-`radsex map -f coverage_table.tsv -o mapping.tsv -p popmap.tsv -g genome.fasta -q 20 --min-frequency 0.1 -c 5`
+`radsex map --input-file coverage_table.tsv --output-file mapping.tsv --popmap-file popmap.tsv --genome-file genome.fasta --min-quality 20 --min-frequency 0.1 --min-coverage 5`
 
-In this example, the input file `-f` is the coverage table generated in the [first step](#computing-the-coverage-table), the mapping results will be stored in `sequences.tsv`, and the path to the reference genome file is given by `-g`. The sex of each individual in the population is given by `popmap.tsv` (see the [popmap section](#population-map) for details), and the minimum coverage to consider a sequence present in an individual is set to 5 (see the [previous section](#computing-the-distribution-of-sequences-between-sexes)). The parameter `-q` specifies the minimum mapping quality (as defined in [BWA](http://bio-bwa.sourceforge.net/bwa.shtml)) to consider a sequence mapped (`-q`), here set to 20. The parameter `--min-frequency` specifies the minimum frequency of a sequence in at least one sex; it is set to 0.1 here, meaning that only sequences present in at least 10% of individuals of one sex are retained for mapping.
+In this example, the input file `--input-file` is the coverage table generated in the [first step](#computing-the-coverage-table), the mapping results will be stored in `sequences.tsv`, 
+and the path to the reference genome file is given by `--genome-file`. The sex of each individual in the population is given by `popmap.tsv` (see the [popmap section](#population-map) for details), 
+and the minimum coverage to consider a sequence present in an individual is set to 5 (see the [previous section](#computing-the-distribution-of-sequences-between-sexes)). 
+The parameter `--min-quality` specifies the minimum mapping quality (as defined in [BWA](http://bio-bwa.sourceforge.net/bwa.shtml)) to consider a sequence mapped (`--min-quality`), here set to 20. 
+The parameter `--min-frequency` specifies the minimum frequency of a sequence in at least one sex; it is set to 0.1 here, meaning that only sequences present in at least 10% of individuals of one sex are retained for mapping.
 
 The resulting file `mapping.tsv` is a table with five columns:
 - **Sequence :** ID of the mapped sequence
@@ -81,7 +104,8 @@ The resulting file `mapping.tsv` is a table with five columns:
 - **SexBias :** sex-bias of the mapped sequence, defined as (Males / Total males ) - (Females / Total females)
 - **P :** p-value of a chi-squared test for association with sex
 
-The mapping results generated by `map` can be visualized with the `plot_genome()` function of `radsex-vis`, which generates a [circular plot](./examples/figures/genome.png). Mapping results for a specific scaffold can be visualized with the `plot_scaffold()` function to generate a [linear plot](./examples/figures/scaffold.png).
+The mapping results generated by `map` can be visualized with the `plot_genome()` function of `radsex-vis`, which generates a [circular plot](./examples/figures/genome.png). 
+Mapping results for a specific scaffold can be visualized with the `plot_scaffold()` function to generate a [linear plot](./examples/figures/scaffold.png).
 
 ## Usage
 
@@ -103,108 +127,111 @@ Command            | Description
 
 ### process
 
-`radsex process -d input_dir_path -o output_file_path [ -t n_threads -c min_cov ]`
+`radsex process --input-dir input_dir_path --output-file output_file_path [ --threads n_threads --min-coverage min_cov ]`
 
 *Generates a table of coverage for all individuals and all sequences. The output is a tabulated file, where each line contains the ID, sequence and coverage for each individual of a sequence.*
 
 **Options** :
 
-Option | Full name | Description
---- | --- | ---
-`-d` | `input_dir_path` | Path to a folder containing demultiplexed reads |
-`-o` | `output_file_path` | Path to the output file |
-`-t` | `n_threads` | Number of threads to use (default: 1) |
-`-c` | `min_cov` | Minimum coverage to consider a sequence in an individual (default: 1) |
+Option | Description
+--- | ---
+`--input-dir` | Path to a folder containing demultiplexed reads |
+`--output-file` | Path to the output file |
+`--threads` | Number of threads to use (default: 1) |
+`--min-coverage` | Minimum coverage to consider a sequence in an individual (default: 1) |
 
 ### distrib
 
-`radsex distrib -f input_file_path -o output_file_path -p popmap_file_path [ -c min_cov --output-matrix ]`
+`radsex distrib --input-file input_file_path --output-file output_file_path --popmap-file popmap_file_path [ --min-coverage min_cov --output-matrix ]`
 
 *Generates a table which contains the number of sequences present with coverage higher than min_cov and the probability of association with sex for every combination of number of males and number of females.*
 
 **Options** :
 
-Option | Full name | Description
------- | --------- | -------------
-`-f` | `input_file_path` | Path to an coverage table obtained with `process` |
-`-o` | `output_file_path` | Path to the output file |
-`-p` | `popmap_file_path` | Path to a popmap file indicating the sex of each individual |
-`-c` | `min_cov` | Minimum coverage to consider a sequence present in an individual (default: 1) |
-`--output-matrix` | `output_matrix` | If true, outputs the resutls as a matrix with males in columns and females in rows instead of a table (default: false) |
+Option | Description
+------ | -------------
+`--input-file` | Path to an coverage table obtained with `process` |
+`--output-file` | Path to the output file |
+`--popmap-file` | Path to a popmap file indicating the sex of each individual |
+`--min-coverage` | Minimum coverage to consider a sequence present in an individual (default: 1) |
+`--output-matrix` | If true, outputs the resutls as a matrix with males in columns and females in rows instead of a table (default: false) |
 
 ### subset
 
-`radsex subset -f input_file_path -o output_file_path -p popmap_file_path [ -c min_cov --min-males min_males --min-females min_females --max-males max_males --max-females max_females --min-individuals min_individuals --max-individuals max_individuals]`
+`radsex subset --input-file input_file_path --output-file output_file_path --popmap-file popmap_file_path [ --output-format output_format --min-coverage min_cov --min-males min_males --min-females min_females --max-males max_males --max-females max_females --min-individuals min_individuals --max-individuals max_individuals]`
 
 *Filters the coverage table to only export sequences present in any combination of M males and F females, with min_males ≤ M ≤ max_males, min_females ≤ F ≤ max_females, and min_individuals ≤ M + F ≤ max_individuals*
 
 **Options** :
 
-Option | Full name | Description
---- | --- | ---
-`-f` | `input_file_path` | Path to an coverage table obtained with `process` |
-`-o` | `output_file_path` | Path to the output file |
-`-p` | `popmap_file_path` | Path to a popmap file indicating the sex of each individual |
-`-c` | `min_cov` | Minimum coverage to consider a sequence present in an individual (default: 1) |
-`--min-males` | `min_males` | Minimum number of males with a retained sequence |
-`--min-females` | `min_females` | Minimum number of females with a retained sequence |
-`--max-males` | `max_males` | Maximum number of males with a retained sequence |
-`--max-females` | `max_females` | Maximum number of females with a retained sequence |
-`--max-individuals` | `max_individuals` | Maximum number of individuals with a retained sequence |
-`--max-individuals` | `max_individuals` | Maximum number of individuals with a retained sequence |
+Option | Description
+--- | ---
+`--input-file` | Path to an coverage table obtained with `process` |
+`--output-file` | Path to the output file |
+`--popmap-file` | Path to a popmap file indicating the sex of each individual |
+`--output-format` | Output format, either "table" or "fasta" |
+`--min-coverage` | Minimum coverage to consider a sequence present in an individual (default: 1) |
+`--min-males` | Minimum number of males with a retained sequence |
+`--min-females` | Minimum number of females with a retained sequence |
+`--max-males` | Maximum number of males with a retained sequence |
+`--max-females` | Maximum number of females with a retained sequence |
+`--max-individuals` | Maximum number of individuals with a retained sequence |
+`--max-individuals` | Maximum number of individuals with a retained sequence |
 
 ### signif
 
-`radsex signif -f input_file_path -o output_file_path -p popmap_file_path [ -c min_cov ]`
+`radsex signif --input-file input_file_path --output-file output_file_path --popmap-file popmap_file_path [ --output-format output_format --min-coverage min_cov ]`
 
 *Filters the coverage table to only export sequences significantly associated with sex, defined as sequences for which p < 0.05 (after Bonferroni correction), with p being the p-value of a chi-squared test on the numbers of males and females.*
 
 **Options** :
 
-Option | Full name | Description
---- | --- | ---
-`-f` | `input_file_path` | Path to an coverage table obtained with `process` |
-`-o` | `output_file_path` | Path to the output file |
-`-p` | `popmap_file_path` | Path to a popmap file indicating the sex of each individual |
-`-c` | `min_cov` | Minimum coverage to consider a sequence present in an individual (default: 1) |
+Option | Description
+--- | ---
+`--input-file` | Path to an coverage table obtained with `process` |
+`--output-file` | Path to the output file |
+`--popmap-file` | Path to a popmap file indicating the sex of each individual |
+`--output-format` | Output format, either "table" or "fasta" |
+`--min-coverage` | Minimum coverage to consider a sequence present in an individual (default: 1) |
 
 ### map
 
-`radsex map -f input_file_path -o output_file_path -p popmap_file_path -g genome_file_path [ -c min_cov -q min_quality --min-frequency min_frequency ]`
+`radsex map --input-file input_file_path --output-file output_file_path --popmap-file popmap_file_path --genome-file genome_file_path [ --min-coverage min_cov --min-quality min_quality --min-frequency min_frequency ]`
 
 *Maps the sequences from the coverage table to a reference genome and outputs mapping position, sex bias, and p-value of association with sex for each mapped sequence.*
 
 **Options** :
 
-Option | Full name | Description
---- | --- | ---
-`-f` | `input_file_path` | Path to an coverage table obtained with `process` |
-`-o` | `output_file_path` | Path to the output file |
-`-p` | `popmap_file_path` | Path to a popmap file indicating the sex of each individual |
-`-g` | `genome_file_path` | Path to a reference genome file in fasta format |
-`-c` | `min_cov` | Minimum coverage to consider a sequence present in an individual (default: 1) |
-`-q` | `min_quality` | Minimum mapping quality, as defined in BWA, to consider a sequence properly mapped (default: 20) |
-`--min-frequency` | `min_frequency` | Minimum frequency in at least one sex for a sequence to be retained (default: 0.25) |
+Option | Description
+--- | ---
+`--input-file` | Path to an coverage table obtained with `process` |
+`--output-file` | Path to the output file |
+`--popmap-file` | Path to a popmap file indicating the sex of each individual |
+`--genome-file` | Path to a reference genome file in fasta format |
+`--min-coverage` | Minimum coverage to consider a sequence present in an individual (default: 1) |
+`--min-quality` | Minimum mapping quality, as defined in BWA, to consider a sequence properly mapped (default: 20) |
+`--min-frequency` | Minimum frequency in at least one sex for a sequence to be retained (default: 0.25) |
 
 ### freq
 
-`radsex freq -f input_file_path -o output_file_path [ -c min_cov ]`
+`radsex freq --input-file input_file_path --output-file output_file_path [ --min-coverage min_cov ]`
 
 *Computes the sequences frequencies for the entire population*
 
 **Options** :
 
-Option | Full name | Description
---- | --- | ---
-`-f` | `input_file_path` | Path to an coverage table obtained with `process` |
-`-o` | `output_file_path` | Path to the output file |
-`-c` | `min_cov` | Minimum coverage to consider a sequence present in an individual (default: 1) |
+Option | Description
+--- | ---
+`--input-file` | Path to an coverage table obtained with `process` |
+`--output-file` | Path to the output file |
+`--min-coverage` | Minimum coverage to consider a sequence present in an individual (default: 1) |
 
 ## FILE FORMATS
 
 ### Population map
 
-A population map file is a tabulated file without header, with individual ID in the first column and sex in the second column. Sex is encoded as 'M' for males, 'F' for females, and 'N' for undetermined. An example of population map is given below:
+A population map file is a tabulated file without header, with individual ID in the first column and sex in the second column. 
+Sex is encoded as 'M' for males, 'F' for females, and 'N' for undetermined. An example of population map is given below:
 
 ```
 individual_1    M
@@ -214,11 +241,17 @@ individual_4    N
 individual_5    F
 ```
 
-Individual IDs can be anything, but it is important that they correspond to the name of the demultiplexed files. For instance, the reads file for *individual_1* should be named `individual_1.fastq.gz` (in any format supported by your demultiplexer). If you are using Stacks with a barcodes file for demultiplexing, just make sure that individual IDs in the barcodes file and in the population map are the same.
+Individual IDs can be anything, but it is important that they correspond to the name of the demultiplexed files. 
+For instance, the reads file for *individual_1* should be named `individual_1.fastq.gz` (in any format supported by your demultiplexer). 
+If you are using Stacks with a barcodes file for demultiplexing, just make sure that individual IDs in the barcodes file and in the population map are the same.
 
 ### Chromosomes names
 
-Genome-wide results from the `map` command are visualized using the `plot_genome()` function of `radsex-vis`. This function can automatically detect chromosomes in the reference file if their name starts with 'LG' or 'chr' (case unsensitive). If this is not the case, you should provide a chromosomes names file to `plot_genome()`. This file should be a tabulated file without header, with scaffold ID in the reference in the first column and corresponding chromosome name in the second column. An example of chromosomes names file is given below for the [Northern Pike genome](https://www.ncbi.nlm.nih.gov/genome/?term=esox%20lucius) :
+Genome-wide results from the `map` command are visualized using the `plot_genome()` function of `radsex-vis`. 
+This function can automatically detect chromosomes in the reference file if their name starts with 'LG' or 'chr' (case unsensitive). 
+If this is not the case, you should provide a chromosomes names file to `plot_genome()`. 
+This file should be a tabulated file without header, with scaffold ID in the reference in the first column and corresponding chromosome name in the second column. 
+An example of chromosomes names file is given below for the [Northern Pike genome](https://www.ncbi.nlm.nih.gov/genome/?term=esox%20lucius) :
 
 ```
 NC_025968.3     LG01
@@ -254,7 +287,9 @@ The chromosomes names can be anything starting with 'LG' or 'chr' (LG1, LG_01, c
 
 #### Coverage table
 
-Coverage tables tabulated files with header generated by the `process` command for the entire dataset, and by the `subset` and `signif` commands for a subset of sequences. The first column contains the sequence ID, and the second column contains the sequence itself. Each other column contains the coverage of the corresponding sequence in a given individual. An example of coverage table is given below (the sequence was shortened for visual reasons):
+Coverage tables tabulated files with header generated by the `process` command for the entire dataset, and by the `subset` and `signif` commands for a subset of sequences. 
+The first column contains the sequence ID, and the second column contains the sequence itself. Each other column contains the coverage of the corresponding sequence in a given individual. 
+An example of coverage table is given below (the sequence was shortened for visual reasons):
 
 ```
 ID    Sequence    individual_1    individual_2    individual_3    individual_4    individual_5
@@ -264,13 +299,30 @@ ID    Sequence    individual_1    individual_2    individual_3    individual_4  
 3    TGCA..CCGA        14              29              23               2              19
 ```
 
-Note that the `min_cov` parameter from most analyses is only used for filtering during the analysis, and not to filter values exported in the coverage table. We think it is better to keep the real information from the dataset in the coverage tables. Therefore, individual coverage values may be lower than the threshold set with `min_cov`, and the value of `min_cov` should be specified again during visualization.
+#### FASTA file
+
+FASTA files can be generated by the `subset` and `signif` commands for a subset of sequences.
+
+In the `subset` analysis, FASTA headers are generated as follows:
+
+```
+<ID>_<number of males>M_<number of females>F_cov:<minimum coverage>
+```
+
+In the `signif` analysis, another field containing the p-value of association with sex is added:
+
+```
+<ID>_<number of males>M_<number of females>F_cov:<minimum coverage>_p:<p-value>
+```
 
 #### Distribution of sequences between sexes
 
 ##### Table format
 
-A table of distribution of sequences between sexes is a tabulated file with header generated by the `distrib` command. The first and second columns indicate the number of males and females in which a sequence is present, the third column contains the number of sequences found in the corresponding number of males and females, the fourth column contains the p-value of a chi-squared test for association with sex, and the fifth column indicates whether this p-value is significant after Bonferroni correction. An example of sex distribution table is given below for 3 males and 3 females:
+A table of distribution of sequences between sexes is a tabulated file with header generated by the `distrib` command. 
+The first and second columns indicate the number of males and females in which a sequence is present, the third column contains the number of sequences found in the corresponding number of males and females, 
+the fourth column contains the p-value of a chi-squared test for association with sex, and the fifth column indicates whether this p-value is significant after Bonferroni correction. 
+An example of sex distribution table is given below for 3 males and 3 females:
 
 ```
 Males    Females    Sequences      P      Signif
@@ -295,7 +347,8 @@ In this example, there are 68 sequences in total, therefore sequences are signif
 
 ##### Matrix format
 
-The distribution of sequences between sexes can also be output as a matrix, which is a tabulated file without header, with number of females as rows and number of males as rows. The sex distribution matrix for the example described above is given below:
+The distribution of sequences between sexes can also be output as a matrix, which is a tabulated file without header, with number of females as rows and number of males as rows. 
+The sex distribution matrix for the example described above is given below:
 
 ```
 0    6    3    4
@@ -306,7 +359,11 @@ The distribution of sequences between sexes can also be output as a matrix, whic
 
 #### Mapping results
 
-Results from the `map` command are output as a tabulated file with header. The first column contains the sequence ID, the second column contains the contig to which the sequence mapped in the reference genome, and the third columns contains the position where the sequence mapped on the contig. The fourth column contains a sex-bias value, defined as `(number of males with the sequence) / (total number of males) - (number of females with the sequence) / (total number of females)`. The fifth column contains the p-value of a chi-squared test for association with sex, and the sixth column indicates whether this p-value is significant after Bonferroni correction. An example of mapping results is given below:
+Results from the `map` command are output as a tabulated file with header. 
+The first column contains the sequence ID, the second column contains the contig to which the sequence mapped in the reference genome, and the third columns contains the position where the sequence mapped on the contig. 
+The fourth column contains a sex-bias value, defined as `(number of males with the sequence) / (total number of males) - (number of females with the sequence) / (total number of females)`. 
+The fifth column contains the p-value of a chi-squared test for association with sex, and the sixth column indicates whether this p-value is significant after Bonferroni correction. 
+An example of mapping results is given below:
 
 ```
 Sequence      Contig      Position      SexBias        P     Signif
@@ -331,8 +388,10 @@ Sequence      Contig      Position      SexBias        P     Signif
 
 Copyright (C) 2018 Romain Feron and INRA LPGP
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, 
+either version 3 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/
