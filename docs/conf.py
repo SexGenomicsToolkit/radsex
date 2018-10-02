@@ -19,13 +19,7 @@
 
 # -- Project information -----------------------------------------------------
 
-from recommonmark.parser import CommonMarkParser
-
-source_parsers = {
-    '.md': CommonMarkParser,
-}
-
-source_suffix = ['.rst', '.md']
+source_suffix = ['.rst']
 
 project = 'RADSex'
 copyright = '2018, Romain Feron'
