@@ -13,6 +13,13 @@ The results of RADSex are meant to be visualized with the `radsex-vis` R package
 
 This pipeline was developed for the PhyloSex project, which investigates sex determining factors in a wide range of fish species.
 
+## Full Documentation
+
+The full documentation for RADSex (still under construction) is available there: https://radsex.readthedocs.io/en/docs .
+It contains a complete Getting Started section, a detailed usage for all functions, and real-life datasets examples covering many situations.
+
+A simple documentation is provided in this readme file, including a simple installation guide and a simple getting started section.
+
 ## Requirements
 
 - A C++11 compliant compiler (GCC >= 4.8.1, Clang >= 3.3)
