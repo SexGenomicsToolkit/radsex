@@ -15,12 +15,12 @@ The RADSex software presents the general command-line interface:
 Command  Description
 =======  ===========
 process  Compute a table of coverage from a set of demultiplexed reads
-distrib  Compute the distribution of sequences between sexes
-subset   Extract a subset of the coverage table
-signif   Extract sequences significantly associated with sex
+distrib  Compute the distribution of markers between sexes
+subset   Extract a specified subset of the coverage table
+signif   Extract markers significantly associated with sex
 loci     Recreate polymorphic loci from a subset of coverage table
-mapping  Map a subset of sequences (coverage table or fasta) to a reference genome and output sex-association metrics for each mapped sequence
-freq     Compute sequence frequencies for the population
+mapping  Map a subset of markers (coverage table or fasta) to a reference genome and output sex-association metrics for each mapped marker
+freq     Compute marker frequencies for the population
 =======  ===========
 
 
@@ -41,9 +41,9 @@ The ``process`` command generates a table showing the coverage of each marker in
 Option              Description
 ==================  ===========
 ``--input-dir``     Path to a folder containing demultiplexed reads
-``--output-file``   Path to the output file
+``--output-file``   Path to the output file (in tsv format)
 ``--threads``       Number of threads to use (default: 1)
-``--min-coverage``  Minimum coverage to consider a sequence in an individual (default: 1)
+``--min-coverage``  Minimum coverage to consider a marker present in an individual (default: 1)
 ==================  ===========
 
 **Sample output**
@@ -57,6 +57,8 @@ Option              Description
     3     TGCA..CCGA            14              29              23               2              19
 
 
+.. note:: Input files are automatically dectected from the input directory based on their extensions. Supported extensions are **.fa**, **.fa.gz**, **.fq**, **.fq.gz**, **.fasta**, **.fasta.gz**, **.fastq**, **.fastq.gz**, **.fna**, and **.fna.gz**. Individual IDs in the output table will be inferred from the input files names after removing the extension. For instance, a file named **individual_1.fastq.gz** will be attributed the ID **individual_1**. Make sure to use the same IDs when creating the population map !
+
 
 distrib
 -------
@@ -67,17 +69,17 @@ distrib
 
     radsex distrib --input-file input_file_path --output-file output_file_path --popmap-file popmap_file_path [ --min-coverage min_cov --output-matrix ]
 
-The ``distrib`` command generates a table containing the number of sequences present with coverage higher than min_cov in *M* males and *F* females for every combination of number of males *M* and number of females *F*.
+The ``distrib`` command generates a table containing the number of markers present with coverage higher than min_cov in *M* males and *F* females for every combination of number of males *M* and number of females *F*. For each combination of *M* and *F*, a probability of association with sex is computed using a chi-squared test with Yate's correction for continuity. Significativity is provided in the last column, including Bonferroni correction : markers are significantly associated with sex when p ≤ (0.05 / total number of markers).
 
 **Options**
 
 ===================  ===========
 Option               Description
 ===================  ===========
-``--input-file``     Path to a folder containing demultiplexed reads
-``--output-file``    Path to the output file
+``--input-file``     Path to coverage table generated with ``process``
+``--output-file``    Path to the output file (in tsv format)
 ``--popmap-file``    Path to a popmap file indicating the sex of each individual
-``--min-coverage``   Minimum coverage to consider a sequence in an individual (default: 1)
+``--min-coverage``   Minimum coverage to consider a marker present in an individual (default: 1)
 ``--output-matrix``  If true, outputs the results as a matrix with males in columns and females in rows instead of a table (default: 0)
 ===================  ===========
 
@@ -102,6 +104,7 @@ Option               Description
       3         2           6          1      False
       3         3           9          1      False
 
+
 subset
 ------
 
@@ -111,7 +114,7 @@ subset
 
     radsex subset --input-file input_file_path --output-file output_file_path --popmap-file popmap_file_path [ --output-format output_format --min-coverage min_cov --min-males min_males --min-females min_females --max-males max_males --max-females max_females --min-individuals min_individuals --max-individuals max_individuals]
 
-The ``subset`` command filters the coverage table to only export sequences present in any combination of M males and F females, with min_males ≤ M ≤ max_males, min_females ≤ F ≤ max_females, and min_individuals ≤ M + F ≤ max_individuals.
+The ``subset`` command filters the coverage table to only export markers present in M males and F females, with min_males ≤ M ≤ max_males, min_females ≤ F ≤ max_females, and min_individuals ≤ M + F ≤ max_individuals. Markers can be exported either in table format (same as the output of ``process``) or in fasta format, with marker information contained in the sequence IDs.
 
 **Options**
 
@@ -122,13 +125,13 @@ Option                 Description
 ``--output-file``      Path to the output file
 ``--popmap-file``      Path to a popmap file indicating the sex of each individual
 ``--output-format``    Output format, either "table" or "fasta" (default: "table")
-``--min-coverage``     Minimum coverage to consider a sequence present in an individual (default: 1)
-``--min-males``        Minimum number of males with a retained sequence (default: 0)
-``--min-females``      Minimum number of females with a retained sequence (default: 0)
-``--max-males``        Maximum number of males with a retained sequence (default: all)
-``--max-females``      Maximum number of females with a retained sequence (default: all)
-``--min-individuals``  Minimum number of individuals with a retained sequence (default: 1)
-``--max-individuals``  Maximum number of individuals with a retained sequence (default: all)
+``--min-coverage``     Minimum coverage to consider a marker present in an individual (default: 1)
+``--min-males``        Minimum number of males with a retained marker (default: 0)
+``--max-males``        Maximum number of males with a retained marker (default: all)
+``--min-females``      Minimum number of females with a retained marker (default: 0)
+``--max-females``      Maximum number of females with a retained marker (default: all)
+``--min-individuals``  Minimum number of individuals with a retained marker (default: 1)
+``--max-individuals``  Maximum number of individuals with a retained marker (default: all)
 =====================  ===========
 
 **Sample output**
@@ -145,15 +148,17 @@ Option                 Description
 
 * FASTA format :
 
+In FASTA format, IDs are generated with the following pattern : <marker_ID>_<number_of_males>M_<number_of_females>F_cov:<minimum_coverage>.
+
 ::
 
-    >15_5_0_cov:5
+    >15_5M_0F_cov:5
     TGCA..TATT
-    >15_5_1_cov:5
+    >27_5M_1F_cov:5
     TGCA..GACC
-    >15_5_1_cov:5
+    >43_5M_1F_cov:5
     TGCA..ATCG
-    >15_5_0_cov:5
+    >86_5M_0F_cov:5
     TGCA..CCGA
 
 signif
