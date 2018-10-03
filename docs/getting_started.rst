@@ -19,7 +19,7 @@ RADSex can be installed from one of the release packages [TODO: link], or the la
 
 **1. Install the latest release**
 
-TODO
+RADSex is currently in beta and there is no available release yet. This section will be updated with the release of RADSex 1.0.
 
 **2. Install from GitHub**
 
@@ -39,7 +39,7 @@ Update RADSex
 
 To update RADSex, you can download the latest stable release and install it as described in the :ref:`install-release` section.
 
-If you installed RADSex from Github, run the following commands in the RadSex directory:
+If you installed RADSex from Github, run the following commands from the RadSex directory:
 
 ::
 
@@ -80,61 +80,61 @@ The resulting file **coverage_table.tsv** is a table with N + 2 columns, where *
 
 * **ID** : marker ID.
 * **Sequence** : marker sequence.
-* For each individual, marker coverage.
+* For each individual, the coverage of this marker.
 
 
-Computing the distribution of sequences between sexes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Computing the distribution of markers between sexes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-After generating the coverage table, the ``distrib`` command is used to compute the distribution of sequences between sexes:
+After generating the coverage table, the ``distrib`` command is used to compute the distribution of markers between sexes:
 
 ::
 
     radsex distrib --input-file coverage_table.tsv --output-file distribution.tsv --popmap-file popmap.tsv --min-coverage 5``
 
-In this example, the input file ``--input-file`` is the coverage table generated in the :ref:`computing-cov-table` section, and the distribution of sequences between sexes will be stored in **distribution.tsv**.
+In this example, the input file ``--input-file`` is the coverage table generated in the :ref:`computing-cov-table` section, and the distribution of markers between sexes will be stored in **distribution.tsv**.
 The sex of each individual in the population is given by **popmap.tsv** (see the [popmap section](#population-map) for details).
-The minimum coverage to consider a sequence present in an individual is set to 5, meaning that sequences with coverage lower than 5 in an individual will not be considered present in this individual.
+The minimum coverage to consider a marker present in an individual is set to 5, meaning that markers with coverage lower than 5 in an individual will not be considered present in this individual.
 
 The resulting file **distribution.tsv** is a table with five columns:
 
-* **Males** : number of males in which a sequence was present.
-* **Females** : number of females in which a sequence was present.
-* **Sequences** : number of sequences present in the corresponding number of males and females.
+* **Males** : number of males in which a marker was present.
+* **Females** : number of females in which a marker was present.
+* **Markers** : number of markers present in the corresponding number of males and females.
 * **P** : p-value of a chi-squared test for association with sex.
 * **Signif** : significant association with sex (True / False).
 
-This distribution can be visualized with the ``plot_sex_distribution()`` function of `RADSex-vis <https://github.com/RomainFeron/RADSex-vis>`_, which generates a heatmap of sequences with males on the x-axis and females on the y-axis.
+More details about the distribution file can be found in the [TODO SECTION].
+
+This distribution can be visualized with the ``plot_sex_distribution()`` function of `RADSex-vis <https://github.com/RomainFeron/RADSex-vis>`_, which generates a heatmap of markers with males on the x-axis and females on the y-axis.
 
 
-Extracting sequences significantly associated with sex
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Extracting markers significantly associated with sex
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Sequences significantly associated with sex can be obtained with the ``signif`` command:
+Markers significantly associated with sex can be obtained with the ``signif`` command:
 
 ::
 
-    radsex signif --input-file coverage_table.tsv --output-file sequences.tsv --popmap-file popmap.tsv --min-coverage 5 [ --output-format fasta ]
+    radsex signif --input-file coverage_table.tsv --output-file markers.tsv --popmap-file popmap.tsv --min-coverage 5 [ --output-format fasta ]
 
-In this example, the input file ``--input-file`` is the coverage table generated in the :ref:`computing-cov-table` step, and the sequences significantly associated with sex are outputed in **sequences.tsv**. The sex of each individual in the population is given by **popmap.tsv** (see the [popmap section](#population-map) for details), and the minimum coverage to consider a sequence present in an individual is set to 5, meaning that sequences with coverage lower than 5 in an individual will not be considered present in this individual.
+In this example, the input file ``--input-file`` is the coverage table generated in the :ref:`computing-cov-table` step, and the markers significantly associated with sex are outputed in **markers.tsv**. The sex of each individual in the population is given by **popmap.tsv** (see the [popmap section](#population-map) for details), and the minimum coverage to consider a sequence present in an individual is set to 5, meaning that markers with coverage lower than 5 in an individual will not be considered present in this individual.
 
-By default, the ``signif`` function generates an output file in the same format as the coverage table. However, sequences can be exported to fasta using the ``--output-format`` parameter.
+By default, the ``signif`` function generates an output file in the same format as the coverage table. However, the sequences can be exported to fasta using the ``--output-format`` parameter (see TODO SECTION).
 
 The coverage table generated by ``signif`` can be visualized with the ``plot_coverage()`` function of `RADSex-vis <https://github.com/RomainFeron/RADSex-vis>`_, which generates a heatmap showing the coverage of each sequence in each individual.
 
 
-Mapping sequences to a reference genome
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Mapping markers to a reference genome
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Sequences can be mapped to a reference genome using the ``map`` command:
+The markers can be mapped to a reference genome using the ``map`` command:
 
 ::
 
     radsex map --input-file coverage_table.tsv --output-file mapping.tsv --popmap-file popmap.tsv --genome-file genome.fasta --min-quality 20 --min-frequency 0.1 --min-coverage 5
 
-In this example, the input file ``--input-file`` is the coverage table generated in the :ref:`computing-cov-table` step, the mapping results will be stored in **sequences.tsv**,
-and the path to the reference genome file is given by ``--genome-file``. The sex of each individual in the population is given by **popmap.tsv** (see the [popmap section](#population-map) for details),
-and the minimum coverage to consider a sequence present in an individual is set to 5, meaning that sequences with coverage lower than 5 in an individual will not be considered present in this individual. The parameter ``--min-quality`` specifies the minimum mapping quality (as defined in `BWA <http://bio-bwa.sourceforge.net/bwa.shtml>`_) to consider a sequence properly mapped, and is here set to 20. The parameter ``--min-frequency`` specifies the minimum frequency of a sequence in at least one sex; it is set to 0.1 here, meaning that only sequences present in at least 10% of individuals of one sex are retained for mapping.
+In this example, the input file ``--input-file`` is the coverage table generated in the :ref:`computing-cov-table` step, the mapping results will be stored in **sequences.tsv**, and the path to the reference genome file is given by ``--genome-file``. The sex of each individual in the population is given by **popmap.tsv** (see the [popmap section](#population-map) for details), and the minimum coverage to consider a marker present in an individual is set to 5, meaning that markers with coverage lower than 5 in an individual will not be considered present in this individual. The parameter ``--min-quality`` specifies the minimum mapping quality (as defined in `BWA <http://bio-bwa.sourceforge.net/bwa.shtml>`_) to consider a marker properly mapped, and is set to 20 in this example. The parameter ``--min-frequency`` specifies the minimum frequency of a marker in at least one sex; it is set to 0.1 here, meaning that only sequences present in at least 10% of individuals of one sex are retained for mapping.
 
 The resulting file ``mapping.tsv`` is a table with five columns:
 
