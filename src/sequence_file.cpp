@@ -23,7 +23,7 @@ std::vector<InputFile> get_input_files(const std::string& input_dir_path) {
     std::vector<std::string> split_name;
     InputFile temp;
 
-    while ((dir_content=readdir(dir))){
+    while ((dir_content = readdir(dir))) {
 
         current_file = dir_content->d_name;
         split_name = split(current_file, ".");
@@ -33,11 +33,13 @@ std::vector<InputFile> get_input_files(const std::string& input_dir_path) {
         // Careful: this will fail if the file name contains "." ... TODO: solve this problem
         if (s > 1) {
             if (split_name[s - 1] == "gz" and s > 2) {
-                extension = "." + split_name[s - 1] + "." + split_name[s - 2];
+                extension = "." + split_name[s - 2] + "." + split_name[s - 1];
             } else {
                 extension = "." + split_name[s - 1];
             }
         }
+
+        std::cout << current_file << " : " << extension << std::endl;
 
         if(std::find(extensions.begin(), extensions.end(), extension) != extensions.end()) {
             temp.individual_name = split_name[0];
@@ -46,6 +48,12 @@ std::vector<InputFile> get_input_files(const std::string& input_dir_path) {
             temp.processed = false;
             files.push_back(temp);
         }
+    }
+
+    if (files.size() == 0) {
+
+        std::cout << " ** Error: no valid input file found in input directory \"" << input_dir_path <<"\"." << std::endl;
+        exit(1);
     }
 
     return files;
