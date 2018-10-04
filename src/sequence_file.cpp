@@ -32,7 +32,11 @@ std::vector<InputFile> get_input_files(const std::string& input_dir_path) {
 
         // Careful: this will fail if the file name contains "." ... TODO: solve this problem
         if (s > 1) {
-            for (uint i=1; i<split_name.size(); ++i) extension += "." + split_name[i];
+            if (split_name[s - 1] == "gz" and s > 2) {
+                extension = "." + split_name[s - 1] + "." + split_name[s - 2];
+            } else {
+                extension = "." + split_name[s - 1];
+            }
         }
 
         if(std::find(extensions.begin(), extensions.end(), extension) != extensions.end()) {
