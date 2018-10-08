@@ -19,7 +19,7 @@ std::vector<InputFile> get_input_files(const std::string& input_dir_path) {
 
     struct dirent* dir_content;
     std::vector<InputFile> files;
-    std::string current_file, extension;
+    std::string current_file, extension, individual_name;
     std::vector<std::string> split_name;
     InputFile temp;
 
@@ -29,20 +29,21 @@ std::vector<InputFile> get_input_files(const std::string& input_dir_path) {
         split_name = split(current_file, ".");
         size_t s = split_name.size();
         extension = "";
+        individual_name = split_name[0];
 
-        // Careful: this will fail if the file name contains "." ... TODO: solve this problem
+        // Get file name and extension (even when there is "." in the file name)
         if (s > 1) {
             if (split_name[s - 1] == "gz" and s > 2) {
                 extension = "." + split_name[s - 2] + "." + split_name[s - 1];
+                for (uint i=1; i<split_name.size() - 2; ++i) individual_name += "." + split_name[i];
             } else {
                 extension = "." + split_name[s - 1];
+                for (uint i=1; i<split_name.size() - 1; ++i) individual_name += "." + split_name[i];
             }
         }
 
-        std::cout << current_file << " : " << extension << std::endl;
-
         if(std::find(extensions.begin(), extensions.end(), extension) != extensions.end()) {
-            temp.individual_name = split_name[0];
+            temp.individual_name = individual_name;
             temp.path = input_dir_path + current_file;
             temp.extension = extension;
             temp.processed = false;
