@@ -1,6 +1,6 @@
 # Compiler options
 CC = gcc
-CFLAGS = -g -Wall -Wno-unused-function -O2
+CFLAGS = -g -Wall -Wno-unused-function -Wno-unused-but-set-variable -O2
 WRAP_MALLOC = -DUSE_MALLOC_WRAPPERS
 DFLAGS = -DHAVE_PTHREAD $(WRAP_MALLOC)
 BUILD = .
