@@ -6,7 +6,6 @@
 #include "process_reads.h"
 #include "subset.h"
 #include "frequencies.h"
-#include "demultiplexing.h"
 #include "group_loci.h"
 #include "significant_sequences.h"
 #include "mapping.h"

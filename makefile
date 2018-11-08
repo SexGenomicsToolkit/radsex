@@ -40,22 +40,15 @@ $(LIBBUILD)/%.o: $(INCLUDE)/*/%.cpp
 
 clean:
 	@rm -rf $(BUILD)/*.o
-	wait
 	@rm -rf $(BIN)/$(TARGET)
-	wait
 	@rm -rf $(INCLUDE)/*/*.o
-	wait
 	@cd $(INCLUDE)/bwa && $(MAKE) clean
-	wait
 
 init:
 	@mkdir -p $(BUILD) $(BUILD)
 	@mkdir -p $(BIN) $(BIN)
-	wait
 
 rebuild: clean BWA $(TARGET)
 
 BWA:
 	@cd $(INCLUDE)/bwa && $(MAKE)
-	wait
-

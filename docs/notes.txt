@@ -1,0 +1,76 @@
+
+
+   getting_started/installation
+   getting_started/before-starting
+   getting_started/computing-coverage-table
+   getting_started/computing-distrib
+   getting_started/extract-sex-sequences
+   getting_started/map-sex-sequences
+
+.. _full-usage:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: RADSex usage details
+
+   usage/general
+   usage/process
+   usage/distrib
+   usage/subset
+   usage/signif
+   usage/map
+   usage/freq
+
+.. _input-file-formats:
+
+.. toctree::
+   :maxdepth: 2
+   :glob:
+   :caption: Input files information
+
+   input_files/population-map
+   input_files/chromosomes-names
+
+.. _output-file-formats:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Output files information
+
+   output_files/coverage-table
+   output_files/fasta-file
+   output_files/sex-distribution
+   output_files/mapping
+
+.. _radsex-vis-figures:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: RADSex figures examples
+
+   figures/sex-distribution
+   figures/clustering
+   figures/mapping-genome
+   figures/mapping-contig
+
+.. _example-cases:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Examples of RADSex output and interpretation
+
+   examples/xy_simple
+   examples/zw_simple
+   examples/xy_outliers
+   examples/zw_outliers
+   examples/xy_multiple_alleles
+
+.. _extra:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Extra
+
+   license
+
+
