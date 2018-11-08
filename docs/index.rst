@@ -21,6 +21,7 @@ Documentation summary
    :maxdepth: 2
 
    getting_started
+   example
    usage
    input_files
    output_files

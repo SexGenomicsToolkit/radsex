@@ -6,6 +6,8 @@ Reads files
 
 RADSex accepts demultiplexed reads files as first input. RADSex should work with any demultiplexed RAD-sequencing reads files regardless of technology (single / double digest) or enzyme. Input files can be in fasta or fastq formats, and can be compressed. RADSex uses file extensions to detect input files, and supports the following extensions: **.fa**, **.fa.gz**, **.fq**, **.fq.gz**, **.fasta**, **.fasta.gz**, **.fastq**, **.fastq.gz**, **.fna**, and **.fna.gz**.
 
+.. _population-map:
+
 Population map
 --------------
 
@@ -19,8 +21,8 @@ A population map file is a tabulated file (TSV, tab as a separator) without head
 	individual_4    N
 	individual_5    F
 
-Individual IDs can be anything, but it is important that they correspond to the name of the demultiplexed files. 
-For instance, the reads file for *individual_1* should be named `individual_1.fastq.gz` (in any format supported by your demultiplexer).
+Individual IDs can be anything, but it is important that they correspond to the name of the demultiplexed files.
+For instance, the reads file for *individual_1* should be named `individual_1.fastq.gz` (or any fasta/fastq format supported by your demultiplexer).
 
 If you are using Stacks with a barcodes file for demultiplexing, just make sure that individual IDs in the barcodes file and in the population map are the same.
 
@@ -28,8 +30,8 @@ If you are using Stacks with a barcodes file for demultiplexing, just make sure 
 Chromosomes names file
 ----------------------
 
-Genome-wide results from the ``map`` command are visualized using the ``plot_genome()`` function of ``radsex-vis``. 
-This function can automatically detect chromosomes in the reference file if their name starts with 'LG' or 'chr' (case unsensitive). If this is not the case, you should provide a chromosomes names file to ``plot_genome()``. 
+Genome-wide results from the ``map`` command are visualized using the ``plot_genome()`` function of ``radsex-vis``.
+This function can automatically detect chromosomes in the reference file if their name starts with 'LG' or 'chr' (case unsensitive). If this is not the case, you should provide a chromosomes names file to ``plot_genome()``.
 This file should be a tabulated file without header, with scaffold ID in the reference in the first column and corresponding chromosome name in the second column.
 
 An example of chromosomes names file is given below for the `Northern Pike <https://www.ncbi.nlm.nih.gov/genome/?term=esox%20lucius>`_ genome.
