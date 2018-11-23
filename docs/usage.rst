@@ -225,14 +225,14 @@ loci
 
     radsex loci --input-file input_file_path --coverage-table coverage_matrix_path --output-file output_file_path  [ --max-distance max_distance --threads n_threads --min-cov min_cov ]
 
-The ``loci`` command attempts to find markers belonging to the same locus for a list of markers (in tsv format) obtained with ``subset`` or ``signif``. For each specified marker, the Levenstein distance to every marker in the original coverage table is computed, and markers with distance shorter than **max_distance** are retained. The output file is a tabulated file where each line corresponds to a marker. The first column gives the ID of the reconstructed polymorphic locus containing this marker, the marker ID from the coverage table is in the second column, and the marker's sequence is in the third column. The last column indicates whether the marker comes from the specified list of markers ("Original") or was recovered from the coverage table ("Recovered"). 
+The ``loci`` command attempts to find markers belonging to the same locus for a list of markers (in tsv format) obtained with ``subset`` or ``signif``. For each specified marker, the Levenstein distance to every marker in the original coverage table is computed, and markers with distance shorter than **max_distance** are retained. The output file is a tabulated file where each line corresponds to a marker. The first column gives the ID of the reconstructed polymorphic locus containing this marker, the marker ID from the coverage table is in the second column, and the marker's sequence is in the third column. The last column indicates whether the marker comes from the specified list of markers ("Original") or was recovered from the coverage table ("Recovered").
 
 **Options**
 
 =====================  ===========
 Option                 Description
 =====================  ===========
-``--input-file``       Path to an coverage table obtained with ``subset`` or ``signif`` 
+``--input-file``       Path to an coverage table obtained with ``subset`` or ``signif``
 ``--coverage-table``   Path to an coverage table obtained with ``process``
 ``--output-file``      Path to the output file (in tsv format)
 ``--popmap-file``      Path to a popmap file indicating the sex of each individual
@@ -245,9 +245,9 @@ Option                 Description
 
 ::
 
-    Locus    Marker      Sequence      Origin    
+    Locus    Marker      Sequence      Origin
         0        15      TGCA..TATT    Original
-        0        27      TGCA..TAAT    Recovered 
+        0        27      TGCA..TAAT    Recovered
         1        43      TGCA..ATCG    Original
         1        86      TGCA..ATGG    Recovered
 
@@ -278,8 +278,6 @@ Option                 Description
 =====================  ===========
 
 **Sample output**
-
-* Table format :
 
 ::
 
