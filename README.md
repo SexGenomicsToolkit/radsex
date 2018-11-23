@@ -43,12 +43,11 @@ Before running the pipeline, you should prepare the following elements:
   raw sequencing reads can be demultiplexed using [Stacks](http://catchenlab.life.illinois.edu/stacks/comp/process_radtags.php)
   or [pyRAD](http://nbviewer.jupyter.org/gist/dereneaton/af9548ea0e94bff99aa0/pyRAD_v.3.0.ipynb#The-seven-steps-described).
 - A **population map** (popmap): a tabulated file with individual ID as the first column and sex as the second column.
-  It is important that the individual IDs in the popmap are the same as the names of the demultiplexed reads files (see the [popmap section](#population-map) for details).
+  It is important that the individual IDs in the popmap are the same as the names of the demultiplexed reads files (see the doc for details).
 - If you want to map the sequences to a reference genome: a **reference genome** in fasta format.
   Note that when visualizing `mapping` results with `radsex-vis`, linkage groups / chromosomes are automatically inferred from scaffold names in the reference sequence
   if their name starts with *LG*, *chr*, or *chromosome* (case unsensitive).
-  If chromosomes are named differently in the reference genome, you should prepare a tabulated file with
-  reference scaffold ID in the first column and corresponding chromosome name in the second column (see the [chromosomes names section](#chromosomes-names) for details)
+  If chromosomes are named differently in the reference genome, you should prepare a tabulated file with reference scaffold ID in the first column and corresponding chromosome name in the second column (see the doc for details)
 
 #### Computing the coverage table
 
