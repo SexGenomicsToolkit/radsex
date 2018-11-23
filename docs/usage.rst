@@ -1,6 +1,7 @@
+.. _full-usage:
+
 RADSex usage details
 ====================
-
 
 General
 -------

@@ -1,7 +1,7 @@
-Detailed example
-================
+Example walkthrough
+===================
 
-In this example, we will run RADSex on a public *Oryzias latipes* RAD-Sequencing dataset. We will detail each step of the process, highlight important details, and show how to use the R package ``radsex-vis`` to generate plots from the output of ``radsex``. This guide assumes that ``radsex`` and the ``radsex-vis`` package have already been installed. For specific instruction about installing ``radsex`` and ``radsex-vis``, check the :ref:`install-release` section. All reported times and resources usage were measured on a desktop computer with an Intel i7-8700K 4.7 GHz processor, 32 Gb of memory, and a standard 7200 RPM Hard Disk Drive.
+In this example, we will run RADSex on a public *Oryzias latipes* RAD-Sequencing dataset. We will detail each step of the process, highlight important details, and show how to use the R package ``radsex-vis`` to generate plots from the output of ``radsex``. This guide assumes that ``radsex`` and the ``radsex-vis`` package have already been installed. For specific instruction about installing ``radsex`` and ``radsex-vis``, check the :ref:`install-release` section. All reported times and resources usage were measured on a desktop computer with an Intel i7-8700K 4.7 GHz processor, 32 Gb of memory, and a standard 7200 RPM Hard Disk Drive. The input data, results (except for ``process``), and figures can be found in the *example* directory.
 
 Preparing the data
 ------------------
@@ -22,6 +22,8 @@ From now on, we will assume the following directory structure:
     |     ├────── xxx.fastq.gz
     |     ├────── ...
     |     └────── xxx.fastq.gz
+    ├─── chromosomes_names.tsv
+    ├─── genome.fasta
     └─── popmap.tsv
 
 
@@ -52,62 +54,102 @@ The main analysis implemented in ``radsex`` computes a table summarizing the dis
 
     radsex distrib --input-file coverage_table.tsv --output-file distribution.tsv --popmap-file popmap.tsv --min-cov 5``
 
-The ``--input-file`` parameter specifies the location of the coverage table generated in the previous step, which was *coverage_table.tsv* in our case. The ``--output-file`` parameter specifies the location of the output file, *i.e* the table of distribution of markers between males and females, which is *distribution.tsv* here. The ``--popmap`` parameter specifies the location of the population map (see the xx section for details), which we named *popmap.tsv* in this example. Finally, the ``--min-cov`` parameter specifies the minimum coverage to consider a marker present in an individual, and was set to *5* here.
+The ``--input-file`` parameter specifies the location of the coverage table generated in the previous step, which was *coverage_table.tsv* in our case. The ``--output-file`` parameter specifies the location of the output file, *i.e* the table of distribution of markers between males and females, which is *distribution.tsv* here. The ``--popmap-file`` parameter specifies the location of the population map (see the :ref:`population-map` section for details), which we named *popmap.tsv* in this example. Finally, the ``--min-cov`` parameter specifies the minimum coverage to consider a marker present in an individual, and was set to *5* here.
 
 With our setup, this step completed in **36 seconds** with a peak memory usage of **4 Mb**.
 
-The resulting file *distribution.tsv* is a tabulated file described in the xxx section. This file can be visualized with ``radsex-vis`` using the ``plot_sex_distribution`` function:
+The resulting file *distribution.tsv* is a tabulated file described in the :ref:`population-map` section. This file can be visualized with ``radsex-vis`` using the ``plot_sex_distribution`` function:
 
 ::
 
-    radsex-vis::plot_sex_distribution(input_file_path = "distribution.tsv", output_file_path = "distribution.png")
+    radsexvis::plot_sex_distribution("distribution.tsv", output_file_path = "distribution.png")
 
-To generate a basic plot, the only required parameter is ``input_file_path``, which should contain the full path to the distribution table (simplified in this example). The ``output_file_path`` parameters specifies the path to an output file where the figure will be saved; if this parameter is not specified, the plot will be generated in the default R graphic device. For a full description of the ``plot_sex_distribution`` function, including additional parameters, check the TODO_SECTION.
+To generate a basic plot, the only required parameter is the full path to a distribution table (simplified as "distribution.tsv" in this example). The ``output_file_path`` parameters specifies the path to an output file where the figure will be saved; if this parameter is not specified, the plot will be generated in the default R graphic device. For a full description of the ``plot_sex_distribution()`` function, including additional parameters, check the TODO_RADSEXVIS_SECTION.
 
 The resulting figure is displayed below:
 
 .. image:: ../example/figures/distribution.png
 
-This figure is a tile plot with number of males on the x-axis and number of females on the y-axis. The color of a tile at coordinates (**x**, **y**) indicates the number of markers that were present in any **x** males and any **y** females. For instance, in this figure, there were between 25 and 99 markers found in 29 males (not necessarily always the same 29 males) and in 0 females. Tiles for which association with sex is significant (chi-squared test, using Bonferroni correction) are highlighted in red. Many markers found predominantly in males are significantly associated with sex, indicating that an XX/XY system determines sex in this species. Interestingly, there are no markers found in all males and absent from all females, *i.e* no markers found at positions
+This figure is a tile plot with number of males on the x-axis and number of females on the y-axis. The color of a tile at coordinates (**x**, **y**) indicates the number of markers that were present in any **x** males and any **y** females. For instance, in this figure, there were between 25 and 99 markers found in 29 males (not necessarily always the same 29 males) and in 0 females. Tiles for which association with sex is significant (chi-squared test, using Bonferroni correction) are highlighted in red. Many markers found predominantly in males are significantly associated with sex, indicating that an XX/XY system determines sex in this species. Interestingly, there are no markers found in all males or all but one males and absent from all females, *i.e* no markers found at position (30, 0) and (31, 0).
 
+With our setup, this step completed in **36 seconds** with a peak memory usage of **4 MB**.
 
 
 Extracting markers significantly associated with sex
 ----------------------------------------------------
 
-Markers significantly associated with sex can be obtained with the ``signif`` command:
+The ``signif`` command of RADSex extracts all markers for which association with sex is significant. In this case, these markers are the ones represented by the tiles highlighted in red in the previous figure. To extract all significant markers from our dataset, run the following command :
 
 ::
 
-    radsex signif --input-file coverage_table.tsv --output-file markers.tsv --popmap-file popmap.tsv --min-cov 5 [ --output-format fasta ]
+    radsex signif --input-file coverage_table.tsv --output-file significant_markers.tsv --popmap-file popmap.tsv --min-cov 5
 
-In this example, the input file ``--input-file`` is the coverage table generated in the :ref:`computing-cov-table` step, and the markers significantly associated with sex are outputed in **markers.tsv**. The sex of each individual in the population is given by **popmap.tsv** (see the [popmap section](#population-map) for details), and the minimum coverage to consider a sequence present in an individual is set to 5, meaning that markers with coverage lower than 5 in an individual will not be considered present in this individual.
+The ``--input-file`` parameter specifies the location of the coverage table generated in the ``process`` step, which was *coverage_table.tsv* in our case. The ``--output-file`` parameter specifies the location of the output file, in this case a subset of the table of coverage, which we named *significant_markers.tsv* here. The ``--popmap-file`` parameter specifies the location of the population map (see the xx section for details), which we named *popmap.tsv* in this example. Finally, the ``--min-cov`` parameter specifies the minimum coverage to consider a marker present in an individual, and was set to *5* to match the value used in the previous analysis.
 
-By default, the ``signif`` function generates an output file in the same format as the coverage table. However, the sequences can be exported to fasta using the ``--output-format`` parameter (see TODO SECTION).
+The subset of coverage table generated by ``signif`` can be visualized with ``radsex-vis`` the ``plot_coverage()`` function :
 
-The coverage table generated by ``signif`` can be visualized with the ``plot_coverage()`` function of `RADSex-vis <https://github.com/RomainFeron/RADSex-vis>`_, which generates a heatmap showing the coverage of each sequence in each individual.
+::
+
+    radsexvis::plot_coverage("significant_markers.tsv", output_file_path = "significant_markers.png", popmap_file_path = "popmap.tsv")
+
+To generate a basic plot, the only required parameter is the full path to the subset of coverage table (simplified as "significant_markers.tsv" in this example). The ``output_file_path`` parameters specifies the path to an output file where the figure will be saved; if this parameter is not specified, the plot will be generated in the default R graphic device. The ``popmap_file_path`` parameter can be specified to color males and females IDs in the resulting figure. For a full description of the ``plot_coverage()`` function, including additional parameters, check the TODO_RADSEXVIS_SECTION.
+
+The resulting figure is displayed below:
+
+.. image:: ../example/figures/significant_markers.png
+
+This figure is a heatmap with individuals on the x-axis and markers on the y-axis. The color of a tile at coordinates (**x**, **y**) indicates the coverage of a marker **y** in individual **x**. Both individuals and markers can be clustered based on this coverage, and clustering dendrograms are displayed by default. If a popmap is specified, males and females IDs are colored differently. In this example, two males cluster with the females, in agreement with the results from ``distrib`` where male-specific markers were always missing from two males. These two males are actually genetic females whose sex was mis-assigned.
+
+.. note:: For convenience, significant markers can be exported in FASTA format, using the parameter --output-format fasta. Headers contain information about the sex distribution of each marker, as described in the :ref:`fasta-file` section.
+
+With our setup, this step completed in **37 seconds** with a peak memory usage of **6 MB**.
 
 
 Mapping markers to a reference genome
 -------------------------------------
 
-The markers can be mapped to a reference genome using the ``map`` command:
+When a reference genome is available, markers can be aligned to it in order to locate sex-differentiated regions. This is done using the ``map`` command:
 
 ::
 
-    radsex map --input-file coverage_table.tsv --output-file mapping.tsv --popmap-file popmap.tsv --genome-file genome.fasta --min-quality 20 --min-frequency 0.1 --min-cov 5
+    radsex map --input-file coverage_table.tsv --output-file mapping_results.tsv --popmap-file popmap.tsv --genome-file genome.fasta --min-cov 5
 
-In this example, the input file ``--input-file`` is the coverage table generated in the :ref:`computing-cov-table` step, the mapping results will be stored in **sequences.tsv**, and the path to the reference genome file is given by ``--genome-file``. The sex of each individual in the population is given by **popmap.tsv** (see the [popmap section](#population-map) for details), and the minimum coverage to consider a marker present in an individual is set to 5, meaning that markers with coverage lower than 5 in an individual will not be considered present in this individual. The parameter ``--min-quality`` specifies the minimum mapping quality (as defined in `BWA <http://bio-bwa.sourceforge.net/bwa.shtml>`_) to consider a marker properly mapped, and is set to 20 in this example. The parameter ``--min-frequency`` specifies the minimum frequency of a marker in at least one sex; it is set to 0.1 here, meaning that only sequences present in at least 10% of individuals of one sex are retained for mapping.
+The ``--input-file`` parameter specifies the location of the coverage table generated in the ``process`` step, which was *coverage_table.tsv* in our case. The ``--output-file`` parameter specifies the location of the output file, in this case a table with mapping information, which we named *mapping_results.tsv* here. The ``--popmap-file`` parameter specifies the location of the population map (see the xx section for details), which we named *popmap.tsv* in this example. The ``--genome-file`` parameter specifies the location of reference genome file in FASTA format, which we named *genome.fasta* in this example. Finally, the ``--min-cov`` parameter specifies the minimum coverage to consider a marker present in an individual, and was set to *5* to match the value used in the previous analysis.
 
-The resulting file ``mapping.tsv`` is a table with five columns:
+The resulting file *mapping_results.tsv* is a tabulated file described in the :ref:`mapping-results-file` section. This file can be visualized with ``radsex-vis`` using the ``plot_genome()`` function:
 
-* **Sequence :** ID of the mapped sequence.
-* **Contig :** ID of the contig where the sequence mapped.
-* **Position :** position of the mapped sequence on the contig.
-* **SexBias :** sex-bias of the mapped sequence, defined as (Males / Total males ) - (Females / Total females), where *Males* and *Females* are the number of males and number of females in which the sequence is present, respectively, and *Total males* and *Total females* are the total number of males and females in the population, respectively.
-* **P :** p-value of a chi-squared test for association with sex.
-* **Signif** : significant association with sex (True / False).
+::
 
-The mapping results generated by ``map`` can be visualized with the ``plot_genome()`` function of `RADSex-vis <https://github.com/RomainFeron/RADSex-vis>`_, which generates a circular plot with the sex-bias and association with sex of each marker mapped on the genome.
-Mapping results for a specific contig can be visualized with the ``plot_scaffold()`` function to show the same metrics for a single contig.
+    radsexvis::plot_genome("mapping_results.tsv", "genome.fasta.lengths", chromosomes_names_file_path = "chromosomes_names.tsv", output_file_path = "mapping_genome.png")
 
+To generate a basic plot, the only required parameters are the full path to the mapping results table (simplified as "mapping_results.tsv" in this example), and the full path to the genome contig lengths generated by ``map`` ("genome.fasta.lengths" here). The ``output_file_path`` parameters specifies the path to an output file where the figure will be saved; if this parameter is not specified, the plot will be generated in the default R graphic device. The ``chromosomes_names_file_path`` parameter can be specified to rename the chromosomes with chosen IDs specified in the file. For a full description of the ``plot_genome()`` function, including additional parameters, check the TODO_RADSEXVIS_SECTION.
+
+The resulting figure is displayed below:
+
+.. image:: ../example/figures/mapping_genome.png
+
+This figure is a circos plot in which each sector corresponds to a chromosome, with all unplaced scaffolds regrouped in an additional sector (not shown in this example as there are no unplaced scaffolds in this genome). The top track gives the sex-bias of a marker, 1 if the marker is present in all males and no females, and -1 if the marker is present in all females and no males. The bottom track shows the probability of association with sex (chi-squared test, using Bonferroni correction).
+
+Results for a specific region can be visualized with ``radsex-vis`` using the ``plot_contig()`` function:
+
+::
+
+    radsexvis::plot_contig("mapping_results.tsv", "genome.fasta.lengths", "Chr01", chromosomes_names_file_path = "chromosomes_names.tsv", output_file_path = "mapping_contig.png")
+
+This function uses the same parameters as ``plot_genome()``, with the addition of a parameter giving the contig to be plotted, *Chr01* here. For a full description of the ``plot_contig()`` function, including additional parameters, check the TODO_RADSEXVIS_SECTION.
+
+The resulting figure is displayed below:
+
+.. image:: ../example/figures/mapping_contig.png
+
+In this figure, both sex-bias and probability of association with sex, as defined in the genome plot, are plotted against position on the specified contig.
+
+With our setup, this step completed in **9 min 36 seconds** with a peak memory usage of **1.3 GB**, most of the time being spent indexing the genome. If the genome is already indexed with BWA, this step completes in **55 seconds**.
+
+
+Going further
+-------------
+
+In this example, we showed the most commonly used functions of ``radsex`` and ``radsex-vis``, mostly using default parameters. In general, it is recommended to run ``distrib`` with multiple values of coverage (for instance 1, 2, 5, and 10), to better understand the dataset.
+
+To get the full information on each function of ``radsex``, check the :ref:`full-usage` section.

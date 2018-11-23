@@ -12,7 +12,7 @@ The core idea of RADSex is to compare presence / absence of non-polymorphic mark
 
 The basic input file of RADSex is a dataset of demultiplexed RAD reads. From this dataset, RADSex generates a table of coverage for each sequence in each individual. This table is then used to infer information about the type of sex-determination system, identify sex-biased sequences, map the RAD sequences to a reference genome, and recover potential polymorphic sex-biased markers.
 
-Results from RADSex can be visualized with the `radsex-vis` R package, available here: https://github.com/INRA-LPGP/radsex-vis. The `radsex-vis` R package provides easy-to-use functions to generate powerful visual representations of your data.
+Results from RADSex can be visualized with the `radsex-vis` R package, available here: https://github.com/INRA-LPGP/radsex-vis. The `radsex-vis` R package provides easy-to-use functions to generate visual representations of your data.
 
 Documentation summary
 ---------------------
