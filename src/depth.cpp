@@ -79,6 +79,8 @@ void depth(Parameters& parameters) {
 
         if (output_file.is_open()) {
 
+            output_file << "Individual\tSex\tMarkers\n";
+
             for (auto i: individual_depths) {
                 output_file << i.first << "\t";
                 (popmap[i.first]) ? output_file << "M" : output_file << "F";

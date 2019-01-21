@@ -40,7 +40,8 @@ SOURCES += main.cpp \
     include/bwa/QSufSort.c \
     include/bwa/rle.c \
     include/bwa/rope.c \
-    include/bwa/utils.c
+    include/bwa/utils.c \
+    src/depth.cpp
 
 HEADERS += \
     include/bwa/bntseq.h \
@@ -80,4 +81,5 @@ HEADERS += \
     src/significant_sequences.h \
     src/stats.h \
     src/subset.h \
-    src/utils.h
+    src/utils.h \
+    src/depth.h
