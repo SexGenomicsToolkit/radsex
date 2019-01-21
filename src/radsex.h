@@ -9,6 +9,7 @@
 #include "group_loci.h"
 #include "significant_sequences.h"
 #include "mapping.h"
+#include "depth.h"
 
 class RadSex {
 
@@ -42,6 +43,13 @@ class RadSex {
                                                                                        "n_threads",
                                                                                        "min_cov"},
                                                              process_reads)},
+                                                   {"depth",
+                                                    Analysis("depth",
+                                                             "Compute reads and depth metrics for each individual.",
+                                                             std::vector<std::string> {"input_file_path",
+                                                                                       "output_file_path",
+                                                                                       "popmap_file_path"},
+                                                             depth)},
                                                    {"subset",
                                                     Analysis("subset",
                                                              "Extract a subset of the coverage matrix",
