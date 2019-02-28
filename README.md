@@ -11,7 +11,7 @@ The `process` function generates a data structure summarizing a set of demultipl
 and other functions use this data structure to infer information about the type of sex-determination system, identify sex-biased sequences, and map the RAD sequences to a reference genome.
 The results of RADSex are meant to be visualized with the `radsex-vis` R package, available here: https://github.com/RomainFeron/RADSex-vis.
 
-This pipeline was developed for the PhyloSex project, which investigates sex determining factors in a wide range of fish species.
+This pipeline was developed in the [LPGP](https://www6.rennes.inra.fr/lpgp/) lab from INRA, Rennes, France for the PhyloSex project, which investigates sex determining factors in a wide range of fish species.
 
 ## Documentation
 
