@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include "utils.h"
 #include "parameters.h"
-#include "popmap_file.h"
+#include "popmap.h"
 #include "output.h"
 
 

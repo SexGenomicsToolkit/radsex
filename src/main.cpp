@@ -1,5 +1,5 @@
 #include "radsex.h"
-#include "mapping.h"
+#include "map.h"
 
 
 int main(int argc, char* argv[]) {

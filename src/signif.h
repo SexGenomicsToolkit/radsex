@@ -2,12 +2,13 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include <map>
+#include <unordered_map>
 #include "utils.h"
 #include "parameters.h"
-#include "popmap_file.h"
+#include "popmap.h"
 #include "output.h"
+#include "stats.h"
 
 
 // Main function implementing the analysis
-void frequencies(Parameters& parameters);
+void signif(Parameters& parameters);

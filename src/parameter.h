@@ -4,7 +4,6 @@
 #include <dirent.h>
 
 
-
 struct Parameter {
 
     /* The Parameter structure stores the information necessary to use and process the parameters

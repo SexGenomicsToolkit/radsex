@@ -37,7 +37,11 @@ struct Parameters {
                                  Parameter("output_matrix", "Output the sex distribution table as a matrix", "--output-matrix", "0", "bool", "bool", "", false),
                                  Parameter("min_quality", "Minimum mapping quality to keep a mapped read", "--min-quality", "20", "int", "int", "", false),
                                  Parameter("min_frequency", "Minimum frequency of a sequence in at least one sex", "--min-frequency", "0.25", "float", "float", "", false),
-                                 Parameter("output_format", "Output format, either \"table\" or \"fasta\"", "--output-format", "table", "string", "string", "", false)
+                                 Parameter("output_format", "Output format, either \"table\" or \"fasta\"", "--output-format", "table", "string", "string", "", false),
+                                 Parameter("freq_het", "Frequency of a heretozygous allele", "--freq-het", "0.5", "float", "float", "", false),
+                                 Parameter("freq_hom", "Frequency of a homozygous allele", "--freq-hom", "1", "float", "float", "", false),
+                                 Parameter("range_het", "Range for the frequency of a heretozygous allele", "--range-het", "0.1", "float", "float", "", false),
+                                 Parameter("range_hom", "Range for the frequency of a homozygous allele", "--range-hom", "0.1", "float", "float", "", false)
                                  };
 
 

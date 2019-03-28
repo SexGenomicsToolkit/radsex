@@ -1,13 +1,13 @@
 #pragma once
-
 #include "utils.h"
 #include "parameters.h"
-#include "popmap_file.h"
+#include "popmap.h"
 #include "output.h"
 #include "stats.h"
-#include "scaffold_lengths.h"
 #include "bwa/bwamem.h"
 #include "bwa/kseq.h"
 
 
-void mapping(Parameters& parameters);
+void map(Parameters& parameters);
+
+void scaffold_lengths(const std::string& genome_file_path);

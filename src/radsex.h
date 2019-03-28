@@ -2,13 +2,13 @@
 #include <map>
 #include <iostream>
 #include "analysis.h"
-#include "sex_distribution.h"
-#include "process_reads.h"
+#include "distrib.h"
+#include "process.h"
 #include "subset.h"
-#include "frequencies.h"
-#include "group_loci.h"
-#include "significant_sequences.h"
-#include "mapping.h"
+#include "freq.h"
+#include "loci.h"
+#include "signif.h"
+#include "map.h"
 #include "depth.h"
 
 class RadSex {
@@ -34,7 +34,7 @@ class RadSex {
                                                                                        "popmap_file_path",
                                                                                        "min_cov",
                                                                                        "output_matrix"},
-                                                             sex_distribution)},
+                                                             distrib)},
                                                    {"process",
                                                     Analysis("processreads",
                                                              "Compute a matrix of coverage from a set of demultiplexed reads files",
@@ -42,7 +42,7 @@ class RadSex {
                                                                                        "output_file_path",
                                                                                        "n_threads",
                                                                                        "min_cov"},
-                                                             process_reads)},
+                                                             process)},
                                                    {"depth",
                                                     Analysis("depth",
                                                              "Compute reads and depth metrics for each individual.",
@@ -71,7 +71,7 @@ class RadSex {
                                                              std::vector<std::string> {"input_file_path",
                                                                                        "output_file_path",
                                                                                        "min_cov"},
-                                                             frequencies)},
+                                                             freq)},
                                                    {"loci",
                                                     Analysis("loci",
                                                              "Recreate polymorphic loci from a subset of coverage matrix",
@@ -80,8 +80,12 @@ class RadSex {
                                                                                        "output_file_path",
                                                                                        "max_distance",
                                                                                        "n_threads",
-                                                                                       "min_cov"},
-                                                             group_loci)},
+                                                                                       "min_cov",
+                                                                                       "freq_het",
+                                                                                       "freq_hom",
+                                                                                       "range_het",
+                                                                                       "range_hom"},
+                                                             loci)},
                                                    {"signif",
                                                     Analysis("signif",
                                                              "Extract sequences significantly associated with sex from the coverage matrix.",
@@ -90,7 +94,7 @@ class RadSex {
                                                                                        "popmap_file_path",
                                                                                        "min_cov",
                                                                                        "output_format"},
-                                                             significant_sequences)},
+                                                             signif)},
 
                                                    {"map",
                                                     Analysis("map",
@@ -102,10 +106,7 @@ class RadSex {
                                                                                        "min_quality",
                                                                                        "min_frequency",
                                                                                        "min_cov"},
-                                                             mapping)},
-//                                                   {"demultiplexing", Analysis("demultiplexing", "Demultiplexes a set of reads files",
-//                                                                            std::vector<std::string> {"input_file_path", "output_dir_path", "barcodes_file_path", "min_cov"},
-//                                                                            demultiplexing)},
+                                                             map)},
                                                  };
 
         // In the constructor, the type of analysis is detected and all analysis objects are initialized

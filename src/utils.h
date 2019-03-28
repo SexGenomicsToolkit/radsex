@@ -1,5 +1,4 @@
 #pragma once
-
 #include <vector>
 #include <string>
 #include <fstream>
@@ -9,7 +8,6 @@
 #include <algorithm>
 #include <unordered_map>
 #include <map>
-
 #define DTTMFMT "%Y-%m-%d %H:%M:%S"
 #define DTTMSZ 21
 

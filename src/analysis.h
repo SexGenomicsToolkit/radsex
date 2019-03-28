@@ -3,7 +3,6 @@
 #include "parameters.h"
 
 
-
 struct Analysis {
 
     /* The Analysis structure stores information about an analysis:
