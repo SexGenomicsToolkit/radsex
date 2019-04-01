@@ -72,7 +72,7 @@ Thumbs.db
 *.exe
 
 # Personal
-test/
+tests*
 bin/
 build/
 *.pro
@@ -80,3 +80,4 @@ build/
 /include/*/*.o
 /include/*/*.a
 */_build/*
+callgrind*
