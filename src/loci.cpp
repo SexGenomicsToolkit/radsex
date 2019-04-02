@@ -6,21 +6,6 @@ void loci(Parameters& parameters) {
 
     std::unordered_map<std::string, std::vector<Locus>> results;
 
-    std::string par = "coverage_matrix_path";
-    std::string coverage_matrix_path = parameters.get_value_from_name<std::string>(par);
-
-    par = "min_cov";
-    int min_cov = parameters.get_value_from_name<int>(par) - 1; // -1 to compare with > instead of >= later
-
-    par = "freq_het";
-    float freq_het = parameters.get_value_from_name<float>(par);
-    par = "freq_hom";
-    float freq_hom = parameters.get_value_from_name<float>(par);
-    par = "range_het";
-    float range_het = parameters.get_value_from_name<float>(par);
-    par = "range_hom";
-    float range_hom = parameters.get_value_from_name<float>(par);
-
     std::vector<std::string> header;
 
 //    std::cout << " - Loading subset of loci :" << std::endl;

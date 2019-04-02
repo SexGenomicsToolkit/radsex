@@ -22,29 +22,8 @@ void map(Parameters& parameters) {
     std::unordered_map<std::string, bool> popmap = load_popmap(parameters);
 
     // Input file
-    std::string par = "input_file_path";
     std::ifstream input_file;
-    input_file.open(parameters.get_value_from_name<std::string>(par));
-
-    if (not input_file) {
-        exit(1);
-    }
-
-    // Genome file path
-    par = "genome_file_path";
-    std::string genome_file_path = parameters.get_value_from_name<std::string>(par);
-
-    // Minimum coverage
-    par = "min_cov";
-    int min_cov = parameters.get_value_from_name<int>(par) - 1; // -1 allows comparison with > instead of >=
-
-    // Minimum mapping quality
-    par = "min_quality";
-    int min_quality = parameters.get_value_from_name<int>(par) - 1; // -1 allows comparison with > instead of >=
-
-    // Minimum frequency in at least one sex
-    par = "min_frequency";
-    float min_frequency = parameters.get_value_from_name<float>(par);
+    input_file.open(parameters.subset_file_path);
 
     // BWA mem parameters
     mem_opt_t *opt;
@@ -57,37 +36,24 @@ void map(Parameters& parameters) {
     line = split(temp, "\t");
 
     // Map with column number --> index of sex_count (0 = male, 1 = female, 2 = no sex)
-    std::unordered_map<uint, uint> sex_columns;
-
-    // Detection of individuals is based on the popmap, so individuals without sex should still be in the popmap
-    for (uint i=0; i<line.size(); ++i) {
-        if (popmap.find(line[i]) != popmap.end()) {
-            if (popmap[line[i]]) {
-                sex_columns[i] = 0; // Male --> column 0
-            } else {
-                sex_columns[i] = 1; // Female --> column 1
-            }
-        } else {
-            sex_columns[i] = 2; // First and second columns (id and sequence) are counted as no sex
-        }
-    }
+    std::unordered_map<uint, uint> sex_columns = get_column_sex(popmap, line);
 
     // Minimum number of males and females
     uint n_males_total = 0, n_females_total = 0;
     for (auto i: popmap) if (i.second) ++n_males_total; else ++n_females_total;
-    uint min_males = uint(min_frequency * n_males_total) - 1; // -1 allows comparison with > instead of >=
-    uint min_females = uint(min_frequency * n_females_total) - 1; // -1 allows comparison with > instead of >=
+    uint min_males = uint(parameters.map_min_frequency * n_males_total);
+    uint min_females = uint(parameters.map_min_frequency * n_females_total);
 
     // Generate BWA index if it does not exist
     std::ifstream bwa_index_temp;
     bool indexed = true;
-    std::string extensions[5] = {"amb", "ann", "bwt", "pac", "sa"};
+    std::string extensions[5] = {"amb", "ann", "bwt", "pac", "sa"};  // BWA index file extensions
 
     std::cout << " - Checking for contig lengths file : ";
-    bwa_index_temp.open(genome_file_path + ".lengths");
+    bwa_index_temp.open(parameters.genome_file_path + ".lengths");
     if (not bwa_index_temp.is_open()) {
         std::cout << " not found." << "\n" << " - Creating contig lengths file ..." << "\n";
-        scaffold_lengths(genome_file_path);
+        scaffold_lengths(parameters.genome_file_path);
     } else {
         std::cout << " found." << "\n";
         bwa_index_temp.close();
@@ -95,13 +61,13 @@ void map(Parameters& parameters) {
 
     std::cout << " - Checking for genome index files : ";
     for (auto i=0; i<5; ++i) {
-        bwa_index_temp.open(genome_file_path + "." + extensions[i]);
+        bwa_index_temp.open(parameters.genome_file_path + "." + extensions[i]);
         if (not bwa_index_temp.is_open()) indexed = false; else bwa_index_temp.close();
     }
 
     if (not indexed) {
         std::cout << " not found." << "\n" << " - Indexing the genome ..." << "\n";
-        bwa_idx_build(genome_file_path.c_str(), genome_file_path.c_str(), 0, 10000000); // Genome file, prefix, algorithm (default 0), block size (default 10000000)
+        bwa_idx_build(parameters.genome_file_path.c_str(), parameters.genome_file_path.c_str(), 0, 10000000); // Paramas: genome file, prefix, algorithm (default 0), block size (default 10000000)
     } else {
         std::cout << " found." << "\n";
     }
@@ -110,10 +76,10 @@ void map(Parameters& parameters) {
     bwaidx_t *index; // BWA index read from indexed file
 
     std::cout << " - Loading BWA index file ..." << std::endl;
-    index = bwa_idx_load(genome_file_path.c_str(), BWA_IDX_ALL); // load the BWA index
+    index = bwa_idx_load(parameters.genome_file_path.c_str(), BWA_IDX_ALL); // load the BWA index
 
-    if (NULL == index) {
-        std::cout << "Failed to load index for genome file \"" + genome_file_path + "\"." << std::endl;
+    if (nullptr == index) {
+        std::cout << "Failed to load index for genome file \"" + parameters.genome_file_path + "\"." << std::endl;
         exit(1);
     }
 
@@ -133,86 +99,83 @@ void map(Parameters& parameters) {
     MappedSequence seq;
     std::vector<MappedSequence> sequences;
 
-    std::cout << " - Mapping the sequences ..." << std::endl;
+    std::cout << " - Mapping markers ..." << std::endl;
 
     do {
 
         // Read a chunk of size given by the buffer
         input_file.read(buffer, sizeof(buffer));
-        k = input_file.gcount();
+        k = static_cast<uint>(input_file.gcount());
 
         for (uint i=0; i<k; ++i) {
 
             // Read the buffer character by character
             switch(buffer[i]) {
 
-            case '\r':
-                break;
-            case '\t':  // New field
-                if (sex_columns[field_n] != 2 and std::stoi(temp) > min_cov) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
-                temp = "";
-                ++field_n;
-                break;
-            case '\n':  // New line (also a new field)
-                if (sex_columns[field_n] != 2 and std::stoi(temp) > min_cov) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
-                if (sex_count[0] > min_males or sex_count[1] > min_females) {
-                    ar = mem_align1(opt, index->bwt, index->bns, index->pac, sequence_length, sequence.c_str()); // Map the sequence
-                    for (j = 0; j < ar.n; ++j) { // Loop through alignments
-                        if (ar.a[j].score > best_alignment[1]) { // Find alignment with best score
-                            best_alignment[0] = j;
-                            best_alignment[1] = ar.a[j].score;
-                            best_alignment[2] = 0;
-                        } else if (ar.a[j].score == best_alignment[1]) {
-                            ++best_alignment[2];
+                case '\t':  // New field
+                    if (sex_columns[field_n] != 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the presence counter for the corresponding sex
+                    temp = "";
+                    ++field_n;
+                    break;
+
+                case '\n':  // New line (also a new field)
+                    if (sex_columns[field_n] != 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the presence counter for the corresponding sex
+                    if (sex_count[0] >= min_males or sex_count[1] >= min_females) {
+                        ar = mem_align1(opt, index->bwt, index->bns, index->pac, sequence_length, sequence.c_str()); // Map the sequence
+                        for (j = 0; j < ar.n; ++j) { // Loop through alignments
+                            if (ar.a[j].score > best_alignment[1]) { // Find alignment with best score
+                                best_alignment[0] = static_cast<int>(j);
+                                best_alignment[1] = ar.a[j].score;
+                                best_alignment[2] = 0;
+                            } else if (ar.a[j].score == best_alignment[1]) {
+                                ++best_alignment[2];
+                            }
                         }
+                        best = mem_reg2aln(opt, index->bns, index->pac, sequence_length, sequence.c_str(), &ar.a[best_alignment[0]]); // Get mapping quality
+                        if (best_alignment[2] < 1 and best.mapq >= parameters.map_min_quality) { // Keep sequences with unique best alignment and with mapq >= minimum quality
+                            seq.sex_bias = float(sex_count[0]) / float(n_males_total) - float(sex_count[1]) / float(n_females_total); // Sex bias. There should never be 0 males or females in the entire population.
+                            chi_squared = get_chi_squared(sex_count[0], sex_count[1], n_males_total, n_females_total);
+                            (chi_squared == chi_squared) ? seq.p = get_chi_squared_p(chi_squared) : seq.p = 1.0; // chi square is NaN --> sequence found in all individuals --> set p to 1
+                            seq.p < 0.0000000000000001 ? seq.p = 0.0000000000000001 : seq.p = seq.p;
+                            seq.id = id;
+                            seq.contig = index->bns->anns[best.rid].name;
+                            seq.position = best.pos;
+                            sequences.push_back(seq);
+                            ++retained_sequences;
+                        }
+                        free(best.cigar); // Deallocate cigar string for best hit
+                        free(ar.a); // Deallocate the hit list
                     }
-                    best = mem_reg2aln(opt, index->bns, index->pac, sequence_length, sequence.c_str(), &ar.a[best_alignment[0]]); // Get mapping quality
-                    if (best_alignment[2] < 1 and best.mapq > min_quality) { // Keep sequences with unique best alignment and with mapq > minimum quality
-                        seq.sex_bias = float(sex_count[0]) / float(n_males_total) - float(sex_count[1]) / float(n_females_total); // Sex bias. There should never be 0 males or females in the entire population.
-                        chi_squared = get_chi_squared(sex_count[0], sex_count[1], n_males_total, n_females_total);
-                        (chi_squared == chi_squared) ? seq.p = get_chi_squared_p(chi_squared) : seq.p = 1.0; // chi square is NaN --> sequence found in all individuals --> set p to 1
-                        seq.p < 0.0000000000000001 ? seq.p = 0.0000000000000001 : seq.p = seq.p;
-                        seq.id = id;
-                        seq.contig = index->bns->anns[best.rid].name;
-                        seq.position = best.pos;
-                        sequences.push_back(seq);
-                        ++retained_sequences;
+                    ++total_n_sequences;
+                    if (total_n_sequences % 100000 == 0 and total_n_sequences / 100000 != 0) std::cout << "   > Processed " << total_n_sequences / 1000 << " K. sequences and retained "
+                                                                                                       << retained_sequences / 1000 << " K. sequences." << std::endl;
+                    // Reset variables
+                    best_alignment[0] = 0;
+                    best_alignment[1] = -1;
+                    best_alignment[2] = 0;
+                    temp = "";
+                    sequence = "";
+                    id = "";
+                    sequence_length = 0;
+                    field_n = 0;
+                    sex_count[0] = 0;
+                    sex_count[1] = 0;
+                    break;
+
+                default:
+                    temp += buffer[i];
+                    if (field_n == 0) id += buffer[i];
+                    if (field_n == 1) {
+                        sequence += buffer[i];
+                        ++sequence_length;
                     }
-                    free(best.cigar); // Deallocate cigar string for best hit
-                    free(ar.a); // Deallocate the hit list
-                }
-                ++total_n_sequences;
-                if (total_n_sequences % 100000 == 0 and total_n_sequences / 100000 != 0) std::cout << "   > Processed " << total_n_sequences / 1000 << " K. sequences and retained "
-                                                                                                 << retained_sequences / 1000 << " K. sequences." << std::endl;
-                // Reset variables
-                best_alignment[0] = 0;
-                best_alignment[1] = -1;
-                best_alignment[2] = 0;
-                temp = "";
-                sequence = "";
-                id = "";
-                sequence_length = 0;
-                field_n = 0;
-                sex_count[0] = 0;
-                sex_count[1] = 0;
-                break;
-            default:
-                temp += buffer[i];
-                if (field_n == 0) id += buffer[i];
-                if (field_n == 1) {
-                    sequence += buffer[i];
-                    ++sequence_length;
-                }
-                break;
+                    break;
             }
         }
     } while (input_file);
 
-    par = "output_file_path";
-    std::string output_file_path = parameters.get_value_from_name<std::string>(par);
-
     // Generate the output file
-    output_mapping(output_file_path, sequences);
+    output_mapping(parameters.output_file_path, sequences);
 
     input_file.close();
     free(opt);

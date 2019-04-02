@@ -7,21 +7,12 @@ void freq(Parameters &parameters) {
      * Number of individuals | Number of markers found in this number of individuals
      */
 
-    std::string par = "input_file_path";
     std::ifstream input_file;
-    input_file.open(parameters.get_value_from_name<std::string>(par));
-
-    par = "min_cov";
-    int min_cov = parameters.get_value_from_name<int>(par) - 1; // -1 allows comparison with > instead of >=
+    input_file.open(parameters.markers_table_path);
 
     if (input_file) {
 
         std::map<uint, uint> results;  // Results --> {Frequency: count}
-
-        par = "output_file_path";
-        std::ofstream output_file;
-        output_file.open(parameters.get_value_from_name<std::string>(par));
-        output_file << "Frequency" << "\t" << "Count" << "\n"; // Header of output file
 
         // First line of input file is the header, which is not used in this analysis
         std::string temp = "";
@@ -35,35 +26,39 @@ void freq(Parameters &parameters) {
 
             // Read a chunk of size given by the buffer
             input_file.read(buffer, sizeof(buffer));
-            k = input_file.gcount();
+            k = static_cast<uint>(input_file.gcount());
 
             for (uint i=0; i<k; ++i) {
 
                 // Read the buffer character by character
                 switch(buffer[i]) {
 
-                case '\r':
-                    break;
-                case '\t':  // New field
-                    if (field_n > 1 and std::stoi(temp) > min_cov) ++count;  // Individual fields start at 2
-                    temp = "";
-                    ++field_n;
-                    break;
-                case '\n':  // New line (also a new field)
-                    if (field_n > 1 and std::stoi(temp) > min_cov) ++count;  // Individual fields start at 2
-                    ++results[count];
-                    // Reset variables
-                    temp = "";
-                    field_n = 0;
-                    count = 0;
-                    break;
-                default:
-                    temp += buffer[i];
-                    break;
+                    case '\t':  // New field
+                        if (field_n > 1 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++count;  // Individual fields start at 2
+                        temp = "";
+                        ++field_n;
+                        break;
+
+                    case '\n':  // New line (also a new field)
+                        if (field_n > 1 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++count;  // Individual fields start at 2
+                        ++results[count];
+                        // Reset variables
+                        temp = "";
+                        field_n = 0;
+                        count = 0;
+                        break;
+
+                    default:
+                        temp += buffer[i];
+                        break;
                 }
             }
 
         } while (input_file);
+
+        std::ofstream output_file;
+        output_file.open(parameters.output_file_path);
+        output_file << "Frequency" << "\t" << "Count" << "\n"; // Header of output file
 
         // Cannot iterate over the map normally as it
         uint n_individuals = results.rbegin()->first + 1; // Find the maximum number of individuals

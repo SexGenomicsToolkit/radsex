@@ -1,13 +1,11 @@
 #pragma once
-#include <string>
-#include <vector>
 #include <fstream>
 #include <map>
-#include "utils.h"
+#include <string>
+#include <vector>
 #include "parameters.h"
-#include "popmap.h"
 #include "output.h"
+#include "utils.h"
 
-
-// Main function implementing the analysis
+// Compute a table of marker frequencies in the population, regardless of sex
 void freq(Parameters& parameters);

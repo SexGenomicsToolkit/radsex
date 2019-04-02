@@ -23,7 +23,7 @@ double get_chi_squared(uint n_males, uint n_females, uint total_males, uint tota
     uint Ns = total_males, Nf = total_females;
     uint Na = n_males + n_females, Nb = total_males + total_females - n_males - n_females;
 
-    int temp = (n_males * total_females) - (n_females * total_males);
+    int temp = static_cast<int>((n_males * total_females) - (n_females * total_males));
     temp = std::abs(temp);
     double temp2 = std::max(0.0, double(temp) - N/2);
     temp2 *= temp2;

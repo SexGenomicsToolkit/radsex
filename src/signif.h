@@ -1,14 +1,14 @@
 #pragma once
-#include <string>
-#include <vector>
 #include <fstream>
+#include <string>
 #include <unordered_map>
-#include "utils.h"
+#include <vector>
+#include "output.h"
 #include "parameters.h"
 #include "popmap.h"
-#include "output.h"
 #include "stats.h"
+#include "utils.h"
 
 
-// Main function implementing the analysis
+// Get all markers significantly associated with sex and export them in either table or fasta format
 void signif(Parameters& parameters);

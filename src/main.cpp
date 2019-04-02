@@ -1,21 +1,13 @@
 #include "radsex.h"
-#include "map.h"
 
 
 int main(int argc, char* argv[]) {
 
-
-    /* RadSex is a class that controls the entire programme
-     * This class creates one object for each type of analysis.
-     * Each analysis object will has its own parser to handle its specific arguments.
-     * During initialization, the main parser is first run to check the type of analysis selected,
-     * then the analysis-specific parser is run to parser the analysis-specific arguments.
+    /* RADSex is the main class implementing the program.
+     * It makes use of the CLI11 library to parse arguments and call the appropriate function.
      */
 
-    RadSex radsex(argc, argv);
-
-    // If everything went well, the analysis is run
-    radsex.run();
+    RADSex radsex(argc, argv);
 
     return 0;
 }

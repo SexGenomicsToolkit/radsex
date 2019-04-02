@@ -1,6 +1,6 @@
 #include "utils.h"
 
-uint8_t revcomp_table[] = {
+const char revcomp_table[] = {
       0,   1,	2,	 3,	  4,   5,	6,	 7,	  8,   9,  10,	11,	 12,  13,  14,	15,
      16,  17,  18,	19,	 20,  21,  22,	23,	 24,  25,  26,	27,	 28,  29,  30,	31,
      32,  33,  34,	35,	 36,  37,  38,	39,	 40,  41,  42,	43,	 44,  45,  46,	47,
@@ -16,7 +16,7 @@ uint8_t revcomp_table[] = {
 // Output current date and time in format specified in utils.h
 char* print_time (char *buff) {
 
-    time_t t = time (0);
+    time_t t = time (nullptr);
     strftime (buff, DTTMSZ, DTTMFMT, localtime (&t));
     return buff;
 }
@@ -41,10 +41,32 @@ std::vector<std::string> split(std::string str, const std::string delimiter){
 }
 
 
-void rev_comp(const std::string& sequence, std::string& revcomp_sequence, char nuc) {
+void rev_comp(const std::string& sequence, std::string& revcomp_sequence) {
 
     revcomp_sequence = "";
     for (auto it = sequence.rbegin(); it != sequence.rend(); ++it) {
         revcomp_sequence += revcomp_table[int(*it)];
     }
+}
+
+
+
+std::unordered_map<uint, uint> get_column_sex(std::unordered_map<std::string, bool>& popmap, const std::vector<std::string>& header) {
+
+    // Map with column number --> index of sex_count (0 = male, 1 = female, 2 = no sex)
+    std::unordered_map<uint, uint> sex_columns;
+
+    for (uint i=0; i<header.size(); ++i) {
+        if (popmap.find(header[i]) != popmap.end()) {
+            if (popmap[header[i]]) {
+                sex_columns[i] = 0; // Male --> column 0
+            } else {
+                sex_columns[i] = 1; // Female --> column 1
+            }
+        } else {
+            sex_columns[i] = 2; // First and second columns (id and sequence) are counted as no sex
+        }
+    }
+
+    return sex_columns;
 }

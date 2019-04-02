@@ -2,9 +2,6 @@
 
 KSEQ_INIT(gzFile, gzread) // Kseq init macro
 
-// List of currently supported file types with extensions
-std::vector<std::string> extensions {".fq.gz", ".fq", ".fastq.gz", ".fastq", ".fasta.gz", ".fasta", ".fa.gz", ".fa", ".fna.gz", ".fna"};
-
 std::vector<InputFile> get_input_files(const std::string& input_dir_path) {
 
     /* Gets all relevant files (from supported formats) from the input directory.
@@ -72,26 +69,20 @@ void process(Parameters& parameters) {
      * - once all files are processed, output the results
      */
 
-    std::string par = "input_dir_path";
-    std::vector<InputFile> input_files = get_input_files(parameters.get_value_from_name<std::string>(par));
+    if (parameters.input_dir_path.back() != '/') parameters.input_dir_path += "/";  // Append "/" to the end of the path if it's missing
+
+    std::vector<InputFile> input_files = get_input_files(parameters.input_dir_path);
     std::unordered_map<std::string, std::unordered_map<std::string, uint16_t>> results;
 
-    par = "min_cov";
-    uint min_cov = parameters.get_value_from_name<int>(par) - 1;
-
-    par = "n_threads";
     std::vector<std::thread> threads;
     std::mutex results_mutex, files_mutex;
 
     // Create and run all file processors
-    for (int i=0; i<parameters.get_value_from_name<int>(par); ++i) {
+    for (uint i=0; i<parameters.n_threads; ++i) {
         threads.push_back(std::thread(file_processor, std::ref(input_files), std::ref(results), std::ref(results_mutex), std::ref(files_mutex)));
     }
     
     for (auto &t : threads) t.join();
-
-    par = "output_file_path";
-    std::string output_file_path = parameters.get_value_from_name<std::string>(par);
 
     // Create list of individuals
     std::vector<std::string> individuals;
@@ -99,7 +90,7 @@ void process(Parameters& parameters) {
 
 
     // Generate the output file
-    output_process_reads(output_file_path, individuals, results, min_cov);
+    output_process_reads(parameters.output_file_path, individuals, results, parameters.min_depth);
 
 }
 
@@ -147,12 +138,17 @@ inline void process_file(InputFile& input_file, std::unordered_map<std::string, 
     int line_n; // Stores the length of a line
 
     file = gzopen(input_file.path.c_str(), "r");
+
+    if (not file) {
+        std::cerr << " ** Error: cannot open input file <" << input_file.path << ">" << std::endl;
+        exit(1);
+    }
+
     sequence = kseq_init(file); // Initialize the seq object
 
     // Read through the file and store the results
     while ((line_n = kseq_read(sequence)) >= 0) {
         ++temp_results[sequence->seq.s];
-        if (line_n % 1000 == 0) std::cout << line_n / 1000 << std::endl;
     }
 
     kseq_destroy(sequence); // Destroy the seq object
@@ -163,6 +159,6 @@ inline void process_file(InputFile& input_file, std::unordered_map<std::string, 
     for (auto sequence : temp_results) {
         results[sequence.first][input_file.individual_name] += sequence.second;
     }
-    std::cout << " - Finished processing individual : " + input_file.individual_name + "." << std::endl;
+    std::cout << " - Finished processing individual <" + input_file.individual_name + ">" << std::endl;
     results_mutex.unlock();
 }

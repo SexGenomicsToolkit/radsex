@@ -1,7 +1,7 @@
 # Compiler options
 CC = g++
 OPTCFLAGS = -O2
-CFLAGS = -Wall -std=c++11 $(OPTCFLAGS)
+CFLAGS = -Wall -Wno-maybe-uninitialized -std=c++11 $(OPTCFLAGS)
 LDFLAGS = -pthread -static-libstdc++ -lz
 
 # Directory organisation

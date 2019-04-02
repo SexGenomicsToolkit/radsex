@@ -9,18 +9,17 @@ std::unordered_map<std::string, bool> load_popmap(Parameters& parameters) {
      * Data is stored in a map of structure Name (string) Male (bool)
      */
 
-    std::ifstream file;
-    std::string par = "popmap_file_path";
-    file.open(parameters.get_value_from_name<std::string>(par));
+    std::ifstream popmap;
+    popmap.open(parameters.popmap_file_path);
 
     std::unordered_map<std::string, bool> results;
 
-    if (file) {
+    if (popmap) {
 
         std::string line;
         std::vector<std::string> fields;
 
-        while(std::getline(file, line)) {
+        while(std::getline(popmap, line)) {
 
             fields = split(line, "\t");
             if (fields.size() == 2) { // Only 2 columns as it should be
@@ -38,7 +37,7 @@ std::unordered_map<std::string, bool> load_popmap(Parameters& parameters) {
 
     } else {
 
-        std::cout << "**Error: cannot open popmap file \"" << parameters.get_value_from_name<std::string>(par) << "\"";
+        std::cout << "**Error: cannot open popmap file \"" << parameters.popmap_file_path << "\"";
         exit(0);
     }
 

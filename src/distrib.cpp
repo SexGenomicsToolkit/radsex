@@ -13,16 +13,9 @@ void distrib(Parameters& parameters) {
     // Find number of males and females
     uint n_males = 0, n_females = 0;
     for (auto i: popmap) if (i.second) ++n_males; else ++n_females;
-    // Extra increment for easier comparison
-    ++n_males;
-    ++n_females;
 
-    std::string par = "input_file_path";
     std::ifstream input_file;
-    input_file.open(parameters.get_value_from_name<std::string>(par));
-
-    par = "min_cov";
-    int min_cov = parameters.get_value_from_name<int>(par) - 1; // -1 allows comparison with > instead of >=
+    input_file.open(parameters.markers_table_path);
 
     if (input_file) {
 
@@ -33,19 +26,7 @@ void distrib(Parameters& parameters) {
         line = split(temp, "\t");
 
         // Map with column number --> index of sex_count (0 = male, 1 = female, 2 = no sex)
-        std::unordered_map<uint, uint> sex_columns;
-
-        for (uint i=0; i<line.size(); ++i) {
-            if (popmap.find(line[i]) != popmap.end()) {
-                if (popmap[line[i]]) {
-                    sex_columns[i] = 0; // Male --> column 0
-                } else {
-                    sex_columns[i] = 1; // Female --> column 1
-                }
-            } else {
-                sex_columns[i] = 2; // First and second columns (id and sequence) are counted as no sex
-            }
-        }
+        std::unordered_map<uint, uint> sex_columns = get_column_sex(popmap, line);
 
         // Define variables used to read the file
         char buffer[65536];
@@ -57,32 +38,32 @@ void distrib(Parameters& parameters) {
 
             // Read a chunk of size given by the buffer
             input_file.read(buffer, sizeof(buffer));
-            k = input_file.gcount();
+            k = static_cast<uint>(input_file.gcount());
 
             for (uint i=0; i<k; ++i) {
 
                 // Read the buffer character by character
                 switch(buffer[i]) {
 
-                case '\r':
-                    break;
-                case '\t':  // New field
-                    if (sex_columns[field_n] != 2 and std::stoi(temp) > min_cov) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
-                    temp = "";
-                    ++field_n;
-                    break;
-                case '\n':  // New line (also a new field)
-                    if (sex_columns[field_n] != 2 and std::stoi(temp) > min_cov) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
-                    ++results[sex_count[0]][sex_count[1]].first; // Update the results
-                    // Reset variables
-                    temp = "";
-                    field_n = 0;
-                    sex_count[0] = 0;
-                    sex_count[1] = 0;
-                    break;
-                default:
-                    temp += buffer[i];
-                    break;
+                    case '\t':  // New field
+                        if (sex_columns[field_n] != 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
+                        temp = "";
+                        ++field_n;
+                        break;
+
+                    case '\n':  // New line (also a new field)
+                        if (sex_columns[field_n] != 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
+                        ++results[sex_count[0]][sex_count[1]].first; // Update the results
+                        // Reset variables
+                        temp = "";
+                        field_n = 0;
+                        sex_count[0] = 0;
+                        sex_count[1] = 0;
+                        break;
+
+                    default:
+                        temp += buffer[i];
+                        break;
                 }
             }
 
@@ -94,8 +75,8 @@ void distrib(Parameters& parameters) {
         double chi_squared = 0;
 
         // Compute p-values
-        for (uint f=0; f < n_females; ++f) {
-            for (uint m=0; m < n_males; ++m) {
+        for (uint f=0; f <= n_females; ++f) {
+            for (uint m=0; m <= n_males; ++m) {
                 if (f + m != 0) {
                     chi_squared = get_chi_squared(m, f, n_males, n_females);
                     results[m][f].second = std::min(1.0, get_chi_squared_p(chi_squared)); // p-value corrected with Bonferroni, with max of 1
@@ -103,17 +84,11 @@ void distrib(Parameters& parameters) {
             }
         }
 
-        par = "output_file_path";
-        std::string output_file_path = parameters.get_value_from_name<std::string>(par);
-
-        par = "output_matrix";
-        bool output_matrix = parameters.get_value_from_name<bool>(par);
-
         // Generate the output file
-        if (!output_matrix) {
-            output_sex_distribution(output_file_path, results, n_males, n_females);
+        if (!parameters.output_matrix) {
+            output_sex_distribution(parameters.output_file_path, results, n_males, n_females);
         } else {
-            output_sex_distribution_matrix(output_file_path, results, n_males, n_females);
+            output_sex_distribution_matrix(parameters.output_file_path, results, n_males, n_females);
         }
     }
 }

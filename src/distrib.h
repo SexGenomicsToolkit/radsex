@@ -1,13 +1,12 @@
 #pragma once
-#include <string>
-#include <vector>
 #include <fstream>
+#include <string>
 #include <unordered_map>
-#include "utils.h"
+#include <vector>
+#include "output.h"
 #include "parameters.h"
 #include "popmap.h"
-#include "output.h"
+#include "utils.h"
 
-
-// Main function implementing the analysis
+// Compute the distribution of markers between males and females
 void distrib(Parameters& parameters);
