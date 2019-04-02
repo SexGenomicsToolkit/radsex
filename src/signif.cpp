@@ -64,7 +64,7 @@ void signif(Parameters& parameters) {
                             ++seq_count;
                             chi_squared = get_chi_squared(sex_count[0], sex_count[1], total_males, total_females);
                             p = get_chi_squared_p(chi_squared);
-                            if (p < 0.05) { // First pass: we filter sequences with at least one male or one female and non-corrected p < 0.05
+                            if (static_cast<float>(p) < parameters.signif_threshold) { // First pass: we filter sequences with at least one male or one female and non-corrected p < 0.05
                                 candidate_sequences[temp_line][0] = p;
                                 candidate_sequences[temp_line][1] = sex_count[0];
                                 candidate_sequences[temp_line][2] = sex_count[1];
@@ -87,11 +87,11 @@ void signif(Parameters& parameters) {
 
         } while(input_file);
 
-        double significance_threshold = 0.05 / seq_count; // Bonferroni correction: divide threshold by number of tests
+        if (not parameters.disable_correction) parameters.signif_threshold /= seq_count; // Bonferroni correction: divide threshold by number of tests
 
         // Second pass: filter with bonferroni
         for (auto sequence: candidate_sequences) {
-            if (sequence.second[0] < significance_threshold) {
+            if (static_cast<float>(sequence.second[0]) < parameters.signif_threshold) {
                 if (parameters.output_fasta) {
                     line = split(sequence.first, "\t");
                     output_file << ">" << line[0] << "_" << int(sequence.second[1]) << "M_" << int(sequence.second[2]) << "F_cov:" << parameters.min_depth << "_p:" << sequence.second[0] << "\n" << line[1] << "\n";

@@ -1,6 +1,6 @@
 #include "output.h"
 
-void output_process_reads(std::string& output_file_path, std::vector<std::string>& individuals, std::unordered_map<std::string, std::unordered_map<std::string, uint16_t>>& results, uint min_depth) {
+void output_process(std::string& output_file_path, std::vector<std::string>& individuals, std::unordered_map<std::string, std::unordered_map<std::string, uint16_t>>& results, uint min_depth) {
 
     /* Input:
      * - Path to an output file
@@ -48,7 +48,7 @@ void output_process_reads(std::string& output_file_path, std::vector<std::string
 
 
 
-void output_sex_distribution_matrix(std::string& output_file_path, sd_table& results, uint n_males, uint n_females) {
+void output_distrib_matrix(std::string& output_file_path, sd_table& results, uint n_males, uint n_females) {
 
     /* Input:
      * - Path to an output file
@@ -73,14 +73,14 @@ void output_sex_distribution_matrix(std::string& output_file_path, sd_table& res
 
 
 
-void output_sex_distribution(std::string& output_file_path, sd_table& results, uint n_males, uint n_females) {
+void output_distrib(std::string& output_file_path, sd_table& results, uint n_males, uint n_females, float signif_threshold, bool disable_correction) {
 
     /* Input:
      * - Path to an output file
      * - A matrix of counts [Males: [Females: Count]]
      * Output: a table with the following structure:
-     * Number of males | Number of females | Number of sequences | P-value
-     *     <int>       |       <int>       |       <int>         | <float>
+     * Number of males | Number of females | Number of markers   | P-value    | Significance
+     *     <int>       |       <int>       |       <int>         | <float>    |    <bool>
      */
 
     std::ofstream output_file;
@@ -90,7 +90,6 @@ void output_sex_distribution(std::string& output_file_path, sd_table& results, u
     output_file << "Males" << "\t" << "Females" << "\t" << "Markers" << "\t" << "P" << "\t" << "Signif" << "\n";
 
     uint n_markers = 0;
-    double threshold = 0.05;
 
     // Determine the total number of markers
     for (uint f=0; f <= n_females; ++f) {
@@ -99,13 +98,14 @@ void output_sex_distribution(std::string& output_file_path, sd_table& results, u
         }
     }
 
-    threshold /= n_markers;
+    if (not disable_correction) signif_threshold /= n_markers;
 
     // Generate output file
     for (uint m=0; m <= n_males; ++m) {
         for (uint f=0; f <= n_females; ++f) {
             if (f + m != 0) {
-                output_file << m << "\t" << f << "\t" << results[m][f].first << "\t" << results[m][f].second << "\t" << (results[m][f].second < threshold ? "True" : "False") << "\n";
+                output_file << m << "\t" << f << "\t" << results[m][f].first << "\t" << results[m][f].second << "\t" <<
+                               (static_cast<float>(results[m][f].second) < signif_threshold ? "True" : "False") << "\n";
             }
         }
     }
@@ -113,7 +113,7 @@ void output_sex_distribution(std::string& output_file_path, sd_table& results, u
 
 
 
-void output_group_loci(std::string& output_file_path, std::unordered_map<std::string, std::vector<Locus>>& results, std::vector<std::string>& header) {
+void output_loci(std::string& output_file_path, std::unordered_map<std::string, std::vector<Locus>>& results, std::vector<std::string>& header) {
 
     /* Input:
      * - Path to an output file
@@ -171,18 +171,18 @@ void output_group_loci(std::string& output_file_path, std::unordered_map<std::st
 
 
 // Create output file for the mapping analysis
-void output_mapping(std::string& output_file_path, std::vector<MappedSequence> sequences) {
+void output_map(std::string& output_file_path, std::vector<MappedSequence> sequences, float signif_threshold, bool disable_correction) {
 
     std::ofstream output_file;
     output_file.open(output_file_path);
 
     output_file << "Sequence" << "\t" << "Contig" << "\t" << "Position" << "\t" << "SexBias" << "\t" << "P" << "\t" << "Signif" << "\n";
 
-    double threshold = 0.05 / sequences.size();
+    if (not disable_correction) signif_threshold /= sequences.size();
 
     for (auto s: sequences) {
         output_file << s.id << "\t" << s.contig << "\t" << s.position << "\t" << s.sex_bias << "\t" << s.p << "\t" <<
-                       (s.p < threshold ? "True" : "False") << "\n";
+                       (static_cast<float>(s.p) < signif_threshold ? "True" : "False") << "\n";
     }
 
     output_file.close();

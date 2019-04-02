@@ -90,7 +90,7 @@ void process(Parameters& parameters) {
 
 
     // Generate the output file
-    output_process_reads(parameters.output_file_path, individuals, results, parameters.min_depth);
+    output_process(parameters.output_file_path, individuals, results, parameters.min_depth);
 
 }
 

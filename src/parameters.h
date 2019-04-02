@@ -19,7 +19,7 @@ struct Parameters {
     uint n_threads = 1;
     uint min_depth = 1;
     float signif_threshold = static_cast<float>(0.05);
-    bool bonferroni = true;
+    bool disable_correction = true;
 
     // "loci" specific parameters
     uint loci_max_distance = 1;

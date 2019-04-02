@@ -79,6 +79,8 @@ void RADSex::setup_distrib_parser() {
     this->add_popmap(subparser);
     this->add_output_file(subparser);
     this->add_min_depth(subparser);
+    this->add_signif_threshold(subparser);
+    this->add_disable_correction(subparser);
     this->add_output_matrix(subparser);
 }
 
@@ -115,6 +117,8 @@ void RADSex::setup_map_parser() {
     this->add_min_depth(subparser);
     this->add_map_min_quality(subparser);
     this->add_map_min_frequency(subparser);
+    this->add_signif_threshold(subparser);
+    this->add_disable_correction(subparser);
 }
 
 
@@ -134,6 +138,8 @@ void RADSex::setup_signif_parser() {
     this->add_popmap(subparser);
     this->add_min_depth(subparser);
     this->add_output_fasta(subparser);
+    this->add_signif_threshold(subparser);
+    this->add_disable_correction(subparser);
 }
 
 
@@ -208,12 +214,12 @@ void RADSex::add_min_depth(CLI::App* subparser) {
 }
 
 void RADSex::add_signif_threshold(CLI::App* subparser) {
-    CLI::Option* option = subparser->add_option("-S,--signif-threshold", this->parameters.min_depth, "Significance threshold when assessing significance", true);
-    option->check(CLI::Range(0, 1));
+    CLI::Option* option = subparser->add_option("-S,--signif-threshold", this->parameters.signif_threshold, "Significance threshold when assessing significance", true);
+    option->check(CLI::Range(0.0, 1.0));
 }
 
-void RADSex::add_bonferroni(CLI::App* subparser) {
-    subparser->add_flag("-b,--bonferroni-correction", this->parameters.min_depth, "If set, Bonferroni correction will be used when assessing significance");
+void RADSex::add_disable_correction(CLI::App* subparser) {
+    subparser->add_flag("-C,--disable-correction", this->parameters.disable_correction, "If set, Bonferroni correction will NOT be used when assessing significance");
 }
 
 void RADSex::add_subset_min_males(CLI::App* subparser) {

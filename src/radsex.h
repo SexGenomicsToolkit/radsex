@@ -69,7 +69,7 @@ class RADSex {
         void add_n_threads(CLI::App* subparser);
         void add_min_depth(CLI::App* subparser);
         void add_signif_threshold(CLI::App* subparser);
-        void add_bonferroni(CLI::App* subparser);
+        void add_disable_correction(CLI::App* subparser);
 
         // "loci" specific parameters
         void add_loci_max_distance(CLI::App* subparser);

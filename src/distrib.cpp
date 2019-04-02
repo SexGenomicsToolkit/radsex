@@ -86,9 +86,9 @@ void distrib(Parameters& parameters) {
 
         // Generate the output file
         if (!parameters.output_matrix) {
-            output_sex_distribution(parameters.output_file_path, results, n_males, n_females);
+            output_distrib(parameters.output_file_path, results, n_males, n_females, parameters.signif_threshold, parameters.disable_correction);
         } else {
-            output_sex_distribution_matrix(parameters.output_file_path, results, n_males, n_females);
+            output_distrib_matrix(parameters.output_file_path, results, n_males, n_females);
         }
     }
 }

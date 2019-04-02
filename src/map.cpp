@@ -175,7 +175,7 @@ void map(Parameters& parameters) {
     } while (input_file);
 
     // Generate the output file
-    output_mapping(parameters.output_file_path, sequences);
+    output_map(parameters.output_file_path, sequences, parameters.signif_threshold, parameters.disable_correction);
 
     input_file.close();
     free(opt);
