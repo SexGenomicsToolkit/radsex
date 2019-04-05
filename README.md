@@ -1,4 +1,8 @@
+[![DOI](https://zenodo.org/badge/86720601.svg)](https://zenodo.org/badge/latestdoi/86720601)
+
 # RADSex
+
+Current pre-release : 0.2.0
 
 The RADSex pipeline is **currently under development** and has not been officially released yet.
 Missing features are been implemented, some bugs are to be expected in this current development version, and parameters are subject to change.

@@ -14,9 +14,17 @@ void freq(Parameters &parameters) {
 
         std::map<uint, uint> results;  // Results --> {Frequency: count}
 
-        // First line of input file is the header, which is not used in this analysis
+        std::vector<std::string> line;
         std::string temp = "";
+
+        // First line is a comment with number of markers in the table
         std::getline(input_file, temp);
+        line = split(temp, " : ");
+        if (line.size() == 2) uint n_markers = static_cast<uint>(std::stoi(line[1]));
+
+        // Second line is the header, not used in this analysis
+        std::getline(input_file, temp);
+        line = split(temp, "\t");
 
         // Define variables used to read the file
         char buffer[65536];
@@ -66,4 +74,5 @@ void freq(Parameters &parameters) {
         output_file.close();
         input_file.close();
     }
+
 }

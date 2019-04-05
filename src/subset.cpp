@@ -25,12 +25,18 @@ void subset(Parameters& parameters) {
         std::ofstream output_file;
         output_file.open(parameters.output_file_path);
 
-        // First line is the header. The header is parsed to get the sex of each field in the table.
         std::vector<std::string> line;
         std::string temp = "";
+
+        // First line is a comment with number of markers in the table
         std::getline(input_file, temp);
-        if (not parameters.output_fasta) output_file << temp << "\n"; // Copy the header line to the subset output file
+        line = split(temp, " : ");
+        if (line.size() == 2) uint n_markers = static_cast<uint>(std::stoi(line[1]));
+
+        // Second line is the header. The header is parsed to get the sex of each field in the table.
+        std::getline(input_file, temp);
         line = split(temp, "\t");
+        if (not parameters.output_fasta) output_file << temp << "\n"; // Copy the header line to the output file
 
         // Map with column number --> index of sex_count (0 = male, 1 = female, 2 = no sex)
         std::unordered_map<uint, uint> sex_columns = get_column_sex(popmap, line);

@@ -19,9 +19,15 @@ void distrib(Parameters& parameters) {
 
     if (input_file) {
 
-        // First line is the header. The header is parsed to get the sex of each field in the table.
         std::vector<std::string> line;
         std::string temp = "";
+
+        // First line is a comment with number of markers in the table
+        std::getline(input_file, temp);
+        line = split(temp, " : ");
+        if (line.size() == 2) uint n_markers = static_cast<uint>(std::stoi(line[1]));
+
+        // Second line is the header. The header is parsed to get the sex of each field in the table.
         std::getline(input_file, temp);
         line = split(temp, "\t");
 
@@ -59,6 +65,7 @@ void distrib(Parameters& parameters) {
                         field_n = 0;
                         sex_count[0] = 0;
                         sex_count[1] = 0;
+                        sex_count[2] = 0;
                         break;
 
                     default:

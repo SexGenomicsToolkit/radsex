@@ -15,7 +15,10 @@ void output_process(std::string& output_file_path, std::vector<std::string>& ind
 
     uint id = 0;
 
-    // Prints the header
+    // Comment lines
+    std::fprintf(output_file, "#Number of markers : %i\n", static_cast<int>(results.size()));
+
+    // Header
     std::fprintf(output_file, "id\tsequence");
     for (auto i: individuals) {
         std::fprintf(output_file, "\t%s", i.c_str());
@@ -113,58 +116,24 @@ void output_distrib(std::string& output_file_path, sd_table& results, uint n_mal
 
 
 
-void output_loci(std::string& output_file_path, std::unordered_map<std::string, std::vector<Locus>>& results, std::vector<std::string>& header) {
+void output_loci(std::string& output_file_path, std::vector<std::pair<Locus, Locus>> loci, std::vector<std::string>& header) {
 
-    /* Input:
-     * - Path to an output file
-     * - A matrix of loci [Sequence ID: [Associated sequences]]
-     * Output:
-     * - A table with following columns:
-     * Locus ID | Marker ID | Sequence | Origin | Cov Ind. 1 | Cov Ind. 2 ...
+    /* TODO
      */
 
     std::ofstream output_file;
     output_file.open(output_file_path);
 
-    output_file << "Locus" << "\t" << "Marker" << "\t" << "Sequence" << "\t" << "Origin" << "\t";
-    for (uint i=2; i<header.size(); ++i) {
-        output_file << header[i];
-        if (i < header.size() - 1) output_file << "\t";
-    }
+    output_file << "Locus_ID" << "\t" << "Het_marker_ID" << "\t" << "Hom_marker_ID" << "\t" << "Het_marker_sequence" << "\t" << "Hom_marker_sequence" ;
+    for (uint i=2; i<header.size(); ++i) output_file << "\t" << header[i];
     output_file << "\n";
 
-    std::string seq_id;
-    uint locus_id = 0;
-
-    for (auto sequence: results) {
-        seq_id = sequence.first;
-
-        // First iteration to output the original sequence
-        for (auto locus: sequence.second) {
-            if (locus.id == seq_id) {
-                output_file << locus_id << "\t" << locus.id << "\t" << locus.sequence << "\t";
-                if (seq_id == locus.id) output_file << "Original" << "\t"; else output_file << "Recovered" << "\t";
-                for (uint i=0; i<locus.coverage.size(); ++i) {
-                    output_file << locus.coverage[i];
-                    if (i < locus.coverage.size() - 1) output_file << "\t";
-                }
-                output_file << "\n";
-            }
+    for (auto locus: loci) {
+        output_file << locus.first.id + "_" + locus.second.id << "\t" << locus.first.id << "\t" << locus.second.id << "\t" << locus.first.sequence << "\t" << locus.second.sequence;
+        for (uint i=0; i<locus.first.coverage.size(); ++i) {
+            output_file << "\t" << locus.first.coverage[i] << "/" << locus.second.coverage[i];
         }
-
-        // Second iteration to output the other sequences (this is not optimized but this step is not intensive anyway)
-        for (auto locus: sequence.second) {
-            if (locus.id != seq_id) {
-                output_file << locus_id << "\t" << locus.id << "\t" << locus.sequence << "\t";
-                if (seq_id == locus.id) output_file << "Original" << "\t"; else output_file << "Recovered" << "\t";
-                for (uint i=0; i<locus.coverage.size(); ++i) {
-                    output_file << locus.coverage[i];
-                    if (i < locus.coverage.size() - 1) output_file << "\t";
-                }
-                output_file << "\n";
-            }
-        }
-        ++locus_id;
+        output_file << "\n";
     }
 }
 

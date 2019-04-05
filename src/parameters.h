@@ -12,6 +12,7 @@ struct Parameters {
     std::string popmap_file_path = "";
     std::string barcodes_file_path = "";
     std::string genome_file_path = "";
+    std::string depths_file_path = "";
     bool output_matrix = false;
     bool output_fasta= false;
 
@@ -27,6 +28,7 @@ struct Parameters {
     float loci_freq_hom = static_cast<float>(1.0);
     float loci_range_het = static_cast<float>(0.1);
     float loci_range_hom = static_cast<float>(0.1);
+    float loci_min_individual_frequency = static_cast<float>(0.75);
 
     // "subset" specific parameters
     uint subset_min_males = 0;

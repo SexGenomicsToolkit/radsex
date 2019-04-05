@@ -29,9 +29,15 @@ void map(Parameters& parameters) {
     mem_opt_t *opt;
     opt = mem_opt_init(); // initialize the BWA-MEM parameters to the default values
 
-    // First line of the input file is the header. The header is parsed to get the sex of each field in the table.
     std::vector<std::string> line;
     std::string temp = "";
+
+    // First line is a comment with number of markers in the table
+    std::getline(input_file, temp);
+    line = split(temp, " : ");
+    if (line.size() == 2) uint n_markers = static_cast<uint>(std::stoi(line[1]));
+
+    // Second line is the header. The header is parsed to get the sex of each field in the table.
     std::getline(input_file, temp);
     line = split(temp, "\t");
 

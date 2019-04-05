@@ -17,7 +17,7 @@ void output_distrib_matrix(std::string& output_file_path, sd_table& results, uin
 void output_distrib(std::string& output_file_path, sd_table& results, uint n_males, uint n_females, float signif_threshold, bool disable_correction);
 
 // Generate an output file for "loci"
-void output_loci(std::string& output_file_path, std::unordered_map<std::string, std::vector<Locus>>& results, std::vector<std::string>& header);
+void output_loci(std::string& output_file_path, std::vector<std::pair<Locus, Locus>> loci, std::vector<std::string>& header);
 
 // Generate an output file for "map"
 void output_map(std::string& output_file_path, std::vector<MappedSequence> sequences, float signif_threshold, bool disable_correction);

@@ -72,11 +72,13 @@ class RADSex {
         void add_disable_correction(CLI::App* subparser);
 
         // "loci" specific parameters
+        void add_loci_depth_file(CLI::App* subparser);
         void add_loci_max_distance(CLI::App* subparser);
         void add_loci_freq_het(CLI::App* subparser);
         void add_loci_freq_hom(CLI::App* subparser);
         void add_loci_range_het(CLI::App* subparser);
         void add_loci_range_hom(CLI::App* subparser);
+        void add_loci_min_individual_frequency(CLI::App* subparser);
 
         // "subset" specific parameters
         void add_subset_min_males(CLI::App* subparser);
