@@ -23,6 +23,7 @@ std::unordered_map<std::string, bool> load_popmap(Parameters& parameters) {
 
             fields = split(line, "\t");
             if (fields.size() == 2) { // Only 2 columns as it should be
+                if (line.back() == '\r') line.pop_back();
                 if (fields[1] == "F") {
                     results[fields[0]] = false; // Female --> bool set to false
                 } else if (fields[1] == "M") {
