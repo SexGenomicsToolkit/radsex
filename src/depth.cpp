@@ -3,27 +3,27 @@
 
 void depth(Parameters& parameters) {
 
-    std::unordered_map<std::string, bool> popmap = load_popmap(parameters);
+    Popmap popmap = load_popmap(parameters);
 
     std::ifstream input_file;
     input_file.open(parameters.markers_table_path);
 
     if (input_file.is_open()) {
 
-        std::vector<std::string> line;
+        std::vector<std::string> header;
         std::string temp = "";
 
         // First line is a comment with number of markers in the table
         std::getline(input_file, temp);
-        line = split(temp, " : ");
-        if (line.size() == 2) uint n_markers = static_cast<uint>(std::stoi(line[1]));
+        header = split(temp, " : ");
+        if (header.size() == 2) uint n_markers = static_cast<uint>(std::stoi(header[1]));
 
         // Second line is the header. The header is parsed to get the sex of each field in the table.
         std::getline(input_file, temp);
-        line = split(temp, "\t");
+        header = split(temp, "\t");
 
-        // Map with column number --> index of sex_count (0 = male, 1 = female, 2 = no sex)
-        std::unordered_map<uint, uint> sex_columns = get_column_sex(popmap, line);
+        // Vector with sex of each column
+        std::vector<std::string> sex_columns = get_column_sex(popmap.groups, header);
 
         // Total number of reads in each individual
         std::unordered_map<std::string, uint> individual_depths;
@@ -52,22 +52,26 @@ void depth(Parameters& parameters) {
                 switch(buffer[i]) {
 
                     case '\t':  // New field
-                        if (sex_columns[field_n] != 2) {
-                            depth = std::min(static_cast<ulong>(500), std::stoul(temp));
-                            individual_depths[line[field_n]] += depth;
-                            marker_depths[line[field_n]] = depth;
+
+                        if (field_n > 2) {
+                            depth = std::stoul(temp);
+                            individual_depths[header[field_n]] += depth;  // Add marker depth to individual total depth
+                            marker_depths[header[field_n]] = depth;  // Add individual depth to marker depth
                             if(depth > 0) ++n_individuals;
                         }
+
+                        // Reset variables
                         temp = "";
                         ++field_n;
                         break;
 
                     case '\n':  // New line (also a new field)
-                        if (sex_columns[field_n] != 2) {
-                            depth = std::min(static_cast<ulong>(500), std::stoul(temp));
-                            individual_depths[line[field_n]] += depth;
-                            marker_depths[line[field_n]] = depth;
-                            if(depth > 1) ++n_individuals;
+
+                        if (field_n > 2) {
+                            depth = std::stoul(temp);
+                            individual_depths[header[field_n]] += depth;  // Add marker depth to individual total depth
+                            marker_depths[header[field_n]] = depth;  // Add individual depth to marker depth
+                            if(depth > 0) ++n_individuals;
                         }
 
                         if (n_individuals == marker_depths.size()) {  // Only keep markers present in all individuals to estimate expected depths
@@ -75,6 +79,7 @@ void depth(Parameters& parameters) {
                                 median_depth[m.first].push_back(m.second);
                             }
                         }
+
                         // Reset variables
                         temp = "";
                         field_n = 0;
@@ -96,13 +101,11 @@ void depth(Parameters& parameters) {
 
         if (output_file.is_open()) {
 
-            output_file << "Individual\tSex\tMarkers\tDepth\n";
+            output_file << "Individual\tGroup\tMarkers\tDepth\n";
 
             for (auto i: median_depth) {
 
-                output_file << i.first << "\t";
-                (popmap[i.first]) ? output_file << "M" : output_file << "F";
-                output_file << "\t" << individual_depths[i.first] << "\t";
+                output_file << i.first << "\t" << popmap.groups[i.first] << "\t" << individual_depths[i.first] << "\t";
 
                 std::sort(i.second.begin(), i.second.end()); // Sort depth vector for easy median finding
 

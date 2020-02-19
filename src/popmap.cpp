@@ -2,37 +2,33 @@
 
 
 
-std::unordered_map<std::string, bool> load_popmap(Parameters& parameters) {
+Popmap load_popmap(Parameters& parameters) {
 
     /* Load a popmap file.
-     * Input: a tabulated file with columns Name Sex
-     * Data is stored in a map of structure Name (string) Male (bool)
+     * Input: a tabulated file with columns Individual Group
+     * Data is stored in a map {Name: Group}
      */
 
-    std::ifstream popmap;
-    popmap.open(parameters.popmap_file_path);
+    std::ifstream popmap_file;
+    popmap_file.open(parameters.popmap_file_path);
 
-    std::unordered_map<std::string, bool> results;
+    Popmap popmap;
 
-    if (popmap) {
+    if (popmap_file) {
 
         std::string line;
         std::vector<std::string> fields;
 
-        while(std::getline(popmap, line)) {
+        while(std::getline(popmap_file, line)) {
 
+            if (line.back() == '\r') line.pop_back();
             fields = split(line, "\t");
+
             if (fields.size() == 2) { // Only 2 columns as it should be
-                if (line.back() == '\r') line.pop_back();
-                if (fields[1] == "F") {
-                    results[fields[0]] = false; // Female --> bool set to false
-                } else if (fields[1] == "M") {
-                    results[fields[0]] = true; // Male --> bool set to true
-                } else if (fields[1] != "N") {
-                    // N can be used when sex is unknown, other cases are errors
-                    std::cout << "**Error: in popmap file, unknown sex \"" << fields[1] << "\" for individual \"" << fields[0] << "\"" << std::endl;
-                    exit(0);
-                }
+
+                popmap.groups[fields[0]] = fields[1];
+                ++popmap.counts[fields[1]];
+
             }
         }
 
@@ -42,6 +38,15 @@ std::unordered_map<std::string, bool> load_popmap(Parameters& parameters) {
         exit(0);
     }
 
-    return results;
+    std::cerr << "Successfully loaded popmap (";
+    uint n = 1;
+    for (auto group: popmap.counts) {
+        std::cerr << group.first << ": " << group.second;
+        if (n < popmap.counts.size()) std::cerr << ", ";
+        ++n;
+    }
+    std::cerr << ")" << std::endl;
+
+    return popmap;
 }
 

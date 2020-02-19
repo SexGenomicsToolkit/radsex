@@ -40,4 +40,4 @@ std::vector<std::string> split(std::string str, const std::string delimiter);
 void rev_comp(const std::string& sequence, std::string& revcomp_sequence);
 
 // Create a sex <-> column index correspondance map
-std::unordered_map<uint, uint> get_column_sex(std::unordered_map<std::string, bool>& popmap, const std::vector<std::string>& header);
+std::vector<std::string> get_column_sex(std::unordered_map<std::string, std::string>& popmap, const std::vector<std::string>& header);

@@ -8,11 +8,9 @@ void distrib(Parameters& parameters) {
      *     <int>       |       <int>       |       <int>         | <float> |   <bool>
      */
 
-    std::unordered_map<std::string, bool> popmap = load_popmap(parameters);
+    Popmap popmap = load_popmap(parameters);
 
     // Find number of males and females
-    uint n_males = 0, n_females = 0;
-    for (auto i: popmap) if (i.second) ++n_males; else ++n_females;
 
     std::ifstream input_file;
     input_file.open(parameters.markers_table_path);
@@ -32,13 +30,13 @@ void distrib(Parameters& parameters) {
         line = split(temp, "\t");
 
         // Map with column number --> index of sex_count (0 = male, 1 = female, 2 = no sex)
-        std::unordered_map<uint, uint> sex_columns = get_column_sex(popmap, line);
+        std::vector<std::string> sex_columns = get_column_sex(popmap.groups, line);
 
         // Define variables used to read the file
         char buffer[65536];
         uint k = 0, field_n = 0;
         sd_table results;
-        uint sex_count[3] = {0, 0, 0}; // Index: 0 = male, 1 = female, 2 = no sex
+        std::unordered_map<std::string, uint> sex_count;
 
         do {
 
@@ -52,13 +50,14 @@ void distrib(Parameters& parameters) {
                 switch(buffer[i]) {
 
                     case '\t':  // New field
-                        if (sex_columns[field_n] != 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
+                        if (field_n > 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
                         temp = "";
                         ++field_n;
                         break;
 
                     case '\n':  // New line (also a new field)
-                        if (sex_columns[field_n] != 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
+                        if (field_n > 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
+
                         ++results[sex_count[0]][sex_count[1]].first; // Update the results
                         // Reset variables
                         temp = "";

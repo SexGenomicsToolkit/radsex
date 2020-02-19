@@ -4,4 +4,10 @@
 #include "utils.h"
 
 // Load a popmap file
-std::unordered_map<std::string, bool> load_popmap(Parameters& parameters);
+
+struct Popmap {
+    std::unordered_map<std::string, std::string> groups;
+    std::unordered_map<std::string, uint> counts;
+};
+
+Popmap load_popmap(Parameters& parameters);
