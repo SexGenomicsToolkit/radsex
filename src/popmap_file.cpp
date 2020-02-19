@@ -22,6 +22,8 @@ std::unordered_map<std::string, bool> load_popmap(Parameters& parameters) {
 
         while(std::getline(file, line)) {
 
+            if (line.back() == '\r') line.pop_back();  // Deal with windows line return
+
             fields = split(line, "\t");
             if (fields.size() == 2) { // Only 2 columns as it should be
                 if (fields[1] == "F") {
