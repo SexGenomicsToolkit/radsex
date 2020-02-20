@@ -3,6 +3,9 @@
 
 struct Parameters {
 
+    // Subcommand
+    std::string command = "";
+
     // I/O parameters
     std::string input_dir_path = "";
     std::string output_file_path = "";
