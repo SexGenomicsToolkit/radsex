@@ -143,13 +143,8 @@ void map(Parameters& parameters) {
                         }
                         best = mem_reg2aln(opt, index->bns, index->pac, sequence_length, sequence.c_str(), &ar.a[best_alignment[0]]); // Get mapping quality
                         if (best_alignment[2] < 1 and best.mapq >= parameters.map_min_quality and best.rid >= 0) { // Keep sequences with unique best alignment and with mapq >= minimum quality
-<<<<<<< HEAD
-                            seq.sex_bias = float(sex_count[0]) / float(n_males_total) - float(sex_count[1]) / float(n_females_total); // Sex bias. There should never be 0 males or females in the entire population.
-                            chi_squared = get_chi_squared(sex_count[0], sex_count[1], n_males_total, n_females_total);
-=======
                             seq.sex_bias = float(sex_count[group1]) / float(popmap.counts[group1]) - float(sex_count[group2]) / float(popmap.counts[group2]); // Sex bias. There should never be 0 males or females in the entire population.
                             chi_squared = get_chi_squared(sex_count[group1], sex_count[group2], popmap.counts[group1], popmap.counts[group2]);
->>>>>>> generic
                             (chi_squared == chi_squared) ? seq.p = get_chi_squared_p(chi_squared) : seq.p = 1.0; // chi square is NaN --> sequence found in all individuals --> set p to 1
                             seq.p < 0.0000000000000001 ? seq.p = 0.0000000000000001 : seq.p = seq.p;
                             seq.id = id;
