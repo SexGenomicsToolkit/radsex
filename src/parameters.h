@@ -16,6 +16,10 @@ struct Parameters {
     bool output_matrix = false;
     bool output_fasta= false;
 
+    // Group names
+    std::string group1 = "";
+    std::string group2 = "";
+
     // Shared parameters
     uint n_threads = 1;
     uint min_depth = 1;

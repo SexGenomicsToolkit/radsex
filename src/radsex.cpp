@@ -58,6 +58,11 @@ RADSex::RADSex(int& argc, char** argv) {
         if (subcommand->count("--max-individuals")) parameters.set_max_individuals = false;
     }
 
+    if (this->groups.size() == 2) {
+        this->parameters.group1 = this->groups[0];
+        this->parameters.group2 = this->groups[1];
+    }
+
     // Run the function associated with the selected analysis.
     // Functions are associated to subcommand names in the unordered map "analyses".
     this->analyses[subcommand->get_name()](this->parameters);
@@ -82,6 +87,7 @@ void RADSex::setup_distrib_parser() {
     this->add_signif_threshold(subparser);
     this->add_disable_correction(subparser);
     this->add_output_matrix(subparser);
+    this->add_groups(subparser);
 }
 
 
@@ -108,6 +114,7 @@ void RADSex::setup_loci_parser() {
     this->add_loci_range_het(subparser);
     this->add_loci_range_hom(subparser);
     this->add_loci_min_individual_frequency(subparser);
+    this->add_groups(subparser);
 }
 
 
@@ -122,6 +129,7 @@ void RADSex::setup_map_parser() {
     this->add_map_min_frequency(subparser);
     this->add_signif_threshold(subparser);
     this->add_disable_correction(subparser);
+    this->add_groups(subparser);
 }
 
 
@@ -143,6 +151,7 @@ void RADSex::setup_signif_parser() {
     this->add_output_fasta(subparser);
     this->add_signif_threshold(subparser);
     this->add_disable_correction(subparser);
+    this->add_groups(subparser);
 }
 
 
@@ -159,6 +168,7 @@ void RADSex::setup_subset_parser() {
     this->add_subset_max_females(subparser);
     this->add_subset_min_individuals(subparser);
     this->add_subset_max_individuals(subparser);
+    this->add_groups(subparser);
 }
 
 // Parameter initiators
@@ -299,6 +309,10 @@ void RADSex::add_loci_range_hom(CLI::App* subparser) {
 void RADSex::add_loci_min_individual_frequency(CLI::App *subparser) {
     CLI::Option* option = subparser->add_option("-Y,--min-individual-frequency", this->parameters.loci_min_individual_frequency, "Minimum frequency of individuals from each sex to retain a marker", true);
     option->check(CLI::Range(0.0, 1.0));
+}
+
+void RADSex::add_groups(CLI::App *subparser) {
+    subparser->add_option("-G,--groups", this->groups, "Names of the groups to compare if there is more than two groups in the popmap (group1,group2)");
 }
 
 

@@ -38,6 +38,16 @@ Popmap load_popmap(Parameters& parameters) {
         exit(0);
     }
 
+    if (popmap.groups.size() < 2) {
+
+        std::cerr << "**Error: found only " << popmap.groups.size() << " groups in the popmap, at least two are required" << std::endl;
+
+    } else if (popmap.groups.size() > 2 and (parameters.group1 == "" or parameters.group2 == "")) {
+
+        std::cerr << "**Error: found " << popmap.groups.size() << " groups in the popmap but groups to compare were not defined (use --groups group1,group2)" << std::endl;
+
+    }
+
     std::cerr << "Successfully loaded popmap (";
     uint n = 1;
     for (auto group: popmap.counts) {
