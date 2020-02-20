@@ -9,98 +9,60 @@ void distrib(Parameters& parameters) {
      */
 
     Popmap popmap = load_popmap(parameters);
-    std::string group1 = parameters.group1;
-    std::string group2 = parameters.group2;
 
-    // Find number of males and females
+    sd_table results;
 
-    std::ifstream input_file;
-    input_file.open(parameters.markers_table_path);
+    bool parsing_ended = false;
+    MarkersQueue markers_queue;
+    std::mutex queue_mutex;
 
-    if (input_file) {
+    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(parsing_ended));
+    std::thread processing_thread(processor, std::ref(markers_queue), std::ref(parameters), std::ref(queue_mutex), std::ref(results), std::ref(parsing_ended), 100);
 
-        std::vector<std::string> line;
-        std::string temp = "";
+    parsing_thread.join();
+    processing_thread.join();
 
-        // First line is a comment with number of markers in the table
-        std::getline(input_file, temp);
-        line = split(temp, " : ");
-        if (line.size() == 2) uint n_markers = static_cast<uint>(std::stoi(line[1]));
+    // Calculate p-values for association with sex for each combination of males and females
+    double chi_squared = 0;
 
-        // Second line is the header. The header is parsed to get the sex of each field in the table.
-        std::getline(input_file, temp);
-        line = split(temp, "\t");
-
-        // Vector of group for each individual (by column index)
-        std::vector<std::string> sex_columns = get_column_sex(popmap.groups, line);
-
-        // Define variables used to read the file
-        char buffer[65536];
-        uint k = 0, field_n = 0;
-        sd_table results;
-        std::unordered_map<std::string, uint> sex_count;
-
-        do {
-
-            // Read a chunk of size given by the buffer
-            input_file.read(buffer, sizeof(buffer));
-            k = static_cast<uint>(input_file.gcount());
-
-            for (uint i=0; i<k; ++i) {
-
-                // Read the buffer character by character
-                switch(buffer[i]) {
-
-                    case '\t':  // New field
-                        if (field_n > 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
-                        temp = "";
-                        ++field_n;
-                        break;
-
-                    case '\n':  // New line (also a new field)
-                        if (field_n > 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
-
-                        ++results[sex_count[group1]][sex_count[group2]].first; // Update the results
-                        // Reset variables
-                        temp = "";
-                        field_n = 0;
-                        sex_count[group1] = 0;
-                        sex_count[group2] = 0;
-                        break;
-
-                    default:
-                        temp += buffer[i];
-                        break;
-                }
-            }
-
-        } while (input_file);
-
-        input_file.close();
-
-        // Calculate p-values for association with sex for each combination of males and females
-        double chi_squared = 0;
-
-        // Compute p-values
-        for (uint f=0; f <= popmap.counts[group1]; ++f) {
-            for (uint m=0; m <= popmap.counts[group2]; ++m) {
-                if (f + m != 0) {
-                    chi_squared = get_chi_squared(f, m, popmap.counts[group1], popmap.counts[group2]);
-                    results[f][m].second = std::min(1.0, get_chi_squared_p(chi_squared)); // p-value corrected with Bonferroni, with max of 1
-                }
+    // Compute p-values
+    for (uint f=0; f <= popmap.counts[parameters.group1]; ++f) {
+        for (uint m=0; m <= popmap.counts[parameters.group2]; ++m) {
+            if (f + m != 0) {
+                chi_squared = get_chi_squared(f, m, popmap.counts[parameters.group1], popmap.counts[parameters.group2]);
+                results[f][m].second = std::min(1.0, get_chi_squared_p(chi_squared)); // p-value corrected with Bonferroni, with max of 1
             }
         }
+    }
 
-        // Generate the output file
-        if (!parameters.output_matrix) {
+    // Generate the output file
+    if (!parameters.output_matrix) {
 
-            output_distrib(parameters.output_file_path, results, popmap.counts[group1], popmap.counts[group2], group1, group2,
-                           parameters.signif_threshold, parameters.disable_correction);
+        output_distrib(parameters.output_file_path, results, popmap.counts[parameters.group1], popmap.counts[parameters.group2], parameters.group1, parameters.group2,
+                       parameters.signif_threshold, parameters.disable_correction);
 
-        } else {
+    } else {
 
-            output_distrib_matrix(parameters.output_file_path, results, popmap.counts[group1], popmap.counts[group2]);
+        output_distrib_matrix(parameters.output_file_path, results, popmap.counts[parameters.group1], popmap.counts[parameters.group2]);
 
+    }
+}
+
+
+void processor(MarkersQueue& markers_queue, Parameters& parameters, std::mutex& queue_mutex, sd_table& results, bool& parsing_ended, ulong batch_size) {
+
+    std::vector<Marker> batch;
+    bool keep_going = true;
+
+    while (keep_going) {
+        batch = get_batch(markers_queue, queue_mutex, batch_size);
+        if (batch.size() > 0) {
+            for (auto marker: batch) {
+                ++results[marker.groups[parameters.group1]][marker.groups[parameters.group2]].first;
+            }
         }
+        queue_mutex.lock();
+        if (parsing_ended and markers_queue.size() == 0) keep_going = false;
+        queue_mutex.unlock();
     }
 }

@@ -39,5 +39,4 @@ std::vector<std::string> split(std::string str, const std::string delimiter);
 // Reverse complement of a sequence
 void rev_comp(const std::string& sequence, std::string& revcomp_sequence);
 
-// Create a sex <-> column index correspondance map
 std::vector<std::string> get_column_sex(std::unordered_map<std::string, std::string>& popmap, const std::vector<std::string>& header);
