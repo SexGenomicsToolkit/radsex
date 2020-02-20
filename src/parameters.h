@@ -26,14 +26,6 @@ struct Parameters {
     float signif_threshold = static_cast<float>(0.05);
     bool disable_correction = true;
 
-    // "loci" specific parameters
-    uint loci_max_distance = 1;
-    float loci_freq_het = static_cast<float>(0.5);
-    float loci_freq_hom = static_cast<float>(1.0);
-    float loci_range_het = static_cast<float>(0.1);
-    float loci_range_hom = static_cast<float>(0.1);
-    float loci_min_individual_frequency = static_cast<float>(0.75);
-
     // "subset" specific parameters
     uint subset_min_group1 = 0;
     uint subset_min_group2 = 0;

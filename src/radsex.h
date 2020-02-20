@@ -7,7 +7,6 @@
 #include "depth.h"
 #include "distrib.h"
 #include "freq.h"
-#include "loci.h"
 #include "map.h"
 #include "parameters.h"
 #include "process.h"
@@ -36,7 +35,6 @@ class RADSex {
         std::unordered_map<std::string, run_function> analyses {{"depth", depth},
                                                                 {"distrib", distrib},
                                                                 {"freq", freq},
-                                                                {"loci", loci},
                                                                 {"map", map},
                                                                 {"process", process},
                                                                 {"signif", signif},
@@ -49,7 +47,6 @@ class RADSex {
         void setup_depth_parser();
         void setup_distrib_parser();
         void setup_freq_parser();
-        void setup_loci_parser();
         void setup_map_parser();
         void setup_process_parser();
         void setup_signif_parser();
@@ -75,15 +72,6 @@ class RADSex {
         void add_min_depth(CLI::App* subparser);
         void add_signif_threshold(CLI::App* subparser);
         void add_disable_correction(CLI::App* subparser);
-
-        // "loci" specific parameters
-        void add_loci_depth_file(CLI::App* subparser);
-        void add_loci_max_distance(CLI::App* subparser);
-        void add_loci_freq_het(CLI::App* subparser);
-        void add_loci_freq_hom(CLI::App* subparser);
-        void add_loci_range_het(CLI::App* subparser);
-        void add_loci_range_hom(CLI::App* subparser);
-        void add_loci_min_individual_frequency(CLI::App* subparser);
 
         // "subset" specific parameters
         void add_subset_min_group1(CLI::App* subparser);
