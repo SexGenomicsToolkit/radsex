@@ -19,7 +19,9 @@ void map(Parameters& parameters) {
      */
 
     // Popmap
-    std::unordered_map<std::string, bool> popmap = load_popmap(parameters);
+    Popmap popmap = load_popmap(parameters);
+    std::string group1 = parameters.group1;
+    std::string group2 = parameters.group2;
 
     // Input file
     std::ifstream input_file;
@@ -41,14 +43,12 @@ void map(Parameters& parameters) {
     std::getline(input_file, temp);
     line = split(temp, "\t");
 
-    // Map with column number --> index of sex_count (0 = male, 1 = female, 2 = no sex)
-    std::unordered_map<uint, uint> sex_columns = get_column_sex(popmap, line);
+    // Vector of group for each individual (by column index)
+    std::vector<std::string> sex_columns = get_column_sex(popmap.groups, line);
 
     // Minimum number of males and females
-    uint n_males_total = 0, n_females_total = 0;
-    for (auto i: popmap) if (i.second) ++n_males_total; else ++n_females_total;
-    uint min_males = uint(parameters.map_min_frequency * n_males_total);
-    uint min_females = uint(parameters.map_min_frequency * n_females_total);
+    uint min_group1 = uint(parameters.map_min_frequency * popmap.counts[group1]);
+    uint min_group2 = uint(parameters.map_min_frequency * popmap.counts[group2]);
 
     // Generate BWA index if it does not exist
     std::ifstream bwa_index_temp;
@@ -93,7 +93,7 @@ void map(Parameters& parameters) {
     char buffer[65536];
     std::string sequence, id;
     uint k = 0, field_n = 0, total_n_sequences = 0, retained_sequences = 0;
-    uint sex_count[3] = {0, 0, 0}; // Index: 0 = male, 1 = female, 2 = no sex
+    std::unordered_map<std::string, uint> sex_count;
     int sequence_length = 0;
 
     // BWA mem objects and variables
@@ -119,14 +119,15 @@ void map(Parameters& parameters) {
             switch(buffer[i]) {
 
                 case '\t':  // New field
-                    if (sex_columns[field_n] != 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the presence counter for the corresponding sex
+                    if (field_n > 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the presence counter for the corresponding sex
                     temp = "";
                     ++field_n;
                     break;
 
                 case '\n':  // New line (also a new field)
-                    if (sex_columns[field_n] != 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the presence counter for the corresponding sex
-                    if (sex_count[0] >= min_males or sex_count[1] >= min_females) {
+                    if (field_n > 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the presence counter for the corresponding sex
+                    std::cerr << sex_count[group1] << "\t" << sex_count[group2] << std::endl;
+                    if (sex_count[group1] >= min_group1 or sex_count[group2] >= min_group2) {
                         ar = mem_align1(opt, index->bwt, index->bns, index->pac, sequence_length, sequence.c_str()); // Map the sequence
                         for (j = 0; j < ar.n; ++j) { // Loop through alignments
                             if (ar.a[j].score > best_alignment[1]) { // Find alignment with best score
@@ -139,8 +140,8 @@ void map(Parameters& parameters) {
                         }
                         best = mem_reg2aln(opt, index->bns, index->pac, sequence_length, sequence.c_str(), &ar.a[best_alignment[0]]); // Get mapping quality
                         if (best_alignment[2] < 1 and best.mapq >= parameters.map_min_quality) { // Keep sequences with unique best alignment and with mapq >= minimum quality
-                            seq.sex_bias = float(sex_count[0]) / float(n_males_total) - float(sex_count[1]) / float(n_females_total); // Sex bias. There should never be 0 males or females in the entire population.
-                            chi_squared = get_chi_squared(sex_count[0], sex_count[1], n_males_total, n_females_total);
+                            seq.sex_bias = float(sex_count[group1]) / float(popmap.counts[group1]) - float(sex_count[group2]) / float(popmap.counts[group2]); // Sex bias. There should never be 0 males or females in the entire population.
+                            chi_squared = get_chi_squared(sex_count[group1], sex_count[group2], popmap.counts[group1], popmap.counts[group2]);
                             (chi_squared == chi_squared) ? seq.p = get_chi_squared_p(chi_squared) : seq.p = 1.0; // chi square is NaN --> sequence found in all individuals --> set p to 1
                             seq.p < 0.0000000000000001 ? seq.p = 0.0000000000000001 : seq.p = seq.p;
                             seq.id = id;
@@ -164,8 +165,8 @@ void map(Parameters& parameters) {
                     id = "";
                     sequence_length = 0;
                     field_n = 0;
-                    sex_count[0] = 0;
-                    sex_count[1] = 0;
+                    sex_count[group1] = 0;
+                    sex_count[group2] = 0;
                     break;
 
                 default:

@@ -51,7 +51,7 @@ void output_process(std::string& output_file_path, std::vector<std::string>& ind
 
 
 
-void output_distrib_matrix(std::string& output_file_path, sd_table& results, uint n_males, uint n_females) {
+void output_distrib_matrix(std::string& output_file_path, sd_table& results, uint n_group1, uint n_group2) {
 
     /* Input:
      * - Path to an output file
@@ -66,17 +66,18 @@ void output_distrib_matrix(std::string& output_file_path, sd_table& results, uin
     results[0][0].first = 0; // Sequences found in none of the individuals (after filtering for minimum coverage) should not appear in the results
 
     // Generate output
-    for (uint f=0; f <= n_females; ++f) {
-        for (uint m=0; m <= n_males; ++m) {
-            output_file << results[m][f].first;
-            (m < n_males) ? output_file << "\t" : output_file << "\n";
+    for (uint f=0; f <= n_group1; ++f) {
+        for (uint m=0; m <= n_group2; ++m) {
+            output_file << results[f][m].first;
+            (m < n_group1) ? output_file << "\t" : output_file << "\n";
         }
     }
 }
 
 
 
-void output_distrib(std::string& output_file_path, sd_table& results, uint n_males, uint n_females, float signif_threshold, bool disable_correction) {
+void output_distrib(std::string& output_file_path, sd_table& results, uint n_group1, uint n_group2, std::string& group1, std::string& group2,
+                    float signif_threshold, bool disable_correction) {
 
     /* Input:
      * - Path to an output file
@@ -90,22 +91,22 @@ void output_distrib(std::string& output_file_path, sd_table& results, uint n_mal
     output_file.open(output_file_path);
 
     // Output file header
-    output_file << "Males" << "\t" << "Females" << "\t" << "Markers" << "\t" << "P" << "\t" << "Signif" << "\n";
+    output_file << group1 << "\t" << group2 << "\t" << "Markers" << "\t" << "P" << "\t" << "Signif" << "\n";
 
     uint n_markers = 0;
 
     // Determine the total number of markers
-    for (uint f=0; f <= n_females; ++f) {
-        for (uint m=0; m <= n_males; ++m) {
-            if (f + m != 0) n_markers += results[m][f].first; // Exclude markers present in 0 individuals
+    for (uint f=0; f <= n_group1; ++f) {
+        for (uint m=0; m <= n_group2; ++m) {
+            if (f + m != 0) n_markers += results[f][m].first; // Exclude markers present in 0 individuals
         }
     }
 
     if (not disable_correction) signif_threshold /= n_markers;
 
     // Generate output file
-    for (uint m=0; m <= n_males; ++m) {
-        for (uint f=0; f <= n_females; ++f) {
+    for (uint m=0; m <= n_group1; ++m) {
+        for (uint f=0; f <= n_group2; ++f) {
             if (f + m != 0) {
                 output_file << m << "\t" << f << "\t" << results[m][f].first << "\t" << results[m][f].second << "\t" <<
                                (static_cast<float>(results[m][f].second) < signif_threshold ? "True" : "False") << "\n";

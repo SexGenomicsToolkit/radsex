@@ -86,10 +86,10 @@ class RADSex {
         void add_loci_min_individual_frequency(CLI::App* subparser);
 
         // "subset" specific parameters
-        void add_subset_min_males(CLI::App* subparser);
-        void add_subset_min_females(CLI::App* subparser);
-        void add_subset_max_males(CLI::App* subparser);
-        void add_subset_max_females(CLI::App* subparser);
+        void add_subset_min_group1(CLI::App* subparser);
+        void add_subset_min_group2(CLI::App* subparser);
+        void add_subset_max_group1(CLI::App* subparser);
+        void add_subset_max_group2(CLI::App* subparser);
         void add_subset_min_individuals(CLI::App* subparser);
         void add_subset_max_individuals(CLI::App* subparser);
 

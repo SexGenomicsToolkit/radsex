@@ -53,8 +53,8 @@ RADSex::RADSex(int& argc, char** argv) {
 
     // Set max_<N> for the 'subset' command if max was not specified by the user
     if (subcommand->get_name() == "subset") {
-        if (subcommand->count("--max-males")) parameters.set_max_males = false;
-        if (subcommand->count("--max-females")) parameters.set_max_females = false;
+        if (subcommand->count("--max-group1")) parameters.set_max_group1 = false;
+        if (subcommand->count("--max-group2")) parameters.set_max_group2 = false;
         if (subcommand->count("--max-individuals")) parameters.set_max_individuals = false;
     }
 
@@ -79,7 +79,7 @@ void RADSex::setup_depth_parser() {
 
 
 void RADSex::setup_distrib_parser() {
-    CLI::App* subparser = this->parser.add_subcommand("distrib", "Compute the distribution of markers between males and females");
+    CLI::App* subparser = this->parser.add_subcommand("distrib", "Compute the distribution of markers between group1 and group2");
     this->add_markers_table(subparser);
     this->add_popmap(subparser);
     this->add_output_file(subparser);
@@ -162,10 +162,10 @@ void RADSex::setup_subset_parser() {
     this->add_popmap(subparser);
     this->add_min_depth(subparser);
     this->add_output_fasta(subparser);
-    this->add_subset_min_males(subparser);
-    this->add_subset_max_males(subparser);
-    this->add_subset_min_females(subparser);
-    this->add_subset_max_females(subparser);
+    this->add_subset_min_group1(subparser);
+    this->add_subset_max_group1(subparser);
+    this->add_subset_min_group2(subparser);
+    this->add_subset_max_group2(subparser);
     this->add_subset_min_individuals(subparser);
     this->add_subset_max_individuals(subparser);
     this->add_groups(subparser);
@@ -241,34 +241,34 @@ void RADSex::add_disable_correction(CLI::App* subparser) {
     subparser->add_flag("-C,--disable-correction", this->parameters.disable_correction, "If set, Bonferroni correction will NOT be used when assessing significance");
 }
 
-void RADSex::add_subset_min_males(CLI::App* subparser) {
-    CLI::Option* option = subparser->add_option("-m,--min-males", this->parameters.subset_min_males, "Minimum number of males to retain a marker in the subset", true);
-    option->check(CLI::Range(1, 9999));
+void RADSex::add_subset_min_group1(CLI::App* subparser) {
+    CLI::Option* option = subparser->add_option("-m,--min-group1", this->parameters.subset_min_group1, "Minimum number of individuals from the first group to retain a marker in the subset", true);
+    option->check(CLI::Range(0, 9999));
 }
 
-void RADSex::add_subset_min_females(CLI::App* subparser) {
-    CLI::Option* option = subparser->add_option("-f,--min-females", this->parameters.subset_min_females, "Minimum number of females to retain a marker in the subset", true);
-    option->check(CLI::Range(1, 9999));
+void RADSex::add_subset_min_group2(CLI::App* subparser) {
+    CLI::Option* option = subparser->add_option("-f,--min-group2", this->parameters.subset_min_group2, "Minimum number of individuals from the second group to retain a marker in the subset", true);
+    option->check(CLI::Range(0, 9999));
 }
 
-void RADSex::add_subset_max_males(CLI::App* subparser) {
-    CLI::Option* option = subparser->add_option("-M,--max-males", this->parameters.subset_max_males, "Maximum number of males to retain a marker in the subset", true);
-    option->check(CLI::Range(1, 9999));
+void RADSex::add_subset_max_group1(CLI::App* subparser) {
+    CLI::Option* option = subparser->add_option("-M,--max-group1", this->parameters.subset_max_group1, "Maximum number of individuals from the first group to retain a marker in the subset", true);
+    option->check(CLI::Range(0, 9999));
 }
 
-void RADSex::add_subset_max_females(CLI::App* subparser) {
-    CLI::Option* option = subparser->add_option("-F,--max-females", this->parameters.subset_max_females, "Maximum number of females to retain a marker in the subset", true);
-    option->check(CLI::Range(1, 9999));
+void RADSex::add_subset_max_group2(CLI::App* subparser) {
+    CLI::Option* option = subparser->add_option("-F,--max-group2", this->parameters.subset_max_group2, "Maximum number of individuals from the second group to retain a marker in the subset", true);
+    option->check(CLI::Range(0, 9999));
 }
 
 void RADSex::add_subset_min_individuals(CLI::App* subparser) {
     CLI::Option* option = subparser->add_option("-i,--min-individuals", this->parameters.subset_min_individuals, "Minimum number of individuals to retain a marker in the subset", true);
-    option->check(CLI::Range(1, 9999));
+    option->check(CLI::Range(0, 9999));
 }
 
 void RADSex::add_subset_max_individuals(CLI::App* subparser) {
     CLI::Option* option = subparser->add_option("-I,--max-individuals", this->parameters.subset_max_individuals, "Maximum number of individuals to retain a marker in the subset", true);
-    option->check(CLI::Range(1, 9999));
+    option->check(CLI::Range(0, 9999));
 }
 
 void RADSex::add_map_min_quality(CLI::App* subparser) {

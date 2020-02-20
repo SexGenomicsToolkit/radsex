@@ -35,16 +35,16 @@ struct Parameters {
     float loci_min_individual_frequency = static_cast<float>(0.75);
 
     // "subset" specific parameters
-    uint subset_min_males = 0;
-    uint subset_min_females = 0;
-    uint subset_max_males = 0;
-    uint subset_max_females = 0;
+    uint subset_min_group1 = 0;
+    uint subset_min_group2 = 0;
+    uint subset_max_group1 = 0;
+    uint subset_max_group2 = 0;
     uint subset_min_individuals = 0;
     uint subset_max_individuals = 0;
 
     // Flags indicating whether max values should be set to max number of individuals for "subset"
-    bool set_max_males = true;
-    bool set_max_females = true;
+    bool set_max_group1 = true;
+    bool set_max_group2 = true;
     bool set_max_individuals = true;
 
     // "map" specific parameters
