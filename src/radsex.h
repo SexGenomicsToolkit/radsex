@@ -43,6 +43,8 @@ class RADSex {
                                                                 {"subset", subset}
                                                                };
 
+        std::vector<std::string> groups;
+
         // Subcommand parser initiators
         void setup_depth_parser();
         void setup_distrib_parser();
@@ -65,6 +67,9 @@ class RADSex {
         void add_output_matrix(CLI::App* subparser);
         void add_output_fasta(CLI::App* subparser);
 
+        //Groups
+        void add_groups(CLI::App *subparser);
+
         // Shared parameters
         void add_n_threads(CLI::App* subparser);
         void add_min_depth(CLI::App* subparser);
@@ -81,10 +86,10 @@ class RADSex {
         void add_loci_min_individual_frequency(CLI::App* subparser);
 
         // "subset" specific parameters
-        void add_subset_min_males(CLI::App* subparser);
-        void add_subset_min_females(CLI::App* subparser);
-        void add_subset_max_males(CLI::App* subparser);
-        void add_subset_max_females(CLI::App* subparser);
+        void add_subset_min_group1(CLI::App* subparser);
+        void add_subset_min_group2(CLI::App* subparser);
+        void add_subset_max_group1(CLI::App* subparser);
+        void add_subset_max_group2(CLI::App* subparser);
         void add_subset_min_individuals(CLI::App* subparser);
         void add_subset_max_individuals(CLI::App* subparser);
 

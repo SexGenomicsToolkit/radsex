@@ -8,10 +8,9 @@ void signif(Parameters& parameters) {
      * - Found in F females with min_females <= F <= max_females
      */
 
-    std::unordered_map<std::string, bool> popmap = load_popmap(parameters);
-
-    uint total_males = 0, total_females = 0;
-    for (auto i: popmap) if (i.second) ++total_males; else ++total_females;
+    Popmap popmap = load_popmap(parameters);
+    std::string group1 = parameters.group1;
+    std::string group2 = parameters.group2;
 
     std::ifstream input_file;
     input_file.open(parameters.markers_table_path);
@@ -32,17 +31,17 @@ void signif(Parameters& parameters) {
         // Second line is the header. The header is parsed to get the sex of each field in the table.
         std::getline(input_file, temp);
         line = split(temp, "\t");
-        if (not parameters.output_fasta) output_file << temp << "\n"; // Copy the header line to the output file
+        if (not parameters.output_fasta) output_file << "#Number of markers: NA\n" << temp << "\n"; // Copy the header line to the output file
 
-        // Map with column number --> index of sex_count (0 = male, 1 = female, 2 = no sex)
-        std::unordered_map<uint, uint> sex_columns = get_column_sex(popmap, line);
+        // Vector of group for each individual (by column index)
+        std::vector<std::string> sex_columns = get_column_sex(popmap.groups, line);
 
         // Define variables used to read the file
         char buffer[65536];
         std::string temp_line;
         uint k = 0, field_n = 0, seq_count = 0;
-        uint sex_count[3] = {0, 0, 0}; // Index: 0 = male, 1 = female, 2 = no sex information
         double chi_squared = 0, p = 0;
+        std::unordered_map<std::string, uint> sex_count;
 
         std::map<std::string, double[3]> candidate_sequences;
 
@@ -58,30 +57,30 @@ void signif(Parameters& parameters) {
                 switch(buffer[i]) {
 
                     case '\t':  // New field
-                        if (sex_columns[field_n] != 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
+                        if (field_n > 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
                         temp = "";
                         temp_line += buffer[i];
                         ++field_n;
                         break;
 
                     case '\n':  // New line (also a new field)
-                        if (sex_columns[field_n] != 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
-                        if (sex_count[0] + sex_count[1] > 0) {
+                        if (field_n > 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
+                        if (sex_count[group1] + sex_count[group2] > 0) {
                             ++seq_count;
-                            chi_squared = get_chi_squared(sex_count[0], sex_count[1], total_males, total_females);
+                            chi_squared = get_chi_squared(sex_count[group1], sex_count[group2], popmap.counts[group1], popmap.counts[group2]);
                             p = get_chi_squared_p(chi_squared);
                             if (static_cast<float>(p) < parameters.signif_threshold) { // First pass: we filter sequences with at least one male or one female and non-corrected p < 0.05
                                 candidate_sequences[temp_line][0] = p;
-                                candidate_sequences[temp_line][1] = sex_count[0];
-                                candidate_sequences[temp_line][2] = sex_count[1];
+                                candidate_sequences[temp_line][1] = sex_count[group1];
+                                candidate_sequences[temp_line][2] = sex_count[group2];
                             }
                         }
                         // Reset variables
                         temp = "";
                         temp_line = "";
                         field_n = 0;
-                        sex_count[0] = 0;
-                        sex_count[1] = 0;
+                        sex_count[group1] = 0;
+                        sex_count[group2] = 0;
                         break;
 
                     default:
@@ -100,7 +99,7 @@ void signif(Parameters& parameters) {
             if (static_cast<float>(sequence.second[0]) < parameters.signif_threshold) {
                 if (parameters.output_fasta) {
                     line = split(sequence.first, "\t");
-                    output_file << ">" << line[0] << "_" << int(sequence.second[1]) << "M_" << int(sequence.second[2]) << "F_cov:" << parameters.min_depth << "_p:" << sequence.second[0] << "\n" << line[1] << "\n";
+                    output_file << ">" << line[0] << "_" << group1 << ":" << sex_count[group1] << "_" << group2 << ":" << sex_count[group2] << "_mindepth:" << parameters.min_depth << "\n" << line[1] << "\n";
                 } else {
                     output_file << sequence.first << "\n";
                 }

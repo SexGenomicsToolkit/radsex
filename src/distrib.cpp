@@ -8,11 +8,11 @@ void distrib(Parameters& parameters) {
      *     <int>       |       <int>       |       <int>         | <float> |   <bool>
      */
 
-    std::unordered_map<std::string, bool> popmap = load_popmap(parameters);
+    Popmap popmap = load_popmap(parameters);
+    std::string group1 = parameters.group1;
+    std::string group2 = parameters.group2;
 
     // Find number of males and females
-    uint n_males = 0, n_females = 0;
-    for (auto i: popmap) if (i.second) ++n_males; else ++n_females;
 
     std::ifstream input_file;
     input_file.open(parameters.markers_table_path);
@@ -31,14 +31,14 @@ void distrib(Parameters& parameters) {
         std::getline(input_file, temp);
         line = split(temp, "\t");
 
-        // Map with column number --> index of sex_count (0 = male, 1 = female, 2 = no sex)
-        std::unordered_map<uint, uint> sex_columns = get_column_sex(popmap, line);
+        // Vector of group for each individual (by column index)
+        std::vector<std::string> sex_columns = get_column_sex(popmap.groups, line);
 
         // Define variables used to read the file
         char buffer[65536];
         uint k = 0, field_n = 0;
         sd_table results;
-        uint sex_count[3] = {0, 0, 0}; // Index: 0 = male, 1 = female, 2 = no sex
+        std::unordered_map<std::string, uint> sex_count;
 
         do {
 
@@ -52,20 +52,20 @@ void distrib(Parameters& parameters) {
                 switch(buffer[i]) {
 
                     case '\t':  // New field
-                        if (sex_columns[field_n] != 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
+                        if (field_n > 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
                         temp = "";
                         ++field_n;
                         break;
 
                     case '\n':  // New line (also a new field)
-                        if (sex_columns[field_n] != 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
-                        ++results[sex_count[0]][sex_count[1]].first; // Update the results
+                        if (field_n > 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the appropriate counter
+
+                        ++results[sex_count[group1]][sex_count[group2]].first; // Update the results
                         // Reset variables
                         temp = "";
                         field_n = 0;
-                        sex_count[0] = 0;
-                        sex_count[1] = 0;
-                        sex_count[2] = 0;
+                        sex_count[group1] = 0;
+                        sex_count[group2] = 0;
                         break;
 
                     default:
@@ -82,20 +82,25 @@ void distrib(Parameters& parameters) {
         double chi_squared = 0;
 
         // Compute p-values
-        for (uint f=0; f <= n_females; ++f) {
-            for (uint m=0; m <= n_males; ++m) {
+        for (uint f=0; f <= popmap.counts[group1]; ++f) {
+            for (uint m=0; m <= popmap.counts[group2]; ++m) {
                 if (f + m != 0) {
-                    chi_squared = get_chi_squared(m, f, n_males, n_females);
-                    results[m][f].second = std::min(1.0, get_chi_squared_p(chi_squared)); // p-value corrected with Bonferroni, with max of 1
+                    chi_squared = get_chi_squared(f, m, popmap.counts[group1], popmap.counts[group2]);
+                    results[f][m].second = std::min(1.0, get_chi_squared_p(chi_squared)); // p-value corrected with Bonferroni, with max of 1
                 }
             }
         }
 
         // Generate the output file
         if (!parameters.output_matrix) {
-            output_distrib(parameters.output_file_path, results, n_males, n_females, parameters.signif_threshold, parameters.disable_correction);
+
+            output_distrib(parameters.output_file_path, results, popmap.counts[group1], popmap.counts[group2], group1, group2,
+                           parameters.signif_threshold, parameters.disable_correction);
+
         } else {
-            output_distrib_matrix(parameters.output_file_path, results, n_males, n_females);
+
+            output_distrib_matrix(parameters.output_file_path, results, popmap.counts[group1], popmap.counts[group2]);
+
         }
     }
 }
