@@ -34,13 +34,15 @@ void map(Parameters& parameters) {
     std::vector<std::string> line;
     std::string temp = "";
 
-    // First line is a comment with number of markers in the table
+    // First line (in depth table) is a comment with number of markers in the table
     std::getline(input_file, temp);
-    line = split(temp, " : ");
-    if (line.size() == 2) uint n_markers = static_cast<uint>(std::stoi(line[1]));
+    if (temp[0] == '#') {  // Check if file is depth table or subset. If depth table, parse first line here
+        line = split(temp, " : ");
+        if (line.size() == 2) uint n_markers = static_cast<uint>(std::stoi(line[1]));
+        std::getline(input_file, temp);  // Load the second line which contains the header
+    }
 
     // Second line is the header. The header is parsed to get the sex of each field in the table.
-    std::getline(input_file, temp);
     line = split(temp, "\t");
 
     // Vector of group for each individual (by column index)
@@ -139,7 +141,7 @@ void map(Parameters& parameters) {
                             }
                         }
                         best = mem_reg2aln(opt, index->bns, index->pac, sequence_length, sequence.c_str(), &ar.a[best_alignment[0]]); // Get mapping quality
-                        if (best_alignment[2] < 1 and best.mapq >= parameters.map_min_quality) { // Keep sequences with unique best alignment and with mapq >= minimum quality
+                        if (best_alignment[2] < 1 and best.mapq >= parameters.map_min_quality and best.rid >= 0) { // Keep sequences with unique best alignment and with mapq >= minimum quality
                             seq.sex_bias = float(sex_count[group1]) / float(popmap.counts[group1]) - float(sex_count[group2]) / float(popmap.counts[group2]); // Sex bias. There should never be 0 males or females in the entire population.
                             chi_squared = get_chi_squared(sex_count[group1], sex_count[group2], popmap.counts[group1], popmap.counts[group2]);
                             (chi_squared == chi_squared) ? seq.p = get_chi_squared_p(chi_squared) : seq.p = 1.0; // chi square is NaN --> sequence found in all individuals --> set p to 1
