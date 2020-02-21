@@ -117,29 +117,6 @@ void output_distrib(std::string& output_file_path, sd_table& results, uint n_gro
 
 
 
-void output_loci(std::string& output_file_path, std::vector<std::pair<Locus, Locus>> loci, std::vector<std::string>& header) {
-
-    /* TODO
-     */
-
-    std::ofstream output_file;
-    output_file.open(output_file_path);
-
-    output_file << "Locus_ID" << "\t" << "Het_marker_ID" << "\t" << "Hom_marker_ID" << "\t" << "Het_marker_sequence" << "\t" << "Hom_marker_sequence" ;
-    for (uint i=2; i<header.size(); ++i) output_file << "\t" << header[i];
-    output_file << "\n";
-
-    for (auto locus: loci) {
-        output_file << locus.first.id + "_" + locus.second.id << "\t" << locus.first.id << "\t" << locus.second.id << "\t" << locus.first.sequence << "\t" << locus.second.sequence;
-        for (uint i=0; i<locus.first.coverage.size(); ++i) {
-            output_file << "\t" << locus.first.coverage[i] << "/" << locus.second.coverage[i];
-        }
-        output_file << "\n";
-    }
-}
-
-
-
 // Create output file for the mapping analysis
 void output_map(std::string& output_file_path, std::vector<MappedSequence> sequences, float signif_threshold, bool disable_correction) {
 

@@ -77,35 +77,3 @@ class CustomFormatter : public CLI::Formatter {
         }
 
 };
-
-
-//// Formatter for CLI
-//class CustomFormatter : public CLI::Formatter {
-
-//    public:
-
-//        uint column_widths[3] {0, 0, 0};  // Will be used to store the maximum width of each column : flags, type, description
-//        uint border_width = 4;  // Space between two columns
-
-//        // Formatter for an Option line, overrides the same function from CLI::Formatter
-//        virtual std::string make_option(const CLI::Option* opt, bool is_positional) const {
-
-//            std::string option = "", name = "", type = "", description = "", default_value = "", required = "REQUIRED";
-
-//            // Generate option name, if positional -> just the name, if not positional -> <short_flag, long_flag>
-//            is_positional ? name = opt->get_name()[0] : name = "-" + opt->get_snames()[0] + ", --" + opt->get_lnames()[0];
-//            type = opt->get_type_name();
-//            description = opt->get_description();
-//            default_value = opt->get_defaultval();
-
-//            // Generate the help string for this option, adding the right number of spaces after each column based on column_widths
-//            option = name + std::string(this->border_width + this->column_widths[0] - name.size(), ' ');
-//            option += type + std::string(this->border_width + this->column_widths[1] - type.size(), ' ');
-//            option += description + std::string(this->border_width + this->column_widths[2] - description.size(), ' ');
-//            if (opt->get_required()) default_value = required;
-//            if (default_value != "") option += "[" + default_value + "]";
-//            option += "\n";
-
-//            return option;
-//        }
-//};
