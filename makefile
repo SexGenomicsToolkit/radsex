@@ -29,6 +29,9 @@ all: init BWA $(TARGET)
 
 print-%: ; @echo $* = $($*)
 
+BWA:
+	@cd $(INCLUDE)/bwa && $(MAKE)
+
 $(TARGET): $(OBJS) $(LIBOBJS) $(BWAOBJS) $(INCLUDE)/bwa/libbwa.a
 	$(CC) $(CFLAGS) -I $(INCLUDE) -L $(INCLUDE)/bwa -lbwa -o $(BIN)/$(TARGET) $^ $(LDFLAGS)
 
@@ -41,14 +44,16 @@ $(LIBBUILD)/%.o: $(INCLUDE)/*/%.cpp
 clean:
 	@rm -rf $(BUILD)/*.o
 	@rm -rf $(BIN)/$(TARGET)
+
+clean-all: clean
 	@rm -rf $(INCLUDE)/*/*.o
 	@cd $(INCLUDE)/bwa && $(MAKE) clean
+
+rebuild: clean $(TARGET)
+
+rebuild-all: clean-all BWA $(TARGET)
 
 init:
 	@mkdir -p $(BUILD) $(BUILD)
 	@mkdir -p $(BIN) $(BIN)
 
-rebuild: clean BWA $(TARGET)
-
-BWA:
-	@cd $(INCLUDE)/bwa && $(MAKE)
