@@ -9,6 +9,7 @@ void distrib(Parameters& parameters) {
      */
 
     Popmap popmap = load_popmap(parameters);
+    Header header;
 
     sd_table results;
 
@@ -16,7 +17,7 @@ void distrib(Parameters& parameters) {
     MarkersQueue markers_queue;
     std::mutex queue_mutex;
 
-    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(parsing_ended), true);
+    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(parsing_ended), std::ref(header), true);
     std::thread processing_thread(processor, std::ref(markers_queue), std::ref(parameters), std::ref(queue_mutex), std::ref(results), std::ref(parsing_ended), 100);
 
     parsing_thread.join();
@@ -55,13 +56,18 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, std::mutex& 
     bool keep_going = true;
 
     while (keep_going) {
+
+        // Get a batch of markers from the queue
         batch = get_batch(markers_queue, queue_mutex, batch_size);
-        if (batch.size() > 0) {
-            for (auto marker: batch) {
-                ++results[marker.groups[parameters.group1]][marker.groups[parameters.group2]].first;
-            }
+
+        if (batch.size() > 0) {  // Batch not empty
+
+            for (auto marker: batch) ++results[marker.groups[parameters.group1]][marker.groups[parameters.group2]].first;
+
         } else {
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));  // Batch empty: wait 10ms before asking for another batch
+
         }
 
         if (parsing_ended and markers_queue.size() == 0) keep_going = false;

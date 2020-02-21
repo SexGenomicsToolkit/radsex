@@ -1,10 +1,12 @@
 #pragma once
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <fstream>
 #include <iostream>
 #include <map>
 #include <string>
+#include <thread>
 #include <time.h>
 #include <unordered_map>
 #include <vector>

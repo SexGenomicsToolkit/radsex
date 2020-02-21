@@ -25,9 +25,10 @@ struct Marker {
 };
 
 
+typedef std::vector<std::string> Header;
 typedef std::queue<Marker> MarkersQueue;
 
-void table_parser(Parameters& parameters, Popmap& popmap, MarkersQueue& markers_queue, std::mutex& queue_mutex, bool& parsing_ended, bool sex_stats_only = false);
+void table_parser(Parameters& parameters, Popmap& popmap, MarkersQueue& markers_queue, std::mutex& queue_mutex, bool& parsing_ended, Header& header, bool sex_stats_only = false);
 
 std::vector<Marker> get_batch(MarkersQueue& blocks_queue, std::mutex& queue_mutex, ulong batch_size=1000);
 

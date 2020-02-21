@@ -1,6 +1,6 @@
 #include "depth_table.h"
 
-void table_parser(Parameters& parameters, Popmap& popmap, MarkersQueue& markers_queue, std::mutex& queue_mutex, bool& parsing_ended, bool sex_stats_only) {
+void table_parser(Parameters& parameters, Popmap& popmap, MarkersQueue& markers_queue, std::mutex& queue_mutex, bool& parsing_ended, Header& header, bool sex_stats_only) {
 
     const uint tmp_queue_size = 1000;
 
@@ -12,7 +12,6 @@ void table_parser(Parameters& parameters, Popmap& popmap, MarkersQueue& markers_
         exit(1);
     }
 
-    std::vector<std::string> header;
     std::string temp = "";
 
     // First line (in depth table) is a comment with number of markers in the table
