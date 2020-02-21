@@ -16,7 +16,7 @@ void distrib(Parameters& parameters) {
     MarkersQueue markers_queue;
     std::mutex queue_mutex;
 
-    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(parsing_ended));
+    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(parsing_ended), true);
     std::thread processing_thread(processor, std::ref(markers_queue), std::ref(parameters), std::ref(queue_mutex), std::ref(results), std::ref(parsing_ended), 100);
 
     parsing_thread.join();
@@ -60,9 +60,10 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, std::mutex& 
             for (auto marker: batch) {
                 ++results[marker.groups[parameters.group1]][marker.groups[parameters.group2]].first;
             }
+        } else {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
-        queue_mutex.lock();
+
         if (parsing_ended and markers_queue.size() == 0) keep_going = false;
-        queue_mutex.unlock();
     }
 }
