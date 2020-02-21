@@ -63,7 +63,10 @@ void table_parser(Parameters& parameters, Popmap& popmap, MarkersQueue& markers_
                             break;
                         default:
                             marker.individuals[field_n - 2] = static_cast<uint16_t>(fast_stoi(temp.c_str()));
-                            if (marker.individuals[field_n - 2] >= parameters.min_depth) ++marker.groups[groups[field_n]];
+                            if (marker.individuals[field_n - 2] >= parameters.min_depth) {
+                                ++marker.groups[groups[field_n]];
+                                ++marker.n_individuals;
+                            }
                             break;
                     }
 
@@ -73,18 +76,19 @@ void table_parser(Parameters& parameters, Popmap& popmap, MarkersQueue& markers_
 
                 case '\n':  // New line (also a new field)
                     marker.individuals[field_n - 2] = static_cast<uint16_t>(fast_stoi(temp.c_str()));
-                    if (field_n > 1 and marker.individuals[field_n - 2] >= parameters.min_depth) ++marker.groups[groups[field_n]];  // Increment the appropriate counter
+                    if (field_n > 1 and marker.individuals[field_n - 2] >= parameters.min_depth) {
+                        ++marker.groups[groups[field_n]];
+                        ++marker.n_individuals;
+                    }
                     // Add marker to the queue
                     tmp_queue[marker_n % tmp_queue_size] = marker;  // Empty line means end of a block, we add it to the queue
                     ++marker_n;
                     if (marker_n % tmp_queue_size == 0 or field_n < 2) {  // Merge temporary queue with shared queue after 1000 blocks
                         queue_mutex.lock();
-                        for (auto& marker: tmp_queue) {
-                            markers_queue.push(marker);
-                            if (not sex_stats_only) marker.id = "";
-                            if (not sex_stats_only) marker.sequence = "";
-                            for (auto& group: marker.groups) group.second = 0;
-                            for (auto& individual: marker.individuals) individual = 0;
+                        for (auto& tmp_marker: tmp_queue) {
+                            markers_queue.push(tmp_marker);
+                            // Reset marker attributes
+                            tmp_marker.reset(sex_stats_only);
                         }
                         queue_mutex.unlock();
                     }
@@ -92,10 +96,7 @@ void table_parser(Parameters& parameters, Popmap& popmap, MarkersQueue& markers_
                     // Reset variables
                     temp = "";
                     field_n = 0;
-                    if (not sex_stats_only) marker.sequence = "";
-                    if (not sex_stats_only) marker.id = "";
-                    for (auto& individual: marker.individuals) individual = 0;
-                    for (auto& group: marker.groups) group.second = 0;
+                    marker.reset(sex_stats_only);
                     break;
 
                 default:

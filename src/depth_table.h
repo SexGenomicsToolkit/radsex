@@ -8,10 +8,19 @@
 
 struct Marker {
 
-    std::string id = "";
-    std::string sequence = "";
-    std::vector<uint16_t> individuals;
-    std::unordered_map<std::string, uint> groups;
+    std::string id = "";  // Marker ID
+    std::string sequence = "";  // Marker sequence
+    std::vector<uint16_t> individuals;  // Marker depth in each individual
+    uint n_individuals = 0;  // Total number of individuals in which the marker is present
+    std::unordered_map<std::string, uint> groups;  // Number of individuals in which the marker is present for each group
+
+    void reset(bool sex_stats_only) {
+        if (not sex_stats_only) this->id = "";
+        if (not sex_stats_only) this->sequence = "";
+        for (auto& group: this->groups) group.second = 0;
+        this->n_individuals = 0;
+        for (auto& individual: this->individuals) individual = 0;
+    }
 
 };
 

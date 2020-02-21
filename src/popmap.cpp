@@ -28,6 +28,7 @@ Popmap load_popmap(Parameters& parameters) {
 
                 popmap.groups[fields[0]] = fields[1];
                 ++popmap.counts[fields[1]];
+                ++popmap.n_individuals;
 
             }
         }
