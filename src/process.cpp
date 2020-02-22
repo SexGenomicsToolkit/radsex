@@ -88,10 +88,42 @@ void process(Parameters& parameters) {
     std::vector<std::string> individuals;
     for (auto i: input_files) individuals.push_back(i.individual_name);
 
+    std::ofstream output_file;
+    output_file.open(parameters.output_file_path);
 
-    // Generate the output file
-    output_process(parameters.output_file_path, individuals, results, parameters.min_depth);
+    output_file << "#Number of markers : " << results.size() << "\n";
+    output_file << "id\tsequence";
+    for (auto& i: individuals) output_file << "\t" << i;
+    output_file << "\n";
 
+    std::cerr << "**Info: writing marker depths to output file" << std::endl;
+    uint id = 0;
+    uint64_t n_markers = results.size();
+    uint64_t log_tick = static_cast<uint64_t>(n_markers / 10);
+    bool print = true;
+    // Fill line by line
+    for (auto r: results) {
+
+        if (parameters.min_depth > 1) {
+            print = false;
+            for (auto i: r.second) {
+                if (i.second >= parameters.min_depth) {
+                    print = true;
+                    break;
+                }
+            }
+        }
+
+        if (print) {
+            output_file << id << "\t" << r.first;
+            for (auto i: individuals) output_file << "\t" << r.second[i];
+            output_file << "\n";
+            ++id;
+        }
+
+        if (id % log_tick == 0) std::cerr << "**Info: wrote " << id / 1000 << " K. markers (" << 10 * id / log_tick << " %)" << std::endl;
+
+    }
 }
 
 

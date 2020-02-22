@@ -1,56 +1,5 @@
 #include "output.h"
 
-void output_process(std::string& output_file_path, std::vector<std::string>& individuals, std::unordered_map<std::string, std::unordered_map<std::string, uint16_t>>& results, uint min_depth) {
-
-    /* Input:
-     * - Path to an output file
-     * - A list of individual names
-     * - A matrix of results [Individual: [Sequence, Coverage]]
-     * Output:
-     * - A matrix of depth [Individual: [Sequence, Coverage]]
-     */
-
-    FILE* output_file;
-    output_file = fopen(output_file_path.c_str(), "w");
-
-    uint id = 0;
-
-    // Comment lines
-    std::fprintf(output_file, "#Number of markers : %i\n", static_cast<int>(results.size()));
-
-    // Header
-    std::fprintf(output_file, "id\tsequence");
-    for (auto i: individuals) {
-        std::fprintf(output_file, "\t%s", i.c_str());
-    }
-    std::fprintf(output_file, "\n");
-
-    bool print = false;
-    // Fill line by line
-    for (auto r: results) {
-        for (auto i: r.second) {
-            if (i.second >= min_depth) {
-                print = true;
-                break;
-            }
-        }
-        if (print) {
-            std::fprintf(output_file, "%i\t%s", id, r.first.c_str());
-            for (auto i: individuals) {
-                std::fprintf(output_file, "\t%i", r.second[i]);
-            }
-            std::fprintf(output_file, "\n");
-
-            ++id;
-        }
-        print = false;
-    }
-
-    fclose(output_file);
-}
-
-
-
 void output_distrib_matrix(std::string& output_file_path, sd_table& results, uint n_group1, uint n_group2) {
 
     /* Input:
