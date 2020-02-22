@@ -43,9 +43,9 @@ struct Marker {
 typedef std::vector<std::string> Header;
 typedef std::queue<Marker> MarkersQueue;
 
-void table_parser(Parameters& parameters, Popmap& popmap, MarkersQueue& markers_queue, std::mutex& queue_mutex, bool& parsing_ended, Header& header, bool sex_stats_only = false);
+void table_parser(Parameters& parameters, MarkersQueue& markers_queue, std::mutex& queue_mutex, Header& header, bool& parsing_ended, const Popmap& popmap = Popmap(), bool no_seq = true, bool no_group = false);
 
 std::vector<Marker> get_batch(MarkersQueue& blocks_queue, std::mutex& queue_mutex, ulong batch_size=1000);
 
 // Create a sex <-> column index correspondance map
-std::vector<std::string> get_column_group(std::unordered_map<std::string, std::string>& popmap, const std::vector<std::string>& header);
+std::vector<std::string> get_column_group(const std::unordered_map<std::string, std::string>& groups, const std::vector<std::string>& header);

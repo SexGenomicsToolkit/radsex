@@ -97,3 +97,27 @@ inline std::vector<std::string> get_column_sex(std::unordered_map<std::string, s
 
     return sex_columns;
 }
+
+
+inline const std::vector<std::string> get_header(const std::string& input_file_path) {
+
+    std::string line = "#";
+    std::vector<std::string> header;
+
+    std::ifstream input_file;
+    input_file.open(input_file_path);
+
+    if (not input_file.is_open()) {
+        std::cerr << "**Error: could not open input file <" << input_file_path << ">" << std::endl;
+        exit(1);
+    }
+
+    while (line[0] == '#') {
+        std::getline(input_file, line);
+    }
+
+    input_file.close();
+
+    header = split(line, "\t");
+    return header;
+}

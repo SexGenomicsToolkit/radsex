@@ -1,6 +1,6 @@
 #include "depth_table.h"
 
-void table_parser(Parameters& parameters, Popmap& popmap, MarkersQueue& markers_queue, std::mutex& queue_mutex, bool& parsing_ended, Header& header, bool sex_stats_only) {
+void table_parser(Parameters& parameters, MarkersQueue& markers_queue, std::mutex& queue_mutex, Header& header, bool& parsing_ended, const Popmap& popmap, bool no_seq, bool no_group) {
 
     const uint tmp_queue_size = 1000;
 
@@ -31,7 +31,8 @@ void table_parser(Parameters& parameters, Popmap& popmap, MarkersQueue& markers_
     header = split(temp, "\t");
 
     // Vector of group for each individual (by column index)
-    std::vector<std::string> groups = get_column_group(popmap.groups, header);
+    std::vector<std::string> groups;
+    if (not no_group) groups = get_column_group(popmap.groups, header);
 
     // Define variables used to read the file
     char buffer[65536];
@@ -55,15 +56,15 @@ void table_parser(Parameters& parameters, Popmap& popmap, MarkersQueue& markers_
 
                     switch (field_n) {
                         case 0:
-                            if (not sex_stats_only) marker.id = temp;
+                            if (not no_seq) marker.id = temp;
                             break;
                         case 1:
-                            if (not sex_stats_only) marker.sequence = temp;
+                            if (not no_seq) marker.sequence = temp;
                             break;
                         default:
                             marker.individuals[field_n - 2] = static_cast<uint16_t>(fast_stoi(temp.c_str()));
                             if (marker.individuals[field_n - 2] >= parameters.min_depth) {
-                                ++marker.groups[groups[field_n]];
+                                if (not no_group) ++marker.groups[groups[field_n]];
                                 ++marker.n_individuals;
                             }
                             break;
@@ -76,7 +77,7 @@ void table_parser(Parameters& parameters, Popmap& popmap, MarkersQueue& markers_
                 case '\n':  // New line (also a new field)
                     marker.individuals[field_n - 2] = static_cast<uint16_t>(fast_stoi(temp.c_str()));
                     if (field_n > 1 and marker.individuals[field_n - 2] >= parameters.min_depth) {
-                        ++marker.groups[groups[field_n]];
+                        if (not no_group) ++marker.groups[groups[field_n]];
                         ++marker.n_individuals;
                     }
                     // Add marker to the queue
@@ -87,7 +88,7 @@ void table_parser(Parameters& parameters, Popmap& popmap, MarkersQueue& markers_
                         for (auto& tmp_marker: tmp_queue) {
                             markers_queue.push(tmp_marker);
                             // Reset marker attributes
-                            tmp_marker.reset(sex_stats_only);
+                            tmp_marker.reset(no_seq);
                         }
                         queue_mutex.unlock();
                     }
@@ -95,7 +96,7 @@ void table_parser(Parameters& parameters, Popmap& popmap, MarkersQueue& markers_
                     // Reset variables
                     temp = "";
                     field_n = 0;
-                    marker.reset(sex_stats_only);
+                    marker.reset(no_seq);
                     break;
 
                 default:
@@ -138,16 +139,16 @@ std::vector<Marker> get_batch(MarkersQueue& blocks_queue, std::mutex& queue_mute
 
 
 
-std::vector<std::string> get_column_group(std::unordered_map<std::string, std::string>& popmap, const std::vector<std::string>& header) {
+std::vector<std::string> get_column_group(const std::unordered_map<std::string, std::string>& groups, const std::vector<std::string>& header) {
 
     // Map with column number --> index of sex_count (0 = male, 1 = female, 2 = no sex)
     std::vector<std::string> sex_columns;
 
     for (uint i=0; i<header.size(); ++i) {
 
-        if (popmap.find(header[i]) != popmap.end()) {
+        if (groups.find(header[i]) != groups.end()) {
 
-            sex_columns.push_back(popmap[header[i]]);
+            sex_columns.push_back(groups.at(header[i]));
 
         } else {
 
