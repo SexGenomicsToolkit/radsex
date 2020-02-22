@@ -27,7 +27,7 @@ struct Parameters {
     uint n_threads = 1;
     uint min_depth = 1;
     float signif_threshold = static_cast<float>(0.05);
-    bool disable_correction = true;
+    bool disable_correction = false;
 
     // "subset" specific parameters
     uint subset_min_group1 = 0;

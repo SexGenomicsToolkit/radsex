@@ -13,6 +13,7 @@ struct Marker {
     std::vector<uint16_t> individuals;  // Marker depth in each individual
     uint n_individuals = 0;  // Total number of individuals in which the marker is present
     std::unordered_map<std::string, uint> groups;  // Number of individuals in which the marker is present for each group
+    float p = 0;
 
     void reset(bool sex_stats_only) {
         if (not sex_stats_only) this->id = "";
@@ -20,6 +21,20 @@ struct Marker {
         for (auto& group: this->groups) group.second = 0;
         this->n_individuals = 0;
         for (auto& individual: this->individuals) individual = 0;
+    }
+
+    void output_table(std::ofstream& output_file) const {
+
+        output_file << this->id << "\t" << this->sequence;
+        for (auto& individual: this->individuals) output_file << "\t" << individual;
+        output_file << "\n";
+    }
+
+    void output_fasta(std::ofstream& output_file, uint16_t min_depth) const {
+
+        output_file << ">" << this->id;
+        for (auto group: this->groups) output_file << "_" << group.first << ":" << group.second;
+        output_file << "_mindepth:" << min_depth << "_p:" << this->p << "\n" << this->sequence << "\n";
     }
 
 };
