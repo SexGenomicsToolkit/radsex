@@ -1,5 +1,6 @@
 #include "map.h"
 
+
 void map(Parameters& parameters) {
 
     /* The mapping function maps all sequences from a coverage table (obtained from process, subset, or signif functions) to a reference genome and
@@ -13,211 +14,215 @@ void map(Parameters& parameters) {
      * - SexBias: (number of males with the sequence)/(total number of males) - (number of females with the sequence)/(total number of females)
      * - P: probability of association with sex given by chi-squared test with Bonferroni correction.
      *
-     * Sequences are mapped using bwa by Heng Li (https://github.com/lh3/bwa). Sequences are mapped using mem_align1() they are considered correctly mapped if:
+     * Markers are alignedusing bwa mem (https://github.com/lh3/bwa). Sequences are mapped using mem_align1() they are considered correctly mapped if:
      * - Their mapping quality is > threshold given by the mapping_quality parameter
      * - They are mapped uniquely, that is, there is no other mapping position with the same mapping score for this sequence.     *
      */
 
     // Popmap
     Popmap popmap = load_popmap(parameters);
-    std::string group1 = parameters.group1;
-    std::string group2 = parameters.group2;
+    Header header;
 
-    // Input file
-    std::ifstream input_file;
-    input_file.open(parameters.subset_file_path);
+    std::vector<AlignedMarker> aligned_markers;
+
+    bool parsing_ended = false;
+    MarkersQueue markers_queue;
+    std::mutex queue_mutex;
+
+    std::unordered_map<std::string, uint64_t> contig_lengths = get_contig_lengths(parameters.genome_file_path);
+
+    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(header), std::ref(parsing_ended), true, false);
+    std::thread processing_thread(processor, std::ref(markers_queue), std::ref(parameters), std::ref(popmap), std::ref(queue_mutex), std::ref(aligned_markers), std::ref(parsing_ended), 100);
+
+    parsing_thread.join();
+    processing_thread.join();
+
+    std::ofstream output_file;
+    output_file.open(parameters.output_file_path);
+    if (not output_file.is_open()) {
+        std::cerr << "**Error: could not open output file <" << parameters.output_file_path << ">";
+        exit(1);
+    }
+
+    output_file << "Contig\tPosition\tLength\tMarker_id\tBias\tP\tSignif\n";
+
+    if (not parameters.disable_correction) parameters.signif_threshold /= markers_queue.n_markers;
+
+    for (auto marker: aligned_markers) {
+
+        output_file << marker.contig << "\t" << marker.position << "\t" << contig_lengths[marker.contig] << "\t" << marker.id << "\t"
+                    << marker.bias << "\t" << marker.p << "\t" << (static_cast<float>(marker.p) < parameters.signif_threshold ? "True" : "False") << "\n";
+
+    }
+
+    output_file.close();
+
+}
+
+
+void processor(MarkersQueue& markers_queue, Parameters& parameters, Popmap& popmap, std::mutex& queue_mutex, std::vector<AlignedMarker>& aligned_markers, bool& parsing_ended, ulong batch_size) {
+
+    // Batch reading
+    std::vector<Marker> batch;
+    bool keep_going = true;
+
+    // Filtering
+    uint16_t min_individuals = static_cast<uint16_t>(popmap.n_individuals * parameters.map_min_frequency);
+
+    // Load bwa index for the genome
+    bwaidx_t* index = load_bwa_index(parameters);
 
     // BWA mem parameters
     mem_opt_t *opt;
     opt = mem_opt_init(); // initialize the BWA-MEM parameters to the default values
-
-    std::vector<std::string> line;
-    std::string temp = "";
-
-    // First line (in depth table) is a comment with number of markers in the table
-    std::getline(input_file, temp);
-
-    if (temp[0] == '#') {  // Check if file is depth table or subset. If depth table, parse first line here
-        line = split(temp, " : ");
-        if (line.size() == 2) uint n_markers = static_cast<uint>(std::stoi(line[1]));
-        std::getline(input_file, temp);  // Load the second line which contains the header
-    }
-
-    // First (in subset) or second (in depth table) line is the header. The header is parsed to get the sex of each field in the table.
-    line = split(temp, "\t");
-
-    // Vector of group for each individual (by column index)
-    std::vector<std::string> sex_columns = get_column_sex(popmap.groups, line);
-
-    // Minimum number of males and females
-    uint min_group1 = uint(parameters.map_min_frequency * popmap.counts[group1]);
-    uint min_group2 = uint(parameters.map_min_frequency * popmap.counts[group2]);
-
-    // Generate BWA index if it does not exist
-    std::ifstream bwa_index_temp;
-    bool indexed = true;
-    std::string extensions[5] = {"amb", "ann", "bwt", "pac", "sa"};  // BWA index file extensions
-
-    std::cout << " - Checking for contig lengths file : ";
-    bwa_index_temp.open(parameters.genome_file_path + ".lengths");
-    if (not bwa_index_temp.is_open()) {
-        std::cout << " not found." << "\n" << " - Creating contig lengths file ..." << "\n";
-        scaffold_lengths(parameters.genome_file_path);
-    } else {
-        std::cout << " found." << "\n";
-        bwa_index_temp.close();
-    }
-
-    std::cout << " - Checking for genome index files : ";
-    for (auto i=0; i<5; ++i) {
-        bwa_index_temp.open(parameters.genome_file_path + "." + extensions[i]);
-        if (not bwa_index_temp.is_open()) indexed = false; else bwa_index_temp.close();
-    }
-
-    if (not indexed) {
-        std::cout << " not found." << "\n" << " - Indexing the genome ..." << "\n";
-        bwa_idx_build(parameters.genome_file_path.c_str(), parameters.genome_file_path.c_str(), 0, 10000000); // Paramas: genome file, prefix, algorithm (default 0), block size (default 10000000)
-    } else {
-        std::cout << " found." << "\n";
-    }
-
-    // Load BWA index
-    bwaidx_t *index; // BWA index read from indexed file
-
-    std::cout << " - Loading BWA index file ..." << std::endl;
-    index = bwa_idx_load(parameters.genome_file_path.c_str(), BWA_IDX_ALL); // load the BWA index
-
-    if (nullptr == index) {
-        std::cout << "Failed to load index for genome file \"" + parameters.genome_file_path + "\"." << std::endl;
-        exit(1);
-    }
-
-    // Variables used to read the file
-    char buffer[65536];
-    std::string sequence, id;
-    uint k = 0, field_n = 0, total_n_sequences = 0, retained_sequences = 0;
-    std::unordered_map<std::string, uint> sex_count;
-    int sequence_length = 0;
-
-    // BWA mem objects and variables
     mem_alnreg_v ar;
     mem_aln_t best;
     uint j;
     double chi_squared;
-    int best_alignment[3] {0, -1, 0}; // Index, score, count
-    MappedSequence seq;
-    std::vector<MappedSequence> sequences;
+    int best_alignment[3] {0, -1, 0}; // Info about best alignment: index, score, count
+    AlignedMarker seq;
 
-    std::cout << " - Mapping markers ..." << std::endl;
+    // For logging
+    uint32_t markers_stats[2] {0, 0}; // Total markers, retained markers
 
-    do {
+    while (keep_going) {
 
-        // Read a chunk of size given by the buffer
-        input_file.read(buffer, sizeof(buffer));
-        k = static_cast<uint>(input_file.gcount());
+        // Get a batch of markers from the queue
+        batch = get_batch(markers_queue, queue_mutex, batch_size);
 
-        for (uint i=0; i<k; ++i) {
+        if (batch.size() > 0) {  // Batch not empty
 
-            // Read the buffer character by character
-            switch(buffer[i]) {
+            for (auto marker: batch) {
 
-                case '\t':  // New field
-                    if (field_n > 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the presence counter for the corresponding sex
-                    temp = "";
-                    ++field_n;
-                    break;
+                ++markers_stats[0];  // Increment total markers count
 
-                case '\n':  // New line (also a new field)
-                    if (field_n > 2 and static_cast<uint>(std::stoi(temp)) >= parameters.min_depth) ++sex_count[sex_columns[field_n]];  // Increment the presence counter for the corresponding sex
-                    std::cerr << sex_count[group1] << "\t" << sex_count[group2] << std::endl;
-                    if (sex_count[group1] >= min_group1 or sex_count[group2] >= min_group2) {
-                        ar = mem_align1(opt, index->bwt, index->bns, index->pac, sequence_length, sequence.c_str()); // Map the sequence
-                        for (j = 0; j < ar.n; ++j) { // Loop through alignments
-                            if (ar.a[j].score > best_alignment[1]) { // Find alignment with best score
-                                best_alignment[0] = static_cast<int>(j);
-                                best_alignment[1] = ar.a[j].score;
-                                best_alignment[2] = 0;
-                            } else if (ar.a[j].score == best_alignment[1]) {
-                                ++best_alignment[2];
-                            }
+                if (marker.n_individuals > min_individuals) {
+
+                    ar = mem_align1(opt, index->bwt, index->bns, index->pac, marker.sequence.size(), marker.sequence.c_str()); // Align the marker to the reference
+
+                    for (j = 0; j < ar.n; ++j) { // Loop through alignments to find best scoring one
+
+                        if (ar.a[j].score > best_alignment[1]) {  // Current alignment has best score so far, store its properties
+
+                            best_alignment[0] = static_cast<int>(j);
+                            best_alignment[1] = ar.a[j].score;
+                            best_alignment[2] = 1;
+
+                        } else if (ar.a[j].score == best_alignment[1]) {  // Current alignment is as good as current best alignment, increase count
+
+                            ++best_alignment[2];
+
                         }
-                        best = mem_reg2aln(opt, index->bns, index->pac, sequence_length, sequence.c_str(), &ar.a[best_alignment[0]]); // Get mapping quality
-                        if (best_alignment[2] < 1 and best.mapq >= parameters.map_min_quality and best.rid >= 0) { // Keep sequences with unique best alignment and with mapq >= minimum quality
-                            seq.sex_bias = float(sex_count[group1]) / float(popmap.counts[group1]) - float(sex_count[group2]) / float(popmap.counts[group2]); // Sex bias. There should never be 0 males or females in the entire population.
-                            chi_squared = get_chi_squared(sex_count[group1], sex_count[group2], popmap.counts[group1], popmap.counts[group2]);
-                            (chi_squared == chi_squared) ? seq.p = get_chi_squared_p(chi_squared) : seq.p = 1.0; // chi square is NaN --> sequence found in all individuals --> set p to 1
-                            seq.p < 0.0000000000000001 ? seq.p = 0.0000000000000001 : seq.p = seq.p;
-                            seq.id = id;
-                            seq.contig = index->bns->anns[best.rid].name;
-                            seq.position = best.pos;
-                            sequences.push_back(seq);
-                            ++retained_sequences;
-                        }
-                        free(best.cigar); // Deallocate cigar string for best hit
-                        free(ar.a); // Deallocate the hit list
-                    }
-                    ++total_n_sequences;
-                    if (total_n_sequences % 100000 == 0 and total_n_sequences / 100000 != 0) std::cout << "   > Processed " << total_n_sequences / 1000 << " K. sequences and retained "
-                                                                                                       << retained_sequences / 1000 << " K. sequences." << std::endl;
-                    // Reset variables
-                    best_alignment[0] = 0;
-                    best_alignment[1] = -1;
-                    best_alignment[2] = 0;
-                    temp = "";
-                    sequence = "";
-                    id = "";
-                    sequence_length = 0;
-                    field_n = 0;
-                    sex_count[group1] = 0;
-                    sex_count[group2] = 0;
-                    break;
 
-                default:
-                    temp += buffer[i];
-                    if (field_n == 0) id += buffer[i];
-                    if (field_n == 1) {
-                        sequence += buffer[i];
-                        ++sequence_length;
                     }
-                    break;
+
+                    best = mem_reg2aln(opt, index->bns, index->pac, marker.sequence.size(), marker.sequence.c_str(), &ar.a[best_alignment[0]]); // Get mapping quality for best alignment
+
+                    // Retain aligned markers with unique best alignment, mapq >= minimum quality (rid < 0 means not aligned)
+                    if (best.rid >= 0 and best_alignment[2] == 1 and best.mapq >= parameters.map_min_quality) {
+
+                        // Compute group bias. Assumption: no empty group (checked in map function)
+                        seq.bias = float(marker.groups[parameters.group1]) / float(popmap.counts[parameters.group1]) - float(marker.groups[parameters.group2]) / float(popmap.counts[parameters.group2]);
+                        chi_squared = get_chi_squared(marker.groups[parameters.group1], marker.groups[parameters.group2], popmap.counts[parameters.group1], popmap.counts[parameters.group2]);
+                        (chi_squared == chi_squared) ? seq.p = get_chi_squared_p(chi_squared) : seq.p = 1.0; // chi square is NaN (fail == test) --> sequence found in all individuals --> set p to 1
+                        seq.p < 0.0000000000000001 ? seq.p = 0.0000000000000001 : seq.p = seq.p;  // Lower bound for p
+                        seq.id = marker.id;
+                        seq.contig = index->bns->anns[best.rid].name;
+                        seq.position = best.pos;
+                        aligned_markers.push_back(seq);
+                        ++markers_stats[1];  // Increment retained marlers count
+                    }
+
+                    free(best.cigar); // Deallocate cigar string for best hit
+                    free(ar.a); // Deallocate the hit list
+                }
+
+                if (markers_stats[0] % 100000 == 0) std::cout << "**Info: processed " << markers_stats[0] / 1000 << " K. markers and retained " << markers_stats[1] / 1000 << " K." << std::endl;
+
+                // Reset variables
+                best_alignment[0] = 0;
+                best_alignment[1] = -1;
+                best_alignment[2] = 0;
+                break;
+
             }
+
+        } else {
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));  // Batch empty: wait 10ms before asking for another batch
+
         }
-    } while (input_file);
 
-    // Generate the output file
-    output_map(parameters.output_file_path, sequences, parameters.signif_threshold, parameters.disable_correction);
+        if (parsing_ended and markers_queue.markers.size() == 0) keep_going = false;
+    }
 
-    input_file.close();
+    // Destroy bwa objects
     free(opt);
     bwa_idx_destroy(index);
 }
 
 
 
-void scaffold_lengths(const std::string& genome_file_path) {
+std::unordered_map<std::string, uint64_t> get_contig_lengths(const std::string& genome_file_path) {
 
     std::ifstream genome_file(genome_file_path);
-    std::ofstream lengths_file(genome_file_path + ".lengths");
-    std::string line, scaffold_name;
-    uint scaffold_length = 0;
-    bool start = true;
+    std::string line = "", contig_name = "";
+
+    std::unordered_map<std::string, uint64_t> contig_lengths;
+    uint contig_length = 0;
 
     while(std::getline(genome_file, line)) {
+
         if (line[0] == '>') {
-            if (not start) {
-                lengths_file << scaffold_name << "\t" << scaffold_length << "\n";
-            } else {
-                start = false;
-            }
-            scaffold_name = split(line, " ")[0];
-            scaffold_name = scaffold_name.substr(1, scaffold_name.size());
-            scaffold_length = 0;
+
+            if (contig_name != "") contig_lengths[contig_name] = contig_length;  // Store length of previous contig
+            // Get contig name from fasta header
+            contig_name = split(line, " ")[0];
+            contig_name = contig_name.substr(1, contig_name.size());
+            contig_length= 0;
+
         } else {
-            scaffold_length += line.size();
+
+            contig_length += line.size();
+
         }
     }
 
-    lengths_file << scaffold_name << "\t" << scaffold_length << "\n";
+    contig_lengths[contig_name] = contig_length;  // Last contig
     genome_file.close();
-    lengths_file.close();
+
+    return contig_lengths;
+}
+
+
+
+bwaidx_t* load_bwa_index(Parameters& parameters) {
+
+    // Generate BWA index if it does not exist
+    std::ifstream bwa_index_temp;
+    bool indexed = true;
+    std::string extensions[5] = {"amb", "ann", "bwt", "pac", "sa"};  // BWA index file extensions
+
+    std::unordered_map<std::string, uint64_t> contig_lengths = get_contig_lengths(parameters.genome_file_path);
+
+    // Checking that all index files are present
+    for (auto i=0; i<5; ++i) {
+        bwa_index_temp.open(parameters.genome_file_path + "." + extensions[i]);
+        if (bwa_index_temp.is_open()) bwa_index_temp.close(); else indexed = false;
+    }
+
+    if (not indexed) {
+        std::cerr << "**Info: bwa index file not found for the reference, creating bwa index file";
+        bwa_idx_build(parameters.genome_file_path.c_str(), parameters.genome_file_path.c_str(), 0, 10000000); // Arguments: genome file, prefix, algorithm (default 0), block size (default 10000000)
+    }
+
+    std::cerr << "**Info: loading BWA index file" << std::endl;
+    bwaidx_t* index = bwa_idx_load(parameters.genome_file_path.c_str(), BWA_IDX_ALL); // load the BWA index
+
+    if (index == nullptr) {
+        std::cerr << "**Error: failed to load index for reference \"" + parameters.genome_file_path + "\"." << std::endl;
+        exit(1);
+    }
+
+    return index;
 }

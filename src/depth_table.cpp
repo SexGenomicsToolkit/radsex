@@ -86,7 +86,8 @@ void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& ma
                     if (marker_n % tmp_queue_size == 0 or field_n < 2) {  // Merge temporary queue with shared queue after 1000 blocks
                         queue_mutex.lock();
                         for (auto& tmp_marker: tmp_queue) {
-                            markers_queue.push(tmp_marker);
+                            markers_queue.markers.push(tmp_marker);
+                            ++markers_queue.n_markers;
                             // Reset marker attributes
                             tmp_marker.reset(no_seq);
                         }
@@ -114,7 +115,7 @@ void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& ma
 
 
 
-std::vector<Marker> get_batch(MarkersQueue& blocks_queue, std::mutex& queue_mutex, ulong batch_size) {
+std::vector<Marker> get_batch(MarkersQueue& markers_queue, std::mutex& queue_mutex, ulong batch_size) {
 
     /* Get a batch of <batch_size> blocks from the shared queue.
      * The batch is stored as a vector of blocks. Extracted blocks are removed from the shared queue.
@@ -122,13 +123,13 @@ std::vector<Marker> get_batch(MarkersQueue& blocks_queue, std::mutex& queue_mute
 
     queue_mutex.lock();
 
-    ulong batch_size_real = std::min(batch_size, blocks_queue.size());
+    ulong batch_size_real = std::min(batch_size, markers_queue.markers.size());
     std::vector<Marker> batch(batch_size_real);
 
     if (batch_size_real > 0) {
         for (uint i=0; i<batch_size_real; ++i) {
-            batch[i] = blocks_queue.front();
-            blocks_queue.pop();
+            batch[i] = markers_queue.markers.front();
+            markers_queue.markers.pop();
         }
     }
 

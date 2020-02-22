@@ -115,22 +115,3 @@ void output_distrib(std::string& output_file_path, sd_table& results, uint n_gro
     }
 }
 
-
-
-// Create output file for the mapping analysis
-void output_map(std::string& output_file_path, std::vector<MappedSequence> sequences, float signif_threshold, bool disable_correction) {
-
-    std::ofstream output_file;
-    output_file.open(output_file_path);
-
-    output_file << "Sequence" << "\t" << "Contig" << "\t" << "Position" << "\t" << "SexBias" << "\t" << "P" << "\t" << "Signif" << "\n";
-
-    if (not disable_correction) signif_threshold /= sequences.size();
-
-    for (auto s: sequences) {
-        output_file << s.id << "\t" << s.contig << "\t" << s.position << "\t" << s.sex_bias << "\t" << s.p << "\t" <<
-                       (static_cast<float>(s.p) < signif_threshold ? "True" : "False") << "\n";
-    }
-
-    output_file.close();
-}

@@ -13,18 +13,8 @@
 #define DTTMFMT "%Y-%m-%d %H:%M:%S"
 #define DTTMSZ 21
 
-// Store information about a mapped sequence for the "map" subcommand
-struct MappedSequence {
-    std::string id;
-    std::string contig;
-    int64_t position;
-    float sex_bias;
-    double p;
-};
-
 // Store sex distribution results
 typedef std::unordered_map<uint, std::unordered_map<uint, std::pair<uint64_t, double>>> sd_table;
-
 
 // Output current date and time in format specified in utils.h
 inline char* print_time (char *buff) {

@@ -54,7 +54,7 @@ inline Parameters parse_args(int& argc, char** argv) {
     map->add_option("-d,--min-depth", parameters.min_depth, "Minimum depth to consider a marker present in an individual", true)->check(CLI::Range(1, 9999));
     map->add_option("-G,--groups", groups, "Names of the groups to compare if there are more than two groups in the popmap (--groups group1,group2)");
     map->add_option("-q,--min-quality", parameters.map_min_quality, "Minimum mapping quality to retain a read", true)->check(CLI::Range(0, 60));
-    map->add_option("-Q,--min-frequency", parameters.map_min_frequency, "Minimum frequency in at least one group to retain a marker", true)->check(CLI::Range(0.0, 1.0));
+    map->add_option("-Q,--min-frequency", parameters.map_min_frequency, "Minimum frequency of individuals to retain a marker", true)->check(CLI::Range(0.0, 1.0));
     map->add_option("-S,--signif-threshold", parameters.signif_threshold, "P-value threshold to consider a marker significantly associated with a phenotypic group", true)->check(CLI::Range(0.0, 1.0));
     map->add_flag("-C,--disable-correction", parameters.disable_correction, "If set, Bonferroni correction will NOT be used when assessing significance of association with phenotypic group");
 

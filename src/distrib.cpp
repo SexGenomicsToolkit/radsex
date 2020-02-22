@@ -70,6 +70,6 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, std::mutex& 
 
         }
 
-        if (parsing_ended and markers_queue.size() == 0) keep_going = false;
+        if (parsing_ended and markers_queue.markers.size() == 0) keep_going = false;
     }
 }

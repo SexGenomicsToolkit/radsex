@@ -40,12 +40,19 @@ struct Marker {
 };
 
 
+struct MarkersQueue {
+
+    std::queue<Marker> markers;
+    uint64_t n_markers = 0;
+
+};
+
+
 typedef std::vector<std::string> Header;
-typedef std::queue<Marker> MarkersQueue;
 
 void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& markers_queue, std::mutex& queue_mutex, Header& header, bool& parsing_ended, bool no_seq = true, bool no_group = false);
 
-std::vector<Marker> get_batch(MarkersQueue& blocks_queue, std::mutex& queue_mutex, ulong batch_size=1000);
+std::vector<Marker> get_batch(MarkersQueue& markers_queue, std::mutex& queue_mutex, ulong batch_size=1000);
 
 // Create a sex <-> column index correspondance map
 std::vector<std::string> get_column_group(const std::unordered_map<std::string, std::string>& groups, const std::vector<std::string>& header);
