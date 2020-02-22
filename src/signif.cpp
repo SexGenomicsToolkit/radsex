@@ -53,7 +53,7 @@ void processor(MarkersQueue& markers_queue, Popmap& popmap, Parameters& paramete
     std::vector<Marker> batch;
     bool keep_going = true;
 
-    double chi_squared = 0, p = 0;
+    double chi_squared = 0;
 
     while (keep_going) {
 
@@ -70,7 +70,7 @@ void processor(MarkersQueue& markers_queue, Popmap& popmap, Parameters& paramete
                     chi_squared = get_chi_squared(marker.groups[parameters.group1], marker.groups[parameters.group2], popmap.counts[parameters.group1], popmap.counts[parameters.group2]);
                     marker.p = get_chi_squared_p(chi_squared);
                     // First pass: filter markers with non-corrected p < 0.05
-                    if (static_cast<float>(p) < parameters.signif_threshold) candidate_markers.push_back(marker);
+                    if (static_cast<float>(marker.p) < parameters.signif_threshold) candidate_markers.push_back(marker);
 
                 }
 
