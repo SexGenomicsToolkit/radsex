@@ -35,7 +35,7 @@ struct Parameters {
     uint subset_max_group1 = 0;
     uint subset_max_group2 = 0;
     uint subset_min_individuals = 0;
-    uint subset_max_individuals = 0;
+    uint subset_max_individuals = 9999;
 
     // Flags indicating whether max values should be set to max number of individuals for "subset"
     bool set_max_group1 = true;

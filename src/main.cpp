@@ -87,9 +87,9 @@ inline Parameters parse_args(int& argc, char** argv) {
     subset->add_flag("-C,--disable-correction", parameters.disable_correction, "If set, Bonferroni correction will NOT be used when assessing significance of association with phenotypic group");
     subset->add_flag("-a,--output-fasta", parameters.output_fasta, "If set, markers will be output in fasta format instead of table format");
     subset->add_option("-m,--min-group1", parameters.subset_min_group1, "Minimum number of individuals from the first group to retain a marker in the subset", true)->check(CLI::Range(0, 9999));
-    subset->add_option("-f,--min-group2", parameters.subset_min_group2, "Minimum number of individuals from the second group to retain a marker in the subset", true)->check(CLI::Range(0, 9999));
+    subset->add_option("-n,--min-group2", parameters.subset_min_group2, "Minimum number of individuals from the second group to retain a marker in the subset", true)->check(CLI::Range(0, 9999));
     subset->add_option("-M,--max-group1", parameters.subset_max_group1, "Maximum number of individuals from the first group to retain a marker in the subset", true)->check(CLI::Range(0, 9999));
-    subset->add_option("-F,--max-group2", parameters.subset_max_group2, "Maximum number of individuals from the second group to retain a marker in the subset", true)->check(CLI::Range(0, 9999));
+    subset->add_option("-N,--max-group2", parameters.subset_max_group2, "Maximum number of individuals from the second group to retain a marker in the subset", true)->check(CLI::Range(0, 9999));
     subset->add_option("-i,--min-individuals", parameters.subset_min_individuals, "Minimum number of individuals to retain a marker in the subset", true)->check(CLI::Range(0, 9999));
     subset->add_option("-I,--max-individuals", parameters.subset_max_individuals, "Maximum number of individuals to retain a marker in the subset", true)->check(CLI::Range(0, 9999));
 
