@@ -1,6 +1,6 @@
 #include "depth_table.h"
 
-void table_parser(Parameters& parameters, MarkersQueue& markers_queue, std::mutex& queue_mutex, Header& header, bool& parsing_ended, const Popmap& popmap, bool no_seq, bool no_group) {
+void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& markers_queue, std::mutex& queue_mutex, Header& header, bool& parsing_ended, bool no_seq, bool no_group) {
 
     const uint tmp_queue_size = 1000;
 

@@ -43,7 +43,7 @@ struct Marker {
 typedef std::vector<std::string> Header;
 typedef std::queue<Marker> MarkersQueue;
 
-void table_parser(Parameters& parameters, MarkersQueue& markers_queue, std::mutex& queue_mutex, Header& header, bool& parsing_ended, const Popmap& popmap = Popmap(), bool no_seq = true, bool no_group = false);
+void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& markers_queue, std::mutex& queue_mutex, Header& header, bool& parsing_ended, bool no_seq = true, bool no_group = false);
 
 std::vector<Marker> get_batch(MarkersQueue& blocks_queue, std::mutex& queue_mutex, ulong batch_size=1000);
 

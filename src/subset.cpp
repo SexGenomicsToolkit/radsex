@@ -16,7 +16,7 @@ void subset(Parameters& parameters) {
         exit(1);
     }
 
-    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(markers_queue), std::ref(queue_mutex), std::ref(header), std::ref(parsing_ended), std::ref(popmap), true, false);
+    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(header), std::ref(parsing_ended), true, false);
     std::thread processing_thread(processor, std::ref(markers_queue), std::ref(popmap), std::ref(parameters), std::ref(queue_mutex), std::ref(output_file), std::ref(parsing_ended), 100);
 
     parsing_thread.join();
