@@ -2,9 +2,6 @@
 
 void subset(Parameters& parameters) {
 
-    std::cout << parameters.subset_min_group1 << "\t" << parameters.subset_max_group1 << "\t" << parameters.subset_min_group2 << "\t" << parameters.subset_max_group2
-              << "\t" << parameters.subset_min_individuals << "\t" << parameters.subset_max_individuals << std::endl;
-
     Popmap popmap = load_popmap(parameters);
     Header header;
 
