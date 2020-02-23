@@ -31,4 +31,4 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, Popmap& popm
 std::unordered_map<std::string, uint64_t> get_contig_lengths(const std::string& genome_file_path);
 
 //
-bwaidx_t* load_bwa_index(Parameters& parameters);
+void build_bwa_index(Parameters& parameters);

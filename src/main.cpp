@@ -47,7 +47,7 @@ inline Parameters parse_args(int& argc, char** argv) {
 
     // Map subcommand parser
     CLI::App* map = parser.add_subcommand("map", "Align markers to a genome and compute metrics for each aligned marker");
-    map->add_option("-s,--markers-file", parameters.subset_file_path, "Path to a set of markers to align, either a depth table from \"process\", \"signif\", or \"subset\" or a fasta file from \"subset\" or \"signif\"")->required()->check(CLI::ExistingFile);
+    map->add_option("-s,--markers-file", parameters.markers_table_path, "Path to a set of markers to align, either a depth table from \"process\", \"signif\", or \"subset\" or a fasta file from \"subset\" or \"signif\"")->required()->check(CLI::ExistingFile);
     map->add_option("-o,--output-file", parameters.output_file_path, "Path to the output file (mapping position, group bias, and probability of association with group for all aligned markers)")->required();
     map->add_option("-p,--popmap", parameters.popmap_file_path, "Path to a tabulated file specifying groups for all individuals (population map)")->required()->check(CLI::ExistingFile);
     map->add_option("-g,--genome-file", parameters.genome_file_path, "Path to the genome file in fasta format")->required()->check(CLI::ExistingFile);

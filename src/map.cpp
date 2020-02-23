@@ -31,8 +31,11 @@ void map(Parameters& parameters) {
 
     std::unordered_map<std::string, uint64_t> contig_lengths = get_contig_lengths(parameters.genome_file_path);
 
-    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(header), std::ref(parsing_ended), true, false);
-    std::thread processing_thread(processor, std::ref(markers_queue), std::ref(parameters), std::ref(popmap), std::ref(queue_mutex), std::ref(aligned_markers), std::ref(parsing_ended), 100);
+    // Check if bwa index files exist for the genome and build index if it's missing
+    build_bwa_index(parameters);
+
+    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(header), std::ref(parsing_ended), false, false);
+    std::thread processing_thread(processor, std::ref(markers_queue), std::ref(parameters), std::ref(popmap), std::ref(queue_mutex), std::ref(aligned_markers), std::ref(parsing_ended), 1000);
 
     parsing_thread.join();
     processing_thread.join();
@@ -69,8 +72,13 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, Popmap& popm
     // Filtering
     uint16_t min_individuals = static_cast<uint16_t>(popmap.n_individuals * parameters.map_min_frequency);
 
-    // Load bwa index for the genome
-    bwaidx_t* index = load_bwa_index(parameters);
+    // Loading bwa index
+    bwaidx_t* index = bwa_idx_load(parameters.genome_file_path.c_str(), BWA_IDX_ALL);
+
+    if (index == nullptr) {
+        std::cerr << "**Error: failed to load index for reference \"" + parameters.genome_file_path + "\"." << std::endl;
+        exit(1);
+    }
 
     // BWA mem parameters
     mem_opt_t *opt;
@@ -82,21 +90,24 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, Popmap& popm
     int best_alignment[3] {0, -1, 0}; // Info about best alignment: index, score, count
     AlignedMarker seq;
 
-    // For logging
-    uint32_t markers_stats[2] {0, 0}; // Total markers, retained markers
-
+    uint x[4] = {0, 0, 0, 0};
     while (keep_going) {
 
         // Get a batch of markers from the queue
         batch = get_batch(markers_queue, queue_mutex, batch_size);
+        ++x[2];
 
         if (batch.size() > 0) {  // Batch not empty
 
-            for (auto marker: batch) {
+            ++x[3];
 
-                ++markers_stats[0];  // Increment total markers count
+            for (auto& marker: batch) {
 
-                if (marker.n_individuals > min_individuals) {
+                ++x[0];
+
+                if (marker.n_individuals >= min_individuals) {
+
+                    ++x[1];
 
                     ar = mem_align1(opt, index->bwt, index->bns, index->pac, marker.sequence.size(), marker.sequence.c_str()); // Align the marker to the reference
 
@@ -130,20 +141,17 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, Popmap& popm
                         seq.contig = index->bns->anns[best.rid].name;
                         seq.position = best.pos;
                         aligned_markers.push_back(seq);
-                        ++markers_stats[1];  // Increment retained marlers count
+
                     }
 
                     free(best.cigar); // Deallocate cigar string for best hit
                     free(ar.a); // Deallocate the hit list
                 }
 
-                if (markers_stats[0] % 100000 == 0) std::cout << "**Info: processed " << markers_stats[0] / 1000 << " K. markers and retained " << markers_stats[1] / 1000 << " K." << std::endl;
-
                 // Reset variables
                 best_alignment[0] = 0;
                 best_alignment[1] = -1;
                 best_alignment[2] = 0;
-                break;
 
             }
 
@@ -196,7 +204,7 @@ std::unordered_map<std::string, uint64_t> get_contig_lengths(const std::string& 
 
 
 
-bwaidx_t* load_bwa_index(Parameters& parameters) {
+void build_bwa_index(Parameters& parameters) {
 
     // Generate BWA index if it does not exist
     std::ifstream bwa_index_temp;
@@ -217,12 +225,4 @@ bwaidx_t* load_bwa_index(Parameters& parameters) {
     }
 
     std::cerr << "**Info: loading BWA index file" << std::endl;
-    bwaidx_t* index = bwa_idx_load(parameters.genome_file_path.c_str(), BWA_IDX_ALL); // load the BWA index
-
-    if (index == nullptr) {
-        std::cerr << "**Error: failed to load index for reference \"" + parameters.genome_file_path + "\"." << std::endl;
-        exit(1);
-    }
-
-    return index;
 }

@@ -96,7 +96,7 @@ void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& ma
                         queue_mutex.unlock();
                         tmp_queue_real_size = 0;
                     }
-                    if (marker_n % (10 * marker_processed_tick) == 0) std::cerr << "Processed " << marker_n << " markers (" << marker_n / (marker_processed_tick) << " %)" << std::endl;
+                    if (marker_n % (10 * marker_processed_tick) == 0) std::cerr << "Loaded " << marker_n << " markers (" << marker_n / (marker_processed_tick) << " %)" << std::endl;
                     // Reset variables
                     temp = "";
                     field_n = 0;
