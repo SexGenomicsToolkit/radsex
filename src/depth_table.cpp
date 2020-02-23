@@ -18,14 +18,11 @@ void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& ma
     std::getline(input_file, temp);
 
     // Check if first line is a comment line with total number of markers
-    uint n_markers = 0;
     if (temp[0] == '#') {
         header = split(temp, " : ");
-        if (header.size() == 2) n_markers = static_cast<uint>(std::stoi(header[1]));
+        if (header.size() == 2) markers_queue.n_markers = static_cast<uint>(std::stoi(header[1]));
         std::getline(input_file, temp);  // Load the second line which contains the header
     }
-
-    uint marker_processed_tick = static_cast<uint>(n_markers / 100);
 
     // Next line (or first if no comment line) is the header
     header = split(temp, "\t");
@@ -89,14 +86,14 @@ void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& ma
                         queue_mutex.lock();
                         for (auto& tmp_marker: tmp_queue) {
                             markers_queue.markers.push(tmp_marker);
-                            ++markers_queue.n_markers;
+                            ++markers_queue.loaded_markers;
                             // Reset marker attributes
                             tmp_marker.reset(no_seq);
                         }
                         queue_mutex.unlock();
                         tmp_queue_real_size = 0;
                     }
-                    if (marker_n % (10 * marker_processed_tick) == 0) std::cerr << "Loaded " << marker_n << " markers (" << marker_n / (marker_processed_tick) << " %)" << std::endl;
+
                     // Reset variables
                     temp = "";
                     field_n = 0;

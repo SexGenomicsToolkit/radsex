@@ -55,6 +55,9 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, std::mutex& 
     std::vector<Marker> batch;
     bool keep_going = true;
 
+    uint marker_processed_tick = static_cast<uint>(markers_queue.n_markers / 100);
+    uint64_t n_processed_markers = 0;
+
     while (keep_going) {
 
         // Get a batch of markers from the queue
@@ -62,7 +65,12 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, std::mutex& 
 
         if (batch.size() > 0) {  // Batch not empty
 
-            for (auto marker: batch) ++results[marker.groups[parameters.group1]][marker.groups[parameters.group2]].first;
+            for (auto marker: batch) {
+
+                ++results[marker.groups[parameters.group1]][marker.groups[parameters.group2]].first;
+                if (++n_processed_markers % (10 * marker_processed_tick) == 0) std::cerr << "Processed " << n_processed_markers << " markers (" << n_processed_markers / (marker_processed_tick) << " %)" << std::endl;
+
+            }
 
         } else {
 

@@ -33,6 +33,9 @@ void processor(MarkersQueue& markers_queue, Popmap& popmap, Parameters& paramete
 
     double chi_squared = 0;
 
+    uint marker_processed_tick = static_cast<uint>(markers_queue.n_markers / 100);
+    uint64_t n_processed_markers = 0;
+
     while (keep_going) {
 
         // Get a batch of markers from the queue
@@ -42,20 +45,18 @@ void processor(MarkersQueue& markers_queue, Popmap& popmap, Parameters& paramete
 
             for (auto& marker: batch) {
 
-                if (marker.n_individuals > 0) {
+                if (marker.groups[parameters.group1] >= parameters.subset_min_group1 and marker.groups[parameters.group1] <= parameters.subset_max_group1 and
+                    marker.groups[parameters.group2] >= parameters.subset_min_group2 and marker.groups[parameters.group2] <= parameters.subset_max_group2 and
+                    marker.n_individuals >= parameters.subset_min_individuals and marker.n_individuals <= parameters.subset_max_individuals) {
 
-                    if (marker.groups[parameters.group1] >= parameters.subset_min_group1 and marker.groups[parameters.group1] <= parameters.subset_max_group1 and
-                        marker.groups[parameters.group2] >= parameters.subset_min_group2 and marker.groups[parameters.group2] <= parameters.subset_max_group2 and
-                        marker.n_individuals >= parameters.subset_min_individuals and marker.n_individuals <= parameters.subset_max_individuals) {
+                    chi_squared = get_chi_squared(marker.groups[parameters.group1], marker.groups[parameters.group2], popmap.counts[parameters.group1], popmap.counts[parameters.group2]);
+                    marker.p = get_chi_squared_p(chi_squared);
 
-                        chi_squared = get_chi_squared(marker.groups[parameters.group1], marker.groups[parameters.group2], popmap.counts[parameters.group1], popmap.counts[parameters.group2]);
-                        marker.p = get_chi_squared_p(chi_squared);
-
-                        parameters.output_fasta ? marker.output_fasta(output_file, parameters.min_depth) : marker.output_table(output_file);
-
-                    }
+                    parameters.output_fasta ? marker.output_fasta(output_file, parameters.min_depth) : marker.output_table(output_file);
 
                 }
+
+                if (++n_processed_markers % (10 * marker_processed_tick) == 0) std::cerr << "Processed " << n_processed_markers << " markers (" << n_processed_markers / (marker_processed_tick) << " %)" << std::endl;
 
             }
 

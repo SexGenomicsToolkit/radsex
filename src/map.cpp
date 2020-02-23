@@ -90,24 +90,19 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, Popmap& popm
     int best_alignment[3] {0, -1, 0}; // Info about best alignment: index, score, count
     AlignedMarker seq;
 
-    uint x[4] = {0, 0, 0, 0};
+    uint marker_processed_tick = static_cast<uint>(markers_queue.n_markers / 100);
+    uint64_t n_processed_markers = 0;
+
     while (keep_going) {
 
         // Get a batch of markers from the queue
         batch = get_batch(markers_queue, queue_mutex, batch_size);
-        ++x[2];
 
         if (batch.size() > 0) {  // Batch not empty
 
-            ++x[3];
-
             for (auto& marker: batch) {
 
-                ++x[0];
-
                 if (marker.n_individuals >= min_individuals) {
-
-                    ++x[1];
 
                     ar = mem_align1(opt, index->bwt, index->bns, index->pac, marker.sequence.size(), marker.sequence.c_str()); // Align the marker to the reference
 
@@ -153,6 +148,7 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, Popmap& popm
                 best_alignment[1] = -1;
                 best_alignment[2] = 0;
 
+                if (++n_processed_markers % (10 * marker_processed_tick) == 0) std::cerr << "Processed " << n_processed_markers << " markers (" << n_processed_markers / (marker_processed_tick) << " %)" << std::endl;
             }
 
         } else {

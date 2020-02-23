@@ -75,6 +75,9 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, std::mutex& 
     std::vector<Marker> batch;
     bool keep_going = true;
 
+    uint marker_processed_tick = static_cast<uint>(markers_queue.n_markers / 100);
+    uint64_t n_processed_markers = 0;
+
     while (keep_going) {
 
         // Get a batch of markers from the queue
@@ -85,9 +88,13 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, std::mutex& 
             for (auto& marker: batch) {
 
                 for (uint i=0; i<marker.individuals.size(); ++i) {
+
                     if (marker.n_individuals == n_individuals) depths[i].push_back(marker.individuals[i]); // Only consider markers present in all individuals
                     if (marker.individuals[i] > 0) ++n_markers[i];  // Increment total number of markers for this individual
+
                 }
+
+                if (++n_processed_markers % (10 * marker_processed_tick) == 0) std::cerr << "Processed " << n_processed_markers << " markers (" << n_processed_markers / (marker_processed_tick) << " %)" << std::endl;
 
             }
 

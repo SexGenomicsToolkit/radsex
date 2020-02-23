@@ -44,6 +44,7 @@ struct MarkersQueue {
 
     std::queue<Marker> markers;
     uint64_t n_markers = 0;
+    uint64_t loaded_markers = 0;
 
 };
 

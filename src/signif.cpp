@@ -55,6 +55,9 @@ void processor(MarkersQueue& markers_queue, Popmap& popmap, Parameters& paramete
 
     double chi_squared = 0;
 
+    uint marker_processed_tick = static_cast<uint>(markers_queue.n_markers / 100);
+    uint64_t n_processed_markers = 0;
+
     while (keep_going) {
 
         // Get a batch of markers from the queue
@@ -73,6 +76,8 @@ void processor(MarkersQueue& markers_queue, Popmap& popmap, Parameters& paramete
                     if (static_cast<float>(marker.p) < parameters.signif_threshold) candidate_markers.push_back(marker);
 
                 }
+
+                if (++n_processed_markers % (10 * marker_processed_tick) == 0) std::cerr << "Processed " << n_processed_markers << " markers (" << n_processed_markers / (marker_processed_tick) << " %)" << std::endl;
 
             }
 
