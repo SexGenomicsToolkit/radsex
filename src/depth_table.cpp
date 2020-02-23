@@ -2,8 +2,6 @@
 
 void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& markers_queue, std::mutex& queue_mutex, Header& header, bool& parsing_ended, bool no_seq, bool no_group) {
 
-    const uint tmp_queue_size = 1000;
-
     std::ifstream input_file;
     input_file.open(parameters.markers_table_path);
 
@@ -38,8 +36,9 @@ void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& ma
     uint k = 0, field_n = 0, marker_n = 0;
     Marker marker;
     marker.individuals.resize(header.size() - 2);
-    std::vector<Marker> tmp_queue(tmp_queue_size);  // Temporary block queue to avoid locking the shared blocks queue too often
+    std::vector<Marker> tmp_queue(TMP_QUEUE_SIZE);  // Temporary block queue to avoid locking the shared blocks queue too often
     uint tmp_queue_real_size = 0;
+    uint marker_queue_size = 0;
 
     do {
 
@@ -81,10 +80,14 @@ void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& ma
                         ++marker.n_individuals;
                     }
                     // Add marker to the queue
-                    tmp_queue[marker_n % tmp_queue_size] = marker;  // Empty line means end of a block, we add it to the queue
+                    tmp_queue[marker_n % TMP_QUEUE_SIZE] = marker;  // Empty line means end of a block, we add it to the queue
                     ++tmp_queue_real_size;
                     ++marker_n;
-                    if (marker_n % tmp_queue_size == 0) {  // Merge temporary queue with shared queue after 1000 blocks
+                    if (marker_n % TMP_QUEUE_SIZE == 0) {  // Merge temporary queue with shared queue after 1000 blocks
+                        do {
+                            marker_queue_size = markers_queue.markers.size();
+                            if (marker_queue_size > MAX_QUEUE_SIZE) std::this_thread::sleep_for(std::chrono::microseconds(10));
+                        } while (marker_queue_size > MAX_QUEUE_SIZE);
                         queue_mutex.lock();
                         for (auto& tmp_marker: tmp_queue) {
                             markers_queue.markers.push(tmp_marker);

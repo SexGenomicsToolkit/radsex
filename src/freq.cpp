@@ -22,7 +22,7 @@ void freq(Parameters& parameters) {
     std::vector<uint32_t> frequencies(n_individuals, 0);
 
     std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(header), std::ref(parsing_ended), true, true);
-    std::thread processing_thread(processor, std::ref(markers_queue), std::ref(queue_mutex), std::ref(frequencies), std::ref(parsing_ended), 100);
+    std::thread processing_thread(processor, std::ref(markers_queue), std::ref(queue_mutex), std::ref(frequencies), std::ref(parsing_ended), BATCH_SIZE);
 
     parsing_thread.join();
     processing_thread.join();

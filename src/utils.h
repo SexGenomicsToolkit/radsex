@@ -12,10 +12,12 @@
 #include <vector>
 #define DTTMFMT "%Y-%m-%d %H:%M:%S"
 #define DTTMSZ 21
-
 #define LOG_ERROR "ERROR"
 #define LOG_WARNING "WARNING"
 #define LOG_INFO "INFO"
+#define BATCH_SIZE 100
+#define TMP_QUEUE_SIZE 1000
+#define MAX_QUEUE_SIZE 10000
 
 // Store sex distribution results
 typedef std::unordered_map<uint, std::unordered_map<uint, std::pair<uint64_t, double>>> sd_table;

@@ -11,11 +11,17 @@ inline std::string failure_message(const CLI::App* parser, const CLI::Error& err
     std::string message = "";
 
     if (error.what() == std::string("A subcommand is required")) {
+
         message = "\nSubcommand error: missing or invalid subcommand\n\n" + parser->help();
+
     } else if (error.get_exit_code() == 106) {  // 106 corresponds to wrong argument type
+
         message = "\nArgument error: " + std::string(error.what()) + "\n\n" + parser->help();
+
     } else {
+
         message = "\nError: " + std::string(error.what()) + "\n\n" + parser->help();
+
     }
 
     return message;
