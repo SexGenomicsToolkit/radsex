@@ -75,7 +75,6 @@ Thumbs.db
 tests*
 bin/
 build/
-*.pro
 *.pro.user
 /include/*/*.o
 /include/*/*.a
