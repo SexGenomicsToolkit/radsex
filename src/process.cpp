@@ -77,6 +77,9 @@ void process(Parameters& parameters) {
      * - once all files are processed, output the results
      */
 
+    std::chrono::steady_clock::time_point t_begin = std::chrono::steady_clock::now();
+    log("RADSex process started");
+
     if (parameters.input_dir_path.back() != '/') parameters.input_dir_path += "/";  // Append "/" to the end of the path if it's missing
 
     std::vector<InputFile> input_files = get_input_files(parameters.input_dir_path);
@@ -134,6 +137,8 @@ void process(Parameters& parameters) {
         log_progress(n_processed_markers, marker_processed_tick);
 
     }
+
+    log("RADSex process ended (total runtime: " + get_runtime(t_begin) + ")");
 }
 
 

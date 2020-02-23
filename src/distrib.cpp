@@ -8,6 +8,9 @@ void distrib(Parameters& parameters) {
      *     <int>       |       <int>       |       <int>         | <float> |   <bool>
      */
 
+    std::chrono::steady_clock::time_point t_begin = std::chrono::steady_clock::now();
+    log("RADSex distrib started");
+
     Popmap popmap = load_popmap(parameters);
     Header header;
 
@@ -50,6 +53,8 @@ void distrib(Parameters& parameters) {
         output_distrib_matrix(parameters.output_file_path, results, popmap.counts[parameters.group1], popmap.counts[parameters.group2]);
 
     }
+
+    log("RADSex distrib ended (total runtime: " + get_runtime(t_begin) + ")");
 }
 
 

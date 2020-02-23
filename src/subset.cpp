@@ -2,6 +2,9 @@
 
 void subset(Parameters& parameters) {
 
+    std::chrono::steady_clock::time_point t_begin = std::chrono::steady_clock::now();
+    log("RADSex subset started");
+
     Popmap popmap = load_popmap(parameters);
     Header header;
 
@@ -18,6 +21,8 @@ void subset(Parameters& parameters) {
     processing_thread.join();
 
     output_file.close();
+
+    log("RADSex subset ended (total runtime: " + get_runtime(t_begin) + ")");
 }
 
 

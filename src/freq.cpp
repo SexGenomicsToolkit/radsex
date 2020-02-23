@@ -8,6 +8,9 @@ void freq(Parameters& parameters) {
      * Number of individuals | Number of markers found in this number of individuals
      */
 
+    std::chrono::steady_clock::time_point t_begin = std::chrono::steady_clock::now();
+    log("RADSex freq started");
+
     Header header = get_header(parameters.markers_table_path);
     Popmap popmap;  // Create dummy popmap
     uint n_individuals = header.size() - 1; // Number of columns - 2 (id and seq columns) +1 (because range is 0 - n_individuals)
@@ -32,6 +35,8 @@ void freq(Parameters& parameters) {
     for (uint i=1; i < n_individuals; ++i) output_file << i << "\t" << frequencies[i] << "\n";  // Iterate over the map
 
     output_file.close();
+
+    log("RADSex freq ended (total runtime: " + get_runtime(t_begin) + ")");
 }
 
 

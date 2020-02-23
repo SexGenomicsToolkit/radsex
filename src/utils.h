@@ -134,11 +134,23 @@ inline std::ofstream open_output(const std::string& output_file_path) {
 
 
 
-inline void log_progress(uint64_t& n_processed_markers, uint32_t marker_processed_tick) {
+inline void log_progress(uint64_t& n_processed_markers, const uint32_t marker_processed_tick) {
 
     if (++n_processed_markers % (10 * marker_processed_tick) == 0) {
 
         log("Processed " + std::to_string(n_processed_markers) + " markers (" + std::to_string(n_processed_markers / (marker_processed_tick)) + " %)");
 
     }
+}
+
+
+inline std::string get_runtime(const std::chrono::steady_clock::time_point t_begin) {
+
+    std::chrono::steady_clock::time_point t_end = std::chrono::steady_clock::now();
+    long seconds = std::chrono::duration_cast<std::chrono::seconds>(t_end - t_begin).count();
+    long minutes = seconds / 60;
+    long hours = minutes / 60;
+    std::string runtime = std::to_string(hours) + "h " + std::to_string(minutes%60) + "m " + std::to_string(seconds%60) + "s";
+
+    return runtime;
 }

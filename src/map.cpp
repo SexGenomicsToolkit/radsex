@@ -19,6 +19,9 @@ void map(Parameters& parameters) {
      * - They are mapped uniquely, that is, there is no other mapping position with the same mapping score for this sequence.     *
      */
 
+    std::chrono::steady_clock::time_point t_begin = std::chrono::steady_clock::now();
+    log("RADSex map started");
+
     // Popmap
     Popmap popmap = load_popmap(parameters);
     Header header;
@@ -54,6 +57,8 @@ void map(Parameters& parameters) {
     }
 
     output_file.close();
+
+    log("RADSex map ended (total runtime: " + get_runtime(t_begin) + ")");
 
 }
 

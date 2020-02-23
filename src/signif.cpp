@@ -8,6 +8,9 @@ void signif(Parameters& parameters) {
      *     <int>       |       <int>       |       <int>         | <float> |   <bool>
      */
 
+    std::chrono::steady_clock::time_point t_begin = std::chrono::steady_clock::now();
+    log("RADSex signif started");
+
     Popmap popmap = load_popmap(parameters);
     Header header;
 
@@ -40,6 +43,8 @@ void signif(Parameters& parameters) {
     }
 
     output_file.close();
+
+    log("RADSex signif ended (total runtime: " + get_runtime(t_begin) + ")");
 }
 
 

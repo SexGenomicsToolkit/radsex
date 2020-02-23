@@ -3,6 +3,9 @@
 
 void depth(Parameters& parameters) {
 
+    std::chrono::steady_clock::time_point t_begin = std::chrono::steady_clock::now();
+    log("RADSex depth started");
+
     Popmap popmap = load_popmap(parameters);
     Header header;
 
@@ -60,6 +63,8 @@ void depth(Parameters& parameters) {
                        max_depth << "\t" << median_depth << "\t" << total_depth / size << "\n";
 
     }
+
+    log("RADSex depth ended (total runtime: " + get_runtime(t_begin) + ")");
 
 }
 
