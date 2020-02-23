@@ -10,7 +10,7 @@ void freq(Parameters& parameters) {
 
     Header header = get_header(parameters.markers_table_path);
     Popmap popmap;  // Create dummy popmap
-    uint n_individuals = header.size() - 2;
+    uint n_individuals = header.size() - 1; // Number of columns - 2 (id and seq columns) +1 (because range is 0 - n_individuals)
 
     bool parsing_ended = false;
     MarkersQueue markers_queue;
