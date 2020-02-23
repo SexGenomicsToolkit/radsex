@@ -12,7 +12,7 @@ std::vector<InputFile> get_input_files(const std::string& input_dir_path) {
     DIR* dir = opendir(input_dir_path.c_str());
 
     if(!dir) {
-        std::cout << std::endl << "** Error: could not read the directory \"" << input_dir_path << "\"" << std::endl;
+        log("Could not read from the directory <" + input_dir_path + ">", LOG_ERROR);
         exit(0);
     }
 
@@ -52,9 +52,17 @@ std::vector<InputFile> get_input_files(const std::string& input_dir_path) {
 
     if (files.size() == 0) {
 
-        std::cout << " ** Error: no valid input file found in input directory \"" << input_dir_path <<"\"." << std::endl;
+        log("No valid input file found in input directory \"" + input_dir_path + ">");
+        std::string valid_formats_message = "Input files are detected based on extensions <";
+        for (auto& extension: extensions) valid_formats_message += extension;
+        if (extension != extensions.back()) valid_formats_message += ", ";
+        valid_formats_message += ">";
+        log(valid_formats_message);
         exit(1);
+
     }
+
+    log("Found <" + std::to_string(files.size()) + "> reads files");
 
     return files;
 }
@@ -72,6 +80,7 @@ void process(Parameters& parameters) {
     if (parameters.input_dir_path.back() != '/') parameters.input_dir_path += "/";  // Append "/" to the end of the path if it's missing
 
     std::vector<InputFile> input_files = get_input_files(parameters.input_dir_path);
+
     std::unordered_map<std::string, std::unordered_map<std::string, uint16_t>> results;
 
     std::vector<std::thread> threads;
@@ -88,25 +97,26 @@ void process(Parameters& parameters) {
     std::vector<std::string> individuals;
     for (auto i: input_files) individuals.push_back(i.individual_name);
 
-    std::ofstream output_file;
-    output_file.open(parameters.output_file_path);
+    std::ofstream output_file = open_output(parameters.output_file_path);
 
     output_file << "#Number of markers : " << results.size() << "\n";
     output_file << "id\tsequence";
     for (auto& i: individuals) output_file << "\t" << i;
     output_file << "\n";
 
-    std::cerr << "**Info: writing marker depths to output file" << std::endl;
+    log("**Writing marker depths to output file");
     uint id = 0;
-    uint64_t n_markers = results.size();
-    uint64_t log_tick = static_cast<uint64_t>(n_markers / 10);
     bool print = true;
+
+    uint marker_processed_tick = static_cast<uint>(results.size() / 100);
+    uint64_t n_processed_markers = 0;
+
     // Fill line by line
-    for (auto r: results) {
+    for (auto marker: results) {
 
         if (parameters.min_depth > 1) {
             print = false;
-            for (auto i: r.second) {
+            for (auto i: marker.second) {
                 if (i.second >= parameters.min_depth) {
                     print = true;
                     break;
@@ -115,13 +125,13 @@ void process(Parameters& parameters) {
         }
 
         if (print) {
-            output_file << id << "\t" << r.first;
-            for (auto i: individuals) output_file << "\t" << r.second[i];
+            output_file << id << "\t" << marker.first;
+            for (auto i: individuals) output_file << "\t" << marker.second[i];
             output_file << "\n";
             ++id;
         }
 
-        if (id % log_tick == 0) std::cerr << "**Info: wrote " << id / 1000 << " K. markers (" << 10 * id / log_tick << " %)" << std::endl;
+        log_progress(n_processed_markers, marker_processed_tick);
 
     }
 }
@@ -139,19 +149,28 @@ inline void file_processor(std::vector<InputFile>& input_files, std::unordered_m
     bool remaining_files = true;
 
     while (remaining_files) {
+
         files_mutex.lock();
+
         for (std::vector<InputFile>::iterator it = input_files.begin(); it != input_files.end(); ++it) {
+
             if (not it->processed) {
+
                 it->processed = true;
                 remaining_files = true;
                 files_mutex.unlock();
                 process_file(*it, results, results_mutex);
                 break;
+
             } else {
+
                 remaining_files = false;
+
             }
         }
+
         files_mutex.unlock();
+
     }
 }
 
@@ -172,25 +191,24 @@ inline void process_file(InputFile& input_file, std::unordered_map<std::string, 
     file = gzopen(input_file.path.c_str(), "r");
 
     if (not file) {
-        std::cerr << " ** Error: cannot open input file <" << input_file.path << ">" << std::endl;
+
+        log("Could not open reads file <" + input_file.path + ">", LOG_ERROR);
         exit(1);
+
     }
 
     sequence = kseq_init(file); // Initialize the seq object
 
     // Read through the file and store the results
-    while ((line_n = kseq_read(sequence)) >= 0) {
-        ++temp_results[sequence->seq.s];
-    }
+    while ((line_n = kseq_read(sequence)) >= 0) ++temp_results[sequence->seq.s];
 
     kseq_destroy(sequence); // Destroy the seq object
     gzclose(file);
 
     // Transfer the results from the temp data structure to the full data structure
     results_mutex.lock();
-    for (auto sequence : temp_results) {
-        results[sequence.first][input_file.individual_name] += sequence.second;
-    }
-    std::cout << " - Finished processing individual <" + input_file.individual_name + ">" << std::endl;
+    for (auto marker : temp_results) results[marker.first][input_file.individual_name] += marker.second;
     results_mutex.unlock();
+
+    log("Finished processing individual <" + input_file.individual_name + ">");
 }

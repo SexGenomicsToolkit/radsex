@@ -21,6 +21,9 @@ void distrib(Parameters& parameters) {
     std::thread processing_thread(processor, std::ref(markers_queue), std::ref(parameters), std::ref(queue_mutex), std::ref(results), std::ref(parsing_ended), 100);
 
     parsing_thread.join();
+
+
+
     processing_thread.join();
 
     // Calculate p-values for association with sex for each combination of males and females
@@ -52,6 +55,9 @@ void distrib(Parameters& parameters) {
 
 void processor(MarkersQueue& markers_queue, Parameters& parameters, std::mutex& queue_mutex, sd_table& results, bool& parsing_ended, ulong batch_size) {
 
+    // Give 100ms headstart to table parser thread (to get number of individuals from header)
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
     std::vector<Marker> batch;
     bool keep_going = true;
 
@@ -68,7 +74,7 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, std::mutex& 
             for (auto marker: batch) {
 
                 ++results[marker.groups[parameters.group1]][marker.groups[parameters.group2]].first;
-                if (++n_processed_markers % (10 * marker_processed_tick) == 0) std::cerr << "Processed " << n_processed_markers << " markers (" << n_processed_markers / (marker_processed_tick) << " %)" << std::endl;
+                log_progress(n_processed_markers, marker_processed_tick);
 
             }
 

@@ -19,13 +19,7 @@ void depth(Parameters& parameters) {
     parsing_thread.join();
     processing_thread.join();
 
-    std::ofstream output_file;
-    output_file.open(parameters.output_file_path);
-
-    if (not output_file.is_open()) {
-        std::cerr << "**Error: could not open output file <" << parameters.output_file_path << ">" << std::endl;
-        exit(1);
-    }
+    std::ofstream output_file = open_output(parameters.output_file_path);
 
     output_file << "Individual\tGroup\tMarkers\tRetained\tMin_depth\tMax_depth\tMedian_depth\tAverage_depth\n";
 
@@ -72,6 +66,9 @@ void depth(Parameters& parameters) {
 
 void processor(MarkersQueue& markers_queue, Parameters& parameters, std::mutex& queue_mutex, Depths& depths, std::vector<uint32_t>& n_markers, bool& parsing_ended, ulong batch_size, uint n_individuals) {
 
+    // Give 100ms headstart to table parser thread (to get number of individuals from header)
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
     std::vector<Marker> batch;
     bool keep_going = true;
 
@@ -94,7 +91,7 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, std::mutex& 
 
                 }
 
-                if (++n_processed_markers % (10 * marker_processed_tick) == 0) std::cerr << "Processed " << n_processed_markers << " markers (" << n_processed_markers / (marker_processed_tick) << " %)" << std::endl;
+                log_progress(n_processed_markers, marker_processed_tick);
 
             }
 

@@ -24,12 +24,7 @@ void signif(Parameters& parameters) {
     parsing_thread.join();
     processing_thread.join();
 
-    std::ofstream output_file;
-    output_file.open(parameters.output_file_path);
-    if (not output_file.is_open()) {
-        std::cerr << "**Error: could not open output file <" << parameters.output_file_path << ">";
-        exit(1);
-    }
+    std::ofstream output_file = open_output(parameters.output_file_path);
 
     if (not parameters.disable_correction) parameters.signif_threshold /= n_markers; // Bonferroni correction: divide threshold by number of tests
 
@@ -49,6 +44,9 @@ void signif(Parameters& parameters) {
 
 
 void processor(MarkersQueue& markers_queue, Popmap& popmap, Parameters& parameters, std::mutex& queue_mutex, std::vector<Marker>& candidate_markers, uint& n_markers, bool& parsing_ended, ulong batch_size) {
+
+    // Give 100ms headstart to table parser thread (to get number of individuals from header)
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     std::vector<Marker> batch;
     bool keep_going = true;
@@ -77,7 +75,7 @@ void processor(MarkersQueue& markers_queue, Popmap& popmap, Parameters& paramete
 
                 }
 
-                if (++n_processed_markers % (10 * marker_processed_tick) == 0) std::cerr << "Processed " << n_processed_markers << " markers (" << n_processed_markers / (marker_processed_tick) << " %)" << std::endl;
+                log_progress(n_processed_markers, marker_processed_tick);
 
             }
 

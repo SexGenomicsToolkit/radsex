@@ -24,12 +24,7 @@ void freq(Parameters& parameters) {
     parsing_thread.join();
     processing_thread.join();
 
-    std::ofstream output_file;
-    output_file.open(parameters.output_file_path);
-    if (not output_file.is_open()) {
-        std::cerr << "**Error: could not open output file <" << parameters.output_file_path << ">" << std::endl;
-        exit(1);
-    }
+    std::ofstream output_file = open_output(parameters.output_file_path);
 
     output_file << "Frequency" << "\t" << "Count" << "\n";
 
@@ -41,6 +36,9 @@ void freq(Parameters& parameters) {
 
 
 void processor(MarkersQueue& markers_queue, std::mutex& queue_mutex, std::vector<uint32_t>& frequencies, bool& parsing_ended, ulong batch_size) {
+
+    // Give 100ms headstart to table parser thread (to get number of individuals from header)
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     std::vector<Marker> batch;
     bool keep_going = true;
@@ -58,7 +56,7 @@ void processor(MarkersQueue& markers_queue, std::mutex& queue_mutex, std::vector
             for (auto& marker: batch) {
 
                 ++frequencies[marker.n_individuals];
-                if (++n_processed_markers % (10 * marker_processed_tick) == 0) std::cerr << "Processed " << n_processed_markers << " markers (" << n_processed_markers / (marker_processed_tick) << " %)" << std::endl;
+                log_progress(n_processed_markers, marker_processed_tick);
             }
 
         } else {

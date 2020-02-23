@@ -40,12 +40,7 @@ void map(Parameters& parameters) {
     parsing_thread.join();
     processing_thread.join();
 
-    std::ofstream output_file;
-    output_file.open(parameters.output_file_path);
-    if (not output_file.is_open()) {
-        std::cerr << "**Error: could not open output file <" << parameters.output_file_path << ">";
-        exit(1);
-    }
+    std::ofstream output_file = open_output(parameters.output_file_path);
 
     output_file << "Contig\tPosition\tLength\tMarker_id\tBias\tP\tSignif\n";
 
@@ -65,6 +60,9 @@ void map(Parameters& parameters) {
 
 void processor(MarkersQueue& markers_queue, Parameters& parameters, Popmap& popmap, std::mutex& queue_mutex, std::vector<AlignedMarker>& aligned_markers, bool& parsing_ended, ulong batch_size) {
 
+    // Give 100ms headstart to table parser thread (to get number of individuals from header)
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
     // Batch reading
     std::vector<Marker> batch;
     bool keep_going = true;
@@ -76,7 +74,7 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, Popmap& popm
     bwaidx_t* index = bwa_idx_load(parameters.genome_file_path.c_str(), BWA_IDX_ALL);
 
     if (index == nullptr) {
-        std::cerr << "**Error: failed to load index for reference \"" + parameters.genome_file_path + "\"." << std::endl;
+        log("Failed to load index for genome file <" + parameters.genome_file_path + ">", LOG_ERROR);
         exit(1);
     }
 
@@ -148,7 +146,7 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, Popmap& popm
                 best_alignment[1] = -1;
                 best_alignment[2] = 0;
 
-                if (++n_processed_markers % (10 * marker_processed_tick) == 0) std::cerr << "Processed " << n_processed_markers << " markers (" << n_processed_markers / (marker_processed_tick) << " %)" << std::endl;
+                log_progress(n_processed_markers, marker_processed_tick);
             }
 
         } else {
@@ -170,6 +168,14 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, Popmap& popm
 std::unordered_map<std::string, uint64_t> get_contig_lengths(const std::string& genome_file_path) {
 
     std::ifstream genome_file(genome_file_path);
+
+    if (not genome_file.is_open()) {
+
+        log("Could not open genome file <" + genome_file_path + "> in get_contig_lengths", LOG_ERROR);
+        exit(1);
+
+    }
+
     std::string line = "", contig_name = "";
 
     std::unordered_map<std::string, uint64_t> contig_lengths;
@@ -211,14 +217,17 @@ void build_bwa_index(Parameters& parameters) {
 
     // Checking that all index files are present
     for (auto i=0; i<5; ++i) {
+
         bwa_index_temp.open(parameters.genome_file_path + "." + extensions[i]);
         if (bwa_index_temp.is_open()) bwa_index_temp.close(); else indexed = false;
+
     }
 
     if (not indexed) {
-        std::cerr << "**Info: bwa index file not found for the reference, creating bwa index file";
+
+        log("BWA index file not found for the reference, creating bwa index file");
         bwa_idx_build(parameters.genome_file_path.c_str(), parameters.genome_file_path.c_str(), 0, 10000000); // Arguments: genome file, prefix, algorithm (default 0), block size (default 10000000)
+
     }
 
-    std::cerr << "**Info: loading BWA index file" << std::endl;
 }

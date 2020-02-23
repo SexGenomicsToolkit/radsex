@@ -1,7 +1,5 @@
 #include "popmap.h"
 
-
-
 Popmap load_popmap(Parameters& parameters) {
 
     /* Load a popmap file.
@@ -35,18 +33,18 @@ Popmap load_popmap(Parameters& parameters) {
 
     } else {
 
-        std::cout << "**Error: cannot open popmap file \"" << parameters.popmap_file_path << "\"";
+        log("Could not open popmap file <" + parameters.popmap_file_path + ">", LOG_ERROR);
         exit(1);
     }
 
     if (popmap.counts.size() < 2) {
 
-        std::cerr << "**Error: found only " << popmap.counts.size() << " groups in the popmap, at least two are required" << std::endl;
+        log("Found <" + std::to_string(popmap.counts.size()) + "> groups in the popmap file, but at least two are required", LOG_ERROR);
         exit(1);
 
     } else if (popmap.counts.size() > 2 and (parameters.group1 == "" or parameters.group2 == "")) {
 
-        std::cerr << "**Error: found " << popmap.counts.size() << " groups in the popmap but groups to compare were not defined (use --groups group1,group2)" << std::endl;
+        log("Found <" + std::to_string(popmap.counts.size()) + "> groups in the popmap file, but groups to compare were not defined (use --groups group1,group2)", LOG_ERROR);
         exit(1);
 
     } else {
@@ -56,14 +54,16 @@ Popmap load_popmap(Parameters& parameters) {
         parameters.group2 = (++i)->first;
     }
 
-    std::cerr << "Successfully loaded popmap (";
+    std::string popmap_success_message = "Loaded popmap (";
     uint n = 1;
     for (auto group: popmap.counts) {
-        std::cerr << group.first << ": " << group.second;
-        if (n < popmap.counts.size()) std::cerr << ", ";
+        popmap_success_message += group.first + ": " + std::to_string(group.second);
+        if (n < popmap.counts.size()) popmap_success_message += ", ";
         ++n;
     }
-    std::cerr << ")" << std::endl;
+    popmap_success_message += ")";
+
+    log(popmap_success_message);
 
     return popmap;
 }

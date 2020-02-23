@@ -13,6 +13,10 @@
 #define DTTMFMT "%Y-%m-%d %H:%M:%S"
 #define DTTMSZ 21
 
+#define LOG_ERROR "ERROR"
+#define LOG_WARNING "WARNING"
+#define LOG_INFO "INFO"
+
 // Store sex distribution results
 typedef std::unordered_map<uint, std::unordered_map<uint, std::pair<uint64_t, double>>> sd_table;
 
@@ -57,10 +61,10 @@ inline int fast_stoi(const char* str) {
 
 // Log output formatting
 template<typename T>
-inline void log(T line) {
+inline void log(T line, const std::string level = LOG_INFO) {
 
     char logtime[DTTMSZ];
-    std::cerr << "[" << print_time(logtime) << "]" << "  ";
+    std::cerr << "[" << print_time(logtime) << "]::" << level << "  ";
     std::cerr << std::boolalpha << line << std::endl;
 
 }
@@ -89,16 +93,16 @@ inline std::vector<std::string> get_column_sex(std::unordered_map<std::string, s
 }
 
 
+
 inline const std::vector<std::string> get_header(const std::string& input_file_path) {
 
     std::string line = "#";
     std::vector<std::string> header;
 
-    std::ifstream input_file;
-    input_file.open(input_file_path);
+    std::ifstream input_file(input_file_path);
 
     if (not input_file.is_open()) {
-        std::cerr << "**Error: could not open input file <" << input_file_path << ">" << std::endl;
+        log("Could not open input file <" + input_file_path + "> in get_header");
         exit(1);
     }
 
@@ -110,4 +114,31 @@ inline const std::vector<std::string> get_header(const std::string& input_file_p
 
     header = split(line, "\t");
     return header;
+}
+
+
+
+inline std::ofstream open_output(const std::string& output_file_path) {
+
+    std::ofstream output_file(output_file_path);
+
+    if (not output_file.is_open()) {
+
+        log("Could not open output file <" + output_file_path + ">", LOG_ERROR);
+        exit(1);
+
+    }
+
+    return output_file;
+}
+
+
+
+inline void log_progress(uint64_t& n_processed_markers, uint32_t marker_processed_tick) {
+
+    if (++n_processed_markers % (10 * marker_processed_tick) == 0) {
+
+        log("Processed " + std::to_string(n_processed_markers) + " markers (" + std::to_string(n_processed_markers / (marker_processed_tick)) + " %)");
+
+    }
 }

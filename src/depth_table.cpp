@@ -8,8 +8,10 @@ void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& ma
     input_file.open(parameters.markers_table_path);
 
     if (not input_file) {
-        std::cerr << "**Error: could not open marker depths table <" << parameters.markers_table_path << ">" << std::endl;
+
+        log("Could not open marker depths table <" + parameters.markers_table_path + ">", LOG_ERROR);
         exit(1);
+
     }
 
     std::string temp = "";
