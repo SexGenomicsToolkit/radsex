@@ -40,6 +40,7 @@ void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& ma
     Marker marker;
     marker.individuals.resize(header.size() - 2);
     std::vector<Marker> tmp_queue(tmp_queue_size);  // Temporary block queue to avoid locking the shared blocks queue too often
+    uint tmp_queue_real_size = 0;
 
     do {
 
@@ -82,8 +83,9 @@ void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& ma
                     }
                     // Add marker to the queue
                     tmp_queue[marker_n % tmp_queue_size] = marker;  // Empty line means end of a block, we add it to the queue
+                    ++tmp_queue_real_size;
                     ++marker_n;
-                    if (marker_n % tmp_queue_size == 0 or field_n < 2) {  // Merge temporary queue with shared queue after 1000 blocks
+                    if (marker_n % tmp_queue_size == 0) {  // Merge temporary queue with shared queue after 1000 blocks
                         queue_mutex.lock();
                         for (auto& tmp_marker: tmp_queue) {
                             markers_queue.markers.push(tmp_marker);
@@ -92,6 +94,7 @@ void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& ma
                             tmp_marker.reset(no_seq);
                         }
                         queue_mutex.unlock();
+                        tmp_queue_real_size = 0;
                     }
                     if (marker_n % (10 * marker_processed_tick) == 0) std::cerr << "Processed " << marker_n << " markers (" << marker_n / (marker_processed_tick) << " %)" << std::endl;
                     // Reset variables
@@ -107,6 +110,14 @@ void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& ma
         }
 
     } while (input_file);
+
+    // Last batch: real number of markers to push is given by tmp_queue_real_size
+    queue_mutex.lock();
+    for (uint i=0; i<tmp_queue_real_size; ++i) {
+        markers_queue.markers.push(tmp_queue[i]);
+        ++markers_queue.n_markers;
+    }
+    queue_mutex.unlock();
 
     input_file.close();
     parsing_ended = true;  // Shared flag indicating that the parsing is finished
