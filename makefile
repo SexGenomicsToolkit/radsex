@@ -2,58 +2,87 @@
 CC = g++
 OPTCFLAGS = -O2
 CFLAGS = -Wall -Wno-maybe-uninitialized -std=c++11 $(OPTCFLAGS)
-LDFLAGS = -pthread -static-libstdc++ -lz
+LDFLAGS = -pthread -lstdc++ -lz -L$(INCLUDE)/bwa -lbwa
 
 # Directory organisation
 BASEDIR = .
 BIN = $(BASEDIR)/bin
 BUILD = $(BASEDIR)/build
-LIBBUILD = $(BASEDIR)/build
 INCLUDE = $(BASEDIR)/include
 SRC = $(BASEDIR)/src
-CPP = $(wildcard $(SRC)/*.cpp) $(wildcard $(SRC)/*/*.cpp)
-LIBCPP = $(wildcard $(INCLUDE)/*/*.cpp)
-BWAC = $(wildcard $(INCLUDE)/bwa/*.c)
+CPP = $(wildcard $(SRC)/*.cpp)
+
+# Get number of parallel jobs
+MAKE_PID := $(shell echo $$PPID)
+JOBS := $(shell ps T | sed -n 's/.*$(MAKE_PID).*$(MAKE).* \(-j\|--jobs\) *\([0-9][0-9]*\).*/\2/p')
+ifeq ($(JOBS),)
+	JOBS := 1
+endif
+
+# Object files inferred from cpp files
+OBJS = $(addprefix $(BUILD)/, $(notdir $(CPP:.cpp=.o)))
 
 # Target
-TARGET = radsex
+TARGETS = $(BIN)/radsex
 
-# Variables
-OBJS = $(addprefix $(BUILD)/, $(notdir $(CPP:.cpp=.o)))
-LIBOBJS = $(LIBCPP:.cpp=.o)
-BWAOBJS = $(BWAC:.c=.o)
+# Declare phony targets (i.e. targets which are not files)
+.PHONY: all clean clean-bwa clean-kfun clean-all rebuild rebuild-all
 
-# Rules
+# Main rule
+all: $(BUILD) $(BIN) $(TARGETS)
 
-all: init BWA $(TARGET)
+# Build directory
+$(BUILD):
+	if [ ! -e $@ ]; then \
+		mkdir $@;        \
+	fi;
 
-print-%: ; @echo $* = $($*)
+# Bin directory
+$(BIN):
+	if [ ! -e $@ ]; then \
+		mkdir $@;        \
+	fi;
 
-BWA:
-	@cd $(INCLUDE)/bwa && $(MAKE)
+# Build BWA
+$(INCLUDE)/bwa/libbwa.a:
+	(cd $(INCLUDE)/bwa && $(MAKE) -j $(JOBS))
 
-$(TARGET): $(OBJS) $(LIBOBJS) $(BWAOBJS) $(INCLUDE)/bwa/libbwa.a
-	$(CC) $(CFLAGS) -I $(INCLUDE) -L $(INCLUDE)/bwa -lbwa -o $(BIN)/$(TARGET) $^ $(LDFLAGS)
+# Clean BWA
+clean-bwa:
+	(cd $(INCLUDE)/bwa && $(MAKE) clean)
 
-$(BUILD)/%.o: $(SRC)/%.cpp
+# Build kfun
+$(INCLUDE)/kfun/kfun.o: $(INCLUDE)/kfun/kfun.cpp
 	$(CC) $(CFLAGS) -I $(INCLUDE) -c -o $@ $^
 
-$(LIBBUILD)/%.o: $(INCLUDE)/*/%.cpp
-	$(CC) $(CFLAGS) -I $(INCLUDE) -c -o $@ $^
+# Clean BWA
+clean-kfun:
+	(rm $(INCLUDE)/kfun/kfun.o)
 
+# Clean RADSex files
 clean:
-	@rm -rf $(BUILD)/*.o
-	@rm -rf $(BIN)/$(TARGET)
+	rm -rf $(BUILD)/*.o
+	rm -rf $(BIN)/*
 
-clean-all: clean
-	@rm -rf $(INCLUDE)/*/*.o
-	@cd $(INCLUDE)/bwa && $(MAKE) clean
+# Clean all files
+clean-all: clean clean-bwa clean-kfun
 
-rebuild: clean $(TARGET)
+# Rebuild RADSex only
+rebuild:
+	$(MAKE) clean
+	$(MAKE) -j $(JOBS)
 
-rebuild-all: clean-all BWA $(TARGET)
+# Rebuild RADSex and dependencies
+rebuild-all:
+	$(MAKE) clean-all
+	$(MAKE) -j $(JOBS)
 
-init:
-	@mkdir -p $(BUILD) $(BUILD)
-	@mkdir -p $(BIN) $(BIN)
+# Linking
+$(BIN)/radsex: $(OBJS) $(INCLUDE)/kfun/kfun.o
+	$(CC) $(CFLAGS) -I $(INCLUDE) -o $(BIN)/radsex $^ $(LDFLAGS)
+
+# Build a single object file. Added libs as dependency so they are built before object files
+$(BUILD)/%.o: $(SRC)/%.cpp $(INCLUDE)/bwa/libbwa.a
+	$(CC) $(CFLAGS) -I $(INCLUDE) -c -o $@ $<
+
 
