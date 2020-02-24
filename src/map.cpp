@@ -151,7 +151,7 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, Popmap& popm
                 best_alignment[1] = -1;
                 best_alignment[2] = 0;
 
-                log_progress(n_processed_markers, marker_processed_tick);
+                log_progress_bar(n_processed_markers, marker_processed_tick);
             }
 
         } else {

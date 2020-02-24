@@ -61,7 +61,7 @@ void processor(MarkersQueue& markers_queue, std::mutex& queue_mutex, std::vector
             for (auto& marker: batch) {
 
                 ++frequencies[marker.n_individuals];
-                log_progress(n_processed_markers, marker_processed_tick);
+                log_progress_bar(n_processed_markers, marker_processed_tick);
             }
 
         } else {

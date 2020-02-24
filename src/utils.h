@@ -63,12 +63,11 @@ inline int fast_stoi(const char* str) {
 
 // Log output formatting
 template<typename T>
-inline void log(T line, const std::string level = LOG_INFO) {
+inline void log(T line, const std::string level = LOG_INFO, bool flushline = true) {
 
     char logtime[DTTMSZ];
-    std::cerr << "[" << print_time(logtime) << "]::" << level << "  ";
-    std::cerr << std::boolalpha << line << std::endl;
-
+    std::cerr << "[" << print_time(logtime) << "]::" << level << "  " << std::boolalpha << line;
+    if (flushline) std::cerr << std::endl;
 }
 
 
@@ -146,6 +145,7 @@ inline void log_progress(uint64_t& n_processed_markers, const uint32_t marker_pr
 }
 
 
+
 inline std::string get_runtime(const std::chrono::steady_clock::time_point t_begin) {
 
     std::chrono::steady_clock::time_point t_end = std::chrono::steady_clock::now();
@@ -155,4 +155,28 @@ inline std::string get_runtime(const std::chrono::steady_clock::time_point t_beg
     std::string runtime = std::to_string(hours) + "h " + std::to_string(minutes%60) + "m " + std::to_string(seconds%60) + "s";
 
     return runtime;
+}
+
+
+
+inline void log_progress_bar(uint64_t& n_processed_markers, const uint32_t marker_processed_tick, char symbol = '#', uint16_t ticks = 50) {
+
+    uint tick_size = 100 / ticks;;
+
+    if (++n_processed_markers % (tick_size * marker_processed_tick) != 0) return;  // Not a step
+
+    uint16_t progress = n_processed_markers / (tick_size * marker_processed_tick);
+
+    std::string bar = "Progress: [";
+
+    for(uint i=0; i < ticks; ++i) {
+        i < progress ? bar += symbol : bar += ' ';
+    }
+
+    bar += "] - " + std::to_string(progress * tick_size) + "% (" + std::to_string(n_processed_markers) + " markers)";
+
+    progress < ticks ? bar += '\r' : bar += '\n';
+
+    log(bar, LOG_INFO, false);
+
 }

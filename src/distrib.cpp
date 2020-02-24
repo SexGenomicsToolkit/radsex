@@ -79,7 +79,7 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, std::mutex& 
             for (auto marker: batch) {
 
                 ++results[marker.groups[parameters.group1]][marker.groups[parameters.group2]].first;
-                log_progress(n_processed_markers, marker_processed_tick);
+                log_progress_bar(n_processed_markers, marker_processed_tick);
 
             }
 
