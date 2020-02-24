@@ -107,7 +107,7 @@ void process(Parameters& parameters) {
     for (auto& i: individuals) output_file << "\t" << i;
     output_file << "\n";
 
-    log("**Writing marker depths to output file");
+    log("Writing marker depths to output file");
     uint id = 0;
     bool print = true;
 
