@@ -66,7 +66,9 @@ template<typename T>
 inline void log(T line, const std::string level = LOG_INFO, bool flushline = true) {
 
     char logtime[DTTMSZ];
-    std::cerr << "[" << print_time(logtime) << "]::" << level << "  " << std::boolalpha << line;
+    std::string indent((8 - level.size()), ' ');
+
+    std::cerr << "[" << print_time(logtime) << "]::" << level << indent << std::boolalpha << line;
     if (flushline) std::cerr << std::endl;
 }
 

@@ -14,3 +14,5 @@ struct Popmap {
 };
 
 Popmap load_popmap(Parameters& parameters);
+
+std::string print_groups(Popmap& popmap, bool counts = false);

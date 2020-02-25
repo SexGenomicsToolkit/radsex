@@ -39,12 +39,17 @@ Popmap load_popmap(Parameters& parameters) {
 
     if (popmap.counts.size() < 2) {
 
-        log("Found <" + std::to_string(popmap.counts.size()) + "> groups in the popmap file, but at least two are required", LOG_ERROR);
+        log("Found <" + std::to_string(popmap.counts.size()) + "> groups in the popmap file (" + print_groups(popmap) + ") but at least two are required", LOG_ERROR);
         exit(1);
 
     } else if (popmap.counts.size() > 2 and (parameters.group1 == "" or parameters.group2 == "")) {
 
-        log("Found <" + std::to_string(popmap.counts.size()) + "> groups in the popmap file, but groups to compare were not defined (use --groups group1,group2)", LOG_ERROR);
+        log("Found <" + std::to_string(popmap.counts.size()) + "> groups in the popmap file (" + print_groups(popmap) + ") but groups to compare were not defined (use --groups group1,group2)", LOG_ERROR);
+        exit(1);
+
+    } else if (popmap.counts.size() > 2 and (popmap.counts.find(parameters.group1) == popmap.counts.end() or popmap.counts.find(parameters.group2) == popmap.counts.end())) {
+
+        log("Groups specified with --groups (\"" + parameters.group1 + "\", \"" + parameters.group2 + "\") were not found in popmap groups (" + print_groups(popmap) + ")", LOG_ERROR);
         exit(1);
 
     } else {
@@ -54,17 +59,25 @@ Popmap load_popmap(Parameters& parameters) {
         parameters.group2 = (++i)->first;
     }
 
-    std::string popmap_success_message = "Loaded popmap (";
-    uint n = 1;
-    for (auto group: popmap.counts) {
-        popmap_success_message += group.first + ": " + std::to_string(group.second);
-        if (n < popmap.counts.size()) popmap_success_message += ", ";
-        ++n;
-    }
-    popmap_success_message += ")";
+    std::string popmap_success_message = "Loaded popmap (" + print_groups(popmap, true) + ")";
 
     log(popmap_success_message);
 
     return popmap;
 }
 
+
+
+std::string print_groups(Popmap& popmap, bool counts) {
+
+    std::string list = "";
+    uint n = 0;
+
+    for (auto group: popmap.counts) {
+        list += "\"" + group.first + "\"";
+        if (counts) list += ": " + std::to_string(group.second);
+        if (++n < popmap.counts.size()) list += ", ";
+    }
+
+    return list;
+}

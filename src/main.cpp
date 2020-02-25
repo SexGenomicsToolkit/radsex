@@ -34,7 +34,7 @@ inline Parameters parse_args(int& argc, char** argv) {
     distrib->add_option("-p,--popmap", parameters.popmap_file_path, "Path to a tabulated file specifying groups for all individuals (population map)")->required()->check(CLI::ExistingFile);
     distrib->add_option("-o,--output-file", parameters.output_file_path, "Path to the output file (distribution of markers between groups)")->required();
     distrib->add_option("-d,--min-depth", parameters.min_depth, "Minimum depth to consider a marker present in an individual", true)->check(CLI::Range(1, 9999));
-    distrib->add_option("-G,--groups", groups, "Names of the groups to compare if there are more than two groups in the popmap (--groups group1,group2)");
+    distrib->add_option("-G,--groups", groups, "Names of the groups to compare if there are more than two groups in the popmap (--groups group1,group2)")->delimiter(',');
     distrib->add_option("-S,--signif-threshold", parameters.signif_threshold, "P-value threshold to consider a marker significantly associated with a phenotypic group", true)->check(CLI::Range(0.0, 1.0));
     distrib->add_flag("-C,--disable-correction", parameters.disable_correction, "If set, Bonferroni correction will NOT be used when assessing significance of association with phenotypic group");
     distrib->add_flag("-x,--output-matrix", parameters.output_matrix, "If set, the distribution will be output as a matrix instead of a table");
@@ -52,7 +52,7 @@ inline Parameters parse_args(int& argc, char** argv) {
     map->add_option("-p,--popmap", parameters.popmap_file_path, "Path to a tabulated file specifying groups for all individuals (population map)")->required()->check(CLI::ExistingFile);
     map->add_option("-g,--genome-file", parameters.genome_file_path, "Path to the genome file in fasta format")->required()->check(CLI::ExistingFile);
     map->add_option("-d,--min-depth", parameters.min_depth, "Minimum depth to consider a marker present in an individual", true)->check(CLI::Range(1, 9999));
-    map->add_option("-G,--groups", groups, "Names of the groups to compare if there are more than two groups in the popmap (--groups group1,group2)");
+    map->add_option("-G,--groups", groups, "Names of the groups to compare if there are more than two groups in the popmap (--groups group1,group2)")->delimiter(',');
     map->add_option("-q,--min-quality", parameters.map_min_quality, "Minimum mapping quality to retain a read", true)->check(CLI::Range(0, 60));
     map->add_option("-Q,--min-frequency", parameters.map_min_frequency, "Minimum frequency of individuals to retain a marker", true)->check(CLI::Range(0.0, 1.0));
     map->add_option("-S,--signif-threshold", parameters.signif_threshold, "P-value threshold to consider a marker significantly associated with a phenotypic group", true)->check(CLI::Range(0.0, 1.0));
@@ -71,7 +71,7 @@ inline Parameters parse_args(int& argc, char** argv) {
     signif->add_option("-p,--popmap", parameters.popmap_file_path, "Path to a tabulated file specifying groups for all individuals (population map)")->required()->check(CLI::ExistingFile);
     signif->add_option("-o,--output-file", parameters.output_file_path, "Path to the output file (marker depths table or fasta file for markers significantly associated with phenotypic group)")->required();
     signif->add_option("-d,--min-depth", parameters.min_depth, "Minimum depth to consider a marker present in an individual", true)->check(CLI::Range(1, 9999));
-    signif->add_option("-G,--groups", groups, "Names of the groups to compare if there are more than two groups in the popmap (--groups group1,group2)");
+    signif->add_option("-G,--groups", groups, "Names of the groups to compare if there are more than two groups in the popmap (--groups group1,group2)")->delimiter(',');
     signif->add_option("-S,--signif-threshold", parameters.signif_threshold, "P-value threshold to consider a marker significantly associated with a phenotypic group", true)->check(CLI::Range(0.0, 1.0));
     signif->add_flag("-C,--disable-correction", parameters.disable_correction, "If set, Bonferroni correction will NOT be used when assessing significance of association with phenotypic group");
     signif->add_flag("-a,--output-fasta", parameters.output_fasta, "If set, markers will be output in fasta format instead of table format");
@@ -82,7 +82,7 @@ inline Parameters parse_args(int& argc, char** argv) {
     subset->add_option("-p,--popmap", parameters.popmap_file_path, "Path to a tabulated file specifying groups for all individuals (population map)")->required()->check(CLI::ExistingFile);
     subset->add_option("-o,--output-file", parameters.output_file_path, "Path to the output file (marker depths table or fasta file for extracted markers)")->required();
     subset->add_option("-d,--min-depth", parameters.min_depth, "Minimum depth to consider a marker present in an individual", true)->check(CLI::Range(1, 9999));
-    subset->add_option("-G,--groups", groups, "Names of the groups to compare if there are more than two groups in the popmap (--groups group1,group2)");
+    subset->add_option("-G,--groups", groups, "Names of the groups to compare if there are more than two groups in the popmap (--groups group1,group2)")->delimiter(',');
     subset->add_option("-S,--signif-threshold", parameters.signif_threshold, "P-value threshold to consider a marker significantly associated with a phenotypic group", true)->check(CLI::Range(0.0, 1.0));
     subset->add_flag("-C,--disable-correction", parameters.disable_correction, "If set, Bonferroni correction will NOT be used when assessing significance of association with phenotypic group");
     subset->add_flag("-a,--output-fasta", parameters.output_fasta, "If set, markers will be output in fasta format instead of table format");
