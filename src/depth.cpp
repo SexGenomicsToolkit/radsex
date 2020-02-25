@@ -8,10 +8,11 @@ void depth(Parameters& parameters) {
     Popmap popmap = load_popmap(parameters, false);
 
     log("RADSex depth started");
-    Header header;
+    Header header = get_header(parameters.markers_table_path);
+    uint n_individuals = static_cast<uint>(header.size()) - 2; // Number of columns - 2 (id and seq columns)
 
-    Depths depths(popmap.n_individuals);
-    std::vector<uint32_t> n_markers(popmap.n_individuals, 0);
+    Depths depths(n_individuals);
+    std::vector<uint32_t> n_markers(n_individuals, 0);
 
     bool parsing_ended = false;
     MarkersQueue markers_queue;
@@ -34,6 +35,8 @@ void depth(Parameters& parameters) {
         const auto start = depths[i].begin();
         const auto end = depths[i].end() - 1;
         const auto size = depths[i].size();
+
+        const std::string group = popmap.get_group(header[i + 2]);
 
         const uint16_t min_depth = *start;
         const uint16_t max_depth = *end;
@@ -60,7 +63,7 @@ void depth(Parameters& parameters) {
             median_depth = *median_it;
         }
 
-        output_file << header[i+2] << "\t" << popmap.groups[header[i+2]] << "\t" << n_markers[i] << "\t" << size << "\t" << min_depth << "\t" <<
+        output_file << header[i+2] << "\t" << group << "\t" << n_markers[i] << "\t" << size << "\t" << min_depth << "\t" <<
                        max_depth << "\t" << median_depth << "\t" << total_depth / size << "\n";
 
     }

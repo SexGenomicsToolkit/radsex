@@ -11,6 +11,14 @@ struct Popmap {
     std::unordered_map<std::string, uint> counts;  // Number of individual in each group
     uint16_t n_individuals = 0;  // Total number of individuals
 
+    std::string get_group(const std::string& individual) {
+
+        std::string group = "";
+        if (this->groups.find(individual) != this->groups.end()) group = this->groups[individual];
+        return group;
+
+    }
+
 };
 
 Popmap load_popmap(Parameters& parameters, bool compare = true);
