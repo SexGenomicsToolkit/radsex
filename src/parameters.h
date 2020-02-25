@@ -32,8 +32,8 @@ struct Parameters {
     // "subset" specific parameters
     uint subset_min_group1 = 0;
     uint subset_min_group2 = 0;
-    uint subset_max_group1 = 0;
-    uint subset_max_group2 = 0;
+    uint subset_max_group1 = 9999;
+    uint subset_max_group2 = 9999;
     uint subset_min_individuals = 0;
     uint subset_max_individuals = 9999;
 

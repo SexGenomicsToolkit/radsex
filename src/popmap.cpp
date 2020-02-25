@@ -52,11 +52,15 @@ Popmap load_popmap(Parameters& parameters, bool compare) {
         log("Groups specified with --groups (\"" + parameters.group1 + "\", \"" + parameters.group2 + "\") were not found in popmap groups (" + print_groups(popmap) + ")", LOG_ERROR);
         exit(1);
 
-    } else if (compare and popmap.counts.size() == 2) {  // If only two groups in popmap, use them (override user-specified groups for now)
+    } else if (compare and popmap.counts.size() == 2) {  // Only two groups in popmap
 
-        auto i = std::begin(popmap.counts);
-        parameters.group1 = i->first;
-        parameters.group2 = (++i)->first;
+        if (parameters.group1 == "" and parameters.group2 == "") {  // Fill groups from popmap if not specified by the user
+
+            auto i = std::begin(popmap.counts);
+            parameters.group1 = i->first;
+            parameters.group2 = (++i)->first;
+
+        }
     }
 
     std::string popmap_success_message = "Loaded popmap (" + print_groups(popmap, true) + ")";

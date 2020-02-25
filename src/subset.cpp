@@ -6,6 +6,10 @@ void subset(Parameters& parameters) {
 
     Popmap popmap = load_popmap(parameters);
 
+    if (parameters.set_max_group1) parameters.subset_max_group1 = popmap.counts[parameters.group1];
+    if (parameters.set_max_group2) parameters.subset_max_group2 = popmap.counts[parameters.group2];
+    if (parameters.set_max_individuals) parameters.subset_max_individuals = static_cast<uint>(popmap.groups.size());
+
     log("RADSex subset started");
     log("Comparing groups \"" + parameters.group1 + "\" and \"" + parameters.group2 + "\"");
 
@@ -56,7 +60,7 @@ void processor(MarkersQueue& markers_queue, Popmap& popmap, Parameters& paramete
                     marker.n_individuals >= parameters.subset_min_individuals and marker.n_individuals <= parameters.subset_max_individuals) {
 
                     chi_squared = get_chi_squared(marker.groups[parameters.group1], marker.groups[parameters.group2], popmap.counts[parameters.group1], popmap.counts[parameters.group2]);
-                    marker.p = get_chi_squared_p(chi_squared);
+                    marker.p = static_cast<float>(get_chi_squared_p(chi_squared));
 
                     parameters.output_fasta ? marker.output_fasta(output_file, parameters.min_depth) : marker.output_table(output_file);
 
