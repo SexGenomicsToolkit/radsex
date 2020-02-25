@@ -1,6 +1,6 @@
 #include "depth_table.h"
 
-void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& markers_queue, std::mutex& queue_mutex, Header& header, bool& parsing_ended, bool no_seq, bool no_group) {
+void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& markers_queue, std::mutex& queue_mutex, bool& parsing_ended, bool no_seq, bool no_group) {
 
     std::ifstream input_file;
     input_file.open(parameters.markers_table_path);
@@ -12,6 +12,7 @@ void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& ma
 
     }
 
+    Header header;
     std::string temp = "";
 
     // First line (in depth table) is a comment with number of markers in the table
@@ -85,7 +86,7 @@ void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& ma
                     ++marker_n;
                     if (marker_n % TMP_QUEUE_SIZE == 0) {  // Merge temporary queue with shared queue after 1000 blocks
                         do {
-                            marker_queue_size = markers_queue.markers.size();
+                            marker_queue_size = static_cast<uint>(markers_queue.markers.size());
                             if (marker_queue_size > MAX_QUEUE_SIZE) std::this_thread::sleep_for(std::chrono::microseconds(10));
                         } while (marker_queue_size > MAX_QUEUE_SIZE);
                         queue_mutex.lock();

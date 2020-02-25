@@ -14,7 +14,7 @@ void signif(Parameters& parameters) {
     log("RADSex signif started");
     log("Comparing groups \"" + parameters.group1 + "\" and \"" + parameters.group2 + "\"");
 
-    Header header;
+    Header header = get_header(parameters.markers_table_path);
 
     std::vector<Marker> candidate_markers;
     uint n_markers;
@@ -23,13 +23,15 @@ void signif(Parameters& parameters) {
     MarkersQueue markers_queue;
     std::mutex queue_mutex;
 
-    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(header), std::ref(parsing_ended), false, false);
+    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(parsing_ended), false, false);
     std::thread processing_thread(processor, std::ref(markers_queue), std::ref(popmap), std::ref(parameters), std::ref(queue_mutex), std::ref(candidate_markers), std::ref(n_markers), std::ref(parsing_ended), BATCH_SIZE);
 
     parsing_thread.join();
     processing_thread.join();
 
     std::ofstream output_file = open_output(parameters.output_file_path);
+
+    if (not parameters.output_fasta) output_file << print_list(header, "\t") << "\n";
 
     if (not parameters.disable_correction) parameters.signif_threshold /= n_markers; // Bonferroni correction: divide threshold by number of tests
 

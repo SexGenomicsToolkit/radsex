@@ -27,7 +27,7 @@ void map(Parameters& parameters) {
     log("RADSex map started");
     log("Comparing groups \"" + parameters.group1 + "\" and \"" + parameters.group2 + "\"");
 
-    Header header;
+    Header header = get_header(parameters.markers_table_path);
 
     std::vector<AlignedMarker> aligned_markers;
 
@@ -40,7 +40,7 @@ void map(Parameters& parameters) {
     // Check if bwa index files exist for the genome and build index if it's missing
     build_bwa_index(parameters);
 
-    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(header), std::ref(parsing_ended), false, false);
+    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(parsing_ended), false, false);
     std::thread processing_thread(processor, std::ref(markers_queue), std::ref(parameters), std::ref(popmap), std::ref(queue_mutex), std::ref(aligned_markers), std::ref(parsing_ended), BATCH_SIZE);
 
     parsing_thread.join();

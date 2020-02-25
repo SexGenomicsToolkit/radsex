@@ -13,7 +13,7 @@ void subset(Parameters& parameters) {
     log("RADSex subset started");
     log("Comparing groups \"" + parameters.group1 + "\" and \"" + parameters.group2 + "\"");
 
-    Header header;
+    Header header = get_header(parameters.markers_table_path);
 
     bool parsing_ended = false;
     MarkersQueue markers_queue;
@@ -21,7 +21,9 @@ void subset(Parameters& parameters) {
 
     std::ofstream output_file = open_output(parameters.output_file_path);
 
-    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(header), std::ref(parsing_ended), false, false);
+    if (not parameters.output_fasta) output_file << print_list(header, "\t") << "\n";
+
+    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(parsing_ended), false, false);
     std::thread processing_thread(processor, std::ref(markers_queue), std::ref(popmap), std::ref(parameters), std::ref(queue_mutex), std::ref(output_file), std::ref(parsing_ended), BATCH_SIZE);
 
     parsing_thread.join();

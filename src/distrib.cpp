@@ -15,7 +15,7 @@ void distrib(Parameters& parameters) {
     log("RADSex distrib started");
     log("Comparing groups \"" + parameters.group1 + "\" and \"" + parameters.group2 + "\"");
 
-    Header header;
+    Header header = get_header(parameters.markers_table_path);
 
     sd_table results;
 
@@ -23,7 +23,7 @@ void distrib(Parameters& parameters) {
     MarkersQueue markers_queue;
     std::mutex queue_mutex;
 
-    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(header), std::ref(parsing_ended), true, false);
+    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(parsing_ended), true, false);
     std::thread processing_thread(processor, std::ref(markers_queue), std::ref(parameters), std::ref(queue_mutex), std::ref(results), std::ref(parsing_ended), BATCH_SIZE);
 
     parsing_thread.join();

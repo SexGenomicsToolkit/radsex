@@ -163,11 +163,11 @@ inline std::string get_runtime(const std::chrono::steady_clock::time_point t_beg
 
 inline void log_progress_bar(uint64_t& n_processed_markers, const uint32_t marker_processed_tick, char symbol = '#', uint16_t ticks = 50) {
 
-    uint tick_size = 100 / ticks;;
+    uint tick_size = 100 / ticks;
 
     if (++n_processed_markers % (tick_size * marker_processed_tick) != 0) return;  // Not a step
 
-    uint16_t progress = n_processed_markers / (tick_size * marker_processed_tick);
+    uint16_t progress = static_cast<uint16_t>(n_processed_markers / (tick_size * marker_processed_tick));
 
     std::string bar = "Progress: [";
 
@@ -181,4 +181,21 @@ inline void log_progress_bar(uint64_t& n_processed_markers, const uint32_t marke
 
     log(bar, LOG_INFO, false);
 
+}
+
+
+template<typename T>
+inline std::string print_list(const T& list, const std::string& sep = ", ") {
+
+    uint n = 0;
+    std::string output = "";
+
+    for (auto& field: list) {
+
+        output += field;
+        if (++n < list.size()) output += sep;
+
+    }
+
+    return output;
 }
