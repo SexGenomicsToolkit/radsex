@@ -16,7 +16,6 @@ HEADERS += \
     src/distrib.h \
     src/freq.h \
     src/map.h \
-    src/output.h \
     src/parameters.h \
     src/popmap.h \
     src/process.h \
@@ -32,7 +31,6 @@ SOURCES += \
     src/freq.cpp \
     src/main.cpp \
     src/map.cpp \
-    src/output.cpp \
     src/popmap.cpp \
     src/process.cpp \
     src/signif.cpp \
