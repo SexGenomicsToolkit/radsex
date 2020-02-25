@@ -9,9 +9,11 @@ void signif(Parameters& parameters) {
      */
 
     std::chrono::steady_clock::time_point t_begin = std::chrono::steady_clock::now();
-    log("RADSex signif started");
-
     Popmap popmap = load_popmap(parameters);
+
+    log("RADSex signif started");
+    log("Comparing groups \"" + parameters.group1 + "\" and \"" + parameters.group2 + "\"");
+
     Header header;
 
     std::vector<Marker> candidate_markers;

@@ -3,9 +3,12 @@
 void subset(Parameters& parameters) {
 
     std::chrono::steady_clock::time_point t_begin = std::chrono::steady_clock::now();
-    log("RADSex subset started");
 
     Popmap popmap = load_popmap(parameters);
+
+    log("RADSex subset started");
+    log("Comparing groups \"" + parameters.group1 + "\" and \"" + parameters.group2 + "\"");
+
     Header header;
 
     bool parsing_ended = false;

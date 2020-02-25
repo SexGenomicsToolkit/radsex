@@ -9,9 +9,12 @@ void distrib(Parameters& parameters) {
      */
 
     std::chrono::steady_clock::time_point t_begin = std::chrono::steady_clock::now();
-    log("RADSex distrib started");
 
     Popmap popmap = load_popmap(parameters);
+
+    log("RADSex distrib started");
+    log("Comparing groups \"" + parameters.group1 + "\" and \"" + parameters.group2 + "\"");
+
     Header header;
 
     sd_table results;

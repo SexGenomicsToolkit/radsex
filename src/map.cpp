@@ -20,10 +20,13 @@ void map(Parameters& parameters) {
      */
 
     std::chrono::steady_clock::time_point t_begin = std::chrono::steady_clock::now();
-    log("RADSex map started");
 
     // Popmap
     Popmap popmap = load_popmap(parameters);
+
+    log("RADSex map started");
+    log("Comparing groups \"" + parameters.group1 + "\" and \"" + parameters.group2 + "\"");
+
     Header header;
 
     std::vector<AlignedMarker> aligned_markers;

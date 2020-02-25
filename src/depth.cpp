@@ -4,9 +4,11 @@
 void depth(Parameters& parameters) {
 
     std::chrono::steady_clock::time_point t_begin = std::chrono::steady_clock::now();
-    log("RADSex depth started");
 
     Popmap popmap = load_popmap(parameters);
+
+    log("RADSex depth started");
+
     Header header;
 
     Depths depths(popmap.n_individuals);
