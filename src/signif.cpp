@@ -23,7 +23,7 @@ void signif(Parameters& parameters) {
     MarkersQueue markers_queue;
     std::mutex queue_mutex;
 
-    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(header), std::ref(parsing_ended), true, false);
+    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(header), std::ref(parsing_ended), false, false);
     std::thread processing_thread(processor, std::ref(markers_queue), std::ref(popmap), std::ref(parameters), std::ref(queue_mutex), std::ref(candidate_markers), std::ref(n_markers), std::ref(parsing_ended), BATCH_SIZE);
 
     parsing_thread.join();
@@ -76,7 +76,7 @@ void processor(MarkersQueue& markers_queue, Popmap& popmap, Parameters& paramete
 
                     ++n_markers;  // Increment total number of markers for Bonferroni correction
                     chi_squared = get_chi_squared(marker.groups[parameters.group1], marker.groups[parameters.group2], popmap.counts[parameters.group1], popmap.counts[parameters.group2]);
-                    marker.p = get_chi_squared_p(chi_squared);
+                    marker.p = static_cast<float>(get_chi_squared_p(chi_squared));
                     // First pass: filter markers with non-corrected p < 0.05
                     if (static_cast<float>(marker.p) < parameters.signif_threshold) candidate_markers.push_back(marker);
 

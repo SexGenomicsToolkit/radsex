@@ -30,11 +30,11 @@ struct Marker {
         output_file << "\n";
     }
 
-    void output_fasta(std::ofstream& output_file, uint16_t min_depth) const {
+    void output_fasta(std::ofstream& output_file, uint min_depth) const {
 
         output_file << ">" << this->id;
         for (auto group: this->groups) output_file << "_" << group.first << ":" << group.second;
-        output_file << "_mindepth:" << min_depth << "_p:" << this->p << "\n" << this->sequence << "\n";
+        output_file << "_p:" << this->p << "_mindepth:" << min_depth << "\n" << this->sequence << "\n";
     }
 
 };
