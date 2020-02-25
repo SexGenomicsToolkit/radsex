@@ -1,6 +1,6 @@
 #include "popmap.h"
 
-Popmap load_popmap(Parameters& parameters) {
+Popmap load_popmap(Parameters& parameters, bool compare) {
 
     /* Load a popmap file.
      * Input: a tabulated file with columns Individual Group
@@ -37,22 +37,22 @@ Popmap load_popmap(Parameters& parameters) {
         exit(1);
     }
 
-    if (popmap.counts.size() < 2) {  // Fewer than two groups in the popmap
+    if (compare and popmap.counts.size() < 2) {  // Fewer than two groups in the popmap
 
         log("Found <" + std::to_string(popmap.counts.size()) + "> groups in the popmap file (" + print_groups(popmap) + ") but at least two are required", LOG_ERROR);
         exit(1);
 
-    } else if (popmap.counts.size() > 2 and (parameters.group1 == "" or parameters.group2 == "")) {  // More than two groups but groups to compare were not defined
+    } else if (compare and popmap.counts.size() > 2 and (parameters.group1 == "" or parameters.group2 == "")) {  // More than two groups but groups to compare were not defined
 
         log("Found <" + std::to_string(popmap.counts.size()) + "> groups in the popmap file (" + print_groups(popmap) + ") but groups to compare were not defined (use --groups group1,group2)", LOG_ERROR);
         exit(1);
 
-    } else if (popmap.counts.size() > 2 and (popmap.counts.find(parameters.group1) == popmap.counts.end() or popmap.counts.find(parameters.group2) == popmap.counts.end())) {  // More than two groups and groups to compare were not found
+    } else if (compare and popmap.counts.size() > 2 and (popmap.counts.find(parameters.group1) == popmap.counts.end() or popmap.counts.find(parameters.group2) == popmap.counts.end())) {  // More than two groups and groups to compare were not found
 
         log("Groups specified with --groups (\"" + parameters.group1 + "\", \"" + parameters.group2 + "\") were not found in popmap groups (" + print_groups(popmap) + ")", LOG_ERROR);
         exit(1);
 
-    } else if (popmap.counts.size() == 2) {  // If only two groups in popmap, use them (override user-specified groups for now)
+    } else if (compare and popmap.counts.size() == 2) {  // If only two groups in popmap, use them (override user-specified groups for now)
 
         auto i = std::begin(popmap.counts);
         parameters.group1 = i->first;

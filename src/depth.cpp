@@ -5,10 +5,9 @@ void depth(Parameters& parameters) {
 
     std::chrono::steady_clock::time_point t_begin = std::chrono::steady_clock::now();
 
-    Popmap popmap = load_popmap(parameters);
+    Popmap popmap = load_popmap(parameters, false);
 
     log("RADSex depth started");
-
     Header header;
 
     Depths depths(popmap.n_individuals);
@@ -38,7 +37,7 @@ void depth(Parameters& parameters) {
 
         const uint16_t min_depth = *start;
         const uint16_t max_depth = *end;
-        const uint64_t total_depth = std::accumulate(depths[i].begin(), depths[i].end(), 0);
+        const uint64_t total_depth = static_cast<uint64_t>(std::accumulate(depths[i].begin(), depths[i].end(), 0));
 
         uint16_t median_depth = 0;
         if (depths[i].size() % 2 == 0) {  // Find median for an even sized vector (average of two possible median points)

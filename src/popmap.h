@@ -13,6 +13,6 @@ struct Popmap {
 
 };
 
-Popmap load_popmap(Parameters& parameters);
+Popmap load_popmap(Parameters& parameters, bool compare = true);
 
 std::string print_groups(Popmap& popmap, bool counts = false);
