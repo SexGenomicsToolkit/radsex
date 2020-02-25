@@ -7,7 +7,6 @@
 #include <unordered_map>
 #include <zlib.h>
 #include "kseq/kseq.h"
-#include "output.h"
 #include "parameters.h"
 #include "utils.h"
 

@@ -22,46 +22,59 @@ void distrib(Parameters& parameters) {
     bool parsing_ended = false;
     MarkersQueue markers_queue;
     std::mutex queue_mutex;
+    uint64_t n_markers;
 
     std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(parsing_ended), true, false);
-    std::thread processing_thread(processor, std::ref(markers_queue), std::ref(parameters), std::ref(queue_mutex), std::ref(results), std::ref(parsing_ended), BATCH_SIZE);
+    std::thread processing_thread(processor, std::ref(markers_queue), std::ref(parameters), std::ref(queue_mutex), std::ref(results), std::ref(n_markers), std::ref(parsing_ended), BATCH_SIZE);
 
     parsing_thread.join();
-
-
-
     processing_thread.join();
 
     // Calculate p-values for association with sex for each combination of males and females
     double chi_squared = 0;
 
     // Compute p-values
-    for (uint f=0; f <= popmap.counts[parameters.group1]; ++f) {
-        for (uint m=0; m <= popmap.counts[parameters.group2]; ++m) {
-            if (f + m != 0) {
-                chi_squared = get_chi_squared(f, m, popmap.counts[parameters.group1], popmap.counts[parameters.group2]);
-                results[f][m].second = std::min(1.0, get_chi_squared_p(chi_squared)); // p-value corrected with Bonferroni, with max of 1
+    for (uint g = 0; g <= popmap.counts[parameters.group1]; ++g) {
+
+        for (uint h = 0; h <= popmap.counts[parameters.group2]; ++h) {
+
+            if (g + h != 0) {
+
+                chi_squared = get_chi_squared(g, h, popmap.counts[parameters.group1], popmap.counts[parameters.group2]);
+                results[g][h].second = std::min(1.0, get_chi_squared_p(chi_squared)); // p-value corrected with Bonferroni, with max of 1
+
             }
         }
     }
 
     // Generate the output file
-    if (!parameters.output_matrix) {
+    std::ofstream output_file(parameters.output_file_path);
 
-        output_distrib(parameters.output_file_path, results, popmap.counts[parameters.group1], popmap.counts[parameters.group2], parameters.group1, parameters.group2,
-                       parameters.signif_threshold, parameters.disable_correction);
+    // Output file header
+    output_file << parameters.group1 << "\t" << parameters.group2 << "\t" << "Markers" << "\t" << "P" << "\t" << "Signif" << "\t" << "Bias" << "\n";
 
-    } else {
+    if (not parameters.disable_correction) parameters.signif_threshold /= n_markers; // Bonferroni correction: divide threshold by number of tests
 
-        output_distrib_matrix(parameters.output_file_path, results, popmap.counts[parameters.group1], popmap.counts[parameters.group2]);
+    // Generate output file
+    for (uint g = 0; g <= popmap.counts[parameters.group1]; ++g) {
 
+        for (uint h = 0; h <= popmap.counts[parameters.group2]; ++h) {
+
+            if (g + h != 0) {
+
+                output_file << g << "\t" << h << "\t" << results[g][h].first << "\t" << results[g][h].second << "\t"
+                            << (static_cast<float>(results[g][h].second) < parameters.signif_threshold ? "True" : "False") << "\t"
+                            << static_cast<float>(g) / static_cast<float>(popmap.counts[parameters.group1]) - (static_cast<float>(h) / static_cast<float>(popmap.counts[parameters.group2])) << "\n";
+
+            }
+        }
     }
 
     log("RADSex distrib ended (total runtime: " + get_runtime(t_begin) + ")");
 }
 
 
-void processor(MarkersQueue& markers_queue, Parameters& parameters, std::mutex& queue_mutex, sd_table& results, bool& parsing_ended, ulong batch_size) {
+void processor(MarkersQueue& markers_queue, Parameters& parameters, std::mutex& queue_mutex, sd_table& results, uint64_t& n_markers, bool& parsing_ended, ulong batch_size) {
 
     // Give 100ms headstart to table parser thread (to get number of individuals from header)
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -81,7 +94,13 @@ void processor(MarkersQueue& markers_queue, Parameters& parameters, std::mutex& 
 
             for (auto marker: batch) {
 
-                ++results[marker.groups[parameters.group1]][marker.groups[parameters.group2]].first;
+                if (marker.n_individuals > 0) {
+
+                    ++results[marker.groups[parameters.group1]][marker.groups[parameters.group2]].first;
+                    ++n_markers;
+
+                }
+
                 log_progress_bar(n_processed_markers, marker_processed_tick);
 
             }

@@ -4,7 +4,6 @@
 #include <unordered_map>
 #include <vector>
 #include "depth_table.h"
-#include "output.h"
 #include "parameters.h"
 #include "popmap.h"
 #include "utils.h"

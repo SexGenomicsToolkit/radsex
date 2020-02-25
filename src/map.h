@@ -6,7 +6,6 @@
 #include "bwa/bwamem.h"
 #include "bwa/kseq.h"
 #include "depth_table.h"
-#include "output.h"
 #include "parameters.h"
 #include "popmap.h"
 #include "stats.h"
