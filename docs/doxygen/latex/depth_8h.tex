@@ -1,0 +1,27 @@
+\hypertarget{depth_8h}{}\doxysection{/home/romain/work/code/\+Rad\+Sex/src/depth.h File Reference}
+\label{depth_8h}\index{/home/romain/work/code/RadSex/src/depth.h@{/home/romain/work/code/RadSex/src/depth.h}}
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$numeric$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include \char`\"{}table\+\_\+parser.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}parameters.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}popmap.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utils.\+h\char`\"{}}\newline
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{depth_8h_a3d790b8555c01e48d110b318583efaf3}\label{depth_8h_a3d790b8555c01e48d110b318583efaf3}} 
+typedef std\+::vector$<$ std\+::vector$<$ uint16\+\_\+t $>$ $>$ {\bfseries Depths}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{depth_8h_a0afd690eb883d820eabed0ba0987c6eb}\label{depth_8h_a0afd690eb883d820eabed0ba0987c6eb}} 
+void {\bfseries depth} (\mbox{\hyperlink{structParameters}{Parameters}} \&parameters)
+\item 
+\mbox{\Hypertarget{depth_8h_a53fe14bec2454937ecf9478c49f9daac}\label{depth_8h_a53fe14bec2454937ecf9478c49f9daac}} 
+void {\bfseries processor} (\mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} \&markers\+\_\+queue, \mbox{\hyperlink{structParameters}{Parameters}} \&parameters, std\+::mutex \&queue\+\_\+mutex, Depths \&results, std\+::vector$<$ uint32\+\_\+t $>$ \&n\+\_\+markers, bool \&parsing\+\_\+ended, ulong batch\+\_\+size, uint n\+\_\+individuals)
+\end{DoxyCompactItemize}

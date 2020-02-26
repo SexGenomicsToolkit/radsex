@@ -1,0 +1,33 @@
+\hypertarget{map_8h}{}\doxysection{/home/romain/work/code/\+Rad\+Sex/src/map.h File Reference}
+\label{map_8h}\index{/home/romain/work/code/RadSex/src/map.h@{/home/romain/work/code/RadSex/src/map.h}}
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include \char`\"{}bwa/bwamem.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}bwa/kseq.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}table\+\_\+parser.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}parameters.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}popmap.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stats.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utils.\+h\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structAlignedMarker}{Aligned\+Marker}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{map_8h_a8016463357af88c3cbb0cba04e3d5306}\label{map_8h_a8016463357af88c3cbb0cba04e3d5306}} 
+void {\bfseries map} (\mbox{\hyperlink{structParameters}{Parameters}} \&parameters)
+\item 
+\mbox{\Hypertarget{map_8h_ae94db321c77a28163f23d49da6d4c28c}\label{map_8h_ae94db321c77a28163f23d49da6d4c28c}} 
+void {\bfseries processor} (\mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} \&markers\+\_\+queue, \mbox{\hyperlink{structParameters}{Parameters}} \&parameters, \mbox{\hyperlink{structPopmap}{Popmap}} \&popmap, std\+::mutex \&queue\+\_\+mutex, std\+::vector$<$ \mbox{\hyperlink{structAlignedMarker}{Aligned\+Marker}} $>$ \&aligned\+\_\+markers, bool \&parsing\+\_\+ended, ulong batch\+\_\+size)
+\item 
+\mbox{\Hypertarget{map_8h_aa820fe222b6f0188f7d0c0d526d7ab38}\label{map_8h_aa820fe222b6f0188f7d0c0d526d7ab38}} 
+std\+::unordered\+\_\+map$<$ std\+::string, uint64\+\_\+t $>$ {\bfseries get\+\_\+contig\+\_\+lengths} (const std\+::string \&genome\+\_\+file\+\_\+path)
+\item 
+\mbox{\Hypertarget{map_8h_a14b0b9db8a6ce72115a680cf1469344b}\label{map_8h_a14b0b9db8a6ce72115a680cf1469344b}} 
+void {\bfseries build\+\_\+bwa\+\_\+index} (\mbox{\hyperlink{structParameters}{Parameters}} \&parameters)
+\end{DoxyCompactItemize}

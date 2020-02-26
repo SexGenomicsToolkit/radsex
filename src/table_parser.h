@@ -16,6 +16,8 @@
 * along with RADSex.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+/** @file */
+
 #pragma once
 #include <mutex>
 #include <queue>
@@ -69,8 +71,34 @@ struct MarkersQueue {
 
 typedef std::vector<std::string> Header;
 
+/*!
+ * \brief Read markers from a markers depth table and store them in a queue.
+ *
+ * Read a markers depth table generated with process().
+ * Each marker is stored in a Marker instance which is pushed to a queue.
+ * The function waits if the queue gets bigger than \link MAX_QUEUE_SIZE \endlink.
+ * Batches of markers are obtained from the queue with get_batch().
+ *
+ * \param parameters A Parameter object which contains values of all parameters
+ * \param popmap A Popmap object with information on the group of each individual
+ * \param markers_queue Queue of Marker objects
+ * \param queue_mutex Mutex to lock / unlock the markers queue
+ * \param parsing_ended A flag indicating that the parsing ended, set to true before exiting the function
+ * \param no_seq If true, marker sequences and ids won't be stored in Marker objects
+ * \param no_group If true, group counts won't be computed
+ */
 void table_parser(Parameters& parameters, const Popmap& popmap, MarkersQueue& markers_queue, std::mutex& queue_mutex, bool& parsing_ended, bool no_seq = true, bool no_group = false);
 
+/*!
+ * \brief Get a batch of markers from the queue
+ *
+ *
+ *
+ * \param markers_queue
+ * \param queue_mutex
+ * \param batch_size
+ * \return
+ */
 std::vector<Marker> get_batch(MarkersQueue& markers_queue, std::mutex& queue_mutex, ulong batch_size=1000);
 
 // Create a sex <-> column index correspondance map

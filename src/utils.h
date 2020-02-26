@@ -16,6 +16,8 @@
 * along with RADSex.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+/** @file */
+
 #pragma once
 #include <algorithm>
 #include <chrono>
@@ -35,7 +37,7 @@
 #define LOG_INFO "INFO"
 #define BATCH_SIZE 100
 #define TMP_QUEUE_SIZE 1000
-#define MAX_QUEUE_SIZE 10000
+#define MAX_QUEUE_SIZE 10000 /**< Maximum size of the markers queue */
 
 // Store sex distribution results
 typedef std::unordered_map<uint, std::unordered_map<uint, std::pair<uint64_t, double>>> sd_table;

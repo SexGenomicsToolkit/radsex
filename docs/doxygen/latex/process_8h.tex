@@ -1,0 +1,38 @@
+\hypertarget{process_8h}{}\doxysection{/home/romain/work/code/\+Rad\+Sex/src/process.h File Reference}
+\label{process_8h}\index{/home/romain/work/code/RadSex/src/process.h@{/home/romain/work/code/RadSex/src/process.h}}
+{\ttfamily \#include $<$dirent.\+h$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$mutex$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$thread$>$}\newline
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+{\ttfamily \#include $<$zlib.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}kseq/kseq.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}parameters.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utils.\+h\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structInputFile}{Input\+File}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{process_8h_a3c5a55f10a548cc70126fc2bee03ae2e}\label{process_8h_a3c5a55f10a548cc70126fc2bee03ae2e}} 
+std\+::vector$<$ \mbox{\hyperlink{structInputFile}{Input\+File}} $>$ {\bfseries get\+\_\+input\+\_\+files} (const std\+::string \&input\+\_\+dir\+\_\+path)
+\item 
+\mbox{\Hypertarget{process_8h_aca1db66566c3a841900e42422a31736a}\label{process_8h_aca1db66566c3a841900e42422a31736a}} 
+void {\bfseries process} (\mbox{\hyperlink{structParameters}{Parameters}} \&parameters)
+\item 
+\mbox{\Hypertarget{process_8h_a8f9898467c5a93ef58a32e78ea0ef208}\label{process_8h_a8f9898467c5a93ef58a32e78ea0ef208}} 
+void {\bfseries file\+\_\+processor} (std\+::vector$<$ \mbox{\hyperlink{structInputFile}{Input\+File}} $>$ \&input\+\_\+files, std\+::unordered\+\_\+map$<$ std\+::string, std\+::unordered\+\_\+map$<$ std\+::string, uint16\+\_\+t $>$$>$ \&results, std\+::mutex \&results\+\_\+mutex, std\+::mutex \&files\+\_\+mutex)
+\item 
+\mbox{\Hypertarget{process_8h_a50431291c9f5e8737719d7babc4dd97d}\label{process_8h_a50431291c9f5e8737719d7babc4dd97d}} 
+void {\bfseries process\+\_\+file} (\mbox{\hyperlink{structInputFile}{Input\+File}} \&input\+\_\+file, std\+::unordered\+\_\+map$<$ std\+::string, std\+::unordered\+\_\+map$<$ std\+::string, uint16\+\_\+t $>$$>$ \&results, std\+::mutex \&results\+\_\+mutex)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{process_8h_a8996547d4c7394b4cb2ab28737538dc7}\label{process_8h_a8996547d4c7394b4cb2ab28737538dc7}} 
+const std\+::vector$<$ std\+::string $>$ {\bfseries extensions} \{\char`\"{}.fq.\+gz\char`\"{}, \char`\"{}.fq\char`\"{}, \char`\"{}.fastq.\+gz\char`\"{}, \char`\"{}.fastq\char`\"{}, \char`\"{}.fasta.\+gz\char`\"{}, \char`\"{}.fasta\char`\"{}, \char`\"{}.fa.\+gz\char`\"{}, \char`\"{}.fa\char`\"{}, \char`\"{}.fna.\+gz\char`\"{}, \char`\"{}.fna\char`\"{}\}
+\end{DoxyCompactItemize}

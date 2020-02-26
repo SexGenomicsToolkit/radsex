@@ -1,0 +1,107 @@
+\hypertarget{classCustomFormatter}{}\doxysection{Custom\+Formatter Class Reference}
+\label{classCustomFormatter}\index{CustomFormatter@{CustomFormatter}}
+
+
+Custom C\+L\+I11 Formatter.  
+
+
+
+
+{\ttfamily \#include $<$arg\+\_\+parser.\+h$>$}
+
+Inheritance diagram for Custom\+Formatter\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classCustomFormatter}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual std\+::string \mbox{\hyperlink{classCustomFormatter_a7c1d208d52c932ca0cb40b35b0b1c673}{make\+\_\+option}} (const C\+L\+I\+::\+Option $\ast$opt, bool is\+\_\+positional) const
+\begin{DoxyCompactList}\small\item\em Format help message for an option. \end{DoxyCompactList}\item 
+virtual std\+::string \mbox{\hyperlink{classCustomFormatter_a2de4066531a3f7cbdaeb6b1eab3b4bd5}{make\+\_\+description}} (const C\+L\+I\+::\+App $\ast$app) const
+\begin{DoxyCompactList}\small\item\em Format command description. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCustomFormatter_a2545ecf41317fd8bc529daae51edad24}{set\+\_\+column\+\_\+widths}} (C\+L\+I\+::\+App \&parser)
+\begin{DoxyCompactList}\small\item\em Set column widths in help message for a C\+L\+I\+::\+App. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classCustomFormatter_abbcaea7bc716a16ed5fe23ed8caf5c9b}\label{classCustomFormatter_abbcaea7bc716a16ed5fe23ed8caf5c9b}} 
+uint \mbox{\hyperlink{classCustomFormatter_abbcaea7bc716a16ed5fe23ed8caf5c9b}{column\+\_\+widths}} \mbox{[}3\mbox{]} \{0, 0, 0\}
+\begin{DoxyCompactList}\small\item\em Maximum width of each column, in order\+: flags, type, description. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classCustomFormatter_a8976f459918d11b5696efdb76dc2cff2}\label{classCustomFormatter_a8976f459918d11b5696efdb76dc2cff2}} 
+uint \mbox{\hyperlink{classCustomFormatter_a8976f459918d11b5696efdb76dc2cff2}{border\+\_\+width}} = 4
+\begin{DoxyCompactList}\small\item\em Define number of spaces between two columns. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Custom C\+L\+I11 Formatter. 
+
+This class is used to override default help message format in C\+L\+I11 Formatter. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classCustomFormatter_a2de4066531a3f7cbdaeb6b1eab3b4bd5}\label{classCustomFormatter_a2de4066531a3f7cbdaeb6b1eab3b4bd5}} 
+\index{CustomFormatter@{CustomFormatter}!make\_description@{make\_description}}
+\index{make\_description@{make\_description}!CustomFormatter@{CustomFormatter}}
+\doxysubsubsection{\texorpdfstring{make\_description()}{make\_description()}}
+{\footnotesize\ttfamily virtual std\+::string Custom\+Formatter\+::make\+\_\+description (\begin{DoxyParamCaption}\item[{const C\+L\+I\+::\+App $\ast$}]{app }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Format command description. 
+
+Remove command description in C\+LI help message (not useful).
+
+
+\begin{DoxyParams}{Parameters}
+{\em app} & Pointer to a C\+L\+I\+::\+App instance \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An empty string 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classCustomFormatter_a7c1d208d52c932ca0cb40b35b0b1c673}\label{classCustomFormatter_a7c1d208d52c932ca0cb40b35b0b1c673}} 
+\index{CustomFormatter@{CustomFormatter}!make\_option@{make\_option}}
+\index{make\_option@{make\_option}!CustomFormatter@{CustomFormatter}}
+\doxysubsubsection{\texorpdfstring{make\_option()}{make\_option()}}
+{\footnotesize\ttfamily virtual std\+::string Custom\+Formatter\+::make\+\_\+option (\begin{DoxyParamCaption}\item[{const C\+L\+I\+::\+Option $\ast$}]{opt,  }\item[{bool}]{is\+\_\+positional }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Format help message for an option. 
+
+Generate a nicely formatted help message for an option. Use column widths to align columns for all options properly.
+
+
+\begin{DoxyParams}{Parameters}
+{\em opt} & Pointer to an C\+L\+I\+::\+Option instance \\
+\hline
+{\em is\+\_\+positional} & Boolean indicating whether the option is positional\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string containing the formatted help message for the option 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classCustomFormatter_a2545ecf41317fd8bc529daae51edad24}\label{classCustomFormatter_a2545ecf41317fd8bc529daae51edad24}} 
+\index{CustomFormatter@{CustomFormatter}!set\_column\_widths@{set\_column\_widths}}
+\index{set\_column\_widths@{set\_column\_widths}!CustomFormatter@{CustomFormatter}}
+\doxysubsubsection{\texorpdfstring{set\_column\_widths()}{set\_column\_widths()}}
+{\footnotesize\ttfamily void Custom\+Formatter\+::set\+\_\+column\+\_\+widths (\begin{DoxyParamCaption}\item[{C\+L\+I\+::\+App \&}]{parser }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set column widths in help message for a C\+L\+I\+::\+App. 
+
+Determine column widths from the maximum element length in each column
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & Pointer to a C\+L\+I\+::\+App instance \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/romain/work/code/\+Rad\+Sex/src/\mbox{\hyperlink{arg__parser_8h}{arg\+\_\+parser.\+h}}\end{DoxyCompactItemize}

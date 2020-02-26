@@ -16,6 +16,8 @@
 * along with RADSex.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+/** @file */
+
 #pragma once
 #include <fstream>
 #include <string>

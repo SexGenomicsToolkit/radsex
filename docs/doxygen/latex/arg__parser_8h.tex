@@ -1,0 +1,42 @@
+\hypertarget{arg__parser_8h}{}\doxysection{/home/romain/work/code/\+Rad\+Sex/src/arg\+\_\+parser.h File Reference}
+\label{arg__parser_8h}\index{/home/romain/work/code/RadSex/src/arg\_parser.h@{/home/romain/work/code/RadSex/src/arg\_parser.h}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}C\+L\+I11/\+C\+L\+I11.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}parameters.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utils.\+h\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classCustomFormatter}{Custom\+Formatter}}
+\begin{DoxyCompactList}\small\item\em Custom C\+L\+I11 Formatter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{arg__parser_8h_ada75fff12f517de0fbfeb1324100e16b}{failure\+\_\+message}} (const C\+L\+I\+::\+App $\ast$parser, const C\+L\+I\+::\+Error \&error)
+\begin{DoxyCompactList}\small\item\em Print C\+LI parsing failure message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{arg__parser_8h_ada75fff12f517de0fbfeb1324100e16b}\label{arg__parser_8h_ada75fff12f517de0fbfeb1324100e16b}} 
+\index{arg\_parser.h@{arg\_parser.h}!failure\_message@{failure\_message}}
+\index{failure\_message@{failure\_message}!arg\_parser.h@{arg\_parser.h}}
+\doxysubsubsection{\texorpdfstring{failure\_message()}{failure\_message()}}
+{\footnotesize\ttfamily std\+::string failure\+\_\+message (\begin{DoxyParamCaption}\item[{const C\+L\+I\+::\+App $\ast$}]{parser,  }\item[{const C\+L\+I\+::\+Error \&}]{error }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Print C\+LI parsing failure message. 
+
+Identify the type of error (missing subcommand, argument error, or other) and display the appropriate error message.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parser} & Pointer to a C\+L\+I\+::\+App instance \\
+\hline
+{\em error} & C\+L\+I\+::\+Error object with information on the error\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string containing the error message 
+\end{DoxyReturn}

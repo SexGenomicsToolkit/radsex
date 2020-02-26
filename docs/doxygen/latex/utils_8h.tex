@@ -1,0 +1,91 @@
+\hypertarget{utils_8h}{}\doxysection{/home/romain/work/code/\+Rad\+Sex/src/utils.h File Reference}
+\label{utils_8h}\index{/home/romain/work/code/RadSex/src/utils.h@{/home/romain/work/code/RadSex/src/utils.h}}
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$thread$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{utils_8h_a2b61375b3d232f65875d7f634395149d}\label{utils_8h_a2b61375b3d232f65875d7f634395149d}} 
+\#define {\bfseries D\+T\+T\+M\+F\+MT}~\char`\"{}\%Y-\/\%m-\/\%d \%H\+:\%M\+:\%S\char`\"{}
+\item 
+\mbox{\Hypertarget{utils_8h_a242a6e5c93fd7175fdc0f2e92bd22c45}\label{utils_8h_a242a6e5c93fd7175fdc0f2e92bd22c45}} 
+\#define {\bfseries D\+T\+T\+M\+SZ}~21
+\item 
+\mbox{\Hypertarget{utils_8h_aced66975c154ea0e2a8ec3bc818b4e08}\label{utils_8h_aced66975c154ea0e2a8ec3bc818b4e08}} 
+\#define {\bfseries L\+O\+G\+\_\+\+E\+R\+R\+OR}~\char`\"{}E\+R\+R\+OR\char`\"{}
+\item 
+\mbox{\Hypertarget{utils_8h_adf4476a6a4ea6c74231c826e899d7189}\label{utils_8h_adf4476a6a4ea6c74231c826e899d7189}} 
+\#define {\bfseries L\+O\+G\+\_\+\+W\+A\+R\+N\+I\+NG}~\char`\"{}W\+A\+R\+N\+I\+NG\char`\"{}
+\item 
+\mbox{\Hypertarget{utils_8h_aeb4f36db01bd128c7afeac5889dac311}\label{utils_8h_aeb4f36db01bd128c7afeac5889dac311}} 
+\#define {\bfseries L\+O\+G\+\_\+\+I\+N\+FO}~\char`\"{}I\+N\+FO\char`\"{}
+\item 
+\mbox{\Hypertarget{utils_8h_a9ae2958e436c566413867028fc829ec0}\label{utils_8h_a9ae2958e436c566413867028fc829ec0}} 
+\#define {\bfseries B\+A\+T\+C\+H\+\_\+\+S\+I\+ZE}~100
+\item 
+\mbox{\Hypertarget{utils_8h_a4e61276cc714d63cadbb716a58b6669b}\label{utils_8h_a4e61276cc714d63cadbb716a58b6669b}} 
+\#define {\bfseries T\+M\+P\+\_\+\+Q\+U\+E\+U\+E\+\_\+\+S\+I\+ZE}~1000
+\item 
+\#define \mbox{\hyperlink{utils_8h_a623ec78b7909090dbedac4af1d52abb4}{M\+A\+X\+\_\+\+Q\+U\+E\+U\+E\+\_\+\+S\+I\+ZE}}~10000
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{utils_8h_af74d5c314b8f8cbdafe1721f0e32f075}\label{utils_8h_af74d5c314b8f8cbdafe1721f0e32f075}} 
+typedef std\+::unordered\+\_\+map$<$ uint, std\+::unordered\+\_\+map$<$ uint, std\+::pair$<$ uint64\+\_\+t, double $>$ $>$ $>$ {\bfseries sd\+\_\+table}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{utils_8h_a2ccc3f59a22203b8b25cbd9489c5addc}\label{utils_8h_a2ccc3f59a22203b8b25cbd9489c5addc}} 
+char $\ast$ {\bfseries print\+\_\+time} (char $\ast$buff)
+\item 
+\mbox{\Hypertarget{utils_8h_a865a9c2c42dd848a36e88ad51b6f23b1}\label{utils_8h_a865a9c2c42dd848a36e88ad51b6f23b1}} 
+std\+::vector$<$ std\+::string $>$ {\bfseries split} (std\+::string str, const std\+::string delimiter)
+\item 
+\mbox{\Hypertarget{utils_8h_a2e2a91eaba09fbc28a4a968a54e38c1a}\label{utils_8h_a2e2a91eaba09fbc28a4a968a54e38c1a}} 
+int {\bfseries fast\+\_\+stoi} (const char $\ast$str)
+\item 
+\mbox{\Hypertarget{utils_8h_a2b7baa175b124e20ee48d25a26ad0fa6}\label{utils_8h_a2b7baa175b124e20ee48d25a26ad0fa6}} 
+{\footnotesize template$<$typename T $>$ }\\void {\bfseries log} (T line, const std\+::string level=L\+O\+G\+\_\+\+I\+N\+FO, bool flushline=true)
+\item 
+\mbox{\Hypertarget{utils_8h_aa6b2420c630af9e07a84f841f1c01bce}\label{utils_8h_aa6b2420c630af9e07a84f841f1c01bce}} 
+std\+::vector$<$ std\+::string $>$ {\bfseries get\+\_\+column\+\_\+sex} (std\+::unordered\+\_\+map$<$ std\+::string, std\+::string $>$ \&popmap, const std\+::vector$<$ std\+::string $>$ \&header)
+\item 
+\mbox{\Hypertarget{utils_8h_ae6e4ab0283733894bd6b1ee805eb8765}\label{utils_8h_ae6e4ab0283733894bd6b1ee805eb8765}} 
+const std\+::vector$<$ std\+::string $>$ {\bfseries get\+\_\+header} (const std\+::string \&input\+\_\+file\+\_\+path)
+\item 
+\mbox{\Hypertarget{utils_8h_ab33b713fe0754a5f7729a22cedc0fa9b}\label{utils_8h_ab33b713fe0754a5f7729a22cedc0fa9b}} 
+std\+::ofstream {\bfseries open\+\_\+output} (const std\+::string \&output\+\_\+file\+\_\+path)
+\item 
+\mbox{\Hypertarget{utils_8h_a34cbea4d074a6260aa2a3ca6cf3daa3e}\label{utils_8h_a34cbea4d074a6260aa2a3ca6cf3daa3e}} 
+void {\bfseries log\+\_\+progress} (uint64\+\_\+t \&n\+\_\+processed\+\_\+markers, const uint32\+\_\+t marker\+\_\+processed\+\_\+tick)
+\item 
+\mbox{\Hypertarget{utils_8h_a05a02048748b513d61cb0e048587c8fe}\label{utils_8h_a05a02048748b513d61cb0e048587c8fe}} 
+std\+::string {\bfseries get\+\_\+runtime} (const std\+::chrono\+::steady\+\_\+clock\+::time\+\_\+point t\+\_\+begin)
+\item 
+\mbox{\Hypertarget{utils_8h_aed58fb3d0b7c4ca2a4ba23228a205bad}\label{utils_8h_aed58fb3d0b7c4ca2a4ba23228a205bad}} 
+void {\bfseries log\+\_\+progress\+\_\+bar} (uint64\+\_\+t \&n\+\_\+processed\+\_\+markers, const uint32\+\_\+t marker\+\_\+processed\+\_\+tick, char symbol=\textquotesingle{}\#\textquotesingle{}, uint16\+\_\+t ticks=50)
+\item 
+\mbox{\Hypertarget{utils_8h_ac5169aeb75bd397c83c20b965cfdbfc6}\label{utils_8h_ac5169aeb75bd397c83c20b965cfdbfc6}} 
+{\footnotesize template$<$typename T $>$ }\\std\+::string {\bfseries print\+\_\+list} (const T \&list, const std\+::string \&sep=\char`\"{}, \char`\"{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{utils_8h_a623ec78b7909090dbedac4af1d52abb4}\label{utils_8h_a623ec78b7909090dbedac4af1d52abb4}} 
+\index{utils.h@{utils.h}!MAX\_QUEUE\_SIZE@{MAX\_QUEUE\_SIZE}}
+\index{MAX\_QUEUE\_SIZE@{MAX\_QUEUE\_SIZE}!utils.h@{utils.h}}
+\doxysubsubsection{\texorpdfstring{MAX\_QUEUE\_SIZE}{MAX\_QUEUE\_SIZE}}
+{\footnotesize\ttfamily \#define M\+A\+X\+\_\+\+Q\+U\+E\+U\+E\+\_\+\+S\+I\+ZE~10000}
+
+Maximum size of the markers queue 
