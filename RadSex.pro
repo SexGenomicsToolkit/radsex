@@ -12,7 +12,6 @@ PRE_TARGETDEPS += $$PWD/include/bwa/libbwa.a
 HEADERS += \
     src/arg_parser.h \
     src/depth.h \
-    src/depth_table.h \
     src/distrib.h \
     src/freq.h \
     src/map.h \
@@ -22,11 +21,11 @@ HEADERS += \
     src/signif.h \
     src/stats.h \
     src/subset.h \
+    src/table_parser.h \
     src/utils.h
 
 SOURCES += \
     src/depth.cpp \
-    src/depth_table.cpp \
     src/distrib.cpp \
     src/freq.cpp \
     src/main.cpp \
@@ -36,5 +35,6 @@ SOURCES += \
     src/signif.cpp \
     src/stats.cpp \
     src/subset.cpp \
-    include/kfun/kfun.cpp
+    include/kfun/kfun.cpp \
+    src/table_parser.cpp
 
