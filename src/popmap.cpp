@@ -18,88 +18,126 @@
 
 #include "popmap.h"
 
-Popmap load_popmap(Parameters& parameters, bool compare) {
 
-    /* Load a popmap file.
-     * Input: a tabulated file with columns Individual Group
-     * Data is stored in a map {Name: Group}
-     */
+Popmap::Popmap(Parameters& parameters, bool check_groups) {
 
-    std::ifstream popmap_file;
-    popmap_file.open(parameters.popmap_file_path);
+    this->file = parameters.popmap_file_path;
+    std::ifstream popmap = open_input(this->file);
 
-    Popmap popmap;
+    std::string line;
+    uint line_number = 1;
+    std::vector<std::string> fields;
 
-    if (popmap_file) {
+    // Parse popmap file
+    while(std::getline(popmap, line)) {
 
-        std::string line;
-        std::vector<std::string> fields;
+        if (line.back() == '\r') line.pop_back();  // Deal with windows-style line endings
+        fields = split(line, "\t");
 
-        while(std::getline(popmap_file, line)) {
+        if (fields.size() == 2) { // Expected format: individual | group
 
-            if (line.back() == '\r') line.pop_back();
-            fields = split(line, "\t");
+            this->individual_groups[fields[0]] = fields[1];  // Store group for this individual
+            ++this->group_counts[fields[1]];  // Increase count for this group
+            ++this->n_individuals;  // Increase total individuals count
 
-            if (fields.size() == 2) { // Only 2 columns as it should be
+        } else {
 
-                popmap.groups[fields[0]] = fields[1];
-                ++popmap.counts[fields[1]];
-                ++popmap.n_individuals;
+            log("Could not process line " + std::to_string(line_number) + " in popmap file <" + this->file + "> (expected format: \"individual\tgroup\")", LOG_WARNING);
+
+        }
+
+        ++line_number;
+
+    }
+
+    if (check_groups) {
+
+        if (this->group_counts.size() < 2) {  // Fewer than two groups in the popmap
+
+            log("Found <" + std::to_string(this->group_counts.size()) + "> groups in the popmap file (" + this->print_groups() + ") but at least two are required", LOG_ERROR);
+            exit(1);
+
+        } else if (this->group_counts.size() > 2 and (parameters.group1 == "" or parameters.group2 == "")) {  // More than two groups but groups to compare were not defined
+
+            log("Found <" + std::to_string(this->group_counts.size()) + "> groups in the popmap file (" + this->print_groups() + ") but groups to compare were not defined (use --groups group1,group2)", LOG_ERROR);
+            exit(1);
+
+        } else if (this->group_counts.size() > 2  and (this->group_counts.find(parameters.group1) == this->group_counts.end() or this->group_counts.find(parameters.group2) == this->group_counts.end())) {  // More than two groups and groups to compare were not found
+
+            log("Groups specified with --groups (\"" + parameters.group1 + "\", \"" + parameters.group2 + "\") were not found in popmap groups (" + this->print_groups() + ")", LOG_ERROR);
+            exit(1);
+
+        } else if (this->group_counts.size() == 2) {  // Only two groups in popmap
+
+            if (parameters.group1 == "" or parameters.group2 == "") {  // Fill groups from popmap if not specified by the user
+
+                auto i = std::begin(this->group_counts);
+                parameters.group1 = i->first;
+                parameters.group2 = (++i)->first;
 
             }
         }
 
-    } else {
-
-        log("Could not open popmap file <" + parameters.popmap_file_path + ">", LOG_ERROR);
-        exit(1);
     }
 
-    if (compare and popmap.counts.size() < 2) {  // Fewer than two groups in the popmap
-
-        log("Found <" + std::to_string(popmap.counts.size()) + "> groups in the popmap file (" + print_groups(popmap) + ") but at least two are required", LOG_ERROR);
-        exit(1);
-
-    } else if (compare and popmap.counts.size() > 2 and (parameters.group1 == "" or parameters.group2 == "")) {  // More than two groups but groups to compare were not defined
-
-        log("Found <" + std::to_string(popmap.counts.size()) + "> groups in the popmap file (" + print_groups(popmap) + ") but groups to compare were not defined (use --groups group1,group2)", LOG_ERROR);
-        exit(1);
-
-    } else if (compare and popmap.counts.size() > 2 and (popmap.counts.find(parameters.group1) == popmap.counts.end() or popmap.counts.find(parameters.group2) == popmap.counts.end())) {  // More than two groups and groups to compare were not found
-
-        log("Groups specified with --groups (\"" + parameters.group1 + "\", \"" + parameters.group2 + "\") were not found in popmap groups (" + print_groups(popmap) + ")", LOG_ERROR);
-        exit(1);
-
-    } else if (compare and popmap.counts.size() == 2) {  // Only two groups in popmap
-
-        if (parameters.group1 == "" and parameters.group2 == "") {  // Fill groups from popmap if not specified by the user
-
-            auto i = std::begin(popmap.counts);
-            parameters.group1 = i->first;
-            parameters.group2 = (++i)->first;
-
-        }
-    }
-
-    std::string popmap_success_message = "Loaded popmap (" + print_groups(popmap, true) + ")";
-
+    std::string popmap_success_message = "Loaded popmap (" + this->print_groups(true) + ")";
     log(popmap_success_message);
-
-    return popmap;
 }
 
 
 
-std::string print_groups(Popmap& popmap, bool counts) {
+std::string Popmap::get_group(const std::string& individual) const {
+
+    std::string group = "";
+
+    if (this->individual_groups.find(individual) != this->individual_groups.end()) {
+
+        group = this->individual_groups.at(individual);
+
+    } else {
+
+        log("Trying to get group for individual <" + individual + "> which was not found in popmap <" + this->file + ">", LOG_WARNING);
+
+    }
+
+    return group;
+}
+
+
+
+uint Popmap::get_count(const std::string& group) const {
+
+    uint count = 0;
+
+    if (this->group_counts.find(group) != this->group_counts.end()) {
+
+        count = this->group_counts.at(group);
+
+    } else {
+
+        log("Trying to get individual count for group <" + group + "> which was not found in popmap <" + this->file + ">", LOG_WARNING);
+
+    }
+
+    return count;
+}
+
+
+
+std::string Popmap::print_groups(const bool counts) const {
 
     std::string list = "";
     uint n = 0;
 
-    for (auto group: popmap.counts) {
+    for (auto& group: this->group_counts) {
+
         list += "\"" + group.first + "\"";
         if (counts) list += ": " + std::to_string(group.second);
-        if (++n < popmap.counts.size()) list += ", ";
+        if (++n < this->group_counts.size()) list += ", ";
+
     }
 
     return list;
 }
+
+

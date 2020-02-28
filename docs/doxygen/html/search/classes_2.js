@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['inputfile_31',['InputFile',['../structInputFile.html',1,'']]]
+  ['depthresults_40',['DepthResults',['../structDepthResults.html',1,'']]],
+  ['distribresults_41',['DistribResults',['../structDistribResults.html',1,'']]]
 ];

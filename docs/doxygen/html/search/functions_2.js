@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['make_5fdescription_51',['make_description',['../classCustomFormatter.html#a2de4066531a3f7cbdaeb6b1eab3b4bd5',1,'CustomFormatter']]],
-  ['make_5foption_52',['make_option',['../classCustomFormatter.html#a7c1d208d52c932ca0cb40b35b0b1c673',1,'CustomFormatter']]]
+  ['get_5fbatch_64',['get_batch',['../table__parser_8h.html#a21186046e68117d7e230cc5daaf87f96',1,'table_parser.cpp']]]
 ];

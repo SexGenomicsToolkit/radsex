@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['parameters_34',['Parameters',['../structParameters.html',1,'']]],
-  ['popmap_35',['Popmap',['../structPopmap.html',1,'']]]
+  ['marker_43',['Marker',['../structMarker.html',1,'']]],
+  ['markersqueue_44',['MarkersQueue',['../structMarkersQueue.html',1,'']]]
 ];

@@ -12,6 +12,17 @@ struct \mbox{\hyperlink{structMarker}{Marker}}
 \item 
 struct \mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}}
 \end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{table__parser_8h_a9ae2958e436c566413867028fc829ec0}\label{table__parser_8h_a9ae2958e436c566413867028fc829ec0}} 
+\#define {\bfseries B\+A\+T\+C\+H\+\_\+\+S\+I\+ZE}~100
+\item 
+\mbox{\Hypertarget{table__parser_8h_a4e61276cc714d63cadbb716a58b6669b}\label{table__parser_8h_a4e61276cc714d63cadbb716a58b6669b}} 
+\#define {\bfseries T\+M\+P\+\_\+\+Q\+U\+E\+U\+E\+\_\+\+S\+I\+ZE}~1000
+\item 
+\#define \mbox{\hyperlink{table__parser_8h_a623ec78b7909090dbedac4af1d52abb4}{M\+A\+X\+\_\+\+Q\+U\+E\+U\+E\+\_\+\+S\+I\+ZE}}~10000
+\end{DoxyCompactItemize}
 \doxysubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
@@ -21,21 +32,30 @@ typedef std\+::vector$<$ std\+::string $>$ {\bfseries Header}
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{table__parser_8h_a112b4364370179e0a537d2a81eabc471}{table\+\_\+parser}} (\mbox{\hyperlink{structParameters}{Parameters}} \&parameters, const \mbox{\hyperlink{structPopmap}{Popmap}} \&popmap, \mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} \&markers\+\_\+queue, std\+::mutex \&queue\+\_\+mutex, bool \&parsing\+\_\+ended, bool no\+\_\+seq=true, bool no\+\_\+group=false)
+void \mbox{\hyperlink{table__parser_8h_acae38db5e782a3fd35d349c195888fda}{table\+\_\+parser}} (\mbox{\hyperlink{structParameters}{Parameters}} \&parameters, const \mbox{\hyperlink{structPopmap}{Popmap}} \&popmap, \mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} \&markers\+\_\+queue, bool \&parsing\+\_\+ended, bool no\+\_\+seq=true, bool no\+\_\+group=false)
 \begin{DoxyCompactList}\small\item\em Read markers from a markers depth table and store them in a queue. \end{DoxyCompactList}\item 
-std\+::vector$<$ \mbox{\hyperlink{structMarker}{Marker}} $>$ \mbox{\hyperlink{table__parser_8h_a36a66b736283a186522db3b718319e1d}{get\+\_\+batch}} (\mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} \&markers\+\_\+queue, std\+::mutex \&queue\+\_\+mutex, ulong batch\+\_\+size=1000)
+std\+::vector$<$ \mbox{\hyperlink{structMarker}{Marker}} $>$ \mbox{\hyperlink{table__parser_8h_a21186046e68117d7e230cc5daaf87f96}{get\+\_\+batch}} (\mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} \&markers\+\_\+queue)
 \begin{DoxyCompactList}\small\item\em Get a batch of markers from the queue. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{table__parser_8h_af7091bf3f43806bf2ea0fb170835b4e6}\label{table__parser_8h_af7091bf3f43806bf2ea0fb170835b4e6}} 
 std\+::vector$<$ std\+::string $>$ {\bfseries get\+\_\+column\+\_\+group} (const std\+::unordered\+\_\+map$<$ std\+::string, std\+::string $>$ \&groups, const std\+::vector$<$ std\+::string $>$ \&header)
 \end{DoxyCompactItemize}
 
 
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{table__parser_8h_a623ec78b7909090dbedac4af1d52abb4}\label{table__parser_8h_a623ec78b7909090dbedac4af1d52abb4}} 
+\index{table\_parser.h@{table\_parser.h}!MAX\_QUEUE\_SIZE@{MAX\_QUEUE\_SIZE}}
+\index{MAX\_QUEUE\_SIZE@{MAX\_QUEUE\_SIZE}!table\_parser.h@{table\_parser.h}}
+\doxysubsubsection{\texorpdfstring{MAX\_QUEUE\_SIZE}{MAX\_QUEUE\_SIZE}}
+{\footnotesize\ttfamily \#define M\+A\+X\+\_\+\+Q\+U\+E\+U\+E\+\_\+\+S\+I\+ZE~10000}
+
+Maximum size of the markers queue 
+
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{table__parser_8h_a36a66b736283a186522db3b718319e1d}\label{table__parser_8h_a36a66b736283a186522db3b718319e1d}} 
+\mbox{\Hypertarget{table__parser_8h_a21186046e68117d7e230cc5daaf87f96}\label{table__parser_8h_a21186046e68117d7e230cc5daaf87f96}} 
 \index{table\_parser.h@{table\_parser.h}!get\_batch@{get\_batch}}
 \index{get\_batch@{get\_batch}!table\_parser.h@{table\_parser.h}}
 \doxysubsubsection{\texorpdfstring{get\_batch()}{get\_batch()}}
-{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{structMarker}{Marker}}$>$ get\+\_\+batch (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} \&}]{markers\+\_\+queue,  }\item[{std\+::mutex \&}]{queue\+\_\+mutex,  }\item[{ulong}]{batch\+\_\+size = {\ttfamily 1000} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{structMarker}{Marker}}$>$ get\+\_\+batch (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} \&}]{markers\+\_\+queue }\end{DoxyParamCaption})}
 
 
 
@@ -45,25 +65,23 @@ Get a batch of markers from the queue.
 \begin{DoxyParams}{Parameters}
 {\em markers\+\_\+queue} & \\
 \hline
-{\em queue\+\_\+mutex} & \\
-\hline
 {\em batch\+\_\+size} & \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 
 \end{DoxyReturn}
-\mbox{\Hypertarget{table__parser_8h_a112b4364370179e0a537d2a81eabc471}\label{table__parser_8h_a112b4364370179e0a537d2a81eabc471}} 
+\mbox{\Hypertarget{table__parser_8h_acae38db5e782a3fd35d349c195888fda}\label{table__parser_8h_acae38db5e782a3fd35d349c195888fda}} 
 \index{table\_parser.h@{table\_parser.h}!table\_parser@{table\_parser}}
 \index{table\_parser@{table\_parser}!table\_parser.h@{table\_parser.h}}
 \doxysubsubsection{\texorpdfstring{table\_parser()}{table\_parser()}}
-{\footnotesize\ttfamily void table\+\_\+parser (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParameters}{Parameters}} \&}]{parameters,  }\item[{const \mbox{\hyperlink{structPopmap}{Popmap}} \&}]{popmap,  }\item[{\mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} \&}]{markers\+\_\+queue,  }\item[{std\+::mutex \&}]{queue\+\_\+mutex,  }\item[{bool \&}]{parsing\+\_\+ended,  }\item[{bool}]{no\+\_\+seq = {\ttfamily true},  }\item[{bool}]{no\+\_\+group = {\ttfamily false} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void table\+\_\+parser (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParameters}{Parameters}} \&}]{parameters,  }\item[{const \mbox{\hyperlink{structPopmap}{Popmap}} \&}]{popmap,  }\item[{\mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} \&}]{markers\+\_\+queue,  }\item[{bool \&}]{parsing\+\_\+ended,  }\item[{bool}]{no\+\_\+seq = {\ttfamily true},  }\item[{bool}]{no\+\_\+group = {\ttfamily false} }\end{DoxyParamCaption})}
 
 
 
 Read markers from a markers depth table and store them in a queue. 
 
-Read a markers depth table generated with process(). Each marker is stored in a \mbox{\hyperlink{structMarker}{Marker}} instance which is pushed to a queue. The function waits if the queue gets bigger than \mbox{\hyperlink{utils_8h_a623ec78b7909090dbedac4af1d52abb4}{M\+A\+X\+\_\+\+Q\+U\+E\+U\+E\+\_\+\+S\+I\+ZE}}. Batches of markers are obtained from the queue with \mbox{\hyperlink{table__parser_8h_a36a66b736283a186522db3b718319e1d}{get\+\_\+batch()}}.
+Read a markers depth table generated with process(). Each marker is stored in a \mbox{\hyperlink{structMarker}{Marker}} instance which is pushed to a queue. The function waits if the queue gets bigger than \mbox{\hyperlink{table__parser_8h_a623ec78b7909090dbedac4af1d52abb4}{M\+A\+X\+\_\+\+Q\+U\+E\+U\+E\+\_\+\+S\+I\+ZE}}. Batches of markers are obtained from the queue with \mbox{\hyperlink{table__parser_8h_a21186046e68117d7e230cc5daaf87f96}{get\+\_\+batch()}}.
 
 
 \begin{DoxyParams}{Parameters}
@@ -72,8 +90,6 @@ Read a markers depth table generated with process(). Each marker is stored in a 
 {\em popmap} & A \mbox{\hyperlink{structPopmap}{Popmap}} object with information on the group of each individual \\
 \hline
 {\em markers\+\_\+queue} & Queue of \mbox{\hyperlink{structMarker}{Marker}} objects \\
-\hline
-{\em queue\+\_\+mutex} & Mutex to lock / unlock the markers queue \\
 \hline
 {\em parsing\+\_\+ended} & A flag indicating that the parsing ended, set to true before exiting the function \\
 \hline

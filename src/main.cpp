@@ -18,13 +18,13 @@
 
 #include "arg_parser.h"
 #include "depth.h"
-#include "distrib.h"
-#include "freq.h"
-#include "map.h"
+//#include "distrib.h"
+//#include "freq.h"
+//#include "map.h"
 #include "parameters.h"
-#include "process.h"
-#include "signif.h"
-#include "subset.h"
+//#include "process.h"
+//#include "signif.h"
+//#include "subset.h"
 
 // Argument parsing main function
 inline Parameters parse_args(int& argc, char** argv) {
@@ -154,8 +154,6 @@ inline Parameters parse_args(int& argc, char** argv) {
 
 
 
-typedef void (*run_function)(Parameters&);  // Pointer to a function to be used in the analyses function correspondance map
-
 int main(int argc, char* argv[]) {
 
     /* RADSex is the main class implementing the program.
@@ -163,19 +161,13 @@ int main(int argc, char* argv[]) {
      */
 
     // Map of function to run for each command
-    std::unordered_map<std::string, run_function> run_commands {{"depth", depth},
-                                                                {"distrib", distrib},
-                                                                {"freq", freq},
-                                                                {"map", map},
-                                                                {"process", process},
-                                                                {"signif", signif},
-                                                                {"subset", subset}
-                                                               };
+
 
     // Get parameter values from parsing command-line arguments
     Parameters parameters = parse_args(argc, argv);
 
-    run_commands[parameters.command](parameters);
+    Depth analysis(parameters, false, true, false);
+    analysis.run();
 
     return 0;
 }

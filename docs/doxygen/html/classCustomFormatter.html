@@ -83,15 +83,15 @@ Inheritance diagram for CustomFormatter:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7c1d208d52c932ca0cb40b35b0b1c673"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCustomFormatter.html#a7c1d208d52c932ca0cb40b35b0b1c673">make_option</a> (const CLI::Option *opt, bool is_positional) const</td></tr>
-<tr class="memdesc:a7c1d208d52c932ca0cb40b35b0b1c673"><td class="mdescLeft">&#160;</td><td class="mdescRight">Format help message for an option.  <a href="classCustomFormatter.html#a7c1d208d52c932ca0cb40b35b0b1c673">More...</a><br /></td></tr>
-<tr class="separator:a7c1d208d52c932ca0cb40b35b0b1c673"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cd26a35befd81c507255cc61f2ea0c6"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCustomFormatter.html#a2cd26a35befd81c507255cc61f2ea0c6">make_option</a> (const CLI::Option *opt, const bool is_positional) const</td></tr>
+<tr class="memdesc:a2cd26a35befd81c507255cc61f2ea0c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Format help message for an option.  <a href="classCustomFormatter.html#a2cd26a35befd81c507255cc61f2ea0c6">More...</a><br /></td></tr>
+<tr class="separator:a2cd26a35befd81c507255cc61f2ea0c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2de4066531a3f7cbdaeb6b1eab3b4bd5"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCustomFormatter.html#a2de4066531a3f7cbdaeb6b1eab3b4bd5">make_description</a> (const CLI::App *app) const</td></tr>
 <tr class="memdesc:a2de4066531a3f7cbdaeb6b1eab3b4bd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Format command description.  <a href="classCustomFormatter.html#a2de4066531a3f7cbdaeb6b1eab3b4bd5">More...</a><br /></td></tr>
 <tr class="separator:a2de4066531a3f7cbdaeb6b1eab3b4bd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2545ecf41317fd8bc529daae51edad24"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCustomFormatter.html#a2545ecf41317fd8bc529daae51edad24">set_column_widths</a> (CLI::App &amp;parser)</td></tr>
-<tr class="memdesc:a2545ecf41317fd8bc529daae51edad24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set column widths in help message for a CLI::App.  <a href="classCustomFormatter.html#a2545ecf41317fd8bc529daae51edad24">More...</a><br /></td></tr>
-<tr class="separator:a2545ecf41317fd8bc529daae51edad24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2578999ac91d0136d0349ebdeb3c6435"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCustomFormatter.html#a2578999ac91d0136d0349ebdeb3c6435">set_column_widths</a> (const CLI::App &amp;parser)</td></tr>
+<tr class="memdesc:a2578999ac91d0136d0349ebdeb3c6435"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set column widths in help message for a CLI::App.  <a href="classCustomFormatter.html#a2578999ac91d0136d0349ebdeb3c6435">More...</a><br /></td></tr>
+<tr class="separator:a2578999ac91d0136d0349ebdeb3c6435"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -144,8 +144,8 @@ uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a id="a7c1d208d52c932ca0cb40b35b0b1c673"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c1d208d52c932ca0cb40b35b0b1c673">&#9670;&nbsp;</a></span>make_option()</h2>
+<a id="a2cd26a35befd81c507255cc61f2ea0c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cd26a35befd81c507255cc61f2ea0c6">&#9670;&nbsp;</a></span>make_option()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -162,7 +162,7 @@ uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">const bool&#160;</td>
           <td class="paramname"><em>is_positional</em>&#160;</td>
         </tr>
         <tr>
@@ -179,7 +179,7 @@ uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div><div class="memdoc">
 
 <p>Format help message for an option. </p>
-<p>Generate a nicely formatted help message for an option. Use column widths to align columns for all options properly.</p>
+<p>Generate a nicely formatted help message for an option, using column widths to align columns for all options properly.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">opt</td><td>Pointer to an CLI::Option instance </td></tr>
@@ -191,8 +191,8 @@ uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a id="a2545ecf41317fd8bc529daae51edad24"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2545ecf41317fd8bc529daae51edad24">&#9670;&nbsp;</a></span>set_column_widths()</h2>
+<a id="a2578999ac91d0136d0349ebdeb3c6435"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2578999ac91d0136d0349ebdeb3c6435">&#9670;&nbsp;</a></span>set_column_widths()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -203,7 +203,7 @@ uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="memname">void CustomFormatter::set_column_widths </td>
           <td>(</td>
-          <td class="paramtype">CLI::App &amp;&#160;</td>
+          <td class="paramtype">const CLI::App &amp;&#160;</td>
           <td class="paramname"><em>parser</em></td><td>)</td>
           <td></td>
         </tr>

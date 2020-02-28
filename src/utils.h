@@ -30,17 +30,14 @@
 #include <time.h>
 #include <unordered_map>
 #include <vector>
+
 #define DTTMFMT "%Y-%m-%d %H:%M:%S"
 #define DTTMSZ 21
+
 #define LOG_ERROR "ERROR"
 #define LOG_WARNING "WARNING"
 #define LOG_INFO "INFO"
-#define BATCH_SIZE 100
-#define TMP_QUEUE_SIZE 1000
-#define MAX_QUEUE_SIZE 10000 /**< Maximum size of the markers queue */
 
-// Store sex distribution results
-typedef std::unordered_map<uint, std::unordered_map<uint, std::pair<uint64_t, double>>> sd_table;
 
 // Output current date and time in format specified in utils.h
 inline char* print_time (char *buff) {
@@ -117,26 +114,18 @@ inline std::vector<std::string> get_column_sex(std::unordered_map<std::string, s
 
 
 
-inline const std::vector<std::string> get_header(const std::string& input_file_path) {
-
-    std::string line = "#";
-    std::vector<std::string> header;
+inline std::ifstream open_input(const std::string& input_file_path) {
 
     std::ifstream input_file(input_file_path);
 
     if (not input_file.is_open()) {
-        log("Could not open input file <" + input_file_path + "> in get_header");
+
+        log("Could not open input file <" + input_file_path + ">", LOG_ERROR);
         exit(1);
+
     }
 
-    while (line[0] == '#') {
-        std::getline(input_file, line);
-    }
-
-    input_file.close();
-
-    header = split(line, "\t");
-    return header;
+    return input_file;
 }
 
 
@@ -185,7 +174,7 @@ inline void log_progress_bar(uint64_t& n_processed_markers, const uint32_t marke
 
     uint tick_size = 100 / ticks;
 
-    if (++n_processed_markers % (tick_size * marker_processed_tick) != 0) return;  // Not a step
+    if (n_processed_markers % (tick_size * marker_processed_tick) != 0) return;  // Not a step
 
     uint16_t progress = static_cast<uint16_t>(n_processed_markers / (tick_size * marker_processed_tick));
 

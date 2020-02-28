@@ -27,3 +27,6 @@ double get_chi_squared(uint n_males, uint n_females, uint total_males, uint tota
 
 // Compute the p-value for a Chi-square
 double get_chi_squared_p(double chi_squared);
+
+template<typename T>
+const T find_median(const std::vector<T>& container);

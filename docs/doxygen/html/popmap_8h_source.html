@@ -96,14 +96,14 @@ $(function() {
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="structPopmap.html">   28</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structPopmap.html">Popmap</a> {</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    std::unordered_map&lt;std::string, std::string&gt; groups;  <span class="comment">// Group for each individual</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    std::unordered_map&lt;std::string, uint&gt; counts;  <span class="comment">// Number of individual in each group</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    std::unordered_map&lt;std::string, std::string&gt; individual_groups;  <span class="comment">// Group for each individual</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    std::unordered_map&lt;std::string, uint&gt; group_counts;  <span class="comment">// Number of individuals in each group</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    uint16_t n_individuals = 0;  <span class="comment">// Total number of individuals</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    std::string get_group(<span class="keyword">const</span> std::string&amp; individual) {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">const</span> std::string get_group(<span class="keyword">const</span> std::string&amp; individual)<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        std::string group = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">if</span> (this-&gt;groups.find(individual) != this-&gt;groups.end()) group = this-&gt;groups[individual];</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">if</span> (this-&gt;individual_groups.find(individual) != this-&gt;individual_groups.end()) group = this-&gt;individual_groups.at(individual);</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">return</span> group;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    }</div>

@@ -67,7 +67,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">utils.h File Reference</div>  </div>
@@ -104,20 +103,6 @@ Macros</h2></td></tr>
 <tr class="memitem:aeb4f36db01bd128c7afeac5889dac311"><td class="memItemLeft" align="right" valign="top"><a id="aeb4f36db01bd128c7afeac5889dac311"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>LOG_INFO</b>&#160;&#160;&#160;&quot;INFO&quot;</td></tr>
 <tr class="separator:aeb4f36db01bd128c7afeac5889dac311"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ae2958e436c566413867028fc829ec0"><td class="memItemLeft" align="right" valign="top"><a id="a9ae2958e436c566413867028fc829ec0"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>BATCH_SIZE</b>&#160;&#160;&#160;100</td></tr>
-<tr class="separator:a9ae2958e436c566413867028fc829ec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e61276cc714d63cadbb716a58b6669b"><td class="memItemLeft" align="right" valign="top"><a id="a4e61276cc714d63cadbb716a58b6669b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>TMP_QUEUE_SIZE</b>&#160;&#160;&#160;1000</td></tr>
-<tr class="separator:a4e61276cc714d63cadbb716a58b6669b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a623ec78b7909090dbedac4af1d52abb4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_8h.html#a623ec78b7909090dbedac4af1d52abb4">MAX_QUEUE_SIZE</a>&#160;&#160;&#160;10000</td></tr>
-<tr class="separator:a623ec78b7909090dbedac4af1d52abb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:af74d5c314b8f8cbdafe1721f0e32f075"><td class="memItemLeft" align="right" valign="top"><a id="af74d5c314b8f8cbdafe1721f0e32f075"></a>
-typedef std::unordered_map&lt; uint, std::unordered_map&lt; uint, std::pair&lt; uint64_t, double &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>sd_table</b></td></tr>
-<tr class="separator:af74d5c314b8f8cbdafe1721f0e32f075"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -157,22 +142,6 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ac5169aeb75bd397c83c20b965cfdbfc6"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><b>print_list</b> (const T &amp;list, const std::string &amp;sep=&quot;, &quot;)</td></tr>
 <tr class="separator:ac5169aeb75bd397c83c20b965cfdbfc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a623ec78b7909090dbedac4af1d52abb4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a623ec78b7909090dbedac4af1d52abb4">&#9670;&nbsp;</a></span>MAX_QUEUE_SIZE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MAX_QUEUE_SIZE&#160;&#160;&#160;10000</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Maximum size of the markers queue </p>
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

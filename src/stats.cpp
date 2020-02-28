@@ -48,3 +48,37 @@ double get_chi_squared(uint n_males, uint n_females, uint total_males, uint tota
 
     return N * temp2 / Ns / Nf / Na / Nb;
 }
+
+
+template<typename T>
+const T find_median(const std::vector<T>& container) {
+
+    T median;
+
+    const auto start = container.first();
+    const auto end = container.end() - 1;
+    const auto size = container.size();
+
+    if (size % 2 == 0) {  // Find median for an even sized container (average of two possible median points)
+
+        const auto median_it1 = start + size / 2 - 1;
+        const auto median_it2 = start + size / 2;
+
+        std::nth_element(start, median_it1 , end);
+        const auto e1 = *median_it1;
+
+        std::nth_element(start, median_it2 , end);
+        const auto e2 = *median_it2;
+
+        median= (e1 + e2) / 2;
+
+    } else {  // Find median for odd sized vector
+
+        const auto median_it = start + size / 2;
+        std::nth_element(start, median_it , end);
+        median = *median_it;
+    }
+
+    return median;
+}
+

@@ -24,9 +24,9 @@ void subset(Parameters& parameters) {
 
     Popmap popmap = load_popmap(parameters);
 
-    if (parameters.set_max_group1) parameters.subset_max_group1 = popmap.counts[parameters.group1];
-    if (parameters.set_max_group2) parameters.subset_max_group2 = popmap.counts[parameters.group2];
-    if (parameters.set_max_individuals) parameters.subset_max_individuals = static_cast<uint>(popmap.groups.size());
+    if (parameters.set_max_group1) parameters.subset_max_group1 = popmap.group_counts[parameters.group1];
+    if (parameters.set_max_group2) parameters.subset_max_group2 = popmap.group_counts[parameters.group2];
+    if (parameters.set_max_individuals) parameters.subset_max_individuals = static_cast<uint>(popmap.individual_groups.size());
 
     log("RADSex subset started");
     log("Comparing groups \"" + parameters.group1 + "\" and \"" + parameters.group2 + "\"");
@@ -41,7 +41,7 @@ void subset(Parameters& parameters) {
 
     if (not parameters.output_fasta) output_file << print_list(header, "\t") << "\n";
 
-    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(queue_mutex), std::ref(parsing_ended), false, false);
+    std::thread parsing_thread(table_parser, std::ref(parameters), std::ref(popmap), std::ref(markers_queue), std::ref(parsing_ended), false, false);
     std::thread processing_thread(processor, std::ref(markers_queue), std::ref(popmap), std::ref(parameters), std::ref(queue_mutex), std::ref(output_file), std::ref(parsing_ended), BATCH_SIZE);
 
     parsing_thread.join();
@@ -79,7 +79,7 @@ void processor(MarkersQueue& markers_queue, Popmap& popmap, Parameters& paramete
                     marker.groups[parameters.group2] >= parameters.subset_min_group2 and marker.groups[parameters.group2] <= parameters.subset_max_group2 and
                     marker.n_individuals >= parameters.subset_min_individuals and marker.n_individuals <= parameters.subset_max_individuals) {
 
-                    chi_squared = get_chi_squared(marker.groups[parameters.group1], marker.groups[parameters.group2], popmap.counts[parameters.group1], popmap.counts[parameters.group2]);
+                    chi_squared = get_chi_squared(marker.groups[parameters.group1], marker.groups[parameters.group2], popmap.group_counts[parameters.group1], popmap.group_counts[parameters.group2]);
                     marker.p = static_cast<float>(get_chi_squared_p(chi_squared));
 
                     parameters.output_fasta ? marker.output_fasta(output_file, parameters.min_depth) : marker.output_table(output_file);

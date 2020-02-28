@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['get_5fbatch_50',['get_batch',['../table__parser_8h.html#a36a66b736283a186522db3b718319e1d',1,'table_parser.cpp']]]
+  ['failure_5fmessage_63',['failure_message',['../arg__parser_8h.html#ada75fff12f517de0fbfeb1324100e16b',1,'arg_parser.h']]]
 ];

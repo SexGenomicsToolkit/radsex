@@ -23,24 +23,22 @@
 #include "parameters.h"
 #include "utils.h"
 
-// Load a popmap file
+class Popmap {
 
-struct Popmap {
+    public:
 
-    std::unordered_map<std::string, std::string> groups;  // Group for each individual
-    std::unordered_map<std::string, uint> counts;  // Number of individual in each group
-    uint16_t n_individuals = 0;  // Total number of individuals
+        uint16_t n_individuals = 0;  ///< Total number of individuals
 
-    std::string get_group(const std::string& individual) {
+        Popmap() {};
+        Popmap(Parameters& parameters, bool check_groups = false);
+        std::string get_group(const std::string& individual) const;
+        uint get_count(const std::string& group) const;
+        std::string print_groups(const bool counts = false) const;
 
-        std::string group = "";
-        if (this->groups.find(individual) != this->groups.end()) group = this->groups[individual];
-        return group;
+    private:
 
-    }
+        std::string file;
+        std::unordered_map<std::string, std::string> individual_groups;  ///< Group for each individual
+        std::unordered_map<std::string, uint> group_counts;  ///< Number of individuals in each group
 
 };
-
-Popmap load_popmap(Parameters& parameters, bool compare = true);
-
-std::string print_groups(Popmap& popmap, bool counts = false);

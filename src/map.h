@@ -25,7 +25,7 @@
 #include <vector>
 #include "bwa/bwamem.h"
 #include "bwa/kseq.h"
-#include "table_parser.h"
+#include "markers_table.h"
 #include "parameters.h"
 #include "popmap.h"
 #include "stats.h"

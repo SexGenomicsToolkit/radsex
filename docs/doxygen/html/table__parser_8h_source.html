@@ -94,68 +94,71 @@ $(function() {
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="popmap_8h.html">popmap.h</a>&quot;</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="utils_8h.html">utils.h</a>&quot;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="structMarker.html">   29</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structMarker.html">Marker</a> {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    std::string <span class="keywordtype">id</span> = <span class="stringliteral">&quot;&quot;</span>;  <span class="comment">// Marker ID</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    std::string sequence = <span class="stringliteral">&quot;&quot;</span>;  <span class="comment">// Marker sequence</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    std::vector&lt;uint16_t&gt; individuals;  <span class="comment">// Marker depth in each individual</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    uint n_individuals = 0;  <span class="comment">// Total number of individuals in which the marker is present</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    std::unordered_map&lt;std::string, uint&gt; groups;  <span class="comment">// Number of individuals in which the marker is present for each group</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">float</span> p = 0;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">void</span> reset(<span class="keywordtype">bool</span> sex_stats_only) {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">if</span> (not sex_stats_only) this-&gt;<span class="keywordtype">id</span> = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordflow">if</span> (not sex_stats_only) this-&gt;sequence = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; group: this-&gt;groups) group.second = 0;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        this-&gt;n_individuals = 0;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; individual: this-&gt;individuals) individual = 0;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> output_table(std::ofstream&amp; output_file)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        output_file &lt;&lt; this-&gt;<span class="keywordtype">id</span> &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span> &lt;&lt; this-&gt;sequence;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; individual: this-&gt;individuals) output_file &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span> &lt;&lt; individual;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        output_file &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> output_fasta(std::ofstream&amp; output_file, uint min_depth)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        output_file &lt;&lt; <span class="stringliteral">&quot;&gt;&quot;</span> &lt;&lt; this-&gt;id;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> group: this-&gt;groups) output_file &lt;&lt; <span class="stringliteral">&quot;_&quot;</span> &lt;&lt; group.first &lt;&lt; <span class="stringliteral">&quot;:&quot;</span> &lt;&lt; group.second;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        output_file &lt;&lt; <span class="stringliteral">&quot;_p:&quot;</span> &lt;&lt; this-&gt;p &lt;&lt; <span class="stringliteral">&quot;_mindepth:&quot;</span> &lt;&lt; min_depth &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span> &lt;&lt; this-&gt;sequence &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;};</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="structMarkersQueue.html">   63</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structMarkersQueue.html">MarkersQueue</a> {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    std::queue&lt;Marker&gt; markers;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    uint64_t n_markers = 0;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    uint64_t loaded_markers = 0;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#define BATCH_SIZE 100</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#define TMP_QUEUE_SIZE 1000</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="table__parser_8h.html#a623ec78b7909090dbedac4af1d52abb4">   30</a></span>&#160;<span class="preprocessor">#define MAX_QUEUE_SIZE 10000 </span></div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="structMarker.html">   33</a></span>&#160;<span class="preprocessor">struct Marker {</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    std::string <span class="keywordtype">id</span> = <span class="stringliteral">&quot;&quot;</span>;  <span class="comment">// Marker ID</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    std::string sequence = <span class="stringliteral">&quot;&quot;</span>;  <span class="comment">// Marker sequence</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    std::vector&lt;uint16_t&gt; individuals;  <span class="comment">// Marker depth in each individual</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    uint n_individuals = 0;  <span class="comment">// Total number of individuals in which the marker is present</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    std::unordered_map&lt;std::string, uint&gt; groups;  <span class="comment">// Number of individuals in which the marker is present for each group</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">float</span> p = 0;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> reset(<span class="keywordtype">bool</span> sex_stats_only) {</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">if</span> (not sex_stats_only) this-&gt;<span class="keywordtype">id</span> = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">if</span> (not sex_stats_only) this-&gt;sequence = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; group: this-&gt;groups) group.second = 0;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        this-&gt;n_individuals = 0;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; individual: this-&gt;individuals) individual = 0;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> output_table(std::ofstream&amp; output_file)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        output_file &lt;&lt; this-&gt;<span class="keywordtype">id</span> &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span> &lt;&lt; this-&gt;sequence;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; individual: this-&gt;individuals) output_file &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span> &lt;&lt; individual;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        output_file &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> output_fasta(std::ofstream&amp; output_file, uint min_depth)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        output_file &lt;&lt; <span class="stringliteral">&quot;&gt;&quot;</span> &lt;&lt; this-&gt;id;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> group: this-&gt;groups) output_file &lt;&lt; <span class="stringliteral">&quot;_&quot;</span> &lt;&lt; group.first &lt;&lt; <span class="stringliteral">&quot;:&quot;</span> &lt;&lt; group.second;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        output_file &lt;&lt; <span class="stringliteral">&quot;_p:&quot;</span> &lt;&lt; this-&gt;p &lt;&lt; <span class="stringliteral">&quot;_mindepth:&quot;</span> &lt;&lt; min_depth &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span> &lt;&lt; this-&gt;sequence &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;};</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="structMarkersQueue.html">   67</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structMarkersQueue.html">MarkersQueue</a> {</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;};</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">typedef</span> std::vector&lt;std::string&gt; Header;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    std::queue&lt;Marker&gt; markers;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    uint64_t n_markers = 0;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    uint64_t loaded_markers = 0;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    std::mutex mutex;</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keywordtype">void</span> <a class="code" href="table__parser_8h.html#a112b4364370179e0a537d2a81eabc471">table_parser</a>(<a class="code" href="structParameters.html">Parameters</a>&amp; parameters, <span class="keyword">const</span> <a class="code" href="structPopmap.html">Popmap</a>&amp; popmap, <a class="code" href="structMarkersQueue.html">MarkersQueue</a>&amp; markers_queue, std::mutex&amp; queue_mutex, <span class="keywordtype">bool</span>&amp; parsing_ended, <span class="keywordtype">bool</span> no_seq = <span class="keyword">true</span>, <span class="keywordtype">bool</span> no_group = <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;std::vector&lt;Marker&gt; <a class="code" href="table__parser_8h.html#a36a66b736283a186522db3b718319e1d">get_batch</a>(<a class="code" href="structMarkersQueue.html">MarkersQueue</a>&amp; markers_queue, std::mutex&amp; queue_mutex, ulong batch_size=1000);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment">// Create a sex &lt;-&gt; column index correspondance map</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;std::vector&lt;std::string&gt; get_column_group(<span class="keyword">const</span> std::unordered_map&lt;std::string, std::string&gt;&amp; groups, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; header);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;};</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword">typedef</span> std::vector&lt;std::string&gt; Header;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="keywordtype">void</span> <a class="code" href="table__parser_8h.html#acae38db5e782a3fd35d349c195888fda">table_parser</a>(<a class="code" href="structParameters.html">Parameters</a>&amp; parameters, <span class="keyword">const</span> <a class="code" href="structPopmap.html">Popmap</a>&amp; popmap, <a class="code" href="structMarkersQueue.html">MarkersQueue</a>&amp; markers_queue, <span class="keywordtype">bool</span>&amp; parsing_ended, <span class="keywordtype">bool</span> no_seq = <span class="keyword">true</span>, <span class="keywordtype">bool</span> no_group = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;std::vector&lt;Marker&gt; <a class="code" href="table__parser_8h.html#a21186046e68117d7e230cc5daaf87f96">get_batch</a>(<a class="code" href="structMarkersQueue.html">MarkersQueue</a>&amp; markers_queue);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment">// Create a sex &lt;-&gt; column index correspondance map</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;std::vector&lt;std::string&gt; get_column_group(<span class="keyword">const</span> std::unordered_map&lt;std::string, std::string&gt;&amp; groups, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; header);</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="astructPopmap_html"><div class="ttname"><a href="structPopmap.html">Popmap</a></div><div class="ttdef"><b>Definition:</b> popmap.h:28</div></div>
-<div class="ttc" id="astructMarker_html"><div class="ttname"><a href="structMarker.html">Marker</a></div><div class="ttdef"><b>Definition:</b> table_parser.h:29</div></div>
-<div class="ttc" id="astructMarkersQueue_html"><div class="ttname"><a href="structMarkersQueue.html">MarkersQueue</a></div><div class="ttdef"><b>Definition:</b> table_parser.h:63</div></div>
+<div class="ttc" id="atable__parser_8h_html_acae38db5e782a3fd35d349c195888fda"><div class="ttname"><a href="table__parser_8h.html#acae38db5e782a3fd35d349c195888fda">table_parser</a></div><div class="ttdeci">void table_parser(Parameters &amp;parameters, const Popmap &amp;popmap, MarkersQueue &amp;markers_queue, bool &amp;parsing_ended, bool no_seq=true, bool no_group=false)</div><div class="ttdoc">Read markers from a markers depth table and store them in a queue.</div><div class="ttdef"><b>Definition:</b> table_parser.cpp:21</div></div>
+<div class="ttc" id="astructMarkersQueue_html"><div class="ttname"><a href="structMarkersQueue.html">MarkersQueue</a></div><div class="ttdef"><b>Definition:</b> table_parser.h:67</div></div>
 <div class="ttc" id="autils_8h_html"><div class="ttname"><a href="utils_8h.html">utils.h</a></div></div>
-<div class="ttc" id="atable__parser_8h_html_a36a66b736283a186522db3b718319e1d"><div class="ttname"><a href="table__parser_8h.html#a36a66b736283a186522db3b718319e1d">get_batch</a></div><div class="ttdeci">std::vector&lt; Marker &gt; get_batch(MarkersQueue &amp;markers_queue, std::mutex &amp;queue_mutex, ulong batch_size=1000)</div><div class="ttdoc">Get a batch of markers from the queue.</div><div class="ttdef"><b>Definition:</b> table_parser.cpp:150</div></div>
+<div class="ttc" id="atable__parser_8h_html_a21186046e68117d7e230cc5daaf87f96"><div class="ttname"><a href="table__parser_8h.html#a21186046e68117d7e230cc5daaf87f96">get_batch</a></div><div class="ttdeci">std::vector&lt; Marker &gt; get_batch(MarkersQueue &amp;markers_queue)</div><div class="ttdoc">Get a batch of markers from the queue.</div><div class="ttdef"><b>Definition:</b> table_parser.cpp:150</div></div>
 <div class="ttc" id="aparameters_8h_html"><div class="ttname"><a href="parameters_8h.html">parameters.h</a></div></div>
 <div class="ttc" id="astructParameters_html"><div class="ttname"><a href="structParameters.html">Parameters</a></div><div class="ttdef"><b>Definition:</b> parameters.h:24</div></div>
 <div class="ttc" id="apopmap_8h_html"><div class="ttname"><a href="popmap_8h.html">popmap.h</a></div></div>
-<div class="ttc" id="atable__parser_8h_html_a112b4364370179e0a537d2a81eabc471"><div class="ttname"><a href="table__parser_8h.html#a112b4364370179e0a537d2a81eabc471">table_parser</a></div><div class="ttdeci">void table_parser(Parameters &amp;parameters, const Popmap &amp;popmap, MarkersQueue &amp;markers_queue, std::mutex &amp;queue_mutex, bool &amp;parsing_ended, bool no_seq=true, bool no_group=false)</div><div class="ttdoc">Read markers from a markers depth table and store them in a queue.</div><div class="ttdef"><b>Definition:</b> table_parser.cpp:21</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

@@ -86,7 +86,7 @@ class CustomFormatter : public CLI::Formatter {
          * \return A string containing the formatted help message for the option
          */
 
-        virtual std::string make_option(const CLI::Option* opt, bool is_positional) const {
+        virtual std::string make_option(const CLI::Option* opt, const bool is_positional) const {
 
             std::string option = "", name = "", type = "", description = "", default_value = "", required = "REQUIRED", short_name = "";
             std::vector<std::string> options;
@@ -144,7 +144,7 @@ class CustomFormatter : public CLI::Formatter {
          * \param parser Pointer to a CLI::App instance
          */
 
-        void set_column_widths(CLI::App& parser) {
+        void set_column_widths(const CLI::App& parser) {
 
             std::string tmp = "";
 

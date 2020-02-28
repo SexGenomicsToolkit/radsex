@@ -9,12 +9,61 @@
 {\ttfamily \#include \char`\"{}parameters.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}popmap.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}utils.\+h\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structDistribResults}{Distrib\+Results}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structDistribResults}{Distrib\+Results}} struct. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
+void \mbox{\hyperlink{distrib_8h_a531e432e384f0579eb6eaa9f12bbf08f}{distrib}} (\mbox{\hyperlink{structParameters}{Parameters}} \&parameters)
+\begin{DoxyCompactList}\small\item\em Main function called by the distrib command. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{distrib_8h_a79b07da8680d163c920bc13827c8a836}{processor}} (\mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} \&markers\+\_\+queue, \mbox{\hyperlink{structParameters}{Parameters}} \&parameters, \mbox{\hyperlink{structDistribResults}{Distrib\+Results}} \&results, bool \&parsing\+\_\+ended)
+\begin{DoxyCompactList}\small\item\em Process markers from a \mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
 \mbox{\Hypertarget{distrib_8h_a531e432e384f0579eb6eaa9f12bbf08f}\label{distrib_8h_a531e432e384f0579eb6eaa9f12bbf08f}} 
-void {\bfseries distrib} (\mbox{\hyperlink{structParameters}{Parameters}} \&parameters)
-\item 
-\mbox{\Hypertarget{distrib_8h_af96b54cf2b3edf56c251c7b109989d13}\label{distrib_8h_af96b54cf2b3edf56c251c7b109989d13}} 
-void {\bfseries processor} (\mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} \&markers\+\_\+queue, \mbox{\hyperlink{structParameters}{Parameters}} \&parameters, std\+::mutex \&queue\+\_\+mutex, sd\+\_\+table \&results, uint64\+\_\+t \&n\+\_\+markers, bool \&parsing\+\_\+ended, ulong batch\+\_\+size)
-\end{DoxyCompactItemize}
+\index{distrib.h@{distrib.h}!distrib@{distrib}}
+\index{distrib@{distrib}!distrib.h@{distrib.h}}
+\doxysubsubsection{\texorpdfstring{distrib()}{distrib()}}
+{\footnotesize\ttfamily void distrib (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParameters}{Parameters}} \&}]{parameters }\end{DoxyParamCaption})}
+
+
+
+Main function called by the distrib command. 
+
+Compute the distribution of markers between two groups. ~\newline
+This function creates a parsing thread which reads a markers table file and stores markers into a queue, and a processing thread which reads batches of markers from the queue and compute metrics. ~\newline
+After all markers are processed, the function generates an tabulated output file with columns\+: ~\newline
+Group1 $\vert$ Group2 $\vert$ Markers $\vert$ P $\vert$ Signif Bias
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameters} & \mbox{\hyperlink{structParameters}{Parameters}} object storing the value of all R\+A\+D\+Sex parameters \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{distrib_8h_a79b07da8680d163c920bc13827c8a836}\label{distrib_8h_a79b07da8680d163c920bc13827c8a836}} 
+\index{distrib.h@{distrib.h}!processor@{processor}}
+\index{processor@{processor}!distrib.h@{distrib.h}}
+\doxysubsubsection{\texorpdfstring{processor()}{processor()}}
+{\footnotesize\ttfamily void processor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} \&}]{markers\+\_\+queue,  }\item[{\mbox{\hyperlink{structParameters}{Parameters}} \&}]{parameters,  }\item[{\mbox{\hyperlink{structDistribResults}{Distrib\+Results}} \&}]{results,  }\item[{bool \&}]{parsing\+\_\+ended }\end{DoxyParamCaption})}
+
+
+
+Process markers from a \mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}}. 
+
+Read batches of markers from a markers queue, and compute the number of individuals from each group (defined in the popmap) in which each marker is present with depth higher than parameters.\+min\+\_\+depth
+
+
+\begin{DoxyParams}{Parameters}
+{\em markers\+\_\+queue} & \mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} instance \\
+\hline
+{\em parameters} & \mbox{\hyperlink{structParameters}{Parameters}} object storing the value of all R\+A\+D\+Sex parameters \\
+\hline
+{\em results} & \mbox{\hyperlink{structDepthResults}{Depth\+Results}} instance storing individual marker depths and individual marker counts \\
+\hline
+{\em parsing\+\_\+ended} & A flag indicating that the parsing ended, updated by the \mbox{\hyperlink{table__parser_8h_acae38db5e782a3fd35d349c195888fda}{table\+\_\+parser()}} function \\
+\hline
+\end{DoxyParams}

@@ -23,7 +23,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "table_parser.h"
+#include "markers_table.h"
 #include "parameters.h"
 #include "popmap.h"
 #include "utils.h"

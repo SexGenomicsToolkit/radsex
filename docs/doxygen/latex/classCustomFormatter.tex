@@ -18,11 +18,11 @@ Inheritance diagram for Custom\+Formatter\+:\begin{figure}[H]
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-virtual std\+::string \mbox{\hyperlink{classCustomFormatter_a7c1d208d52c932ca0cb40b35b0b1c673}{make\+\_\+option}} (const C\+L\+I\+::\+Option $\ast$opt, bool is\+\_\+positional) const
+virtual std\+::string \mbox{\hyperlink{classCustomFormatter_a2cd26a35befd81c507255cc61f2ea0c6}{make\+\_\+option}} (const C\+L\+I\+::\+Option $\ast$opt, const bool is\+\_\+positional) const
 \begin{DoxyCompactList}\small\item\em Format help message for an option. \end{DoxyCompactList}\item 
 virtual std\+::string \mbox{\hyperlink{classCustomFormatter_a2de4066531a3f7cbdaeb6b1eab3b4bd5}{make\+\_\+description}} (const C\+L\+I\+::\+App $\ast$app) const
 \begin{DoxyCompactList}\small\item\em Format command description. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classCustomFormatter_a2545ecf41317fd8bc529daae51edad24}{set\+\_\+column\+\_\+widths}} (C\+L\+I\+::\+App \&parser)
+void \mbox{\hyperlink{classCustomFormatter_a2578999ac91d0136d0349ebdeb3c6435}{set\+\_\+column\+\_\+widths}} (const C\+L\+I\+::\+App \&parser)
 \begin{DoxyCompactList}\small\item\em Set column widths in help message for a C\+L\+I\+::\+App. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -61,17 +61,17 @@ Remove command description in C\+LI help message (not useful).
 \begin{DoxyReturn}{Returns}
 An empty string 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classCustomFormatter_a7c1d208d52c932ca0cb40b35b0b1c673}\label{classCustomFormatter_a7c1d208d52c932ca0cb40b35b0b1c673}} 
+\mbox{\Hypertarget{classCustomFormatter_a2cd26a35befd81c507255cc61f2ea0c6}\label{classCustomFormatter_a2cd26a35befd81c507255cc61f2ea0c6}} 
 \index{CustomFormatter@{CustomFormatter}!make\_option@{make\_option}}
 \index{make\_option@{make\_option}!CustomFormatter@{CustomFormatter}}
 \doxysubsubsection{\texorpdfstring{make\_option()}{make\_option()}}
-{\footnotesize\ttfamily virtual std\+::string Custom\+Formatter\+::make\+\_\+option (\begin{DoxyParamCaption}\item[{const C\+L\+I\+::\+Option $\ast$}]{opt,  }\item[{bool}]{is\+\_\+positional }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily virtual std\+::string Custom\+Formatter\+::make\+\_\+option (\begin{DoxyParamCaption}\item[{const C\+L\+I\+::\+Option $\ast$}]{opt,  }\item[{const bool}]{is\+\_\+positional }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 
 
 Format help message for an option. 
 
-Generate a nicely formatted help message for an option. Use column widths to align columns for all options properly.
+Generate a nicely formatted help message for an option, using column widths to align columns for all options properly.
 
 
 \begin{DoxyParams}{Parameters}
@@ -83,11 +83,11 @@ Generate a nicely formatted help message for an option. Use column widths to ali
 \begin{DoxyReturn}{Returns}
 A string containing the formatted help message for the option 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classCustomFormatter_a2545ecf41317fd8bc529daae51edad24}\label{classCustomFormatter_a2545ecf41317fd8bc529daae51edad24}} 
+\mbox{\Hypertarget{classCustomFormatter_a2578999ac91d0136d0349ebdeb3c6435}\label{classCustomFormatter_a2578999ac91d0136d0349ebdeb3c6435}} 
 \index{CustomFormatter@{CustomFormatter}!set\_column\_widths@{set\_column\_widths}}
 \index{set\_column\_widths@{set\_column\_widths}!CustomFormatter@{CustomFormatter}}
 \doxysubsubsection{\texorpdfstring{set\_column\_widths()}{set\_column\_widths()}}
-{\footnotesize\ttfamily void Custom\+Formatter\+::set\+\_\+column\+\_\+widths (\begin{DoxyParamCaption}\item[{C\+L\+I\+::\+App \&}]{parser }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily void Custom\+Formatter\+::set\+\_\+column\+\_\+widths (\begin{DoxyParamCaption}\item[{const C\+L\+I\+::\+App \&}]{parser }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 

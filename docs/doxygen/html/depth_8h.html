@@ -66,7 +66,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">depth.h File Reference</div>  </div>
@@ -78,28 +78,105 @@ $(function() {
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;unordered_map&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="table__parser_8h_source.html">table_parser.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="parameters_8h_source.html">parameters.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="popmap_8h_source.html">popmap.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="stats_8h_source.html">stats.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="table__parser_8h_source.html">table_parser.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br />
 </div>
 <p><a href="depth_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a3d790b8555c01e48d110b318583efaf3"><td class="memItemLeft" align="right" valign="top"><a id="a3d790b8555c01e48d110b318583efaf3"></a>
-typedef std::vector&lt; std::vector&lt; uint16_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Depths</b></td></tr>
-<tr class="separator:a3d790b8555c01e48d110b318583efaf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDepthResults.html">DepthResults</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">DepthsResults struct.  <a href="structDepthResults.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a0afd690eb883d820eabed0ba0987c6eb"><td class="memItemLeft" align="right" valign="top"><a id="a0afd690eb883d820eabed0ba0987c6eb"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>depth</b> (<a class="el" href="structParameters.html">Parameters</a> &amp;parameters)</td></tr>
-<tr class="separator:a0afd690eb883d820eabed0ba0987c6eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53fe14bec2454937ecf9478c49f9daac"><td class="memItemLeft" align="right" valign="top"><a id="a53fe14bec2454937ecf9478c49f9daac"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>processor</b> (<a class="el" href="structMarkersQueue.html">MarkersQueue</a> &amp;markers_queue, <a class="el" href="structParameters.html">Parameters</a> &amp;parameters, std::mutex &amp;queue_mutex, Depths &amp;results, std::vector&lt; uint32_t &gt; &amp;n_markers, bool &amp;parsing_ended, ulong batch_size, uint n_individuals)</td></tr>
-<tr class="separator:a53fe14bec2454937ecf9478c49f9daac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2291110e5c4c1c90506c1cd6902e00e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="depth_8h.html#ab2291110e5c4c1c90506c1cd6902e00e">depth</a> (const <a class="el" href="structParameters.html">Parameters</a> &amp;parameters)</td></tr>
+<tr class="memdesc:ab2291110e5c4c1c90506c1cd6902e00e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function called by the depth command.  <a href="depth_8h.html#ab2291110e5c4c1c90506c1cd6902e00e">More...</a><br /></td></tr>
+<tr class="separator:ab2291110e5c4c1c90506c1cd6902e00e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a050775c9b8c0513cf3ced6ac4350cdb4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="depth_8h.html#a050775c9b8c0513cf3ced6ac4350cdb4">processor</a> (<a class="el" href="structMarkersQueue.html">MarkersQueue</a> &amp;markers_queue, <a class="el" href="structDepthResults.html">DepthResults</a> &amp;results, bool &amp;parsing_ended)</td></tr>
+<tr class="memdesc:a050775c9b8c0513cf3ced6ac4350cdb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process markers from a <a class="el" href="structMarkersQueue.html">MarkersQueue</a>.  <a href="depth_8h.html#a050775c9b8c0513cf3ced6ac4350cdb4">More...</a><br /></td></tr>
+<tr class="separator:a050775c9b8c0513cf3ced6ac4350cdb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ab2291110e5c4c1c90506c1cd6902e00e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2291110e5c4c1c90506c1cd6902e00e">&#9670;&nbsp;</a></span>depth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void depth </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structParameters.html">Parameters</a> &amp;&#160;</td>
+          <td class="paramname"><em>parameters</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Main function called by the depth command. </p>
+<p>Compute the minimum, maximum, median, and average marker depth for each individual. <br  />
+This function creates a parsing thread which reads a markers table file and stores markers into a queue, and a processing thread which reads batches of markers from the queue and compute metrics. <br  />
+After all markers are processed, the function generates an tabulated output file with columns: <br  />
+Individual | Group | Markers | Retained | Min_depth | Max_depth | Median_depth | Average_depth</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parameters</td><td><a class="el" href="structParameters.html">Parameters</a> object storing the value of all RADSex parameters </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a050775c9b8c0513cf3ced6ac4350cdb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a050775c9b8c0513cf3ced6ac4350cdb4">&#9670;&nbsp;</a></span>processor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void processor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structMarkersQueue.html">MarkersQueue</a> &amp;&#160;</td>
+          <td class="paramname"><em>markers_queue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structDepthResults.html">DepthResults</a> &amp;&#160;</td>
+          <td class="paramname"><em>results</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool &amp;&#160;</td>
+          <td class="paramname"><em>parsing_ended</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Process markers from a <a class="el" href="structMarkersQueue.html">MarkersQueue</a>. </p>
+<p>Read batches of markers from a markers queue, store individual marker depths and update individual marker counts in results. Only retain markers present in &gt;75% of individuals to compute depth metrics.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">markers_queue</td><td><a class="el" href="structMarkersQueue.html">MarkersQueue</a> instance </td></tr>
+    <tr><td class="paramname">results</td><td><a class="el" href="structDepthResults.html" title="DepthsResults struct.">DepthResults</a> instance storing individual marker depths and individual marker counts </td></tr>
+    <tr><td class="paramname">parsing_ended</td><td>A flag indicating that the parsing ended, updated by the <a class="el" href="table__parser_8h.html#acae38db5e782a3fd35d349c195888fda" title="Read markers from a markers depth table and store them in a queue.">table_parser()</a> function </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

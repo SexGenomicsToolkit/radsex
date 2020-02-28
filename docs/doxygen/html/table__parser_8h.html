@@ -67,6 +67,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
@@ -88,6 +89,17 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMarkersQueue.html">MarkersQueue</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a9ae2958e436c566413867028fc829ec0"><td class="memItemLeft" align="right" valign="top"><a id="a9ae2958e436c566413867028fc829ec0"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>BATCH_SIZE</b>&#160;&#160;&#160;100</td></tr>
+<tr class="separator:a9ae2958e436c566413867028fc829ec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e61276cc714d63cadbb716a58b6669b"><td class="memItemLeft" align="right" valign="top"><a id="a4e61276cc714d63cadbb716a58b6669b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>TMP_QUEUE_SIZE</b>&#160;&#160;&#160;1000</td></tr>
+<tr class="separator:a4e61276cc714d63cadbb716a58b6669b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a623ec78b7909090dbedac4af1d52abb4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table__parser_8h.html#a623ec78b7909090dbedac4af1d52abb4">MAX_QUEUE_SIZE</a>&#160;&#160;&#160;10000</td></tr>
+<tr class="separator:a623ec78b7909090dbedac4af1d52abb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:a182a7d88af41ffade4ed9f42db097f22"><td class="memItemLeft" align="right" valign="top"><a id="a182a7d88af41ffade4ed9f42db097f22"></a>
@@ -96,19 +108,35 @@ typedef std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" vali
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a112b4364370179e0a537d2a81eabc471"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table__parser_8h.html#a112b4364370179e0a537d2a81eabc471">table_parser</a> (<a class="el" href="structParameters.html">Parameters</a> &amp;parameters, const <a class="el" href="structPopmap.html">Popmap</a> &amp;popmap, <a class="el" href="structMarkersQueue.html">MarkersQueue</a> &amp;markers_queue, std::mutex &amp;queue_mutex, bool &amp;parsing_ended, bool no_seq=true, bool no_group=false)</td></tr>
-<tr class="memdesc:a112b4364370179e0a537d2a81eabc471"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read markers from a markers depth table and store them in a queue.  <a href="table__parser_8h.html#a112b4364370179e0a537d2a81eabc471">More...</a><br /></td></tr>
-<tr class="separator:a112b4364370179e0a537d2a81eabc471"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36a66b736283a186522db3b718319e1d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structMarker.html">Marker</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table__parser_8h.html#a36a66b736283a186522db3b718319e1d">get_batch</a> (<a class="el" href="structMarkersQueue.html">MarkersQueue</a> &amp;markers_queue, std::mutex &amp;queue_mutex, ulong batch_size=1000)</td></tr>
-<tr class="memdesc:a36a66b736283a186522db3b718319e1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a batch of markers from the queue.  <a href="table__parser_8h.html#a36a66b736283a186522db3b718319e1d">More...</a><br /></td></tr>
-<tr class="separator:a36a66b736283a186522db3b718319e1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acae38db5e782a3fd35d349c195888fda"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table__parser_8h.html#acae38db5e782a3fd35d349c195888fda">table_parser</a> (<a class="el" href="structParameters.html">Parameters</a> &amp;parameters, const <a class="el" href="structPopmap.html">Popmap</a> &amp;popmap, <a class="el" href="structMarkersQueue.html">MarkersQueue</a> &amp;markers_queue, bool &amp;parsing_ended, bool no_seq=true, bool no_group=false)</td></tr>
+<tr class="memdesc:acae38db5e782a3fd35d349c195888fda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read markers from a markers depth table and store them in a queue.  <a href="table__parser_8h.html#acae38db5e782a3fd35d349c195888fda">More...</a><br /></td></tr>
+<tr class="separator:acae38db5e782a3fd35d349c195888fda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21186046e68117d7e230cc5daaf87f96"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structMarker.html">Marker</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="table__parser_8h.html#a21186046e68117d7e230cc5daaf87f96">get_batch</a> (<a class="el" href="structMarkersQueue.html">MarkersQueue</a> &amp;markers_queue)</td></tr>
+<tr class="memdesc:a21186046e68117d7e230cc5daaf87f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a batch of markers from the queue.  <a href="table__parser_8h.html#a21186046e68117d7e230cc5daaf87f96">More...</a><br /></td></tr>
+<tr class="separator:a21186046e68117d7e230cc5daaf87f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7091bf3f43806bf2ea0fb170835b4e6"><td class="memItemLeft" align="right" valign="top"><a id="af7091bf3f43806bf2ea0fb170835b4e6"></a>
 std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_column_group</b> (const std::unordered_map&lt; std::string, std::string &gt; &amp;groups, const std::vector&lt; std::string &gt; &amp;header)</td></tr>
 <tr class="separator:af7091bf3f43806bf2ea0fb170835b4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a623ec78b7909090dbedac4af1d52abb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a623ec78b7909090dbedac4af1d52abb4">&#9670;&nbsp;</a></span>MAX_QUEUE_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_QUEUE_SIZE&#160;&#160;&#160;10000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Maximum size of the markers queue </p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a36a66b736283a186522db3b718319e1d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36a66b736283a186522db3b718319e1d">&#9670;&nbsp;</a></span>get_batch()</h2>
+<a id="a21186046e68117d7e230cc5daaf87f96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21186046e68117d7e230cc5daaf87f96">&#9670;&nbsp;</a></span>get_batch()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -117,24 +145,8 @@ std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bott
           <td class="memname">std::vector&lt;<a class="el" href="structMarker.html">Marker</a>&gt; get_batch </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structMarkersQueue.html">MarkersQueue</a> &amp;&#160;</td>
-          <td class="paramname"><em>markers_queue</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>markers_queue</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">std::mutex &amp;&#160;</td>
-          <td class="paramname"><em>queue_mutex</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ulong&#160;</td>
-          <td class="paramname"><em>batch_size</em> = <code>1000</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -143,7 +155,6 @@ std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bott
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">markers_queue</td><td></td></tr>
-    <tr><td class="paramname">queue_mutex</td><td></td></tr>
     <tr><td class="paramname">batch_size</td><td></td></tr>
   </table>
   </dd>
@@ -152,8 +163,8 @@ std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bott
 
 </div>
 </div>
-<a id="a112b4364370179e0a537d2a81eabc471"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a112b4364370179e0a537d2a81eabc471">&#9670;&nbsp;</a></span>table_parser()</h2>
+<a id="acae38db5e782a3fd35d349c195888fda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acae38db5e782a3fd35d349c195888fda">&#9670;&nbsp;</a></span>table_parser()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -175,12 +186,6 @@ std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bott
           <td></td>
           <td class="paramtype"><a class="el" href="structMarkersQueue.html">MarkersQueue</a> &amp;&#160;</td>
           <td class="paramname"><em>markers_queue</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::mutex &amp;&#160;</td>
-          <td class="paramname"><em>queue_mutex</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -209,13 +214,12 @@ std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bott
 </div><div class="memdoc">
 
 <p>Read markers from a markers depth table and store them in a queue. </p>
-<p>Read a markers depth table generated with process(). Each marker is stored in a <a class="el" href="structMarker.html">Marker</a> instance which is pushed to a queue. The function waits if the queue gets bigger than <a class="el" href="utils_8h.html#a623ec78b7909090dbedac4af1d52abb4">MAX_QUEUE_SIZE</a>. Batches of markers are obtained from the queue with <a class="el" href="table__parser_8h.html#a36a66b736283a186522db3b718319e1d" title="Get a batch of markers from the queue.">get_batch()</a>.</p>
+<p>Read a markers depth table generated with process(). Each marker is stored in a <a class="el" href="structMarker.html">Marker</a> instance which is pushed to a queue. The function waits if the queue gets bigger than <a class="el" href="table__parser_8h.html#a623ec78b7909090dbedac4af1d52abb4">MAX_QUEUE_SIZE</a>. Batches of markers are obtained from the queue with <a class="el" href="table__parser_8h.html#a21186046e68117d7e230cc5daaf87f96" title="Get a batch of markers from the queue.">get_batch()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">parameters</td><td>A Parameter object which contains values of all parameters </td></tr>
     <tr><td class="paramname">popmap</td><td>A <a class="el" href="structPopmap.html">Popmap</a> object with information on the group of each individual </td></tr>
     <tr><td class="paramname">markers_queue</td><td>Queue of <a class="el" href="structMarker.html">Marker</a> objects </td></tr>
-    <tr><td class="paramname">queue_mutex</td><td>Mutex to lock / unlock the markers queue </td></tr>
     <tr><td class="paramname">parsing_ended</td><td>A flag indicating that the parsing ended, set to true before exiting the function </td></tr>
     <tr><td class="paramname">no_seq</td><td>If true, marker sequences and ids won't be stored in <a class="el" href="structMarker.html">Marker</a> objects </td></tr>
     <tr><td class="paramname">no_group</td><td>If true, group counts won't be computed </td></tr>
