@@ -20,7 +20,7 @@ Inheritance diagram for Custom\+Formatter\+:\begin{figure}[H]
 \item 
 virtual std\+::string \mbox{\hyperlink{classCustomFormatter_a2cd26a35befd81c507255cc61f2ea0c6}{make\+\_\+option}} (const C\+L\+I\+::\+Option $\ast$opt, const bool is\+\_\+positional) const
 \begin{DoxyCompactList}\small\item\em Format help message for an option. \end{DoxyCompactList}\item 
-virtual std\+::string \mbox{\hyperlink{classCustomFormatter_a2de4066531a3f7cbdaeb6b1eab3b4bd5}{make\+\_\+description}} (const C\+L\+I\+::\+App $\ast$app) const
+virtual std\+::string \mbox{\hyperlink{classCustomFormatter_aebb02977b6d292d00213472667f76046}{make\+\_\+description}} (const C\+L\+I\+::\+App $\ast$) const
 \begin{DoxyCompactList}\small\item\em Format command description. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classCustomFormatter_a2578999ac91d0136d0349ebdeb3c6435}{set\+\_\+column\+\_\+widths}} (const C\+L\+I\+::\+App \&parser)
 \begin{DoxyCompactList}\small\item\em Set column widths in help message for a C\+L\+I\+::\+App. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -40,27 +40,28 @@ Custom C\+L\+I11 Formatter.
 
 This class is used to override default help message format in C\+L\+I11 Formatter. 
 
+Definition at line 73 of file arg\+\_\+parser.\+h.
+
+
+
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classCustomFormatter_a2de4066531a3f7cbdaeb6b1eab3b4bd5}\label{classCustomFormatter_a2de4066531a3f7cbdaeb6b1eab3b4bd5}} 
+\mbox{\Hypertarget{classCustomFormatter_aebb02977b6d292d00213472667f76046}\label{classCustomFormatter_aebb02977b6d292d00213472667f76046}} 
 \index{CustomFormatter@{CustomFormatter}!make\_description@{make\_description}}
 \index{make\_description@{make\_description}!CustomFormatter@{CustomFormatter}}
 \doxysubsubsection{\texorpdfstring{make\_description()}{make\_description()}}
-{\footnotesize\ttfamily virtual std\+::string Custom\+Formatter\+::make\+\_\+description (\begin{DoxyParamCaption}\item[{const C\+L\+I\+::\+App $\ast$}]{app }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily virtual std\+::string Custom\+Formatter\+::make\+\_\+description (\begin{DoxyParamCaption}\item[{const C\+L\+I\+::\+App $\ast$}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 
 
 Format command description. 
 
-Remove command description in C\+LI help message (not useful).
-
-
-\begin{DoxyParams}{Parameters}
-{\em app} & Pointer to a C\+L\+I\+::\+App instance \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
+Remove command description in C\+LI help message. \begin{DoxyReturn}{Returns}
 An empty string 
 \end{DoxyReturn}
+
+
+Definition at line 135 of file arg\+\_\+parser.\+h.
+
 \mbox{\Hypertarget{classCustomFormatter_a2cd26a35befd81c507255cc61f2ea0c6}\label{classCustomFormatter_a2cd26a35befd81c507255cc61f2ea0c6}} 
 \index{CustomFormatter@{CustomFormatter}!make\_option@{make\_option}}
 \index{make\_option@{make\_option}!CustomFormatter@{CustomFormatter}}
@@ -83,6 +84,10 @@ Generate a nicely formatted help message for an option, using column widths to a
 \begin{DoxyReturn}{Returns}
 A string containing the formatted help message for the option 
 \end{DoxyReturn}
+
+
+Definition at line 93 of file arg\+\_\+parser.\+h.
+
 \mbox{\Hypertarget{classCustomFormatter_a2578999ac91d0136d0349ebdeb3c6435}\label{classCustomFormatter_a2578999ac91d0136d0349ebdeb3c6435}} 
 \index{CustomFormatter@{CustomFormatter}!set\_column\_widths@{set\_column\_widths}}
 \index{set\_column\_widths@{set\_column\_widths}!CustomFormatter@{CustomFormatter}}
@@ -100,6 +105,10 @@ Determine column widths from the maximum element length in each column
 {\em parser} & Pointer to a C\+L\+I\+::\+App instance \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 149 of file arg\+\_\+parser.\+h.
+
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}

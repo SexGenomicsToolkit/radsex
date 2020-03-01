@@ -1,0 +1,165 @@
+\hypertarget{classPopmap}{}\doxysection{Popmap Class Reference}
+\label{classPopmap}\index{Popmap@{Popmap}}
+
+
+\mbox{\hyperlink{classPopmap}{Popmap}} class.  
+
+
+
+
+{\ttfamily \#include $<$popmap.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classPopmap_aa4b5134bef1644b97e42a586137df107}\label{classPopmap_aa4b5134bef1644b97e42a586137df107}} 
+\mbox{\hyperlink{classPopmap_aa4b5134bef1644b97e42a586137df107}{Popmap}} ()
+\begin{DoxyCompactList}\small\item\em Default \mbox{\hyperlink{classPopmap}{Popmap}} constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classPopmap_a21fdd0de903399d80f5488ec543720c1}{Popmap}} (\mbox{\hyperlink{structParameters}{Parameters}} \&parameters, bool check\+\_\+groups=false)
+\begin{DoxyCompactList}\small\item\em Standard \mbox{\hyperlink{classPopmap}{Popmap}} constructor. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classPopmap_a190319dd3d23283e0abc5dc1650fa44f}{get\+\_\+group}} (const std\+::string \&individual) const
+\begin{DoxyCompactList}\small\item\em Get group for an individual. \end{DoxyCompactList}\item 
+uint \mbox{\hyperlink{classPopmap_a84116d0a16650cde1b7d4bca949b81c6}{get\+\_\+count}} (const std\+::string \&group) const
+\begin{DoxyCompactList}\small\item\em Get individual count for a group. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classPopmap_a7afcaf67a2b1efff572b2640cc31af4b}{print\+\_\+groups}} (const bool counts=false) const
+\begin{DoxyCompactList}\small\item\em Print all the groups in the popmap. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classPopmap_a4e43e753cd3fa333e03c78dd6d72e470}\label{classPopmap_a4e43e753cd3fa333e03c78dd6d72e470}} 
+uint16\+\_\+t \mbox{\hyperlink{classPopmap_a4e43e753cd3fa333e03c78dd6d72e470}{n\+\_\+individuals}} = 0
+\begin{DoxyCompactList}\small\item\em Total number of individuals in the popmap. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classPopmap_a2d552c2f250794da897ebcb8d388dbde}\label{classPopmap_a2d552c2f250794da897ebcb8d388dbde}} 
+std\+::string \mbox{\hyperlink{classPopmap_a2d552c2f250794da897ebcb8d388dbde}{file}}
+\begin{DoxyCompactList}\small\item\em Path to the popmap file. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPopmap_ae8a15404951a751b744af89432373850}\label{classPopmap_ae8a15404951a751b744af89432373850}} 
+std\+::unordered\+\_\+map$<$ std\+::string, std\+::string $>$ \mbox{\hyperlink{classPopmap_ae8a15404951a751b744af89432373850}{individual\+\_\+groups}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classMap}{Map}} storing group for each individual\+: \{individual -\/$>$ group\}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPopmap_a7e6cabaf916d4eba0532434dd831a91b}\label{classPopmap_a7e6cabaf916d4eba0532434dd831a91b}} 
+std\+::unordered\+\_\+map$<$ std\+::string, uint $>$ \mbox{\hyperlink{classPopmap_a7e6cabaf916d4eba0532434dd831a91b}{group\+\_\+counts}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classMap}{Map}} storing the number of individuals in each group\+: \{group -\/$>$ number of individuals\}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{classPopmap}{Popmap}} class. 
+
+Store group information inferred from a tabulated file (popmap) and implement methods to get an individual\textquotesingle{}s group and the number of individuals for a group. 
+
+Definition at line 36 of file popmap.\+h.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classPopmap_a21fdd0de903399d80f5488ec543720c1}\label{classPopmap_a21fdd0de903399d80f5488ec543720c1}} 
+\index{Popmap@{Popmap}!Popmap@{Popmap}}
+\index{Popmap@{Popmap}!Popmap@{Popmap}}
+\doxysubsubsection{\texorpdfstring{Popmap()}{Popmap()}}
+{\footnotesize\ttfamily Popmap\+::\+Popmap (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParameters}{Parameters}} \&}]{parameters,  }\item[{bool}]{check\+\_\+groups = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Standard \mbox{\hyperlink{classPopmap}{Popmap}} constructor. 
+
+Read a popmap file and store the group for each individual as well as individual counts for each group.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameters} & \mbox{\hyperlink{structParameters}{Parameters}} instance storing the value of all R\+A\+D\+Sex parameters \\
+\hline
+{\em check\+\_\+groups} & If true, performs checks on the groups obtained from the popmap \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 27 of file popmap.\+cpp.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classPopmap_a84116d0a16650cde1b7d4bca949b81c6}\label{classPopmap_a84116d0a16650cde1b7d4bca949b81c6}} 
+\index{Popmap@{Popmap}!get\_count@{get\_count}}
+\index{get\_count@{get\_count}!Popmap@{Popmap}}
+\doxysubsubsection{\texorpdfstring{get\_count()}{get\_count()}}
+{\footnotesize\ttfamily uint Popmap\+::get\+\_\+count (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{group }\end{DoxyParamCaption}) const}
+
+
+
+Get individual count for a group. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em group} & Name of the group\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of individuals for this group 
+\end{DoxyReturn}
+
+
+Definition at line 117 of file popmap.\+cpp.
+
+
+
+Referenced by Distrib\+::generate\+\_\+output(), and Map\+::process\+\_\+marker().
+
+\mbox{\Hypertarget{classPopmap_a190319dd3d23283e0abc5dc1650fa44f}\label{classPopmap_a190319dd3d23283e0abc5dc1650fa44f}} 
+\index{Popmap@{Popmap}!get\_group@{get\_group}}
+\index{get\_group@{get\_group}!Popmap@{Popmap}}
+\doxysubsubsection{\texorpdfstring{get\_group()}{get\_group()}}
+{\footnotesize\ttfamily std\+::string Popmap\+::get\+\_\+group (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{individual }\end{DoxyParamCaption}) const}
+
+
+
+Get group for an individual. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em individual} & Name of the individual\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string containing the group for the individual or \char`\"{}\char`\"{} if the individual was not in the popmap 
+\end{DoxyReturn}
+
+
+Definition at line 96 of file popmap.\+cpp.
+
+
+
+Referenced by Depth\+::generate\+\_\+output().
+
+\mbox{\Hypertarget{classPopmap_a7afcaf67a2b1efff572b2640cc31af4b}\label{classPopmap_a7afcaf67a2b1efff572b2640cc31af4b}} 
+\index{Popmap@{Popmap}!print\_groups@{print\_groups}}
+\index{print\_groups@{print\_groups}!Popmap@{Popmap}}
+\doxysubsubsection{\texorpdfstring{print\_groups()}{print\_groups()}}
+{\footnotesize\ttfamily std\+::string Popmap\+::print\+\_\+groups (\begin{DoxyParamCaption}\item[{const bool}]{counts = {\ttfamily false} }\end{DoxyParamCaption}) const}
+
+
+
+Print all the groups in the popmap. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em counts} & If true, counts are printed along groups (e.\+g. \char`\"{}\+Group1\+: 15, Group2\+: 20\char`\"{})\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string with comma-\/separated groups (e.\+g. \char`\"{}\+Group1, Group2\char`\"{}) 
+\end{DoxyReturn}
+
+
+Definition at line 138 of file popmap.\+cpp.
+
+
+
+Referenced by Popmap().
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/romain/work/code/\+Rad\+Sex/src/\mbox{\hyperlink{popmap_8h}{popmap.\+h}}\item 
+/home/romain/work/code/\+Rad\+Sex/src/\mbox{\hyperlink{popmap_8cpp}{popmap.\+cpp}}\end{DoxyCompactItemize}

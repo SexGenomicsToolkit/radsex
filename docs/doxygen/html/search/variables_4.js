@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['n_5fmarkers_75',['n_markers',['../structDistribResults.html#ab9d3db0c032e8fcbe17001667f8c2201',1,'DistribResults']]]
+  ['extension_291',['extension',['../structInputFile.html#a1725211751569079c1fa61d416616df6',1,'InputFile']]],
+  ['extensions_292',['extensions',['../process_8h.html#a8996547d4c7394b4cb2ab28737538dc7',1,'process.h']]]
 ];

@@ -1,0 +1,132 @@
+\hypertarget{classSignif}{}\doxysection{Signif Class Reference}
+\label{classSignif}\index{Signif@{Signif}}
+
+
+Implements the \char`\"{}signif\char`\"{} analysis.  
+
+
+
+
+{\ttfamily \#include $<$signif.\+h$>$}
+
+Inheritance diagram for Signif\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classSignif}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classSignif_a435863a16431abac30edc46f4e5eed5a}\label{classSignif_a435863a16431abac30edc46f4e5eed5a}} 
+\mbox{\hyperlink{classSignif_a435863a16431abac30edc46f4e5eed5a}{Signif}} ()
+\begin{DoxyCompactList}\small\item\em Default \mbox{\hyperlink{classSignif}{Signif}} constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classSignif_a16b4bc567128535d38770665d930c057}{Signif}} (\mbox{\hyperlink{structParameters}{Parameters}} \&\mbox{\hyperlink{classAnalysis_a8abd4de209925cb46571d4db97977d32}{parameters}}, bool \mbox{\hyperlink{classAnalysis_a744305d7fed1cc583580c5920f0e39b2}{compare\+\_\+groups}}=true, bool \mbox{\hyperlink{classAnalysis_acb2ede1501279963996f5e42eea88cca}{store\+\_\+groups}}=true, bool \mbox{\hyperlink{classAnalysis_a8b6e589cb74d4c25dcdcd88665a07060}{store\+\_\+sequence}}=true)
+\begin{DoxyCompactList}\small\item\em Standard \mbox{\hyperlink{classSignif}{Signif}} constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classSignif_ac06a653925053d81985a36dcf6e96ad2}{process\+\_\+marker}} (\mbox{\hyperlink{classMarker}{Marker}} \&marker)
+\begin{DoxyCompactList}\small\item\em Process a single marker. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classSignif_ac64b0e21aed03d3ef10ff1a0f1cea654}{generate\+\_\+output}} ()
+\begin{DoxyCompactList}\small\item\em Generate the output file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classSignif_a2a256d1c80dc918b0c4f9453b0552d0f}\label{classSignif_a2a256d1c80dc918b0c4f9453b0552d0f}} 
+\mbox{\hyperlink{structSignifResults}{Signif\+Results}} \mbox{\hyperlink{classSignif_a2a256d1c80dc918b0c4f9453b0552d0f}{results}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structSignifResults}{Signif\+Results}} instance to store markers significantly associated with groups before Bonferroni correction. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Implements the \char`\"{}signif\char`\"{} analysis. 
+
+Find all markers significantly associated with groups. ~\newline
+After all markers are processed, significant markers are output either as a markers depth table (ID $\vert$ Sequence $\vert$ \mbox{\hyperlink{classDepth}{Depth}} in individual 1 $\vert$ .... $\vert$ \mbox{\hyperlink{classDepth}{Depth}} in individual N) or in a F\+A\+S\+TA file with headers formatted as \char`\"{}$<$id$>$\+\_\+$<$group1\+:count$>$\+\_\+$<$group2\+:count$>$\+\_\+p\+:$<$p-\/value of association with group$>$\+\_\+mindepth\+:$<$minimum depth to consider a marker present in the analysis\char`\"{} 
+
+Definition at line 61 of file signif.\+h.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classSignif_a16b4bc567128535d38770665d930c057}\label{classSignif_a16b4bc567128535d38770665d930c057}} 
+\index{Signif@{Signif}!Signif@{Signif}}
+\index{Signif@{Signif}!Signif@{Signif}}
+\doxysubsubsection{\texorpdfstring{Signif()}{Signif()}}
+{\footnotesize\ttfamily Signif\+::\+Signif (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParameters}{Parameters}} \&}]{parameters,  }\item[{bool}]{compare\+\_\+groups = {\ttfamily true},  }\item[{bool}]{store\+\_\+groups = {\ttfamily true},  }\item[{bool}]{store\+\_\+sequence = {\ttfamily true} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Standard \mbox{\hyperlink{classSignif}{Signif}} constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameters} & \mbox{\hyperlink{structParameters}{Parameters}} object storing the value of all R\+A\+D\+Sex parameters \\
+\hline
+{\em compare\+\_\+groups} & If true, groups are checked when loading the popmap \\
+\hline
+{\em store\+\_\+groups} & If true, group info is computed for each marker when parsing the markers table \\
+\hline
+{\em store\+\_\+sequence} & If true, marker sequences are stored for each marker when parsing the markers table \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 81 of file signif.\+h.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classSignif_ac64b0e21aed03d3ef10ff1a0f1cea654}\label{classSignif_ac64b0e21aed03d3ef10ff1a0f1cea654}} 
+\index{Signif@{Signif}!generate\_output@{generate\_output}}
+\index{generate\_output@{generate\_output}!Signif@{Signif}}
+\doxysubsubsection{\texorpdfstring{generate\_output()}{generate\_output()}}
+{\footnotesize\ttfamily void Signif\+::generate\+\_\+output (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Generate the output file. 
+
+Apply Bonferroni correction (if not disabled) to assess significance of association with groups. ~\newline
+Export markers significantly associated with group to a file, either\+: ~\newline
+
+\begin{DoxyItemize}
+\item a markers depth table, i.\+e. tabulated file for columns \char`\"{}\+I\+D $\vert$ Sequence $\vert$ Depth in individual 1 $\vert$ .... $\vert$ Depth in individual N\char`\"{}
+\item a F\+A\+S\+TA file with headers formatted as \char`\"{}$<$id$>$\+\_\+$<$group1\+:count$>$\+\_\+$<$group2\+:count$>$\+\_\+p\+:$<$p-\/value of association with group$>$\+\_\+mindepth\+:$<$minimum depth to consider a marker present in the analysis\char`\"{} 
+\end{DoxyItemize}
+
+Reimplemented from \mbox{\hyperlink{classAnalysis_a23da6dbd599ede2e4973a0313128f428}{Analysis}}.
+
+
+
+Definition at line 46 of file signif.\+cpp.
+
+\mbox{\Hypertarget{classSignif_ac06a653925053d81985a36dcf6e96ad2}\label{classSignif_ac06a653925053d81985a36dcf6e96ad2}} 
+\index{Signif@{Signif}!process\_marker@{process\_marker}}
+\index{process\_marker@{process\_marker}!Signif@{Signif}}
+\doxysubsubsection{\texorpdfstring{process\_marker()}{process\_marker()}}
+{\footnotesize\ttfamily void Signif\+::process\+\_\+marker (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classMarker}{Marker}} \&}]{marker }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Process a single marker. 
+
+Store markers significantly associated with groups in results.\+candidate\+\_\+markers.
+
+
+\begin{DoxyParams}{Parameters}
+{\em marker} & Current marker info stored in a \mbox{\hyperlink{classMarker}{Marker}} instance. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{classAnalysis_ac2c749dc8512a6ef200042e59c4369bc}{Analysis}}.
+
+
+
+Definition at line 27 of file signif.\+cpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/romain/work/code/\+Rad\+Sex/src/\mbox{\hyperlink{signif_8h}{signif.\+h}}\item 
+/home/romain/work/code/\+Rad\+Sex/src/\mbox{\hyperlink{signif_8cpp}{signif.\+cpp}}\end{DoxyCompactItemize}

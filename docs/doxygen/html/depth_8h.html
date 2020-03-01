@@ -5,10 +5,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: /home/romain/work/code/RadSex/src/depth.h File Reference</title>
+<title>RADSex: /home/romain/work/code/RadSex/src/depth.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -21,8 +25,10 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">My Project
+   <div id="projectname">RADSex
+   &#160;<span id="projectnumber">1.0.0</span>
    </div>
+   <div id="projectbrief">RAD-Sequencing analysis pipeline for sex determination</div>
   </td>
  </tr>
  </tbody>
@@ -45,6 +51,23 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('depth_8h.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -59,29 +82,22 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
 <div class="title">depth.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;fstream&gt;</code><br />
-<code>#include &lt;numeric&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;unordered_map&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
+
+<p>Defines the <a class="el" href="classDepth.html" title="Implements the &quot;depth&quot; analysis.">Depth</a> class implementing the "depth" analysis.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &lt;numeric&gt;</code><br />
+<code>#include &quot;<a class="el" href="analysis_8h_source.html">analysis.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="parameters_8h_source.html">parameters.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="popmap_8h_source.html">popmap.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="stats_8h_source.html">stats.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="table__parser_8h_source.html">table_parser.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="markers__table_8h_source.html">markers_table.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br />
 </div>
 <p><a href="depth_8h_source.html">Go to the source code of this file.</a></p>
@@ -89,100 +105,26 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDepthResults.html">DepthResults</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">DepthsResults struct.  <a href="structDepthResults.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structDepthResults.html" title="DepthResults struct.">DepthResults</a> struct.  <a href="structDepthResults.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ab2291110e5c4c1c90506c1cd6902e00e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="depth_8h.html#ab2291110e5c4c1c90506c1cd6902e00e">depth</a> (const <a class="el" href="structParameters.html">Parameters</a> &amp;parameters)</td></tr>
-<tr class="memdesc:ab2291110e5c4c1c90506c1cd6902e00e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function called by the depth command.  <a href="depth_8h.html#ab2291110e5c4c1c90506c1cd6902e00e">More...</a><br /></td></tr>
-<tr class="separator:ab2291110e5c4c1c90506c1cd6902e00e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a050775c9b8c0513cf3ced6ac4350cdb4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="depth_8h.html#a050775c9b8c0513cf3ced6ac4350cdb4">processor</a> (<a class="el" href="structMarkersQueue.html">MarkersQueue</a> &amp;markers_queue, <a class="el" href="structDepthResults.html">DepthResults</a> &amp;results, bool &amp;parsing_ended)</td></tr>
-<tr class="memdesc:a050775c9b8c0513cf3ced6ac4350cdb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process markers from a <a class="el" href="structMarkersQueue.html">MarkersQueue</a>.  <a href="depth_8h.html#a050775c9b8c0513cf3ced6ac4350cdb4">More...</a><br /></td></tr>
-<tr class="separator:a050775c9b8c0513cf3ced6ac4350cdb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDepth.html">Depth</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the "depth" analysis.  <a href="classDepth.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ab2291110e5c4c1c90506c1cd6902e00e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2291110e5c4c1c90506c1cd6902e00e">&#9670;&nbsp;</a></span>depth()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Defines the <a class="el" href="classDepth.html" title="Implements the &quot;depth&quot; analysis.">Depth</a> class implementing the "depth" analysis. </p>
 
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void depth </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structParameters.html">Parameters</a> &amp;&#160;</td>
-          <td class="paramname"><em>parameters</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Main function called by the depth command. </p>
-<p>Compute the minimum, maximum, median, and average marker depth for each individual. <br  />
-This function creates a parsing thread which reads a markers table file and stores markers into a queue, and a processing thread which reads batches of markers from the queue and compute metrics. <br  />
-After all markers are processed, the function generates an tabulated output file with columns: <br  />
-Individual | Group | Markers | Retained | Min_depth | Max_depth | Median_depth | Average_depth</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">parameters</td><td><a class="el" href="structParameters.html">Parameters</a> object storing the value of all RADSex parameters </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a050775c9b8c0513cf3ced6ac4350cdb4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a050775c9b8c0513cf3ced6ac4350cdb4">&#9670;&nbsp;</a></span>processor()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void processor </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structMarkersQueue.html">MarkersQueue</a> &amp;&#160;</td>
-          <td class="paramname"><em>markers_queue</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structDepthResults.html">DepthResults</a> &amp;&#160;</td>
-          <td class="paramname"><em>results</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool &amp;&#160;</td>
-          <td class="paramname"><em>parsing_ended</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Process markers from a <a class="el" href="structMarkersQueue.html">MarkersQueue</a>. </p>
-<p>Read batches of markers from a markers queue, store individual marker depths and update individual marker counts in results. Only retain markers present in &gt;75% of individuals to compute depth metrics.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">markers_queue</td><td><a class="el" href="structMarkersQueue.html">MarkersQueue</a> instance </td></tr>
-    <tr><td class="paramname">results</td><td><a class="el" href="structDepthResults.html" title="DepthsResults struct.">DepthResults</a> instance storing individual marker depths and individual marker counts </td></tr>
-    <tr><td class="paramname">parsing_ended</td><td>A flag indicating that the parsing ended, updated by the <a class="el" href="table__parser_8h.html#acae38db5e782a3fd35d349c195888fda" title="Read markers from a markers depth table and store them in a queue.">table_parser()</a> function </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-</div><!-- contents -->
+<p class="definition">Definition in file <a class="el" href="depth_8h_source.html">depth.h</a>.</p>
+</div></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.17
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="depth_8h.html">depth.h</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
+  </ul>
+</div>
 </body>
 </html>

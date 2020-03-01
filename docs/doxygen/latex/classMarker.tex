@@ -1,0 +1,163 @@
+\hypertarget{classMarker}{}\doxysection{Marker Class Reference}
+\label{classMarker}\index{Marker@{Marker}}
+
+
+\mbox{\hyperlink{classMarker}{Marker}} class.  
+
+
+
+
+{\ttfamily \#include $<$marker.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMarker_ad4e167fa334fbde49f073e4362c4d3db}\label{classMarker_ad4e167fa334fbde49f073e4362c4d3db}} 
+\mbox{\hyperlink{classMarker_ad4e167fa334fbde49f073e4362c4d3db}{Marker}} ()
+\begin{DoxyCompactList}\small\item\em Default \mbox{\hyperlink{classMarker}{Marker}} constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMarker_a6d553a6a41ebcfb21cdd91f32f327b4f}{Marker}} (uint16\+\_\+t \mbox{\hyperlink{classMarker_a3dbbb17e3bd5a194b879d983714b04b2}{n\+\_\+individuals}})
+\begin{DoxyCompactList}\small\item\em Standard \mbox{\hyperlink{classMarker}{Marker}} constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMarker_aab6df7715be04663d229b2c255b5231e}{reset}} (bool sex\+\_\+stats\+\_\+only)
+\begin{DoxyCompactList}\small\item\em Reset a marker\textquotesingle{}s attributes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMarker_a7a77022130f28fcbe6243a3dcd29ecb8}{output\+\_\+as\+\_\+table}} (std\+::ofstream \&output\+\_\+file) const
+\begin{DoxyCompactList}\small\item\em Output a marker in table format. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMarker_ac00868d8b7876c3bd7e71857d7823608}{output\+\_\+as\+\_\+fasta}} (std\+::ofstream \&output\+\_\+file, const uint min\+\_\+depth) const
+\begin{DoxyCompactList}\small\item\em Output a marker in F\+A\+S\+TA format. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMarker_ab22efb27a91b4281047a30ed782216b3}\label{classMarker_ab22efb27a91b4281047a30ed782216b3}} 
+std\+::string \mbox{\hyperlink{classMarker_ab22efb27a91b4281047a30ed782216b3}{id}} = \char`\"{}\char`\"{}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classMarker}{Marker}} ID (e.\+g. \char`\"{}5318835\char`\"{}) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classMarker_a3e372e04b43bd34087b3dea6fa08706c}\label{classMarker_a3e372e04b43bd34087b3dea6fa08706c}} 
+std\+::string \mbox{\hyperlink{classMarker_a3e372e04b43bd34087b3dea6fa08706c}{sequence}} = \char`\"{}\char`\"{}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classMarker}{Marker}} sequence. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classMarker_a49f71cfd92c9b7d347bbbb677415b9f9}\label{classMarker_a49f71cfd92c9b7d347bbbb677415b9f9}} 
+std\+::vector$<$ uint16\+\_\+t $>$ \mbox{\hyperlink{classMarker_a49f71cfd92c9b7d347bbbb677415b9f9}{individual\+\_\+depths}}
+\begin{DoxyCompactList}\small\item\em Vector storing marker depth in each individual (in order from the table\textquotesingle{}s header) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classMarker_a6c79b442c33bf8de73d2f2c081347e2a}\label{classMarker_a6c79b442c33bf8de73d2f2c081347e2a}} 
+std\+::unordered\+\_\+map$<$ std\+::string, uint $>$ \mbox{\hyperlink{classMarker_a6c79b442c33bf8de73d2f2c081347e2a}{group\+\_\+counts}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classMap}{Map}} storing group counts for the marker \{group -\/$>$ number of individuals in which the marker is present for this group\}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classMarker_a3dbbb17e3bd5a194b879d983714b04b2}\label{classMarker_a3dbbb17e3bd5a194b879d983714b04b2}} 
+uint \mbox{\hyperlink{classMarker_a3dbbb17e3bd5a194b879d983714b04b2}{n\+\_\+individuals}} = 0
+\begin{DoxyCompactList}\small\item\em Total number of individuals in which the marker is present. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classMarker_ae4685d12aeaed673dc151a561af85db6}\label{classMarker_ae4685d12aeaed673dc151a561af85db6}} 
+float \mbox{\hyperlink{classMarker_ae4685d12aeaed673dc151a561af85db6}{p}} = 0
+\begin{DoxyCompactList}\small\item\em P-\/value of association with group. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{classMarker}{Marker}} class. 
+
+Store information about a marker from the markers depth table and implement methods for parsing the markers depth table. 
+
+Definition at line 37 of file marker.\+h.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classMarker_a6d553a6a41ebcfb21cdd91f32f327b4f}\label{classMarker_a6d553a6a41ebcfb21cdd91f32f327b4f}} 
+\index{Marker@{Marker}!Marker@{Marker}}
+\index{Marker@{Marker}!Marker@{Marker}}
+\doxysubsubsection{\texorpdfstring{Marker()}{Marker()}}
+{\footnotesize\ttfamily Marker\+::\+Marker (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{n\+\_\+individuals }\end{DoxyParamCaption})}
+
+
+
+Standard \mbox{\hyperlink{classMarker}{Marker}} constructor. 
+
+Initalized individual\+\_\+depths size to n\+\_\+individuals.
+
+
+\begin{DoxyParams}{Parameters}
+{\em n\+\_\+individuals} & Number of individuals in the markers depth table \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 27 of file marker.\+cpp.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classMarker_ac00868d8b7876c3bd7e71857d7823608}\label{classMarker_ac00868d8b7876c3bd7e71857d7823608}} 
+\index{Marker@{Marker}!output\_as\_fasta@{output\_as\_fasta}}
+\index{output\_as\_fasta@{output\_as\_fasta}!Marker@{Marker}}
+\doxysubsubsection{\texorpdfstring{output\_as\_fasta()}{output\_as\_fasta()}}
+{\footnotesize\ttfamily void Marker\+::output\+\_\+as\+\_\+fasta (\begin{DoxyParamCaption}\item[{std\+::ofstream \&}]{output\+\_\+file,  }\item[{const uint}]{min\+\_\+depth }\end{DoxyParamCaption}) const}
+
+
+
+Output a marker in F\+A\+S\+TA format. 
+
+Generate a F\+A\+S\+TA header line with format \char`\"{}$<$id$>$\+\_\+$<$group1\+:count$>$\+\_\+$<$group2\+:count$>$\+\_\+p\+:$<$p-\/value of association with group$>$\+\_\+mindepth\+:$<$minimum depth to consider a marker present in the analysis\char`\"{} followed by the marker\textquotesingle{}s sequence on a single line.
+
+
+\begin{DoxyParams}{Parameters}
+{\em output\+\_\+file} & Output file stream \\
+\hline
+{\em min\+\_\+depth} & Minimum depth to consider a marker present in the current analysis \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 68 of file marker.\+cpp.
+
+
+
+Referenced by Subset\+::process\+\_\+marker().
+
+\mbox{\Hypertarget{classMarker_a7a77022130f28fcbe6243a3dcd29ecb8}\label{classMarker_a7a77022130f28fcbe6243a3dcd29ecb8}} 
+\index{Marker@{Marker}!output\_as\_table@{output\_as\_table}}
+\index{output\_as\_table@{output\_as\_table}!Marker@{Marker}}
+\doxysubsubsection{\texorpdfstring{output\_as\_table()}{output\_as\_table()}}
+{\footnotesize\ttfamily void Marker\+::output\+\_\+as\+\_\+table (\begin{DoxyParamCaption}\item[{std\+::ofstream \&}]{output\+\_\+file }\end{DoxyParamCaption}) const}
+
+
+
+Output a marker in table format. 
+
+Generate a line with format\+: ID $\vert$ Sequence $\vert$ \mbox{\hyperlink{classDepth}{Depth}} in individual 1 $\vert$ ... $\vert$ \mbox{\hyperlink{classDepth}{Depth}} in individual N
+
+
+\begin{DoxyParams}{Parameters}
+{\em output\+\_\+file} & Output file stream \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 56 of file marker.\+cpp.
+
+
+
+Referenced by Subset\+::process\+\_\+marker().
+
+\mbox{\Hypertarget{classMarker_aab6df7715be04663d229b2c255b5231e}\label{classMarker_aab6df7715be04663d229b2c255b5231e}} 
+\index{Marker@{Marker}!reset@{reset}}
+\index{reset@{reset}!Marker@{Marker}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void Marker\+::reset (\begin{DoxyParamCaption}\item[{bool}]{sex\+\_\+stats\+\_\+only }\end{DoxyParamCaption})}
+
+
+
+Reset a marker\textquotesingle{}s attributes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sex\+\_\+stats\+\_\+only} & If true, the marker ID and sequence won\textquotesingle{}t be reset (save compute time when it\textquotesingle{}s not needed) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 37 of file marker.\+cpp.
+
+
+
+Referenced by Markers\+Table\+::start\+\_\+parser().
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/romain/work/code/\+Rad\+Sex/src/\mbox{\hyperlink{marker_8h}{marker.\+h}}\item 
+/home/romain/work/code/\+Rad\+Sex/src/\mbox{\hyperlink{marker_8cpp}{marker.\+cpp}}\end{DoxyCompactItemize}

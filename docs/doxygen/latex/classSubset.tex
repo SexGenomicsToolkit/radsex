@@ -1,0 +1,126 @@
+\hypertarget{classSubset}{}\doxysection{Subset Class Reference}
+\label{classSubset}\index{Subset@{Subset}}
+
+
+Implements the \char`\"{}subset\char`\"{} analysis.  
+
+
+
+
+{\ttfamily \#include $<$subset.\+h$>$}
+
+Inheritance diagram for Subset\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classSubset}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classSubset_a61c8b9ee0908e09b93c0931ff6a89bed}\label{classSubset_a61c8b9ee0908e09b93c0931ff6a89bed}} 
+\mbox{\hyperlink{classSubset_a61c8b9ee0908e09b93c0931ff6a89bed}{Subset}} ()
+\begin{DoxyCompactList}\small\item\em Default \mbox{\hyperlink{classSubset}{Subset}} constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classSubset_a5709daf43de161fc198e0ef8e586e312}{Subset}} (\mbox{\hyperlink{structParameters}{Parameters}} \&\mbox{\hyperlink{classAnalysis_a8abd4de209925cb46571d4db97977d32}{parameters}}, bool \mbox{\hyperlink{classAnalysis_a744305d7fed1cc583580c5920f0e39b2}{compare\+\_\+groups}}=true, bool \mbox{\hyperlink{classAnalysis_acb2ede1501279963996f5e42eea88cca}{store\+\_\+groups}}=true, bool \mbox{\hyperlink{classAnalysis_a8b6e589cb74d4c25dcdcd88665a07060}{store\+\_\+sequence}}=true)
+\begin{DoxyCompactList}\small\item\em Standard \mbox{\hyperlink{classSubset}{Subset}} constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classSubset_a546e6785585f2c3b25f8f1d53ac80cdf}{process\+\_\+marker}} (\mbox{\hyperlink{classMarker}{Marker}} \&marker)
+\begin{DoxyCompactList}\small\item\em Process a single marker. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classSubset_a935a07811cb720682e7b9a6435dd744e}{extra\+\_\+setup}} ()
+\begin{DoxyCompactList}\small\item\em Extra setup steps. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classSubset_a58e930ceeaba63f8ab8bdf870aa3e6cf}\label{classSubset_a58e930ceeaba63f8ab8bdf870aa3e6cf}} 
+std\+::ofstream \mbox{\hyperlink{classSubset_a58e930ceeaba63f8ab8bdf870aa3e6cf}{output\+\_\+file}}
+\begin{DoxyCompactList}\small\item\em Output file stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Implements the \char`\"{}subset\char`\"{} analysis. 
+
+Filter markers based on presence in individuals from each group ~\newline
+Markers are output either as a markers depth table (ID $\vert$ Sequence $\vert$ \mbox{\hyperlink{classDepth}{Depth}} in individual 1 $\vert$ .... $\vert$ \mbox{\hyperlink{classDepth}{Depth}} in individual N) or in a F\+A\+S\+TA file with headers formatted as \char`\"{}$<$id$>$\+\_\+$<$group1\+:count$>$\+\_\+$<$group2\+:count$>$\+\_\+p\+:$<$p-\/value of association with group$>$\+\_\+mindepth\+:$<$minimum depth to consider a marker present in the analysis\char`\"{} 
+
+Definition at line 46 of file subset.\+h.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classSubset_a5709daf43de161fc198e0ef8e586e312}\label{classSubset_a5709daf43de161fc198e0ef8e586e312}} 
+\index{Subset@{Subset}!Subset@{Subset}}
+\index{Subset@{Subset}!Subset@{Subset}}
+\doxysubsubsection{\texorpdfstring{Subset()}{Subset()}}
+{\footnotesize\ttfamily Subset\+::\+Subset (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParameters}{Parameters}} \&}]{parameters,  }\item[{bool}]{compare\+\_\+groups = {\ttfamily true},  }\item[{bool}]{store\+\_\+groups = {\ttfamily true},  }\item[{bool}]{store\+\_\+sequence = {\ttfamily true} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Standard \mbox{\hyperlink{classSubset}{Subset}} constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameters} & \mbox{\hyperlink{structParameters}{Parameters}} object storing the value of all R\+A\+D\+Sex parameters \\
+\hline
+{\em compare\+\_\+groups} & If true, groups are checked when loading the popmap \\
+\hline
+{\em store\+\_\+groups} & If true, group info is computed for each marker when parsing the markers table \\
+\hline
+{\em store\+\_\+sequence} & If true, marker sequences are stored for each marker when parsing the markers table \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 66 of file subset.\+h.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classSubset_a935a07811cb720682e7b9a6435dd744e}\label{classSubset_a935a07811cb720682e7b9a6435dd744e}} 
+\index{Subset@{Subset}!extra\_setup@{extra\_setup}}
+\index{extra\_setup@{extra\_setup}!Subset@{Subset}}
+\doxysubsubsection{\texorpdfstring{extra\_setup()}{extra\_setup()}}
+{\footnotesize\ttfamily void Subset\+::extra\+\_\+setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Extra setup steps. 
+
+Open output file and print header if not a F\+A\+S\+TA file. 
+
+Reimplemented from \mbox{\hyperlink{classAnalysis_a869888497ba90db335e127f3c13d19b4}{Analysis}}.
+
+
+
+Definition at line 27 of file subset.\+cpp.
+
+\mbox{\Hypertarget{classSubset_a546e6785585f2c3b25f8f1d53ac80cdf}\label{classSubset_a546e6785585f2c3b25f8f1d53ac80cdf}} 
+\index{Subset@{Subset}!process\_marker@{process\_marker}}
+\index{process\_marker@{process\_marker}!Subset@{Subset}}
+\doxysubsubsection{\texorpdfstring{process\_marker()}{process\_marker()}}
+{\footnotesize\ttfamily void Subset\+::process\+\_\+marker (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classMarker}{Marker}} \&}]{marker }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Process a single marker. 
+
+Output markers verifying conditions defined with C\+LI arguments --min-\/group1, --max-\/group1, --min-\/group2, --max-\/group1, --min-\/individuals, and --max-\/individuals.
+
+
+\begin{DoxyParams}{Parameters}
+{\em marker} & Current marker info stored in a \mbox{\hyperlink{classMarker}{Marker}} instance. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{classAnalysis_ac2c749dc8512a6ef200042e59c4369bc}{Analysis}}.
+
+
+
+Definition at line 38 of file subset.\+cpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/romain/work/code/\+Rad\+Sex/src/\mbox{\hyperlink{subset_8h}{subset.\+h}}\item 
+/home/romain/work/code/\+Rad\+Sex/src/\mbox{\hyperlink{subset_8cpp}{subset.\+cpp}}\end{DoxyCompactItemize}

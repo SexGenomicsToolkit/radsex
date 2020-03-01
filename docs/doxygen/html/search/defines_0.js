@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['max_5fqueue_5fsize_76',['MAX_QUEUE_SIZE',['../table__parser_8h.html#a623ec78b7909090dbedac4af1d52abb4',1,'table_parser.h']]]
+  ['batch_5fsize_347',['BATCH_SIZE',['../markers__table_8h.html#a9ae2958e436c566413867028fc829ec0',1,'markers_table.h']]]
 ];

@@ -1,5 +1,10 @@
 \hypertarget{arg__parser_8h}{}\doxysection{/home/romain/work/code/\+Rad\+Sex/src/arg\+\_\+parser.h File Reference}
 \label{arg__parser_8h}\index{/home/romain/work/code/RadSex/src/arg\_parser.h@{/home/romain/work/code/RadSex/src/arg\_parser.h}}
+
+
+Implements C\+L\+I11 overriding classes for C\+LI parsing.  
+
+
 {\ttfamily \#include $<$iostream$>$}\newline
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
 {\ttfamily \#include \char`\"{}C\+L\+I11/\+C\+L\+I11.\+hpp\char`\"{}}\newline
@@ -15,6 +20,11 @@ class \mbox{\hyperlink{classCustomFormatter}{Custom\+Formatter}}
 \item 
 std\+::string \mbox{\hyperlink{arg__parser_8h_ada75fff12f517de0fbfeb1324100e16b}{failure\+\_\+message}} (const C\+L\+I\+::\+App $\ast$parser, const C\+L\+I\+::\+Error \&error)
 \begin{DoxyCompactList}\small\item\em Print C\+LI parsing failure message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implements C\+L\+I11 overriding classes for C\+LI parsing. 
+
 
 
 \doxysubsection{Function Documentation}
@@ -40,3 +50,11 @@ Identify the type of error (missing subcommand, argument error, or other) and di
 \begin{DoxyReturn}{Returns}
 A string containing the error message 
 \end{DoxyReturn}
+
+
+Definition at line 44 of file arg\+\_\+parser.\+h.
+
+
+
+Referenced by parse\+\_\+args().
+

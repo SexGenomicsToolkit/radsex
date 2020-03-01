@@ -1,0 +1,324 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Example walkthrough &mdash; RADSex 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="RADSex usage details" href="usage.html" />
+    <link rel="prev" title="Getting started" href="getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RADSex
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Example walkthrough</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#preparing-the-data">Preparing the data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generating-a-coverage-table-for-the-entire-dataset">Generating a coverage table for the entire dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#computing-the-distribution-of-markers-between-sexes">Computing the distribution of markers between sexes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#extracting-markers-significantly-associated-with-sex">Extracting markers significantly associated with sex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mapping-markers-to-a-reference-genome">Mapping markers to a reference genome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#going-further">Going further</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">RADSex usage details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_files.html">Input file formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_files.html">Output file formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RADSex</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Example walkthrough</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/example.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="example-walkthrough">
+<h1>Example walkthrough<a class="headerlink" href="#example-walkthrough" title="Permalink to this headline">¶</a></h1>
+<p>In this example, we will run RADSex on a public <em>Oryzias latipes</em> RAD-Sequencing dataset. We will detail each step of the process, highlight important details, and show how to use the R package <code class="docutils literal notranslate"><span class="pre">radsex-vis</span></code> to generate plots from the output of <code class="docutils literal notranslate"><span class="pre">radsex</span></code>. This guide assumes that <code class="docutils literal notranslate"><span class="pre">radsex</span></code> and the <code class="docutils literal notranslate"><span class="pre">radsex-vis</span></code> package have already been installed. For specific instruction about installing <code class="docutils literal notranslate"><span class="pre">radsex</span></code> and <code class="docutils literal notranslate"><span class="pre">radsex-vis</span></code>, check the <a class="reference internal" href="getting_started.html#install-release"><span class="std std-ref">Installation</span></a> section. All reported times and resources usage were measured on a desktop computer with an Intel i7-8700K 4.7 GHz processor, 32 Gb of memory, and a standard 7200 RPM Hard Disk Drive. The input data, results (except for <code class="docutils literal notranslate"><span class="pre">process</span></code>), and figures can be found in the <em>example</em> directory.</p>
+<div class="section" id="preparing-the-data">
+<h2>Preparing the data<a class="headerlink" href="#preparing-the-data" title="Permalink to this headline">¶</a></h2>
+<p>The RAD-Sequencing datasets used in this example are available on the Sequence Read Archive on NCBI. The reads were demultiplexed before being deposited on NCBI, and samples were grouped in two projects, males and females. The accession number for <strong>female</strong> samples is <strong>SRS662264</strong>, and the accession number for <strong>male</strong> samples is <strong>SRS662265</strong>. For convenience, simple scripts to download male and female samples from the EBI ftp can be found <a class="reference external" href="https://github.com/RomainFeron/RadSex/tree/master/example/oryzias_latipes/data/download_female_samples.sh">here</a> for female samples and <a class="reference external" href="https://github.com/RomainFeron/RadSex/tree/master/example/oryzias_latipes/data/download_male_samples.sh">here</a> for male samples. This dataset was published in <a class="reference external" href="http://www.genetics.org/content/early/2014/09/18/genetics.114.169284">Wilson et al 2014</a>.</p>
+<p>The population map describing the sex of each samples for this dataset can be found <a class="reference external" href="https://github.com/RomainFeron/RadSex/tree/master/example/oryzias_latipes/data/population_map.tsv">here</a>. The genome used for mapping markers with <cite>radsex map</cite> was that of a HSOK strain, NCBI accession number <strong>GCA_002234695.1</strong> (<a class="reference external" href="https://www.ncbi.nlm.nih.gov/assembly/GCA_002234695.1">link</a>). The chromosomes names file used to display chromosomes with nicer names in the genome mapping plot can be found <a class="reference external" href="https://github.com/RomainFeron/RadSex/tree/master/example/oryzias_latipes/data/chromosomes_names.tsv">here</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>RADSex uses file names to generate individual IDs. Therefore, individual names in the population map should correspond to the file names without their extensions. Check the file names and population map provided above for an example of how to build the population map from file names. More details about the population map can be found in the <a class="reference internal" href="input_files.html#population-map"><span class="std std-ref">Population map</span></a> section.</p>
+</div>
+<p>From now on, we will assume the following directory structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>.
+├─── samples
+|     ├────── xxx.fastq.gz
+|     ├────── xxx.fastq.gz
+|     ├────── ...
+|     └────── xxx.fastq.gz
+├─── chromosomes_names.tsv
+├─── genome.fasta
+└─── popmap.tsv
+</pre></div>
+</div>
+</div>
+<div class="section" id="generating-a-coverage-table-for-the-entire-dataset">
+<h2>Generating a coverage table for the entire dataset<a class="headerlink" href="#generating-a-coverage-table-for-the-entire-dataset" title="Permalink to this headline">¶</a></h2>
+<p>The first step of RADSex is to create a table containing the coverage of each marker in each individual for the entire dataset; a marker is defined as a non-polymorphic sequence (no mismatches or SNPs). This step is performed with the <code class="docutils literal notranslate"><span class="pre">process</span></code> command :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">process</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="nb">dir</span> <span class="n">samples</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">coverage_table</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="n">threads</span> <span class="mi">8</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">cov</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">--input-dir</span></code> parameter specifies the location of the demultiplexed reads directory, which is <em>samples</em> in our case. The <code class="docutils literal notranslate"><span class="pre">--output-file</span></code> parameter specifies the location of the output file (<em>i.e.</em> the table of coverage), which is <em>coverage_table.tsv</em> here. This step can be parallelized using the <code class="docutils literal notranslate"><span class="pre">--threads</span></code> parameters, which we set to <em>8</em> in our example; you should adjust this value based on your computer’s specifications. Finally, the <code class="docutils literal notranslate"><span class="pre">--min-cov</span></code> parameter specifies the minimum coverage for a marker to be considered present in an individual; if a marker has a coverage lower than the value of <code class="docutils literal notranslate"><span class="pre">--min-cov</span></code> in every individual, it will not be retained in the coverage table.</p>
+<p>The resulting file <em>coverage_table.tsv</em> will be used as a base for all analyses implemented in <code class="docutils literal notranslate"><span class="pre">radsex</span></code>, but it is not used for any <code class="docutils literal notranslate"><span class="pre">radsex-vis</span></code> plots. For more information about this file, check the <a class="reference internal" href="output_files.html#coverage-table-file"><span class="std std-ref">Coverage table files</span></a> section.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In most cases, we advise to keep the value of <code class="docutils literal notranslate"><span class="pre">--min-cov</span></code> to 1 in order to retain all the information from the dataset in this step. Filtering for minimum coverage should be done in the following analysis steps, and it will be easier to try several minimum coverage values this way. If you are certain that all individuals in your dataset have high coverage, and you do not plan to run analyses with a minimum coverage of 1, you can increase this threshold.</p>
+</div>
+<p>With our setup, using 8 cores, this step completed in <strong>9 min 25 seconds</strong> with a peak memory usage of <strong>10.3 GB</strong>. The resulting coverage table used 5.1 GB of disk space.</p>
+</div>
+<div class="section" id="computing-the-distribution-of-markers-between-sexes">
+<h2>Computing the distribution of markers between sexes<a class="headerlink" href="#computing-the-distribution-of-markers-between-sexes" title="Permalink to this headline">¶</a></h2>
+<p>The main analysis implemented in <code class="docutils literal notranslate"><span class="pre">radsex</span></code> computes a table summarizing the distribution of all markers between males and females. This analysis is performed with the <code class="docutils literal notranslate"><span class="pre">distrib</span></code> command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>radsex distrib --input-file coverage_table.tsv --output-file distribution.tsv --popmap-file popmap.tsv --min-cov 5``
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">--input-file</span></code> parameter specifies the location of the coverage table generated in the previous step, which was <em>coverage_table.tsv</em> in our case. The <code class="docutils literal notranslate"><span class="pre">--output-file</span></code> parameter specifies the location of the output file, <em>i.e</em> the table of distribution of markers between males and females, which is <em>distribution.tsv</em> here. The <code class="docutils literal notranslate"><span class="pre">--popmap-file</span></code> parameter specifies the location of the population map (see the <a class="reference internal" href="input_files.html#population-map"><span class="std std-ref">Population map</span></a> section for details), which we named <em>popmap.tsv</em> in this example. Finally, the <code class="docutils literal notranslate"><span class="pre">--min-cov</span></code> parameter specifies the minimum coverage to consider a marker present in an individual, and was set to <em>5</em> here.</p>
+<p>With our setup, this step completed in <strong>36 seconds</strong> with a peak memory usage of <strong>4 Mb</strong>.</p>
+<p>The resulting file <em>distribution.tsv</em> is a tabulated file described in the <a class="reference internal" href="input_files.html#population-map"><span class="std std-ref">Population map</span></a> section. This file can be visualized with <code class="docutils literal notranslate"><span class="pre">radsex-vis</span></code> using the <code class="docutils literal notranslate"><span class="pre">plot_sex_distribution</span></code> function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsexvis</span><span class="p">::</span><span class="n">plot_sex_distribution</span><span class="p">(</span><span class="s2">&quot;distribution.tsv&quot;</span><span class="p">,</span> <span class="n">output_file_path</span> <span class="o">=</span> <span class="s2">&quot;distribution.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To generate a basic plot, the only required parameter is the full path to a distribution table (simplified as “distribution.tsv” in this example). The <code class="docutils literal notranslate"><span class="pre">output_file_path</span></code> parameters specifies the path to an output file where the figure will be saved; if this parameter is not specified, the plot will be generated in the default R graphic device. For a full description of the <code class="docutils literal notranslate"><span class="pre">plot_sex_distribution()</span></code> function, including additional parameters, check the TODO_RADSEXVIS_SECTION.</p>
+<p>The resulting figure is displayed below:</p>
+<img alt="_images/distribution.png" src="_images/distribution.png" />
+<p>This figure is a tile plot with number of males on the x-axis and number of females on the y-axis. The color of a tile at coordinates (<strong>x</strong>, <strong>y</strong>) indicates the number of markers that were present in any <strong>x</strong> males and any <strong>y</strong> females. For instance, in this figure, there were between 25 and 99 markers found in 29 males (not necessarily always the same 29 males) and in 0 females. Tiles for which association with sex is significant (chi-squared test, using Bonferroni correction) are highlighted in red. Many markers found predominantly in males are significantly associated with sex, indicating that an XX/XY system determines sex in this species. Interestingly, there are no markers found in all males or all but one males and absent from all females, <em>i.e</em> no markers found at position (30, 0) and (31, 0).</p>
+<p>With our setup, this step completed in <strong>36 seconds</strong> with a peak memory usage of <strong>4 MB</strong>.</p>
+</div>
+<div class="section" id="extracting-markers-significantly-associated-with-sex">
+<h2>Extracting markers significantly associated with sex<a class="headerlink" href="#extracting-markers-significantly-associated-with-sex" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">signif</span></code> command of RADSex extracts all markers for which association with sex is significant. In this case, these markers are the ones represented by the tiles highlighted in red in the previous figure. To extract all significant markers from our dataset, run the following command :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">signif</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">file</span> <span class="n">coverage_table</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">significant_markers</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="n">popmap</span><span class="o">-</span><span class="n">file</span> <span class="n">popmap</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">cov</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">--input-file</span></code> parameter specifies the location of the coverage table generated in the <code class="docutils literal notranslate"><span class="pre">process</span></code> step, which was <em>coverage_table.tsv</em> in our case. The <code class="docutils literal notranslate"><span class="pre">--output-file</span></code> parameter specifies the location of the output file, in this case a subset of the table of coverage, which we named <em>significant_markers.tsv</em> here. The <code class="docutils literal notranslate"><span class="pre">--popmap-file</span></code> parameter specifies the location of the population map (see the xx section for details), which we named <em>popmap.tsv</em> in this example. Finally, the <code class="docutils literal notranslate"><span class="pre">--min-cov</span></code> parameter specifies the minimum coverage to consider a marker present in an individual, and was set to <em>5</em> to match the value used in the previous analysis.</p>
+<p>The subset of coverage table generated by <code class="docutils literal notranslate"><span class="pre">signif</span></code> can be visualized with <code class="docutils literal notranslate"><span class="pre">radsex-vis</span></code> the <code class="docutils literal notranslate"><span class="pre">plot_coverage()</span></code> function :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsexvis</span><span class="p">::</span><span class="n">plot_coverage</span><span class="p">(</span><span class="s2">&quot;significant_markers.tsv&quot;</span><span class="p">,</span> <span class="n">output_file_path</span> <span class="o">=</span> <span class="s2">&quot;significant_markers.png&quot;</span><span class="p">,</span> <span class="n">popmap_file_path</span> <span class="o">=</span> <span class="s2">&quot;popmap.tsv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To generate a basic plot, the only required parameter is the full path to the subset of coverage table (simplified as “significant_markers.tsv” in this example). The <code class="docutils literal notranslate"><span class="pre">output_file_path</span></code> parameters specifies the path to an output file where the figure will be saved; if this parameter is not specified, the plot will be generated in the default R graphic device. The <code class="docutils literal notranslate"><span class="pre">popmap_file_path</span></code> parameter can be specified to color males and females IDs in the resulting figure. For a full description of the <code class="docutils literal notranslate"><span class="pre">plot_coverage()</span></code> function, including additional parameters, check the TODO_RADSEXVIS_SECTION.</p>
+<p>The resulting figure is displayed below:</p>
+<img alt="_images/significant_markers.png" src="_images/significant_markers.png" />
+<p>This figure is a heatmap with individuals on the x-axis and markers on the y-axis. The color of a tile at coordinates (<strong>x</strong>, <strong>y</strong>) indicates the coverage of a marker <strong>y</strong> in individual <strong>x</strong>. Both individuals and markers can be clustered based on this coverage, and clustering dendrograms are displayed by default. If a popmap is specified, males and females IDs are colored differently. In this example, two males cluster with the females, in agreement with the results from <code class="docutils literal notranslate"><span class="pre">distrib</span></code> where male-specific markers were always missing from two males. These two males are actually genetic females whose sex was mis-assigned.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For convenience, significant markers can be exported in FASTA format, using the parameter –output-format fasta. Headers contain information about the sex distribution of each marker, as described in the <a class="reference internal" href="output_files.html#fasta-file"><span class="std std-ref">Fasta files</span></a> section.</p>
+</div>
+<p>With our setup, this step completed in <strong>37 seconds</strong> with a peak memory usage of <strong>6 MB</strong>.</p>
+</div>
+<div class="section" id="mapping-markers-to-a-reference-genome">
+<h2>Mapping markers to a reference genome<a class="headerlink" href="#mapping-markers-to-a-reference-genome" title="Permalink to this headline">¶</a></h2>
+<p>When a reference genome is available, markers can be aligned to it in order to locate sex-differentiated regions. This is done using the <code class="docutils literal notranslate"><span class="pre">map</span></code> command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="nb">map</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">file</span> <span class="n">coverage_table</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">mapping_results</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="n">popmap</span><span class="o">-</span><span class="n">file</span> <span class="n">popmap</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="n">genome</span><span class="o">-</span><span class="n">file</span> <span class="n">genome</span><span class="o">.</span><span class="n">fasta</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">cov</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">--input-file</span></code> parameter specifies the location of the coverage table generated in the <code class="docutils literal notranslate"><span class="pre">process</span></code> step, which was <em>coverage_table.tsv</em> in our case. The <code class="docutils literal notranslate"><span class="pre">--output-file</span></code> parameter specifies the location of the output file, in this case a table with mapping information, which we named <em>mapping_results.tsv</em> here. The <code class="docutils literal notranslate"><span class="pre">--popmap-file</span></code> parameter specifies the location of the population map (see the xx section for details), which we named <em>popmap.tsv</em> in this example. The <code class="docutils literal notranslate"><span class="pre">--genome-file</span></code> parameter specifies the location of reference genome file in FASTA format, which we named <em>genome.fasta</em> in this example. Finally, the <code class="docutils literal notranslate"><span class="pre">--min-cov</span></code> parameter specifies the minimum coverage to consider a marker present in an individual, and was set to <em>5</em> to match the value used in the previous analysis.</p>
+<p>The resulting file <em>mapping_results.tsv</em> is a tabulated file described in the <a class="reference internal" href="output_files.html#mapping-results-file"><span class="std std-ref">Mapping results</span></a> section. This file can be visualized with <code class="docutils literal notranslate"><span class="pre">radsex-vis</span></code> using the <code class="docutils literal notranslate"><span class="pre">plot_genome()</span></code> function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsexvis</span><span class="p">::</span><span class="n">plot_genome</span><span class="p">(</span><span class="s2">&quot;mapping_results.tsv&quot;</span><span class="p">,</span> <span class="s2">&quot;genome.fasta.lengths&quot;</span><span class="p">,</span> <span class="n">chromosomes_names_file_path</span> <span class="o">=</span> <span class="s2">&quot;chromosomes_names.tsv&quot;</span><span class="p">,</span> <span class="n">output_file_path</span> <span class="o">=</span> <span class="s2">&quot;mapping_genome.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To generate a basic plot, the only required parameters are the full path to the mapping results table (simplified as “mapping_results.tsv” in this example), and the full path to the genome contig lengths generated by <code class="docutils literal notranslate"><span class="pre">map</span></code> (“genome.fasta.lengths” here). The <code class="docutils literal notranslate"><span class="pre">output_file_path</span></code> parameters specifies the path to an output file where the figure will be saved; if this parameter is not specified, the plot will be generated in the default R graphic device. The <code class="docutils literal notranslate"><span class="pre">chromosomes_names_file_path</span></code> parameter can be specified to rename the chromosomes with chosen IDs specified in the file. For a full description of the <code class="docutils literal notranslate"><span class="pre">plot_genome()</span></code> function, including additional parameters, check the TODO_RADSEXVIS_SECTION.</p>
+<p>The resulting figure is displayed below:</p>
+<img alt="_images/mapping_genome.png" src="_images/mapping_genome.png" />
+<p>This figure is a circos plot in which each sector corresponds to a chromosome, with all unplaced scaffolds regrouped in an additional sector (not shown in this example as there are no unplaced scaffolds in this genome). The top track gives the sex-bias of a marker, 1 if the marker is present in all males and no females, and -1 if the marker is present in all females and no males. The bottom track shows the probability of association with sex (chi-squared test, using Bonferroni correction).</p>
+<p>Results for a specific region can be visualized with <code class="docutils literal notranslate"><span class="pre">radsex-vis</span></code> using the <code class="docutils literal notranslate"><span class="pre">plot_contig()</span></code> function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsexvis</span><span class="p">::</span><span class="n">plot_contig</span><span class="p">(</span><span class="s2">&quot;mapping_results.tsv&quot;</span><span class="p">,</span> <span class="s2">&quot;genome.fasta.lengths&quot;</span><span class="p">,</span> <span class="s2">&quot;Chr01&quot;</span><span class="p">,</span> <span class="n">chromosomes_names_file_path</span> <span class="o">=</span> <span class="s2">&quot;chromosomes_names.tsv&quot;</span><span class="p">,</span> <span class="n">output_file_path</span> <span class="o">=</span> <span class="s2">&quot;mapping_contig.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This function uses the same parameters as <code class="docutils literal notranslate"><span class="pre">plot_genome()</span></code>, with the addition of a parameter giving the contig to be plotted, <em>Chr01</em> here. For a full description of the <code class="docutils literal notranslate"><span class="pre">plot_contig()</span></code> function, including additional parameters, check the TODO_RADSEXVIS_SECTION.</p>
+<p>The resulting figure is displayed below:</p>
+<img alt="_images/mapping_contig.png" src="_images/mapping_contig.png" />
+<p>In this figure, both sex-bias and probability of association with sex, as defined in the genome plot, are plotted against position on the specified contig.</p>
+<p>With our setup, this step completed in <strong>9 min 36 seconds</strong> with a peak memory usage of <strong>1.3 GB</strong>, most of the time being spent indexing the genome. If the genome is already indexed with BWA, this step completes in <strong>55 seconds</strong>.</p>
+</div>
+<div class="section" id="going-further">
+<h2>Going further<a class="headerlink" href="#going-further" title="Permalink to this headline">¶</a></h2>
+<p>In this example, we showed the most commonly used functions of <code class="docutils literal notranslate"><span class="pre">radsex</span></code> and <code class="docutils literal notranslate"><span class="pre">radsex-vis</span></code>, mostly using default parameters. In general, it is recommended to run <code class="docutils literal notranslate"><span class="pre">distrib</span></code> with multiple values of coverage (for instance 1, 2, 5, and 10), to better understand the dataset.</p>
+<p>To get the full information on each function of <code class="docutils literal notranslate"><span class="pre">radsex</span></code>, check the <a class="reference internal" href="usage.html#full-usage"><span class="std std-ref">RADSex usage details</span></a> section.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="usage.html" class="btn btn-neutral float-right" title="RADSex usage details" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018-2020, Romain Feron
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

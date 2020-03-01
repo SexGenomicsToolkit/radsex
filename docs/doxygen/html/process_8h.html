@@ -5,10 +5,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: /home/romain/work/code/RadSex/src/process.h File Reference</title>
+<title>RADSex: /home/romain/work/code/RadSex/src/process.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -21,8 +25,10 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">My Project
+   <div id="projectname">RADSex
+   &#160;<span id="projectnumber">1.0.0</span>
    </div>
+   <div id="projectbrief">RAD-Sequencing analysis pipeline for sex determination</div>
   </td>
  </tr>
  </tbody>
@@ -45,6 +51,23 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('process_8h.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -59,11 +82,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
@@ -73,6 +91,9 @@ $(function() {
 <div class="title">process.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Defines function for the "process" command generating a markers depth table from individual reads files .  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;dirent.h&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;mutex&gt;</code><br />
@@ -89,35 +110,230 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInputFile.html">InputFile</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structInputFile.html" title="InputFile struct.">InputFile</a> struct.  <a href="structInputFile.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a3c5a55f10a548cc70126fc2bee03ae2e"><td class="memItemLeft" align="right" valign="top"><a id="a3c5a55f10a548cc70126fc2bee03ae2e"></a>
-std::vector&lt; <a class="el" href="structInputFile.html">InputFile</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_input_files</b> (const std::string &amp;input_dir_path)</td></tr>
+<tr class="memitem:a3c5a55f10a548cc70126fc2bee03ae2e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structInputFile.html">InputFile</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="process_8h.html#a3c5a55f10a548cc70126fc2bee03ae2e">get_input_files</a> (const std::string &amp;input_dir_path)</td></tr>
+<tr class="memdesc:a3c5a55f10a548cc70126fc2bee03ae2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get input files.  <a href="process_8h.html#a3c5a55f10a548cc70126fc2bee03ae2e">More...</a><br /></td></tr>
 <tr class="separator:a3c5a55f10a548cc70126fc2bee03ae2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca1db66566c3a841900e42422a31736a"><td class="memItemLeft" align="right" valign="top"><a id="aca1db66566c3a841900e42422a31736a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>process</b> (<a class="el" href="structParameters.html">Parameters</a> &amp;parameters)</td></tr>
+<tr class="memitem:aca1db66566c3a841900e42422a31736a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="process_8h.html#aca1db66566c3a841900e42422a31736a">process</a> (<a class="el" href="structParameters.html">Parameters</a> &amp;parameters)</td></tr>
+<tr class="memdesc:aca1db66566c3a841900e42422a31736a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function implementing the "process" command.  <a href="process_8h.html#aca1db66566c3a841900e42422a31736a">More...</a><br /></td></tr>
 <tr class="separator:aca1db66566c3a841900e42422a31736a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f9898467c5a93ef58a32e78ea0ef208"><td class="memItemLeft" align="right" valign="top"><a id="a8f9898467c5a93ef58a32e78ea0ef208"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>file_processor</b> (std::vector&lt; <a class="el" href="structInputFile.html">InputFile</a> &gt; &amp;input_files, std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, uint16_t &gt;&gt; &amp;results, std::mutex &amp;results_mutex, std::mutex &amp;files_mutex)</td></tr>
+<tr class="memitem:a8f9898467c5a93ef58a32e78ea0ef208"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="process_8h.html#a8f9898467c5a93ef58a32e78ea0ef208">file_processor</a> (std::vector&lt; <a class="el" href="structInputFile.html">InputFile</a> &gt; &amp;input_files, std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, uint16_t &gt;&gt; &amp;results, std::mutex &amp;results_mutex, std::mutex &amp;files_mutex)</td></tr>
+<tr class="memdesc:a8f9898467c5a93ef58a32e78ea0ef208"><td class="mdescLeft">&#160;</td><td class="mdescRight">File processor.  <a href="process_8h.html#a8f9898467c5a93ef58a32e78ea0ef208">More...</a><br /></td></tr>
 <tr class="separator:a8f9898467c5a93ef58a32e78ea0ef208"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50431291c9f5e8737719d7babc4dd97d"><td class="memItemLeft" align="right" valign="top"><a id="a50431291c9f5e8737719d7babc4dd97d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>process_file</b> (<a class="el" href="structInputFile.html">InputFile</a> &amp;input_file, std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, uint16_t &gt;&gt; &amp;results, std::mutex &amp;results_mutex)</td></tr>
+<tr class="memitem:a50431291c9f5e8737719d7babc4dd97d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="process_8h.html#a50431291c9f5e8737719d7babc4dd97d">process_file</a> (<a class="el" href="structInputFile.html">InputFile</a> &amp;input_file, std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, uint16_t &gt;&gt; &amp;results, std::mutex &amp;results_mutex)</td></tr>
+<tr class="memdesc:a50431291c9f5e8737719d7babc4dd97d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process a single file.  <a href="process_8h.html#a50431291c9f5e8737719d7babc4dd97d">More...</a><br /></td></tr>
 <tr class="separator:a50431291c9f5e8737719d7babc4dd97d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a8996547d4c7394b4cb2ab28737538dc7"><td class="memItemLeft" align="right" valign="top"><a id="a8996547d4c7394b4cb2ab28737538dc7"></a>
-const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>extensions</b> {&quot;.fq.gz&quot;, &quot;.fq&quot;, &quot;.fastq.gz&quot;, &quot;.fastq&quot;, &quot;.fasta.gz&quot;, &quot;.fasta&quot;, &quot;.fa.gz&quot;, &quot;.fa&quot;, &quot;.fna.gz&quot;, &quot;.fna&quot;}</td></tr>
+const std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="process_8h.html#a8996547d4c7394b4cb2ab28737538dc7">extensions</a> {&quot;.fq.gz&quot;, &quot;.fq&quot;, &quot;.fastq.gz&quot;, &quot;.fastq&quot;, &quot;.fasta.gz&quot;, &quot;.fasta&quot;, &quot;.fa.gz&quot;, &quot;.fa&quot;, &quot;.fna.gz&quot;, &quot;.fna&quot;}</td></tr>
+<tr class="memdesc:a8996547d4c7394b4cb2ab28737538dc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of extensions for currently supported file types. <br /></td></tr>
 <tr class="separator:a8996547d4c7394b4cb2ab28737538dc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Defines function for the "process" command generating a markers depth table from individual reads files . </p>
+
+<p class="definition">Definition in file <a class="el" href="process_8h_source.html">process.h</a>.</p>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a8f9898467c5a93ef58a32e78ea0ef208"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f9898467c5a93ef58a32e78ea0ef208">&#9670;&nbsp;</a></span>file_processor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void file_processor </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="structInputFile.html">InputFile</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>input_files</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, uint16_t &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>results</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::mutex &amp;&#160;</td>
+          <td class="paramname"><em>results_mutex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::mutex &amp;&#160;</td>
+          <td class="paramname"><em>files_mutex</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>File processor. </p>
+<p>Look for an unprocessed input file in the vector of input files generated by <a class="el" href="process_8h.html#a3c5a55f10a548cc70126fc2bee03ae2e" title="Get input files.">get_input_files()</a> and process this file.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">input_files</td><td>Vector of <a class="el" href="structInputFile.html" title="InputFile struct.">InputFile</a> generated by <a class="el" href="process_8h.html#a3c5a55f10a548cc70126fc2bee03ae2e" title="Get input files.">get_input_files()</a> </td></tr>
+    <tr><td class="paramname">results</td><td>A map of marker depth for each individual: {<a class="el" href="classMarker.html" title="Marker class.">Marker</a> -&gt; {Individual -&gt; depth}} </td></tr>
+    <tr><td class="paramname">results_mutex</td><td>A mutex protecting the marker depth map when writing from <a class="el" href="process_8h.html#a50431291c9f5e8737719d7babc4dd97d" title="Process a single file.">process_file()</a> </td></tr>
+    <tr><td class="paramname">files_mutex</td><td>A mutex to lock the <a class="el" href="structInputFile.html" title="InputFile struct.">InputFile</a> vector while looking for a file to process </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="process_8cpp_source.html#l00173">173</a> of file <a class="el" href="process_8cpp_source.html">process.cpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="process_8cpp_source.html#l00097">process()</a>.</p>
+
+</div>
+</div>
+<a id="a3c5a55f10a548cc70126fc2bee03ae2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c5a55f10a548cc70126fc2bee03ae2e">&#9670;&nbsp;</a></span>get_input_files()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="structInputFile.html">InputFile</a>&gt; get_input_files </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>input_dir_path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get input files. </p>
+<p>Detect all input files in the input directory based on extensions and store file information in a <a class="el" href="structInputFile.html" title="InputFile struct.">InputFile</a> vector.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">input_dir_path</td><td>Path to the input directory</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of <a class="el" href="structInputFile.html" title="InputFile struct.">InputFile</a> objects, each containing information about an input file </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="process_8cpp_source.html#l00028">28</a> of file <a class="el" href="process_8cpp_source.html">process.cpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="process_8cpp_source.html#l00097">process()</a>.</p>
+
+</div>
+</div>
+<a id="aca1db66566c3a841900e42422a31736a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca1db66566c3a841900e42422a31736a">&#9670;&nbsp;</a></span>process()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void process </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structParameters.html">Parameters</a> &amp;&#160;</td>
+          <td class="paramname"><em>parameters</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Main function implementing the "process" command. </p>
+<p>Generate a markers depth table from all individual reads files detected in an input directory. The function spans multiple <a class="el" href="process_8h.html#a8f9898467c5a93ef58a32e78ea0ef208" title="File processor.">file_processor()</a> threads to process input files in parallel.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parameters</td><td>A <a class="el" href="structParameters.html" title="Parameters.">Parameters</a> object storing the value of all RADSex parameters </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="process_8cpp_source.html#l00097">97</a> of file <a class="el" href="process_8cpp_source.html">process.cpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="main_8cpp_source.html#l00189">main()</a>, and <a class="el" href="main_8cpp_source.html#l00044">parse_args()</a>.</p>
+
+</div>
+</div>
+<a id="a50431291c9f5e8737719d7babc4dd97d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50431291c9f5e8737719d7babc4dd97d">&#9670;&nbsp;</a></span>process_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void process_file </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structInputFile.html">InputFile</a> &amp;&#160;</td>
+          <td class="paramname"><em>input_file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, uint16_t &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>results</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::mutex &amp;&#160;</td>
+          <td class="paramname"><em>results_mutex</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Process a single file. </p>
+<p>Read all sequences from an input file with kseq_read() and increment the marker depth table accordingly.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">input_file</td><td>Path to the reads file </td></tr>
+    <tr><td class="paramname">results</td><td>A map of marker depth for each individual: {<a class="el" href="classMarker.html" title="Marker class.">Marker</a> -&gt; {Individual -&gt; depth}} </td></tr>
+    <tr><td class="paramname">results_mutex</td><td>A mutex protecting the marker depth map when writing from multiple processing threads </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="process_8cpp_source.html#l00213">213</a> of file <a class="el" href="process_8cpp_source.html">process.cpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="process_8cpp_source.html#l00173">file_processor()</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.17
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="process_8h.html">process.h</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>
+  </ul>
+</div>
 </body>
 </html>

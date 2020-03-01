@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['individual_5fmarkers_5fcount_74',['individual_markers_count',['../structDepthResults.html#a371ba5f5c8b3673f0574441163178461',1,'DepthResults']]]
+  ['depths_288',['depths',['../structDepthResults.html#a5cc6408a27ba2fcd31ce3961a15b60a0',1,'DepthResults']]],
+  ['disable_5fcorrection_289',['disable_correction',['../structParameters.html#a44b25c08718abd5476d0ee3eb2a1cec9',1,'Parameters']]],
+  ['distribution_290',['distribution',['../structDistribResults.html#ab62f26915d0c81bfccbe92d974eabcf5',1,'DistribResults']]]
 ];

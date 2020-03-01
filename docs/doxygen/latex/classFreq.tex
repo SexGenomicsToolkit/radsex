@@ -1,0 +1,128 @@
+\hypertarget{classFreq}{}\doxysection{Freq Class Reference}
+\label{classFreq}\index{Freq@{Freq}}
+
+
+Implements the \char`\"{}freq\char`\"{} analysis.  
+
+
+
+
+{\ttfamily \#include $<$freq.\+h$>$}
+
+Inheritance diagram for Freq\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classFreq}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classFreq_a0aca079205aee587f68ec3d62059f449}\label{classFreq_a0aca079205aee587f68ec3d62059f449}} 
+\mbox{\hyperlink{classFreq_a0aca079205aee587f68ec3d62059f449}{Freq}} ()
+\begin{DoxyCompactList}\small\item\em Default \mbox{\hyperlink{classFreq}{Freq}} constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classFreq_a51e1b72d21e097aebff1e7ae562bd706}{Freq}} (\mbox{\hyperlink{structParameters}{Parameters}} \&\mbox{\hyperlink{classAnalysis_a8abd4de209925cb46571d4db97977d32}{parameters}}, bool \mbox{\hyperlink{classAnalysis_a744305d7fed1cc583580c5920f0e39b2}{compare\+\_\+groups}}=false, bool \mbox{\hyperlink{classAnalysis_acb2ede1501279963996f5e42eea88cca}{store\+\_\+groups}}=false, bool \mbox{\hyperlink{classAnalysis_a8b6e589cb74d4c25dcdcd88665a07060}{store\+\_\+sequence}}=false)
+\begin{DoxyCompactList}\small\item\em Standard \mbox{\hyperlink{classFreq}{Freq}} constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFreq_a2b3d992be4c88bdb717313fba3b61646}{process\+\_\+marker}} (\mbox{\hyperlink{classMarker}{Marker}} \&marker)
+\begin{DoxyCompactList}\small\item\em Process a single marker. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classFreq_a9aecef076766747e9a1ed5eee9a41ec2}{generate\+\_\+output}} ()
+\begin{DoxyCompactList}\small\item\em Generate the output file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classFreq_a9abfd3e61b2385bc424550cb6cc066f0}\label{classFreq_a9abfd3e61b2385bc424550cb6cc066f0}} 
+std\+::vector$<$ uint32\+\_\+t $>$ \mbox{\hyperlink{classFreq_a9abfd3e61b2385bc424550cb6cc066f0}{results}}
+\begin{DoxyCompactList}\small\item\em Vector storing the number of markers (integers) present in each number of individuals (indices) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Implements the \char`\"{}freq\char`\"{} analysis. 
+
+Compute the distribution of markers in all individuals. ~\newline
+After all markers are processed, generate a tabulated output file with columns\+: ~\newline
+Frequency $\vert$ Count 
+
+Definition at line 45 of file freq.\+h.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classFreq_a51e1b72d21e097aebff1e7ae562bd706}\label{classFreq_a51e1b72d21e097aebff1e7ae562bd706}} 
+\index{Freq@{Freq}!Freq@{Freq}}
+\index{Freq@{Freq}!Freq@{Freq}}
+\doxysubsubsection{\texorpdfstring{Freq()}{Freq()}}
+{\footnotesize\ttfamily Freq\+::\+Freq (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParameters}{Parameters}} \&}]{parameters,  }\item[{bool}]{compare\+\_\+groups = {\ttfamily false},  }\item[{bool}]{store\+\_\+groups = {\ttfamily false},  }\item[{bool}]{store\+\_\+sequence = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Standard \mbox{\hyperlink{classFreq}{Freq}} constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameters} & \mbox{\hyperlink{structParameters}{Parameters}} object storing the value of all R\+A\+D\+Sex parameters \\
+\hline
+{\em compare\+\_\+groups} & If true, groups are checked when loading the popmap \\
+\hline
+{\em store\+\_\+groups} & If true, group info is computed for each marker when parsing the markers table \\
+\hline
+{\em store\+\_\+sequence} & If true, marker sequences are stored for each marker when parsing the markers table \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 27 of file freq.\+cpp.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classFreq_a9aecef076766747e9a1ed5eee9a41ec2}\label{classFreq_a9aecef076766747e9a1ed5eee9a41ec2}} 
+\index{Freq@{Freq}!generate\_output@{generate\_output}}
+\index{generate\_output@{generate\_output}!Freq@{Freq}}
+\doxysubsubsection{\texorpdfstring{generate\_output()}{generate\_output()}}
+{\footnotesize\ttfamily void Freq\+::generate\+\_\+output (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Generate the output file. 
+
+Generate a tabulated output file with columns\+: ~\newline
+Frequency $\vert$ Count 
+
+Reimplemented from \mbox{\hyperlink{classAnalysis_a23da6dbd599ede2e4973a0313128f428}{Analysis}}.
+
+
+
+Definition at line 47 of file freq.\+cpp.
+
+\mbox{\Hypertarget{classFreq_a2b3d992be4c88bdb717313fba3b61646}\label{classFreq_a2b3d992be4c88bdb717313fba3b61646}} 
+\index{Freq@{Freq}!process\_marker@{process\_marker}}
+\index{process\_marker@{process\_marker}!Freq@{Freq}}
+\doxysubsubsection{\texorpdfstring{process\_marker()}{process\_marker()}}
+{\footnotesize\ttfamily void Freq\+::process\+\_\+marker (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classMarker}{Marker}} \&}]{marker }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Process a single marker. 
+
+Compute the number of individuals in which the marker is present with depth higher than parameters.\+min\+\_\+depth.
+
+
+\begin{DoxyParams}{Parameters}
+{\em marker} & Current marker info stored in a \mbox{\hyperlink{classMarker}{Marker}} instance. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{classAnalysis_ac2c749dc8512a6ef200042e59c4369bc}{Analysis}}.
+
+
+
+Definition at line 37 of file freq.\+cpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/romain/work/code/\+Rad\+Sex/src/\mbox{\hyperlink{freq_8h}{freq.\+h}}\item 
+/home/romain/work/code/\+Rad\+Sex/src/\mbox{\hyperlink{freq_8cpp}{freq.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Output file formats &mdash; RADSex 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="Input file formats" href="input_files.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RADSex
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Example walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">RADSex usage details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_files.html">Input file formats</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Output file formats</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#coverage-table-files">Coverage table files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distribution-of-markers-between-sexes">Distribution of markers between sexes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fasta-files">Fasta files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mapping-results">Mapping results</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RADSex</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Output file formats</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/output_files.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="output-file-formats">
+<h1>Output file formats<a class="headerlink" href="#output-file-formats" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="coverage-table-files">
+<span id="coverage-table-file"></span><h2>Coverage table files<a class="headerlink" href="#coverage-table-files" title="Permalink to this headline">¶</a></h2>
+<p>Coverage tables are tabulated files with header generated by the <code class="docutils literal notranslate"><span class="pre">process</span></code> command for the entire dataset, and by the <code class="docutils literal notranslate"><span class="pre">subset</span></code> and <code class="docutils literal notranslate"><span class="pre">signif</span></code> commands for a subset of sequences. The first column contains the marker ID, and the second column contains the sequence itself. Each other column contains the coverage of the corresponding marker in a given individual.
+An example of coverage table is given below (sequences were shortened for practical reasons):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ID</span>    <span class="n">Sequence</span>    <span class="n">individual_1</span>    <span class="n">individual_2</span>    <span class="n">individual_3</span>    <span class="n">individual_4</span>    <span class="n">individual_5</span>
+ <span class="mi">0</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">TATT</span>              <span class="mi">0</span>              <span class="mi">15</span>              <span class="mi">24</span>              <span class="mi">17</span>              <span class="mi">21</span>
+ <span class="mi">1</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">GACC</span>             <span class="mi">20</span>              <span class="mi">18</span>               <span class="mi">3</span>              <span class="mi">26</span>               <span class="mi">4</span>
+ <span class="mi">2</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">ATCG</span>              <span class="mi">2</span>               <span class="mi">1</span>               <span class="mi">5</span>              <span class="mi">16</span>               <span class="mi">0</span>
+ <span class="mi">3</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">CCGA</span>             <span class="mi">14</span>              <span class="mi">29</span>              <span class="mi">23</span>               <span class="mi">2</span>              <span class="mi">19</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="distribution-of-markers-between-sexes">
+<span id="sex-distribution-file"></span><h2>Distribution of markers between sexes<a class="headerlink" href="#distribution-of-markers-between-sexes" title="Permalink to this headline">¶</a></h2>
+<p><strong>Table format</strong></p>
+<p>A table of distribution of markers between sexes is a tabulated file with header generated by the <code class="docutils literal notranslate"><span class="pre">distrib</span></code> command.
+The first and second columns indicate the number of males and females in which a marker is present, the third column contains the number of markers found in the corresponding number of males and females, the fourth column contains the p-value of a chi-squared test for association with sex on the number of males and females, and the fifth column indicates whether this p-value is significant after Bonferroni correction.</p>
+<p>An example of sex distribution table is given below for 3 males and 3 females:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Males</span>    <span class="n">Females</span>    <span class="n">Sequences</span>       <span class="n">P</span>     <span class="n">Signif</span>
+    <span class="mi">0</span>          <span class="mi">1</span>            <span class="mi">7</span>       <span class="mi">1</span>     <span class="kc">False</span>
+    <span class="mi">0</span>          <span class="mi">2</span>            <span class="mi">3</span>    <span class="mf">0.39</span>     <span class="kc">False</span>
+    <span class="mi">0</span>          <span class="mi">3</span>            <span class="mi">1</span>    <span class="mf">0.10</span>     <span class="kc">False</span>
+    <span class="mi">1</span>          <span class="mi">0</span>            <span class="mi">6</span>       <span class="mi">1</span>     <span class="kc">False</span>
+    <span class="mi">1</span>          <span class="mi">1</span>            <span class="mi">5</span>       <span class="mi">1</span>     <span class="kc">False</span>
+    <span class="mi">1</span>          <span class="mi">2</span>            <span class="mi">1</span>       <span class="mi">1</span>     <span class="kc">False</span>
+    <span class="mi">1</span>          <span class="mi">3</span>            <span class="mi">2</span>    <span class="mf">0.39</span>     <span class="kc">False</span>
+    <span class="mi">2</span>          <span class="mi">0</span>            <span class="mi">3</span>    <span class="mf">0.39</span>     <span class="kc">False</span>
+    <span class="mi">2</span>          <span class="mi">1</span>            <span class="mi">8</span>       <span class="mi">1</span>     <span class="kc">False</span>
+    <span class="mi">2</span>          <span class="mi">2</span>            <span class="mi">4</span>       <span class="mi">1</span>     <span class="kc">False</span>
+    <span class="mi">2</span>          <span class="mi">3</span>            <span class="mi">2</span>       <span class="mi">1</span>     <span class="kc">False</span>
+    <span class="mi">3</span>          <span class="mi">0</span>            <span class="mi">4</span>    <span class="mf">0.10</span>     <span class="kc">False</span>
+    <span class="mi">3</span>          <span class="mi">1</span>            <span class="mi">7</span>    <span class="mf">0.39</span>     <span class="kc">False</span>
+    <span class="mi">3</span>          <span class="mi">2</span>            <span class="mi">6</span>       <span class="mi">1</span>     <span class="kc">False</span>
+    <span class="mi">3</span>          <span class="mi">3</span>            <span class="mi">9</span>       <span class="mi">1</span>     <span class="kc">False</span>
+</pre></div>
+</div>
+<p>In this example, there are 68 sequences in total, therefore sequences are significantly associated with sex if the p-value of a chi-squared test on the number of males and females is lower than 0.05 / 68 = 0.00074 (Bonferroni correction).</p>
+<p><strong>Matrix format</strong></p>
+<p>The distribution of sequences between sexes can also be output as a matrix, which is a tabulated file without header, with number of females as rows and number of males as rows.
+The sex distribution matrix for the example described above is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span>    <span class="mi">6</span>    <span class="mi">3</span>    <span class="mi">4</span>
+<span class="mi">7</span>    <span class="mi">5</span>    <span class="mi">8</span>    <span class="mi">7</span>
+<span class="mi">3</span>    <span class="mi">1</span>    <span class="mi">4</span>    <span class="mi">6</span>
+<span class="mi">1</span>    <span class="mi">2</span>    <span class="mi">2</span>    <span class="mi">9</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fasta-files">
+<span id="fasta-file"></span><h2>Fasta files<a class="headerlink" href="#fasta-files" title="Permalink to this headline">¶</a></h2>
+<p>FASTA files are be generated by the <code class="docutils literal notranslate"><span class="pre">subset</span></code> and <code class="docutils literal notranslate"><span class="pre">signif</span></code> commands for a subset of sequences, if the <code class="docutils literal notranslate"><span class="pre">--output-format</span></code> parameter is set to <em>fasta</em>.</p>
+<p>In the <code class="docutils literal notranslate"><span class="pre">subset</span></code> analysis, FASTA headers are generated with the following pattern:</p>
+<p><code class="docutils literal notranslate"><span class="pre">&lt;ID&gt;_&lt;number</span> <span class="pre">of</span> <span class="pre">males&gt;M_&lt;number</span> <span class="pre">of</span> <span class="pre">females&gt;F_cov:&lt;minimum</span> <span class="pre">coverage&gt;</span></code></p>
+<p>In the <code class="docutils literal notranslate"><span class="pre">signif</span></code> analysis, another field containing the p-value of association with sex is added:</p>
+<p><code class="docutils literal notranslate"><span class="pre">&lt;ID&gt;_&lt;number</span> <span class="pre">of</span> <span class="pre">males&gt;M_&lt;number</span> <span class="pre">of</span> <span class="pre">females&gt;F_cov:&lt;minimum</span> <span class="pre">coverage&gt;_p:&lt;p-value&gt;</span></code></p>
+</div>
+<div class="section" id="mapping-results">
+<span id="mapping-results-file"></span><h2>Mapping results<a class="headerlink" href="#mapping-results" title="Permalink to this headline">¶</a></h2>
+<p>Results from the <code class="docutils literal notranslate"><span class="pre">map</span></code> command are output as a tabulated file with header.
+The first column contains the sequence ID, the second column contains the contig to which the sequence mapped in the reference genome, and the third columns contains the position where the sequence mapped on the contig.
+The fourth column contains a sex-bias value, defined as <cite>(number of males with the sequence) / (total number of males) - (number of females with the sequence) / (total number of females)</cite>.
+The fifth column contains the p-value of a chi-squared test for association with sex, and the sixth column indicates whether this p-value is significant after Bonferroni correction.
+An example of mapping results is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Marker</span>      <span class="n">Contig</span>      <span class="n">Position</span>      <span class="n">SexBias</span>        <span class="n">P</span>     <span class="n">Signif</span>
+         <span class="mi">0</span>      <span class="n">LG09</span>        <span class="mi">10052920</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+         <span class="mi">1</span>      <span class="n">LG45</span>         <span class="mi">4008419</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+         <span class="mi">2</span>      <span class="n">LG06</span>        <span class="mi">20521435</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+         <span class="mi">3</span>      <span class="n">LG24</span>         <span class="mi">7643946</span>         <span class="mf">0.13</span>     <span class="mf">0.44</span>     <span class="kc">False</span>
+         <span class="mi">4</span>      <span class="n">LG06</span>        <span class="mi">16975491</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+         <span class="mi">5</span>      <span class="n">LG27</span>        <span class="mi">16580048</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+         <span class="mi">6</span>      <span class="n">LG49</span>         <span class="mi">7206356</span>         <span class="mf">0.03</span>        <span class="mi">1</span>     <span class="kc">False</span>
+         <span class="mi">7</span>      <span class="n">LG30</span>         <span class="mi">5571989</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+         <span class="mi">8</span>      <span class="n">LG05</span>        <span class="mi">20094761</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+         <span class="mi">9</span>      <span class="n">LG14</span>        <span class="mi">20088495</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+         <span class="mi">10</span>     <span class="n">LG34</span>        <span class="mi">11566459</span>        <span class="o">-</span><span class="mf">0.04</span>        <span class="mi">1</span>     <span class="kc">False</span>
+         <span class="mi">11</span>     <span class="n">LG21</span>        <span class="mi">17338149</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+         <span class="mi">12</span>     <span class="n">LG05</span>        <span class="mi">14652417</span>         <span class="mf">0.13</span>     <span class="mf">0.55</span>     <span class="kc">False</span>
+         <span class="mi">13</span>     <span class="n">LG25</span>        <span class="mi">23851527</span>         <span class="mf">0.75</span>    <span class="mf">0.001</span>     <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="input_files.html" class="btn btn-neutral float-left" title="Input file formats" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018-2020, Romain Feron
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

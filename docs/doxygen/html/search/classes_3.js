@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['inputfile_42',['InputFile',['../structInputFile.html',1,'']]]
+  ['freq_177',['Freq',['../classFreq.html',1,'']]]
 ];

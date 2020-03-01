@@ -1,0 +1,657 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>RADSex usage details &mdash; RADSex 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Input file formats" href="input_files.html" />
+    <link rel="prev" title="Example walkthrough" href="example.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RADSex
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Example walkthrough</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">RADSex usage details</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#general">General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#process">process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distrib">distrib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#subset">subset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#signif">signif</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loci">loci</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#map">map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#freq">freq</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="input_files.html">Input file formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_files.html">Output file formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RADSex</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>RADSex usage details</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/usage.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="radsex-usage-details">
+<span id="full-usage"></span><h1>RADSex usage details<a class="headerlink" href="#radsex-usage-details" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="general">
+<h2>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h2>
+<p>The RADSex software presents the general command-line interface:</p>
+<p><code class="docutils literal notranslate"><span class="pre">radsex</span> <span class="pre">&lt;command&gt;</span> <span class="pre">[options]</span></code></p>
+<p><strong>Available commands</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 95%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Command</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>process</p></td>
+<td><p>Compute a table of coverage from a set of demultiplexed reads</p></td>
+</tr>
+<tr class="row-odd"><td><p>distrib</p></td>
+<td><p>Compute the distribution of markers between sexes</p></td>
+</tr>
+<tr class="row-even"><td><p>subset</p></td>
+<td><p>Extract a specified subset of the coverage table</p></td>
+</tr>
+<tr class="row-odd"><td><p>signif</p></td>
+<td><p>Extract markers significantly associated with sex</p></td>
+</tr>
+<tr class="row-even"><td><p>loci</p></td>
+<td><p>Recreate polymorphic loci from a subset of coverage table</p></td>
+</tr>
+<tr class="row-odd"><td><p>mapping</p></td>
+<td><p>Map a subset of markers (coverage table or fasta) to a reference genome and output sex-association metrics for each mapped marker</p></td>
+</tr>
+<tr class="row-even"><td><p>freq</p></td>
+<td><p>Compute marker frequencies for the population</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="process">
+<h2>process<a class="headerlink" href="#process" title="Permalink to this headline">¶</a></h2>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">process</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="nb">dir</span> <span class="n">input_dir_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="p">[</span> <span class="o">--</span><span class="n">threads</span> <span class="n">n_threads</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">coverage</span> <span class="n">min_cov</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">process</span></code> command generates a table showing the coverage of each marker in each individual of the dataset. The output is a tabulated file, where each line contains the ID, sequence, and coverage for each individual of a marker.*</p>
+<p><strong>Options</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 81%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--input-dir</span></code></p></td>
+<td><p>Path to a folder containing demultiplexed reads</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--output-file</span></code></p></td>
+<td><p>Path to the output file (in tsv format)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--threads</span></code></p></td>
+<td><p>Number of threads to use (default: 1)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--min-coverage</span></code></p></td>
+<td><p>Minimum coverage to consider a marker present in an individual (default: 1)</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sample output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ID</span>    <span class="n">Sequence</span>    <span class="n">individual_1</span>    <span class="n">individual_2</span>    <span class="n">individual_3</span>    <span class="n">individual_4</span>    <span class="n">individual_5</span>
+<span class="mi">0</span>     <span class="n">TGCA</span><span class="o">..</span><span class="n">TATT</span>             <span class="mi">0</span>              <span class="mi">15</span>              <span class="mi">24</span>              <span class="mi">17</span>              <span class="mi">21</span>
+<span class="mi">1</span>     <span class="n">TGCA</span><span class="o">..</span><span class="n">GACC</span>            <span class="mi">20</span>              <span class="mi">18</span>               <span class="mi">3</span>              <span class="mi">26</span>               <span class="mi">4</span>
+<span class="mi">2</span>     <span class="n">TGCA</span><span class="o">..</span><span class="n">ATCG</span>             <span class="mi">2</span>               <span class="mi">1</span>               <span class="mi">5</span>              <span class="mi">16</span>               <span class="mi">0</span>
+<span class="mi">3</span>     <span class="n">TGCA</span><span class="o">..</span><span class="n">CCGA</span>            <span class="mi">14</span>              <span class="mi">29</span>              <span class="mi">23</span>               <span class="mi">2</span>              <span class="mi">19</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Input files are automatically dectected from the input directory based on their extensions. Supported extensions are <strong>.fa</strong>, <strong>.fa.gz</strong>, <strong>.fq</strong>, <strong>.fq.gz</strong>, <strong>.fasta</strong>, <strong>.fasta.gz</strong>, <strong>.fastq</strong>, <strong>.fastq.gz</strong>, <strong>.fna</strong>, and <strong>.fna.gz</strong>. Individual IDs in the output table will be inferred from the input files names after removing the extension. For instance, a file named <strong>individual_1.fastq.gz</strong> will be attributed the ID <strong>individual_1</strong>. Make sure to use the same IDs when creating the population map !</p>
+</div>
+</div>
+<div class="section" id="distrib">
+<h2>distrib<a class="headerlink" href="#distrib" title="Permalink to this headline">¶</a></h2>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">distrib</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">file</span> <span class="n">input_file_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="o">--</span><span class="n">popmap</span><span class="o">-</span><span class="n">file</span> <span class="n">popmap_file_path</span> <span class="p">[</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">coverage</span> <span class="n">min_cov</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">matrix</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">distrib</span></code> command generates a table containing the number of markers present with coverage higher than min_cov in <em>M</em> males and <em>F</em> females for every combination of number of males <em>M</em> and number of females <em>F</em>. For each combination of <em>M</em> and <em>F</em>, a probability of association with sex is computed using a chi-squared test with Yate’s correction for continuity. Significativity is provided in the last column, including Bonferroni correction : markers are significantly associated with sex when p ≤ (0.05 / total number of markers).</p>
+<p><strong>Options</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 86%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--input-file</span></code></p></td>
+<td><p>Path to coverage table generated with <code class="docutils literal notranslate"><span class="pre">process</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--output-file</span></code></p></td>
+<td><p>Path to the output file (in tsv format)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--popmap-file</span></code></p></td>
+<td><p>Path to a popmap file indicating the sex of each individual</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--min-coverage</span></code></p></td>
+<td><p>Minimum coverage to consider a marker present in an individual (default: 1)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--output-matrix</span></code></p></td>
+<td><p>If true, outputs the results as a matrix with males in columns and females in rows instead of a table (default: 0)</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sample output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Males</span>    <span class="n">Females</span>    <span class="n">Sequences</span>      <span class="n">P</span>      <span class="n">Signif</span>
+  <span class="mi">0</span>         <span class="mi">1</span>           <span class="mi">7</span>          <span class="mi">1</span>      <span class="kc">False</span>
+  <span class="mi">0</span>         <span class="mi">2</span>           <span class="mi">3</span>       <span class="mf">0.39</span>      <span class="kc">False</span>
+  <span class="mi">0</span>         <span class="mi">3</span>           <span class="mi">1</span>       <span class="mf">0.10</span>      <span class="kc">False</span>
+  <span class="mi">1</span>         <span class="mi">0</span>           <span class="mi">6</span>          <span class="mi">1</span>      <span class="kc">False</span>
+  <span class="mi">1</span>         <span class="mi">1</span>           <span class="mi">5</span>          <span class="mi">1</span>      <span class="kc">False</span>
+  <span class="mi">1</span>         <span class="mi">2</span>           <span class="mi">1</span>          <span class="mi">1</span>      <span class="kc">False</span>
+  <span class="mi">1</span>         <span class="mi">3</span>           <span class="mi">2</span>       <span class="mf">0.39</span>      <span class="kc">False</span>
+  <span class="mi">2</span>         <span class="mi">0</span>           <span class="mi">3</span>       <span class="mf">0.39</span>      <span class="kc">False</span>
+  <span class="mi">2</span>         <span class="mi">1</span>           <span class="mi">8</span>          <span class="mi">1</span>      <span class="kc">False</span>
+  <span class="mi">2</span>         <span class="mi">2</span>           <span class="mi">4</span>          <span class="mi">1</span>      <span class="kc">False</span>
+  <span class="mi">2</span>         <span class="mi">3</span>           <span class="mi">2</span>          <span class="mi">1</span>      <span class="kc">False</span>
+  <span class="mi">3</span>         <span class="mi">0</span>           <span class="mi">4</span>       <span class="mf">0.10</span>      <span class="kc">False</span>
+  <span class="mi">3</span>         <span class="mi">1</span>           <span class="mi">7</span>       <span class="mf">0.39</span>      <span class="kc">False</span>
+  <span class="mi">3</span>         <span class="mi">2</span>           <span class="mi">6</span>          <span class="mi">1</span>      <span class="kc">False</span>
+  <span class="mi">3</span>         <span class="mi">3</span>           <span class="mi">9</span>          <span class="mi">1</span>      <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="subset">
+<h2>subset<a class="headerlink" href="#subset" title="Permalink to this headline">¶</a></h2>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">subset</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">file</span> <span class="n">input_file_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="o">--</span><span class="n">popmap</span><span class="o">-</span><span class="n">file</span> <span class="n">popmap_file_path</span> <span class="p">[</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="nb">format</span> <span class="n">output_format</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">coverage</span> <span class="n">min_cov</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">males</span> <span class="n">min_males</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">females</span> <span class="n">min_females</span> <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">males</span> <span class="n">max_males</span> <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">females</span> <span class="n">max_females</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">individuals</span> <span class="n">min_individuals</span> <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">individuals</span> <span class="n">max_individuals</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">subset</span></code> command filters the coverage table to only export markers present in M males and F females, with min_males ≤ M ≤ max_males, min_females ≤ F ≤ max_females, and min_individuals ≤ M + F ≤ max_individuals. Markers can be exported either in table format (same as the output of <code class="docutils literal notranslate"><span class="pre">process</span></code>) or in fasta format, with marker information contained in the sequence IDs.</p>
+<p><strong>Options</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 78%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--input-file</span></code></p></td>
+<td><p>Path to an coverage table obtained with <code class="docutils literal notranslate"><span class="pre">process</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--output-file</span></code></p></td>
+<td><p>Path to the output file (in tsv or fasta format)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--popmap-file</span></code></p></td>
+<td><p>Path to a popmap file indicating the sex of each individual</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--output-format</span></code></p></td>
+<td><p>Output format, either “table” or “fasta” (default: “table”)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--min-coverage</span></code></p></td>
+<td><p>Minimum coverage to consider a marker present in an individual (default: 1)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--min-males</span></code></p></td>
+<td><p>Minimum number of males with a retained marker (default: 0)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--max-males</span></code></p></td>
+<td><p>Maximum number of males with a retained marker (default: all)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--min-females</span></code></p></td>
+<td><p>Minimum number of females with a retained marker (default: 0)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--max-females</span></code></p></td>
+<td><p>Maximum number of females with a retained marker (default: all)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--min-individuals</span></code></p></td>
+<td><p>Minimum number of individuals with a retained marker (default: 1)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--max-individuals</span></code></p></td>
+<td><p>Maximum number of individuals with a retained marker (default: all)</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sample output</strong></p>
+<ul class="simple">
+<li><p>Table format :</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ID</span>    <span class="n">Sequence</span>    <span class="n">individual_1</span>    <span class="n">individual_2</span>    <span class="n">individual_3</span>    <span class="n">individual_4</span>    <span class="n">individual_5</span>
+<span class="mi">15</span>    <span class="n">TGCA</span><span class="o">..</span><span class="n">TATT</span>             <span class="mi">0</span>              <span class="mi">15</span>              <span class="mi">24</span>              <span class="mi">17</span>              <span class="mi">21</span>
+<span class="mi">27</span>    <span class="n">TGCA</span><span class="o">..</span><span class="n">GACC</span>            <span class="mi">20</span>              <span class="mi">18</span>               <span class="mi">3</span>              <span class="mi">26</span>               <span class="mi">4</span>
+<span class="mi">43</span>    <span class="n">TGCA</span><span class="o">..</span><span class="n">ATCG</span>             <span class="mi">2</span>               <span class="mi">1</span>               <span class="mi">5</span>              <span class="mi">16</span>               <span class="mi">0</span>
+<span class="mi">86</span>    <span class="n">TGCA</span><span class="o">..</span><span class="n">CCGA</span>            <span class="mi">14</span>              <span class="mi">29</span>              <span class="mi">23</span>               <span class="mi">2</span>              <span class="mi">19</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>FASTA format :</p></li>
+</ul>
+<p>In FASTA format, IDs are generated with the following pattern : &lt;marker_ID&gt;_&lt;number_of_males&gt;M_&lt;number_of_females&gt;F_cov:&lt;minimum_coverage&gt;.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="mi">15_5</span><span class="n">M_0F_cov</span><span class="p">:</span><span class="mi">5</span>
+<span class="n">TGCA</span><span class="o">..</span><span class="n">TATT</span>
+<span class="o">&gt;</span><span class="mi">27_5</span><span class="n">M_1F_cov</span><span class="p">:</span><span class="mi">5</span>
+<span class="n">TGCA</span><span class="o">..</span><span class="n">GACC</span>
+<span class="o">&gt;</span><span class="mi">43_5</span><span class="n">M_1F_cov</span><span class="p">:</span><span class="mi">5</span>
+<span class="n">TGCA</span><span class="o">..</span><span class="n">ATCG</span>
+<span class="o">&gt;</span><span class="mi">86_5</span><span class="n">M_0F_cov</span><span class="p">:</span><span class="mi">5</span>
+<span class="n">TGCA</span><span class="o">..</span><span class="n">CCGA</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="signif">
+<h2>signif<a class="headerlink" href="#signif" title="Permalink to this headline">¶</a></h2>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">signif</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">file</span> <span class="n">input_file_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="o">--</span><span class="n">popmap</span><span class="o">-</span><span class="n">file</span> <span class="n">popmap_file_path</span> <span class="p">[</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="nb">format</span> <span class="n">output_format</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">coverage</span> <span class="n">min_cov</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">signif</span></code> command filters the coverage table to only export markers significantly associated with sex. The probability of association with sex is computed using a chi-squared test with Yate’s correction for continuity. Markers are significantly associated with sex when p ≤ (0.05 / total number of markers), to implement Bonferroni correction. Markers significantly associated with sex can be exported either in table format (same as the output of <code class="docutils literal notranslate"><span class="pre">process</span></code>) or in fasta format, with marker information contained in the sequence IDs.</p>
+<p><strong>Options</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 78%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--input-file</span></code></p></td>
+<td><p>Path to an coverage table obtained with <code class="docutils literal notranslate"><span class="pre">process</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--output-file</span></code></p></td>
+<td><p>Path to the output file (in tsv or fasta format)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--popmap-file</span></code></p></td>
+<td><p>Path to a popmap file indicating the sex of each individual</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--output-format</span></code></p></td>
+<td><p>Output format, either “table” or “fasta” (default: “table”)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--min-coverage</span></code></p></td>
+<td><p>Minimum coverage to consider a marker present in an individual (default: 1)</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sample output</strong></p>
+<ul class="simple">
+<li><p>Table format :</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ID</span>    <span class="n">Sequence</span>    <span class="n">individual_1</span>    <span class="n">individual_2</span>    <span class="n">individual_3</span>    <span class="n">individual_4</span>    <span class="n">individual_5</span>
+<span class="mi">15</span>    <span class="n">TGCA</span><span class="o">..</span><span class="n">TATT</span>             <span class="mi">0</span>              <span class="mi">15</span>              <span class="mi">24</span>              <span class="mi">17</span>              <span class="mi">21</span>
+<span class="mi">27</span>    <span class="n">TGCA</span><span class="o">..</span><span class="n">GACC</span>            <span class="mi">20</span>              <span class="mi">18</span>               <span class="mi">3</span>              <span class="mi">26</span>               <span class="mi">4</span>
+<span class="mi">43</span>    <span class="n">TGCA</span><span class="o">..</span><span class="n">ATCG</span>             <span class="mi">2</span>               <span class="mi">1</span>               <span class="mi">5</span>              <span class="mi">16</span>               <span class="mi">0</span>
+<span class="mi">86</span>    <span class="n">TGCA</span><span class="o">..</span><span class="n">CCGA</span>            <span class="mi">14</span>              <span class="mi">29</span>              <span class="mi">23</span>               <span class="mi">2</span>              <span class="mi">19</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>FASTA format :</p></li>
+</ul>
+<p>In FASTA format, IDs are generated with the following pattern : &lt;marker_ID&gt;_&lt;number_of_males&gt;M_&lt;number_of_females&gt;F_cov:&lt;minimum_coverage&gt;.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="mi">15_5</span><span class="n">M_0F_cov</span><span class="p">:</span><span class="mi">5</span>
+<span class="n">TGCA</span><span class="o">..</span><span class="n">TATT</span>
+<span class="o">&gt;</span><span class="mi">27_5</span><span class="n">M_1F_cov</span><span class="p">:</span><span class="mi">5</span>
+<span class="n">TGCA</span><span class="o">..</span><span class="n">GACC</span>
+<span class="o">&gt;</span><span class="mi">43_5</span><span class="n">M_1F_cov</span><span class="p">:</span><span class="mi">5</span>
+<span class="n">TGCA</span><span class="o">..</span><span class="n">ATCG</span>
+<span class="o">&gt;</span><span class="mi">86_5</span><span class="n">M_0F_cov</span><span class="p">:</span><span class="mi">5</span>
+<span class="n">TGCA</span><span class="o">..</span><span class="n">CCGA</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loci">
+<h2>loci<a class="headerlink" href="#loci" title="Permalink to this headline">¶</a></h2>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">loci</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">file</span> <span class="n">input_file_path</span> <span class="o">--</span><span class="n">coverage</span><span class="o">-</span><span class="n">table</span> <span class="n">coverage_matrix_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span>  <span class="p">[</span> <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">distance</span> <span class="n">max_distance</span> <span class="o">--</span><span class="n">threads</span> <span class="n">n_threads</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">cov</span> <span class="n">min_cov</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">loci</span></code> command attempts to find markers belonging to the same locus for a list of markers (in tsv format) obtained with <code class="docutils literal notranslate"><span class="pre">subset</span></code> or <code class="docutils literal notranslate"><span class="pre">signif</span></code>. For each specified marker, the Levenstein distance to every marker in the original coverage table is computed, and markers with distance shorter than <strong>max_distance</strong> are retained. The output file is a tabulated file where each line corresponds to a marker. The first column gives the ID of the reconstructed polymorphic locus containing this marker, the marker ID from the coverage table is in the second column, and the marker’s sequence is in the third column. The last column indicates whether the marker comes from the specified list of markers (“Original”) or was recovered from the coverage table (“Recovered”).</p>
+<p><strong>Options</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--input-file</span></code></p></td>
+<td><p>Path to an coverage table obtained with <code class="docutils literal notranslate"><span class="pre">subset</span></code> or <code class="docutils literal notranslate"><span class="pre">signif</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--coverage-table</span></code></p></td>
+<td><p>Path to an coverage table obtained with <code class="docutils literal notranslate"><span class="pre">process</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--output-file</span></code></p></td>
+<td><p>Path to the output file (in tsv format)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--popmap-file</span></code></p></td>
+<td><p>Path to a popmap file indicating the sex of each individual</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--max-distance</span></code></p></td>
+<td><p>Maximum Levenstein distance between two sequences to group them in a locus (default 1)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--threads</span></code></p></td>
+<td><p>Number of threads to use (default 1)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--min-coverage</span></code></p></td>
+<td><p>Minimum coverage to consider a marker present in an individual (default: 1)</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sample output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Locus</span>    <span class="n">Marker</span>      <span class="n">Sequence</span>      <span class="n">Origin</span>
+    <span class="mi">0</span>        <span class="mi">15</span>      <span class="n">TGCA</span><span class="o">..</span><span class="n">TATT</span>    <span class="n">Original</span>
+    <span class="mi">0</span>        <span class="mi">27</span>      <span class="n">TGCA</span><span class="o">..</span><span class="n">TAAT</span>    <span class="n">Recovered</span>
+    <span class="mi">1</span>        <span class="mi">43</span>      <span class="n">TGCA</span><span class="o">..</span><span class="n">ATCG</span>    <span class="n">Original</span>
+    <span class="mi">1</span>        <span class="mi">86</span>      <span class="n">TGCA</span><span class="o">..</span><span class="n">ATGG</span>    <span class="n">Recovered</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="map">
+<h2>map<a class="headerlink" href="#map" title="Permalink to this headline">¶</a></h2>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="nb">map</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">file</span> <span class="n">input_file_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="o">--</span><span class="n">popmap</span><span class="o">-</span><span class="n">file</span> <span class="n">popmap_file_path</span> <span class="o">--</span><span class="n">genome</span><span class="o">-</span><span class="n">file</span> <span class="n">genome_file_path</span> <span class="p">[</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">coverage</span> <span class="n">min_cov</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">quality</span> <span class="n">min_quality</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">frequency</span> <span class="n">min_frequency</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">map</span></code> command aligns all makers from a coverage table (obtained either from <code class="docutils literal notranslate"><span class="pre">process</span></code>, <code class="docutils literal notranslate"><span class="pre">subset</span></code>, or <code class="docutils literal notranslate"><span class="pre">signif</span></code>) to a reference genome provided in fasta format. The output is a tabulated file where each line gives a marker ID, the contig where the marker mapped, the mapping position of the marker on this contig, the sex-bias of the marker (defined as M / Tm - F / Tf where M and F are the number of males and females in which the marker is present, and Tm and Tf are the total number of males and females in the population), the probability of association with sex for this marker (obtained with a chi-square test with Yate’s correction for continuity), and the significativity of the association with sex after Bonferroni correction.</p>
+<p><strong>Options</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 82%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--input-file</span></code></p></td>
+<td><p>Path to an coverage table obtained with <code class="docutils literal notranslate"><span class="pre">process</span></code>, <code class="docutils literal notranslate"><span class="pre">subset</span></code>, or <code class="docutils literal notranslate"><span class="pre">signif</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--output-file</span></code></p></td>
+<td><p>Path to the output file (in tsv format)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--popmap-file</span></code></p></td>
+<td><p>Path to a popmap file indicating the sex of each individual</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--genome-file</span></code></p></td>
+<td><p>Path to a reference genome file in fasta format</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--min-coverage</span></code></p></td>
+<td><p>Minimum coverage to consider a marker present in an individual (default: 1)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--min-quality</span></code></p></td>
+<td><p>Minimum mapping quality, as defined in BWA, to consider a sequence properly mapped (default: 20)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--min-frequency</span></code></p></td>
+<td><p>Minimum frequency in at least one sex for a sequence to be retained (default: 0.25)</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sample output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Marker</span>        <span class="n">Contig</span>      <span class="n">Position</span>      <span class="n">SexBias</span>        <span class="n">P</span>     <span class="n">Signif</span>
+<span class="mi">0</span>             <span class="n">LG09</span>        <span class="mi">10052920</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">1</span>             <span class="n">LG45</span>         <span class="mi">4008419</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">2</span>             <span class="n">LG06</span>        <span class="mi">20521435</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">3</span>             <span class="n">LG24</span>         <span class="mi">7643946</span>         <span class="mf">0.13</span>     <span class="mf">0.44</span>     <span class="kc">False</span>
+<span class="mi">4</span>             <span class="n">LG06</span>        <span class="mi">16975491</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">5</span>             <span class="n">LG27</span>        <span class="mi">16580048</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">6</span>             <span class="n">LG49</span>         <span class="mi">7206356</span>         <span class="mf">0.03</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">7</span>             <span class="n">LG30</span>         <span class="mi">5571989</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">8</span>             <span class="n">LG05</span>        <span class="mi">20094761</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">9</span>             <span class="n">LG14</span>        <span class="mi">20088495</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">10</span>            <span class="n">LG34</span>        <span class="mi">11566459</span>        <span class="o">-</span><span class="mf">0.04</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">11</span>            <span class="n">LG21</span>        <span class="mi">17338149</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">12</span>            <span class="n">LG05</span>        <span class="mi">14652417</span>         <span class="mf">0.13</span>     <span class="mf">0.55</span>     <span class="kc">False</span>
+<span class="mi">13</span>            <span class="n">LG25</span>        <span class="mi">23851527</span>         <span class="mf">0.75</span>    <span class="mf">0.001</span>     <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="freq">
+<h2>freq<a class="headerlink" href="#freq" title="Permalink to this headline">¶</a></h2>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">freq</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">file</span> <span class="n">input_file_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="p">[</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">coverage</span> <span class="n">min_cov</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">freq</span></code> command computes the distribution of markers in the population. The output is a tabulated file where the first column gives the number of individuals, and the second column gives the number of markers found in this number of individuals.</p>
+<p><strong>Options</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 78%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--input-file</span></code></p></td>
+<td><p>Path to an coverage table obtained with <code class="docutils literal notranslate"><span class="pre">process</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--output-file</span></code></p></td>
+<td><p>Path to the output file (in tsv format)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--min-coverage</span></code></p></td>
+<td><p>Minimum coverage to consider a marker present in an individual (default: 1)</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sample output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Frequency</span>    <span class="n">Count</span>
+        <span class="mi">1</span>       <span class="mi">15</span>
+        <span class="mi">2</span>       <span class="mi">37</span>
+        <span class="mi">3</span>       <span class="mi">48</span>
+        <span class="mi">4</span>       <span class="mi">43</span>
+        <span class="mi">5</span>      <span class="mi">124</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="input_files.html" class="btn btn-neutral float-right" title="Input file formats" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="example.html" class="btn btn-neutral float-left" title="Example walkthrough" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018-2020, Romain Feron
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

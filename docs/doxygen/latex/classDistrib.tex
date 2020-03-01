@@ -1,0 +1,129 @@
+\hypertarget{classDistrib}{}\doxysection{Distrib Class Reference}
+\label{classDistrib}\index{Distrib@{Distrib}}
+
+
+Implements the \char`\"{}distrib\char`\"{} analysis.  
+
+
+
+
+{\ttfamily \#include $<$distrib.\+h$>$}
+
+Inheritance diagram for Distrib\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classDistrib}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classDistrib_a8d0d681f17cfe271fb0f47ee21038ee4}\label{classDistrib_a8d0d681f17cfe271fb0f47ee21038ee4}} 
+\mbox{\hyperlink{classDistrib_a8d0d681f17cfe271fb0f47ee21038ee4}{Distrib}} ()
+\begin{DoxyCompactList}\small\item\em Default \mbox{\hyperlink{classDistrib}{Distrib}} constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classDistrib_a5842c8890e305d3db077bc0270ca7fc8}{Distrib}} (\mbox{\hyperlink{structParameters}{Parameters}} \&\mbox{\hyperlink{classAnalysis_a8abd4de209925cb46571d4db97977d32}{parameters}}, bool \mbox{\hyperlink{classAnalysis_a744305d7fed1cc583580c5920f0e39b2}{compare\+\_\+groups}}=true, bool \mbox{\hyperlink{classAnalysis_acb2ede1501279963996f5e42eea88cca}{store\+\_\+groups}}=true, bool \mbox{\hyperlink{classAnalysis_a8b6e589cb74d4c25dcdcd88665a07060}{store\+\_\+sequence}}=false)
+\begin{DoxyCompactList}\small\item\em Standard \mbox{\hyperlink{classDistrib}{Distrib}} constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classDistrib_a1f78b878194bdc7a2b182c9b32d3eb33}{process\+\_\+marker}} (\mbox{\hyperlink{classMarker}{Marker}} \&marker)
+\begin{DoxyCompactList}\small\item\em Process a single marker. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classDistrib_a7e5c6dadcaf6f5700ee594ad3b9fc0cc}{generate\+\_\+output}} ()
+\begin{DoxyCompactList}\small\item\em Generate the output file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classDistrib_ab32799af438b0c49f76548a51ad7ae56}\label{classDistrib_ab32799af438b0c49f76548a51ad7ae56}} 
+\mbox{\hyperlink{structDistribResults}{Distrib\+Results}} \mbox{\hyperlink{classDistrib_ab32799af438b0c49f76548a51ad7ae56}{results}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structDistribResults}{Distrib\+Results}} instance to store the distribution of markers between groups and total number of retained markers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Implements the \char`\"{}distrib\char`\"{} analysis. 
+
+Compute the distribution of markers between two groups. ~\newline
+After all markers are processed, generate a tabulated output file with columns\+: ~\newline
+Group1 $\vert$ Group2 $\vert$ Markers $\vert$ P $\vert$ \mbox{\hyperlink{classSignif}{Signif}} $\vert$ Bias 
+
+Definition at line 61 of file distrib.\+h.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classDistrib_a5842c8890e305d3db077bc0270ca7fc8}\label{classDistrib_a5842c8890e305d3db077bc0270ca7fc8}} 
+\index{Distrib@{Distrib}!Distrib@{Distrib}}
+\index{Distrib@{Distrib}!Distrib@{Distrib}}
+\doxysubsubsection{\texorpdfstring{Distrib()}{Distrib()}}
+{\footnotesize\ttfamily Distrib\+::\+Distrib (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParameters}{Parameters}} \&}]{parameters,  }\item[{bool}]{compare\+\_\+groups = {\ttfamily true},  }\item[{bool}]{store\+\_\+groups = {\ttfamily true},  }\item[{bool}]{store\+\_\+sequence = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Standard \mbox{\hyperlink{classDistrib}{Distrib}} constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameters} & \mbox{\hyperlink{structParameters}{Parameters}} object storing the value of all R\+A\+D\+Sex parameters \\
+\hline
+{\em compare\+\_\+groups} & If true, groups are checked when loading the popmap \\
+\hline
+{\em store\+\_\+groups} & If true, group info is computed for each marker when parsing the markers table \\
+\hline
+{\em store\+\_\+sequence} & If true, marker sequences are stored for each marker when parsing the markers table \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 81 of file distrib.\+h.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classDistrib_a7e5c6dadcaf6f5700ee594ad3b9fc0cc}\label{classDistrib_a7e5c6dadcaf6f5700ee594ad3b9fc0cc}} 
+\index{Distrib@{Distrib}!generate\_output@{generate\_output}}
+\index{generate\_output@{generate\_output}!Distrib@{Distrib}}
+\doxysubsubsection{\texorpdfstring{generate\_output()}{generate\_output()}}
+{\footnotesize\ttfamily void Distrib\+::generate\+\_\+output (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Generate the output file. 
+
+Compute probability of association with group for each combination of number of individuals from group1 and group2. ~\newline
+Generate a tabulated output file with columns\+: ~\newline
+Group1 $\vert$ Group2 $\vert$ Markers $\vert$ P $\vert$ \mbox{\hyperlink{classSignif}{Signif}} $\vert$ Bias 
+
+Reimplemented from \mbox{\hyperlink{classAnalysis_a23da6dbd599ede2e4973a0313128f428}{Analysis}}.
+
+
+
+Definition at line 42 of file distrib.\+cpp.
+
+\mbox{\Hypertarget{classDistrib_a1f78b878194bdc7a2b182c9b32d3eb33}\label{classDistrib_a1f78b878194bdc7a2b182c9b32d3eb33}} 
+\index{Distrib@{Distrib}!process\_marker@{process\_marker}}
+\index{process\_marker@{process\_marker}!Distrib@{Distrib}}
+\doxysubsubsection{\texorpdfstring{process\_marker()}{process\_marker()}}
+{\footnotesize\ttfamily void Distrib\+::process\+\_\+marker (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classMarker}{Marker}} \&}]{marker }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Process a single marker. 
+
+Updates results for the number of individuals from each group in which the marker is present with depth higher than parameters.\+min\+\_\+depth.
+
+
+\begin{DoxyParams}{Parameters}
+{\em marker} & Current marker info stored in a \mbox{\hyperlink{classMarker}{Marker}} instance. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{classAnalysis_ac2c749dc8512a6ef200042e59c4369bc}{Analysis}}.
+
+
+
+Definition at line 27 of file distrib.\+cpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/romain/work/code/\+Rad\+Sex/src/\mbox{\hyperlink{distrib_8h}{distrib.\+h}}\item 
+/home/romain/work/code/\+Rad\+Sex/src/\mbox{\hyperlink{distrib_8cpp}{distrib.\+cpp}}\end{DoxyCompactItemize}

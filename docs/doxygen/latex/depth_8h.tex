@@ -1,69 +1,26 @@
 \hypertarget{depth_8h}{}\doxysection{/home/romain/work/code/\+Rad\+Sex/src/depth.h File Reference}
 \label{depth_8h}\index{/home/romain/work/code/RadSex/src/depth.h@{/home/romain/work/code/RadSex/src/depth.h}}
-{\ttfamily \#include $<$algorithm$>$}\newline
-{\ttfamily \#include $<$fstream$>$}\newline
+
+
+Defines the \mbox{\hyperlink{classDepth}{Depth}} class implementing the \char`\"{}depth\char`\"{} analysis.  
+
+
 {\ttfamily \#include $<$numeric$>$}\newline
-{\ttfamily \#include $<$string$>$}\newline
-{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
-{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include \char`\"{}analysis.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}parameters.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}popmap.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}stats.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}table\+\_\+parser.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}markers\+\_\+table.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}utils.\+h\char`\"{}}\newline
 \doxysubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 struct \mbox{\hyperlink{structDepthResults}{Depth\+Results}}
-\begin{DoxyCompactList}\small\item\em Depths\+Results struct. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsection*{Functions}
-\begin{DoxyCompactItemize}
-\item 
-void \mbox{\hyperlink{depth_8h_ab2291110e5c4c1c90506c1cd6902e00e}{depth}} (const \mbox{\hyperlink{structParameters}{Parameters}} \&parameters)
-\begin{DoxyCompactList}\small\item\em Main function called by the depth command. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{depth_8h_a050775c9b8c0513cf3ced6ac4350cdb4}{processor}} (\mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} \&markers\+\_\+queue, \mbox{\hyperlink{structDepthResults}{Depth\+Results}} \&results, bool \&parsing\+\_\+ended)
-\begin{DoxyCompactList}\small\item\em Process markers from a \mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structDepthResults}{Depth\+Results}} struct. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classDepth}{Depth}}
+\begin{DoxyCompactList}\small\item\em Implements the \char`\"{}depth\char`\"{} analysis. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
-\doxysubsection{Function Documentation}
-\mbox{\Hypertarget{depth_8h_ab2291110e5c4c1c90506c1cd6902e00e}\label{depth_8h_ab2291110e5c4c1c90506c1cd6902e00e}} 
-\index{depth.h@{depth.h}!depth@{depth}}
-\index{depth@{depth}!depth.h@{depth.h}}
-\doxysubsubsection{\texorpdfstring{depth()}{depth()}}
-{\footnotesize\ttfamily void depth (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structParameters}{Parameters}} \&}]{parameters }\end{DoxyParamCaption})}
+\doxysubsection{Detailed Description}
+Defines the \mbox{\hyperlink{classDepth}{Depth}} class implementing the \char`\"{}depth\char`\"{} analysis. 
 
-
-
-Main function called by the depth command. 
-
-Compute the minimum, maximum, median, and average marker depth for each individual. ~\newline
-This function creates a parsing thread which reads a markers table file and stores markers into a queue, and a processing thread which reads batches of markers from the queue and compute metrics. ~\newline
-After all markers are processed, the function generates an tabulated output file with columns\+: ~\newline
-Individual $\vert$ Group $\vert$ Markers $\vert$ Retained $\vert$ Min\+\_\+depth $\vert$ Max\+\_\+depth $\vert$ Median\+\_\+depth $\vert$ Average\+\_\+depth
-
-
-\begin{DoxyParams}{Parameters}
-{\em parameters} & \mbox{\hyperlink{structParameters}{Parameters}} object storing the value of all R\+A\+D\+Sex parameters \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{depth_8h_a050775c9b8c0513cf3ced6ac4350cdb4}\label{depth_8h_a050775c9b8c0513cf3ced6ac4350cdb4}} 
-\index{depth.h@{depth.h}!processor@{processor}}
-\index{processor@{processor}!depth.h@{depth.h}}
-\doxysubsubsection{\texorpdfstring{processor()}{processor()}}
-{\footnotesize\ttfamily void processor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} \&}]{markers\+\_\+queue,  }\item[{\mbox{\hyperlink{structDepthResults}{Depth\+Results}} \&}]{results,  }\item[{bool \&}]{parsing\+\_\+ended }\end{DoxyParamCaption})}
-
-
-
-Process markers from a \mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}}. 
-
-Read batches of markers from a markers queue, store individual marker depths and update individual marker counts in results. Only retain markers present in $>$75\% of individuals to compute depth metrics.
-
-
-\begin{DoxyParams}{Parameters}
-{\em markers\+\_\+queue} & \mbox{\hyperlink{structMarkersQueue}{Markers\+Queue}} instance \\
-\hline
-{\em results} & \mbox{\hyperlink{structDepthResults}{Depth\+Results}} instance storing individual marker depths and individual marker counts \\
-\hline
-{\em parsing\+\_\+ended} & A flag indicating that the parsing ended, updated by the \mbox{\hyperlink{table__parser_8h_acae38db5e782a3fd35d349c195888fda}{table\+\_\+parser()}} function \\
-\hline
-\end{DoxyParams}

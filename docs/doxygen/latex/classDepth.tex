@@ -1,0 +1,131 @@
+\hypertarget{classDepth}{}\doxysection{Depth Class Reference}
+\label{classDepth}\index{Depth@{Depth}}
+
+
+Implements the \char`\"{}depth\char`\"{} analysis.  
+
+
+
+
+{\ttfamily \#include $<$depth.\+h$>$}
+
+Inheritance diagram for Depth\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classDepth}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classDepth_a1a90485eec969f60afee2c02ddfad2e7}\label{classDepth_a1a90485eec969f60afee2c02ddfad2e7}} 
+\mbox{\hyperlink{classDepth_a1a90485eec969f60afee2c02ddfad2e7}{Depth}} ()
+\begin{DoxyCompactList}\small\item\em Default \mbox{\hyperlink{classDepth}{Depth}} constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classDepth_a35f6f88baca132c26516baf3066b7cb2}{Depth}} (\mbox{\hyperlink{structParameters}{Parameters}} \&\mbox{\hyperlink{classAnalysis_a8abd4de209925cb46571d4db97977d32}{parameters}}, bool \mbox{\hyperlink{classAnalysis_a744305d7fed1cc583580c5920f0e39b2}{compare\+\_\+groups}}=false, bool \mbox{\hyperlink{classAnalysis_acb2ede1501279963996f5e42eea88cca}{store\+\_\+groups}}=false, bool \mbox{\hyperlink{classAnalysis_a8b6e589cb74d4c25dcdcd88665a07060}{store\+\_\+sequence}}=false)
+\begin{DoxyCompactList}\small\item\em Standard \mbox{\hyperlink{classDepth}{Depth}} constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classDepth_ae4dfa2cdf3e813701f4842af1f4de7d3}{process\+\_\+marker}} (\mbox{\hyperlink{classMarker}{Marker}} \&marker)
+\begin{DoxyCompactList}\small\item\em Process a single marker. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classDepth_ae6a61dccfa80095ac6fd81d27b01ba50}{generate\+\_\+output}} ()
+\begin{DoxyCompactList}\small\item\em Generate the output file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classDepth_a6511d8a306d9728d6f57e88c964b3635}\label{classDepth_a6511d8a306d9728d6f57e88c964b3635}} 
+\mbox{\hyperlink{structDepthResults}{Depth\+Results}} \mbox{\hyperlink{classDepth_a6511d8a306d9728d6f57e88c964b3635}{results}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structDepthResults}{Depth\+Results}} instance to store individual marker depths and total number of retained markers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Implements the \char`\"{}depth\char`\"{} analysis. 
+
+Compute the minimum, maximum, median, and average marker depth for each individual. ~\newline
+After all markers are processed, generate a tabulated output file with columns\+: ~\newline
+Individual $\vert$ Group $\vert$ Markers $\vert$ Retained $\vert$ Min\+\_\+depth $\vert$ Max\+\_\+depth $\vert$ Median\+\_\+depth $\vert$ Average\+\_\+depth 
+
+Definition at line 81 of file depth.\+h.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classDepth_a35f6f88baca132c26516baf3066b7cb2}\label{classDepth_a35f6f88baca132c26516baf3066b7cb2}} 
+\index{Depth@{Depth}!Depth@{Depth}}
+\index{Depth@{Depth}!Depth@{Depth}}
+\doxysubsubsection{\texorpdfstring{Depth()}{Depth()}}
+{\footnotesize\ttfamily Depth\+::\+Depth (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structParameters}{Parameters}} \&}]{parameters,  }\item[{bool}]{compare\+\_\+groups = {\ttfamily false},  }\item[{bool}]{store\+\_\+groups = {\ttfamily false},  }\item[{bool}]{store\+\_\+sequence = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Standard \mbox{\hyperlink{classDepth}{Depth}} constructor. 
+
+Initialize the \mbox{\hyperlink{structDepthResults}{Depth\+Results}} instance.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameters} & \mbox{\hyperlink{structParameters}{Parameters}} object storing the value of all R\+A\+D\+Sex parameters \\
+\hline
+{\em compare\+\_\+groups} & If true, groups are checked when loading the popmap \\
+\hline
+{\em store\+\_\+groups} & If true, group info is computed for each marker when parsing the markers table \\
+\hline
+{\em store\+\_\+sequence} & If true, marker sequences are stored for each marker when parsing the markers table \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 27 of file depth.\+cpp.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classDepth_ae6a61dccfa80095ac6fd81d27b01ba50}\label{classDepth_ae6a61dccfa80095ac6fd81d27b01ba50}} 
+\index{Depth@{Depth}!generate\_output@{generate\_output}}
+\index{generate\_output@{generate\_output}!Depth@{Depth}}
+\doxysubsubsection{\texorpdfstring{generate\_output()}{generate\_output()}}
+{\footnotesize\ttfamily void Depth\+::generate\+\_\+output (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Generate the output file. 
+
+Compute minimum, maximum, median, and average depth for all markers retained in process\+\_\+marker. ~\newline
+Generate a tabulated output file with columns\+: ~\newline
+Individual $\vert$ Group $\vert$ Markers $\vert$ Retained $\vert$ Min\+\_\+depth $\vert$ Max\+\_\+depth $\vert$ Median\+\_\+depth $\vert$ Average\+\_\+depth 
+
+Reimplemented from \mbox{\hyperlink{classAnalysis_a23da6dbd599ede2e4973a0313128f428}{Analysis}}.
+
+
+
+Definition at line 52 of file depth.\+cpp.
+
+\mbox{\Hypertarget{classDepth_ae4dfa2cdf3e813701f4842af1f4de7d3}\label{classDepth_ae4dfa2cdf3e813701f4842af1f4de7d3}} 
+\index{Depth@{Depth}!process\_marker@{process\_marker}}
+\index{process\_marker@{process\_marker}!Depth@{Depth}}
+\doxysubsubsection{\texorpdfstring{process\_marker()}{process\_marker()}}
+{\footnotesize\ttfamily void Depth\+::process\+\_\+marker (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classMarker}{Marker}} \&}]{marker }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Process a single marker. 
+
+If a marker is present in more than 75\% of individuals, store individual depths in results.
+
+
+\begin{DoxyParams}{Parameters}
+{\em marker} & Current marker info stored in a \mbox{\hyperlink{classMarker}{Marker}} instance. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{classAnalysis_ac2c749dc8512a6ef200042e59c4369bc}{Analysis}}.
+
+
+
+Definition at line 37 of file depth.\+cpp.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/romain/work/code/\+Rad\+Sex/src/\mbox{\hyperlink{depth_8h}{depth.\+h}}\item 
+/home/romain/work/code/\+Rad\+Sex/src/\mbox{\hyperlink{depth_8cpp}{depth.\+cpp}}\end{DoxyCompactItemize}
