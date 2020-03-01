@@ -16,54 +16,58 @@
 * along with RADSex.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-/** @file */
+/*!
+ * @file parameters.h
+ * @brief Defines the Parameters class storing information on all RADSex parameters.
+*/
 
 #pragma once
 #include <string>
 
+
+/*!
+ * \brief Parameters
+ *
+ * Store the value of all RADSex parameters.
+ *
+ */
+
 struct Parameters {
 
     // Subcommand
-    std::string command = "";
+    std::string command = "";   ///< Name of the command being run (i.e. analysis)
 
     // I/O parameters
-    std::string input_dir_path = "";
-    std::string output_file_path = "";
-    std::string markers_table_path = "";
-    std::string subset_file_path = "";
-    std::string output_format = "";
-    std::string popmap_file_path = "";
-    std::string barcodes_file_path = "";
-    std::string genome_file_path = "";
-    std::string depths_file_path = "";
-    bool output_matrix = false;
-    bool output_fasta= false;
+    std::string input_dir_path = "";   ///< Path to an input directory for "process"
+    std::string output_file_path = "";   ///< Path to the output file for any analysis
+    std::string markers_table_path = "";   ///< Path to a markers depth table for any analysis
+    std::string popmap_file_path = "";   ///< Path to a popmap file specifying group for each individual
+    std::string genome_file_path = "";   ///< Path to a genome in FASTA format for "map"
+    bool output_fasta= false;   ///< If true, markers are outputted in FASTA format
 
-    // Group names
-    std::string group1 = "";
-    std::string group2 = "";
+    // Group names (when more than two groups in popmap or to override popmap order)
+    std::string group1 = "";   ///< Name of the first group for analysis comparing two groups
+    std::string group2 = "";   ///< Name of the secondfirst group for analysis comparing two groups
 
-    // Shared parameters
-    uint n_threads = 1;
-    uint min_depth = 1;
-    float signif_threshold = static_cast<float>(0.05);
-    bool disable_correction = false;
+    // Common analyses parameters
+    uint n_threads = 1;   ///< Number of threads to use for "process"
+    uint min_depth = 1;   ///< Minimum depth to consider a marker present in an individual
+    float signif_threshold = static_cast<float>(0.05);   ///< P-value threshold to consider a marker significantly associated with group
+    bool disable_correction = false;   ///< If true, Bonferroni correction will NOT be applied when estimating significance of association with group
 
     // "subset" specific parameters
-    uint subset_min_group1 = 0;
-    uint subset_min_group2 = 0;
-    uint subset_max_group1 = 9999;
-    uint subset_max_group2 = 9999;
-    uint subset_min_individuals = 0;
-    uint subset_max_individuals = 9999;
-
-    // Flags indicating whether max values should be set to max number of individuals for "subset"
-    bool set_max_group1 = true;
-    bool set_max_group2 = true;
-    bool set_max_individuals = true;
+    uint subset_min_group1 = 0;   ///< Minimum number of individuals from the first group in which a marker is present to retain a marker
+    uint subset_min_group2 = 0;   ///< Minimum number of individuals from the second group in which a marker is present to retain a marker
+    uint subset_max_group1 = 9999;   ///< Maximum number of individuals from the first group in which a marker is present to retain a marker
+    uint subset_max_group2 = 9999;   ///< Maximum number of individuals from the second group in which a marker is present to retain a marker
+    uint subset_min_individuals = 0;   ///< Minimum number of individuals from the entire dataset in which a marker is present to retain a marker
+    uint subset_max_individuals = 9999;   ///< Maximum number of individuals from the entire dataset in which a marker is present to retain a marker
+    bool set_max_group1 = true;   ///< If true, set subset_max_group1 to the number of group1 individuals in the popmap (i.e. it was not specified by the user)
+    bool set_max_group2 = true;   ///< If true, set subset_max_group2 to the number of group1 individuals in the popmap (i.e. it was not specified by the user)
+    bool set_max_individuals = true;   ///< If true, set subset_max_individuals to the number of group1 individuals in the popmap (i.e. it was not specified by the user)
 
     // "map" specific parameters
-    uint map_min_quality = 20;
-    float map_min_frequency = static_cast<float>(0.1);
+    uint map_min_quality = 20;   ///< Minimum mapping quality to retained an aligned marker
+    float map_min_frequency = static_cast<float>(0.1);   ///< Minimum frequency of a marker in the population to retain the marker
 
 };

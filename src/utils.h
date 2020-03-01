@@ -16,7 +16,10 @@
 * along with RADSex.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-/** @file */
+/*!
+ * @file utils.h
+ * @brief Implements general utility functions used.
+*/
 
 #pragma once
 #include <algorithm>
@@ -31,59 +34,100 @@
 #include <unordered_map>
 #include <vector>
 
-#define DTTMFMT "%Y-%m-%d %H:%M:%S"
-#define DTTMSZ 21
+#define TIME_FORMAT "%Y-%m-%d %H:%M:%S"   ///< Date and time format for logging
+#define MAX_TIME_SIZE 21   ///< Max number of characters in \link TIME_FORMAT \endlink
 
-#define LOG_ERROR "ERROR"
-#define LOG_WARNING "WARNING"
-#define LOG_INFO "INFO"
+#define LOG_ERROR "ERROR"   ///< Message prefix for log level ERROR
+#define LOG_WARNING "WARNING"   ///< Message prefix for log level WARNING
+#define LOG_INFO "INFO"   ///< Message prefix for log level INFO
 
 
-// Output current date and time in format specified in utils.h
-inline char* print_time (char *buff) {
+/*!
+ * \brief Print current time
+ *
+ * \param buff Char array to store current time
+ * \return Formatted current time as a char array
+ */
 
-    time_t t = time (nullptr);
-    strftime (buff, DTTMSZ, DTTMFMT, localtime (&t));
+inline char* print_time (char* buff) {
+
+    time_t t = time(nullptr);
+    strftime (buff, MAX_TIME_SIZE, TIME_FORMAT, localtime (&t));
     return buff;
+
 }
 
 
 
-// Splits a std::string into a std::vector of std::strings according to a specified delimiter (default: \t)
-inline std::vector<std::string> split(std::string str, const std::string delimiter){
+
+
+/*!
+ * \brief Split a string into a vector of string
+ *
+ * \param str       The string to split
+ * \param separator Separator to split the string by
+ *
+ * \return The splitted string as vector of strings
+ */
+
+inline std::vector<std::string> split(std::string str, const std::string& separator = "\t"){
 
     std::vector<std::string> output;
     size_t pos;
 
-    while ((pos = str.find(delimiter)) != std::string::npos){
+    while ((pos = str.find(separator)) != std::string::npos){
 
         output.push_back(str.substr(0, pos));
-        str.erase(0, pos + delimiter.length());
+        str.erase(0, pos + separator.length());
     }
 
-    output.push_back(str.substr(0, pos));
+    output.push_back(str.substr(0, pos));   // Push the last element
 
     return output;
 }
 
 
-// Faster string to int conversion
+
+
+
+/*!
+ * \brief Fast stoi conversion
+ *
+ * I honestly don't know how it works but it's fast.
+ *
+ * \param str Pointer to a char array to convert to int
+ *
+ * \return The converted string as an int
+ */
+
 inline int fast_stoi(const char* str) {
 
     int val = 0;
-    while( *str ) {
-        val = val*10 + (*str++ - '0');
-    }
+
+    while (*str) val = val * 10 + (*str++ - '0');
+
     return val;
+
 }
 
 
-// Log output formatting
+
+
+
 template<typename T>
+
+/*!
+ * \brief Print logging message
+ *
+ * \param line      Message to print
+ * \param level     Log level, either \link LOG_INFO \endlink, \link LOG_WARNING \endlink, or \link LOG_ERROR \endlink
+ * \param flushline If true, std::endl is added at the end of the log line
+ */
+
 inline void log(T line, const std::string level = LOG_INFO, bool flushline = true) {
 
-    char logtime[DTTMSZ];
-    std::string indent((8 - level.size()), ' ');
+    char logtime[MAX_TIME_SIZE];
+    std::string indent((8 - level.size()), ' ');  // Nicely align messages for all log levels
 
     std::cerr << "[" << print_time(logtime) << "]::" << level << indent << std::boolalpha << line;
     if (flushline) std::cerr << std::endl;
@@ -91,28 +135,15 @@ inline void log(T line, const std::string level = LOG_INFO, bool flushline = tru
 
 
 
-inline std::vector<std::string> get_column_sex(std::unordered_map<std::string, std::string>& popmap, const std::vector<std::string>& header) {
-
-    // Map with column number --> index of sex_count (0 = male, 1 = female, 2 = no sex)
-    std::vector<std::string> sex_columns;
-
-    for (uint i=0; i<header.size(); ++i) {
-
-        if (popmap.find(header[i]) != popmap.end()) {
-
-            sex_columns.push_back(popmap[header[i]]);
-
-        } else {
-
-            sex_columns.push_back(""); // First and second columns (id and sequence) are not counted
-
-        }
-    }
-
-    return sex_columns;
-}
 
 
+/*!
+ * \brief Open an input file and check that the file is open properly
+ *
+ * \param input_file_path Path to the file to open
+ *
+ * \return An input file stream for the input file
+ */
 
 inline std::ifstream open_input(const std::string& input_file_path) {
 
@@ -126,9 +157,20 @@ inline std::ifstream open_input(const std::string& input_file_path) {
     }
 
     return input_file;
+
 }
 
 
+
+
+
+/*!
+ * \brief Open an output file and check that the file is open properly
+ *
+ * \param output_file_path Path to the file to open
+ *
+ * \return An output file stream for the output file
+ */
 
 inline std::ofstream open_output(const std::string& output_file_path) {
 
@@ -142,13 +184,23 @@ inline std::ofstream open_output(const std::string& output_file_path) {
     }
 
     return output_file;
+
 }
 
 
 
+
+
+/*!
+ * \brief Print a progress log message
+ *
+ * \param n_processed_markers   Number of markers processed
+ * \param marker_processed_tick Number of markers corresponding to 1% of total markers
+ */
+
 inline void log_progress(uint64_t& n_processed_markers, const uint32_t marker_processed_tick) {
 
-    if (++n_processed_markers % (10 * marker_processed_tick) == 0) {
+    if (++n_processed_markers % (10 * marker_processed_tick) == 0) {  // Print a message every 10% markers progressed
 
         log("Processed " + std::to_string(n_processed_markers) + " markers (" + std::to_string(n_processed_markers / (marker_processed_tick)) + " %)");
 
@@ -156,6 +208,16 @@ inline void log_progress(uint64_t& n_processed_markers, const uint32_t marker_pr
 }
 
 
+
+
+
+/*!
+ * \brief Compute runtime until present time
+ *
+ * \param t_begin Time point at the start of a measurement
+ *
+ * \return Runtime until now as a string with format "<H>h <M>m <S>s"
+ */
 
 inline std::string get_runtime(const std::chrono::steady_clock::time_point t_begin) {
 
@@ -170,19 +232,28 @@ inline std::string get_runtime(const std::chrono::steady_clock::time_point t_beg
 
 
 
+
+
+/*!
+ * \brief Update a progress bar log message
+ *
+ * \param n_processed_markers   Number of markers processed
+ * \param marker_processed_tick Number of markers corresponding to 1% of total markers
+ * \param symbol                Symbol to use to draw the progress bar (e.g. # -> [###...])
+ * \param ticks                 Total number of ticks in progress bar (should be a factor of 100)
+ */
+
 inline void log_progress_bar(uint64_t& n_processed_markers, const uint32_t marker_processed_tick, char symbol = '#', uint16_t ticks = 50) {
 
-    uint tick_size = 100 / ticks;
+    uint tick_size = 100 / ticks;   // Compute the number of markers in a tick
 
-    if (n_processed_markers % (tick_size * marker_processed_tick) != 0) return;  // Not a step
+    if (n_processed_markers % (tick_size * marker_processed_tick) != 0) return;  // Not an update step, stop there
 
-    uint16_t progress = static_cast<uint16_t>(n_processed_markers / (tick_size * marker_processed_tick));
+    uint16_t progress = static_cast<uint16_t>(n_processed_markers / (tick_size * marker_processed_tick));   // Compute current progress
 
     std::string bar = "Progress: [";
 
-    for(uint i=0; i < ticks; ++i) {
-        i < progress ? bar += symbol : bar += ' ';
-    }
+    for(uint i=0; i < ticks; ++i) i < progress ? bar += symbol : bar += '.';   // Draw progress bar
 
     bar += "] - " + std::to_string(progress * tick_size) + "% (" + std::to_string(n_processed_markers) + " markers)";
 
@@ -193,7 +264,20 @@ inline void log_progress_bar(uint64_t& n_processed_markers, const uint32_t marke
 }
 
 
+
+
+
 template<typename T>
+
+/*!
+ * \brief Print a container as a "sep"-separated string
+ *
+ * \param list Container to print
+ * \param sep  Separator between container elements
+ *
+ * \return A string of all items in the container separated by sep.
+ */
+
 inline std::string print_list(const T& list, const std::string& sep = ", ") {
 
     uint n = 0;

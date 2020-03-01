@@ -1,3 +1,26 @@
+/*
+* Copyright (C) 2020 Romain Feron
+* This file is part of RADSex.
+
+* RADSex is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+
+* RADSex is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+
+* You should have received a copy of the GNU General Public License
+* along with RADSex.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/*!
+ * @file marker.cpp
+ * @brief Implements the Marker class.
+*/
+
 #include "marker.h"
 
 
@@ -6,6 +29,8 @@ Marker::Marker(uint16_t n_individuals) {
     this->individual_depths = std::vector<uint16_t>(n_individuals, 0);
 
 }
+
+
 
 
 
@@ -26,6 +51,8 @@ void Marker::reset(bool sex_stats_only) {
 
 
 
+
+
 void Marker::output_as_table(std::ofstream& output_file) const {
 
     output_file << this->id << "\t" << this->sequence;
@@ -33,6 +60,8 @@ void Marker::output_as_table(std::ofstream& output_file) const {
     output_file << "\n";
 
 }
+
+
 
 
 

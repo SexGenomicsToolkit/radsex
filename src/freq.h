@@ -16,21 +16,76 @@
 * along with RADSex.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-/** @file */
+/*!
+ * @file freq.h
+ * @brief Defines the Freq class implementing the "freq" analysis.
+*/
 
 #pragma once
 #include <fstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include "analysis.h"
 #include "markers_table.h"
 #include "parameters.h"
 #include "popmap.h"
 #include "utils.h"
 
-// Compute a table of marker frequencies in the population, regardless of sex
-void freq(Parameters& parameters);
 
-void processor(MarkersQueue& markers_queue, std::mutex& queue_mutex, std::vector<uint32_t>& frequencies, bool& parsing_ended, ulong batch_size);
+/*!
+ * \brief Implements the "freq" analysis
+ *
+ * Compute the distribution of markers in all individuals. \n
+ * After all markers are processed, generate a tabulated output file with columns: \n
+ * Frequency | Count
+ *
+ */
+
+class Freq: public Analysis {
+
+    public:
+
+        /*!
+         * \brief Default Freq constructor
+         */
+
+        Freq() {};
 
 
+        /*!
+         * \brief Standard Freq constructor
+         *
+         * \param parameters      Parameters object storing the value of all RADSex parameters
+         * \param compare_groups  If true, groups are checked when loading the popmap
+         * \param store_groups    If true, group info is computed for each marker when parsing the markers table
+         * \param store_sequence  If true, marker sequences are stored for each marker when parsing the markers table
+         */
+
+        Freq(Parameters& parameters, bool compare_groups = false, bool store_groups = false, bool store_sequence = false);
+
+
+        /*!
+         * \brief Process a single marker
+         *
+         * Compute the number of individuals in which the marker is present with depth higher than parameters.min_depth.
+         *
+         * \param marker Current marker info stored in a Marker instance.
+         */
+
+        void process_marker(Marker& marker);
+
+
+        /*!
+         * \brief Generate the output file
+         *
+         * Generate a tabulated output file with columns: \n
+         * Frequency | Count
+         */
+
+        void generate_output();
+
+    private:
+
+            std::vector<uint32_t> results;  ///< Vector storing the number of markers (integers) present in each number of individuals (indices)
+};

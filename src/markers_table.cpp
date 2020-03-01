@@ -16,6 +16,11 @@
 * along with RADSex.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+/*!
+ * @file markers_table.cpp
+ * @brief Implements the MarkersTable and Header classes.
+*/
+
 #include "markers_table.h"
 
 
@@ -48,16 +53,28 @@ Header::Header(std::string markers_table_path) {
 
 
 
+
+
 MarkersTable::MarkersTable(Parameters* parameters) {
 
     this->parameters = parameters;
     this->header = Header(this->parameters->markers_table_path);
+    this->popmap = nullptr;
 
 }
 
 
 
+
+
 void MarkersTable::start_parser(bool store_sequence, bool compute_groups) {
+
+    if (this->popmap == nullptr) {
+
+        log("Popmap was not defined in MarkersTable::start_parser");
+        exit(1);
+
+    }
 
     std::ifstream input_file = open_input(this->parameters->markers_table_path);
 
@@ -73,6 +90,8 @@ void MarkersTable::start_parser(bool store_sequence, bool compute_groups) {
     std::string temp = "#";
 
     while (temp[0] == '#') std::getline(input_file, temp);  // Read comment lines and header line
+
+    temp = "";
 
     do {
 
@@ -100,7 +119,7 @@ void MarkersTable::start_parser(bool store_sequence, bool compute_groups) {
                         default:
                             marker.individual_depths[field_n - 2] = static_cast<uint16_t>(fast_stoi(temp.c_str()));
                             if (marker.individual_depths[field_n - 2] >= this->parameters->min_depth) {
-                                if (compute_groups) ++marker.group_counts.at(this->groups[field_n]);
+                                if (compute_groups) ++marker.group_counts[this->groups[field_n]];
                                 ++marker.n_individuals;
                             }
                             break;
@@ -115,7 +134,7 @@ void MarkersTable::start_parser(bool store_sequence, bool compute_groups) {
 
                     marker.individual_depths[field_n - 2] = static_cast<uint16_t>(fast_stoi(temp.c_str()));
                     if (marker.individual_depths[field_n - 2] >= this->parameters->min_depth) {
-                        if (compute_groups) ++marker.group_counts.at(this->groups[field_n]);
+                        if (compute_groups) ++marker.group_counts[this->groups[field_n]];
                         ++marker.n_individuals;
                     }
 
@@ -187,6 +206,8 @@ void MarkersTable::start_parser(bool store_sequence, bool compute_groups) {
 
 
 
+
+
 void MarkersTable::get_batch(std::vector<Marker>& batch) {
 
     this->mutex.lock();
@@ -211,8 +232,21 @@ void MarkersTable::get_batch(std::vector<Marker>& batch) {
 
 
 
+
+
 void MarkersTable::get_group_columns() {
 
-    for (uint i = 0; i < this->header.header.size(); ++i) this->groups.push_back(this->popmap->get_group(this->header.header.at(i)));
+    this->groups = {"", ""};
+    for (uint i = 2; i < this->header.header.size(); ++i) this->groups.push_back(this->popmap->get_group(this->header.header.at(i)));
+
+}
+
+
+
+
+
+void MarkersTable::set_popmap(Popmap *popmap) {
+
+    this->popmap = popmap;
 
 }

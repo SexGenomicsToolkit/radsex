@@ -16,6 +16,11 @@
 * along with RADSex.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+/*!
+ * @file popmap.cpp
+ * @brief Implements the Popmap class.
+*/
+
 #include "popmap.h"
 
 
@@ -86,6 +91,8 @@ Popmap::Popmap(Parameters& parameters, bool check_groups) {
 
 
 
+
+
 std::string Popmap::get_group(const std::string& individual) const {
 
     std::string group = "";
@@ -105,6 +112,8 @@ std::string Popmap::get_group(const std::string& individual) const {
 
 
 
+
+
 uint Popmap::get_count(const std::string& group) const {
 
     uint count = 0;
@@ -121,6 +130,8 @@ uint Popmap::get_count(const std::string& group) const {
 
     return count;
 }
+
+
 
 
 

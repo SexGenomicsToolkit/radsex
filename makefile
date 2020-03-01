@@ -78,8 +78,7 @@ rebuild-all:
 	$(MAKE) -j $(JOBS)
 
 # Linking
-# $(BIN)/radsex: $(OBJS) $(INCLUDE)/kfun/kfun.o
-$(BIN)/radsex: build/stats.o build/main.o build/analysis.o build/marker.o build/popmap.o build/markers_table.o build/depth.o $(INCLUDE)/kfun/kfun.o
+$(BIN)/radsex: $(OBJS) $(INCLUDE)/kfun/kfun.o
 	$(CC) $(CFLAGS) -I $(INCLUDE) -o $(BIN)/radsex $^ $(LDFLAGS)
 
 # Build a single object file. Added libs as dependency so they are built before object files

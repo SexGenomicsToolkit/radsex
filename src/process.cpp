@@ -16,9 +16,14 @@
 * along with RADSex.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+/*!
+ * @file process.cpp
+ * @brief Implements functions for the "process" command.
+*/
+
 #include "process.h"
 
-KSEQ_INIT(gzFile, gzread) // Kseq init macro
+KSEQ_INIT(gzFile, gzread);   ///< Macro to initalize reading sequences from file with Kseq
 
 std::vector<InputFile> get_input_files(const std::string& input_dir_path) {
 
@@ -87,6 +92,8 @@ std::vector<InputFile> get_input_files(const std::string& input_dir_path) {
 
 
 
+
+
 void process(Parameters& parameters) {
 
     /* The process_reads function does the following:
@@ -96,7 +103,7 @@ void process(Parameters& parameters) {
      */
 
     std::chrono::steady_clock::time_point t_begin = std::chrono::steady_clock::now();
-    log("RADSex process started");
+    log("RADSex <process> started");
 
     if (parameters.input_dir_path.back() != '/') parameters.input_dir_path += "/";  // Append "/" to the end of the path if it's missing
 
@@ -161,6 +168,8 @@ void process(Parameters& parameters) {
 
 
 
+
+
 inline void file_processor(std::vector<InputFile>& input_files, std::unordered_map<std::string, std::unordered_map<std::string, uint16_t>>& results, std::mutex& results_mutex, std::mutex& files_mutex) {
 
     /* The file processor looks for files to process and process them
@@ -196,6 +205,8 @@ inline void file_processor(std::vector<InputFile>& input_files, std::unordered_m
 
     }
 }
+
+
 
 
 

@@ -16,58 +16,93 @@
 * along with RADSex.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-/** @file */
+/*!
+ * @file distrib.h
+ * @brief Defines the Distrib class implementing the "distrib" analysis.
+*/
 
 #pragma once
 #include <fstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include "analysis.h"
 #include "markers_table.h"
-#include "stats.h"
 #include "parameters.h"
 #include "popmap.h"
+#include "stats.h"
 #include "utils.h"
 
 
 /*!
  * \brief DistribResults struct
  *
- * Store results for the distrib function
+ * Store results for the "distrib" analysis.
  */
 
 struct DistribResults {
 
-    /// Map storing the distribution of markers: {n_individuals_group1 -> {n_individuals_group2 -> {markers_count, p-value}}}
-    std::unordered_map<uint, std::unordered_map<uint, std::pair<uint64_t, double>>> distribution;
-    uint64_t n_markers;  ///< Number of markers present in at least one individual with depth higher than min_depth (for Bonferroni correction)
+    std::unordered_map<uint, std::unordered_map<uint, std::pair<uint64_t, double>>> distribution;  ///< Map storing the distribution of markers: {n_individuals_group1 -> {n_individuals_group2 -> {markers_count, p-value}}}
+    uint64_t n_markers = 0;  ///< Number of markers present in at least one individual with depth higher than min_depth (for Bonferroni correction)
+
 };
 
+
+
 /*!
- * \brief Main function called by the distrib command
+ * \brief Implements the "distrib" analysis
  *
  * Compute the distribution of markers between two groups. \n
- * This function creates a parsing thread which reads a markers table file and stores markers into a queue,
- * and a processing thread which reads batches of markers from the queue and compute metrics. \n
- * After all markers are processed, the function generates an tabulated output file with columns: \n
- * Group1 | Group2 | Markers | P | Signif Bias
+ * After all markers are processed, generate a tabulated output file with columns: \n
+ * Group1 | Group2 | Markers | P | Signif | Bias
  *
- * \param parameters  Parameters object storing the value of all RADSex parameters
  */
 
-void distrib(Parameters& parameters);
+class Distrib: public Analysis {
+
+    public:
+
+        /*!
+         * \brief Default Distrib constructor
+         */
+
+        Distrib() {};
 
 
-/*!
- * \brief Process markers from a MarkersQueue
- *
- * Read batches of markers from a markers queue, and compute the number of individuals from each group (defined in
- * the popmap) in which each marker is present with depth higher than parameters.min_depth
- *
- * \param markers_queue  MarkersQueue instance
- * \param parameters     Parameters object storing the value of all RADSex parameters
- * \param results        DepthResults instance storing individual marker depths and individual marker counts
- * \param parsing_ended  A flag indicating that the parsing ended, updated by the table_parser() function
- */
+        /*!
+         * \brief Standard Distrib constructor
+         *
+         * \param parameters      Parameters object storing the value of all RADSex parameters
+         * \param compare_groups  If true, groups are checked when loading the popmap
+         * \param store_groups    If true, group info is computed for each marker when parsing the markers table
+         * \param store_sequence  If true, marker sequences are stored for each marker when parsing the markers table
+         */
 
-void processor(MarkersTable& markers_queue, Parameters& parameters, DistribResults& results, bool& parsing_ended);
+        Distrib(Parameters& parameters, bool compare_groups = true, bool store_groups = true, bool store_sequence = false) : Analysis(parameters, compare_groups, store_groups, store_sequence) {};
+
+
+        /*!
+         * \brief Process a single marker
+         *
+         * Updates results for the number of individuals from each group in which the marker is present with depth higher than parameters.min_depth.
+         *
+         * \param marker Current marker info stored in a Marker instance.
+         */
+
+        void process_marker(Marker& marker);
+
+
+        /*!
+         * \brief Generate the output file
+         *
+         * Compute probability of association with group for each combination of number of individuals from group1 and group2. \n
+         * Generate a tabulated output file with columns: \n
+         * Group1 | Group2 | Markers | P | Signif | Bias
+         */
+
+        void generate_output();
+
+    private:
+
+        DistribResults results;  ///< DistribResults instance to store the distribution of markers between groups and total number of retained markers
+};

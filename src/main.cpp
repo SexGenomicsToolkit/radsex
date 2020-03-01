@@ -16,17 +16,31 @@
 * along with RADSex.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+/*!
+ * @file main.cpp
+ * @brief Parses CLI arguments and calls the appropriate function.
+*/
+
 #include "arg_parser.h"
 #include "depth.h"
-//#include "distrib.h"
-//#include "freq.h"
-//#include "map.h"
+#include "distrib.h"
+#include "freq.h"
+#include "map.h"
 #include "parameters.h"
-//#include "process.h"
-//#include "signif.h"
-//#include "subset.h"
+#include "process.h"
+#include "signif.h"
+#include "subset.h"
 
-// Argument parsing main function
+
+/*!
+ * \brief Parse CLI arguments with CLI11
+ *
+ * \param argc Number of CLI arguments
+ * \param argv Char array containing CLI arguments
+ *
+ * \return A Parameters object containing the values of all RADSex parameters
+ */
+
 inline Parameters parse_args(int& argc, char** argv) {
 
     CLI::App parser {""};  // Parser instance from CLI App parser
@@ -55,7 +69,6 @@ inline Parameters parse_args(int& argc, char** argv) {
     distrib->add_option("-G,--groups", groups, "Names of the groups to compare if there are more than two groups in the popmap (--groups group1,group2)")->delimiter(',');
     distrib->add_option("-S,--signif-threshold", parameters.signif_threshold, "P-value threshold to consider a marker significantly associated with a phenotypic group", true)->check(CLI::Range(0.0, 1.0));
     distrib->add_flag("-C,--disable-correction", parameters.disable_correction, "If set, Bonferroni correction will NOT be used when assessing significance of association with phenotypic group");
-    distrib->add_flag("-x,--output-matrix", parameters.output_matrix, "If set, the distribution will be output as a matrix instead of a table");
 
     // Freq subcommand parser
     CLI::App* freq = parser.add_subcommand("freq", "Compute marker frequencies in all individuals");
@@ -65,7 +78,7 @@ inline Parameters parse_args(int& argc, char** argv) {
 
     // Map subcommand parser
     CLI::App* map = parser.add_subcommand("map", "Align markers to a genome and compute metrics for each aligned marker");
-    map->add_option("-s,--markers-file", parameters.markers_table_path, "Path to a set of markers to align, either a depth table from \"process\", \"signif\", or \"subset\" or a fasta file from \"subset\" or \"signif\"")->required()->check(CLI::ExistingFile);
+    map->add_option("-t,--markers-file", parameters.markers_table_path, "Path to a set of markers to align, either a depth table from \"process\", \"signif\", or \"subset\" or a fasta file from \"subset\" or \"signif\"")->required()->check(CLI::ExistingFile);
     map->add_option("-o,--output-file", parameters.output_file_path, "Path to the output file (mapping position, group bias, and probability of association with group for all aligned markers)")->required();
     map->add_option("-p,--popmap", parameters.popmap_file_path, "Path to a tabulated file specifying groups for all individuals (population map)")->required()->check(CLI::ExistingFile);
     map->add_option("-g,--genome-file", parameters.genome_file_path, "Path to the genome file in fasta format")->required()->check(CLI::ExistingFile);
@@ -119,11 +132,15 @@ inline Parameters parse_args(int& argc, char** argv) {
     } catch (const CLI::ParseError &e) {
 
         if (parser.get_subcommands().size() > 0) {
+
             formatter->set_column_widths(parser);
+
         } else {
+
             formatter->column_widths[0] = 10;
             formatter->column_widths[1] = 0;
             formatter->column_widths[2] = 50;
+
         }
 
         exit(parser.exit(e));
@@ -135,15 +152,19 @@ inline Parameters parse_args(int& argc, char** argv) {
 
     // Set max_<N> for the 'subset' command if max was not specified by the user
     if (subcommand->get_name() == "subset") {
+
         if (subcommand->count("--max-group1")) parameters.set_max_group1 = false;
         if (subcommand->count("--max-group2")) parameters.set_max_group2 = false;
         if (subcommand->count("--max-individuals")) parameters.set_max_individuals = false;
+
     }
 
     // Set groups to compare if specified by user
     if (groups.size() == 2) {
+
         parameters.group1 = groups[0];
         parameters.group2 = groups[1];
+
     }
 
     // Store subcommand name
@@ -154,20 +175,59 @@ inline Parameters parse_args(int& argc, char** argv) {
 
 
 
+
+
+/*!
+ * \brief Main function for RADSex
+ *
+ * \param argc Number of CLI arguments
+ * \param argv Char array containing CLI arguments
+ *
+ * \return Exit code, 0 if OK, 1 if problem
+ */
+
 int main(int argc, char* argv[]) {
 
-    /* RADSex is the main class implementing the program.
-     * It makes use of the CLI11 library to parse arguments and call the appropriate function.
-     */
 
-    // Map of function to run for each command
-
-
-    // Get parameter values from parsing command-line arguments
+    // Get parameter values from parsing command-line arguments with CLI11
     Parameters parameters = parse_args(argc, argv);
 
-    Depth analysis(parameters, false, true, false);
-    analysis.run();
+    // Call the appropriate function
+    if (parameters.command == "depth") {
+
+        Depth analysis(parameters);
+        analysis.run();
+
+    } else if (parameters.command == "distrib") {
+
+        Distrib analysis(parameters);
+        analysis.run();
+
+    } else if (parameters.command == "freq") {
+
+        Freq analysis(parameters);
+        analysis.run();
+
+    } else if (parameters.command == "signif") {
+
+        Signif analysis(parameters);
+        analysis.run();
+
+    } else if (parameters.command == "subset") {
+
+        Subset analysis(parameters);
+        analysis.run();
+
+    } else if (parameters.command == "map") {
+
+        Map analysis(parameters);
+        analysis.run();
+
+    } else if (parameters.command == "process") {
+
+        process(parameters);
+
+    }
 
     return 0;
 }

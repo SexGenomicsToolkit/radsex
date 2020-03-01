@@ -16,7 +16,10 @@
 * along with RADSex.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-/** @file */
+/*!
+ * @file depth.h
+ * @brief Defines the Depth class implementing the "depth" analysis.
+*/
 
 #pragma once
 #include <numeric>
@@ -29,15 +32,16 @@
 
 
 /*!
- * \brief DepthsResults struct
+ * \brief DepthResults struct
  *
- * Store results for the depth function.
+ * Store results for the "depth" analysis.
  */
 
 struct DepthResults {
 
     std::vector<std::vector<uint16_t>> depths;  ///< Vector of size n_individuals storing the depth of each marker in each individual
-    std::vector<uint32_t> individual_markers_count;   ///< Vector of size individuals storing the number of markers retained in each individual
+    std::vector<uint32_t> individual_markers_count;   ///< Vector of size n_individuals storing the number of markers retained in each individual
+
 
     /*!
      * \brief DepthsResults default constructor
@@ -47,7 +51,7 @@ struct DepthResults {
 
 
     /*!
-     * \brief DepthsResults constructor
+     * \brief DepthsResults standard constructor
      *
      * Initialize the size of #depths and #individual_markers_count to n_individuals.
      *
@@ -66,12 +70,10 @@ struct DepthResults {
 
 
 /*!
- * \brief Class Depth
+ * \brief Implements the "depth" analysis
  *
  * Compute the minimum, maximum, median, and average marker depth for each individual. \n
- * This function creates a parsing thread which reads a markers table file and stores markers into a queue,
- * and a processing thread which reads batches of markers from the queue and compute metrics. \n
- * After all markers are processed, the function generates an tabulated output file with columns: \n
+ * After all markers are processed, generate a tabulated output file with columns: \n
  * Individual | Group | Markers | Retained | Min_depth | Max_depth | Median_depth | Average_depth
  *
  */
@@ -80,18 +82,49 @@ class Depth: public Analysis {
 
     public:
 
+        /*!
+         * \brief Default Depth constructor
+         */
+
         Depth();
-        Depth(Parameters& parameters, bool check_groups, bool store_groups, bool store_sequence);
+
+
+        /*!
+         * \brief Standard Depth constructor
+         *
+         * Initialize the DepthResults instance.
+         *
+         * \param parameters      Parameters object storing the value of all RADSex parameters
+         * \param compare_groups  If true, groups are checked when loading the popmap
+         * \param store_groups    If true, group info is computed for each marker when parsing the markers table
+         * \param store_sequence  If true, marker sequences are stored for each marker when parsing the markers table
+         */
+
+        Depth(Parameters& parameters, bool compare_groups = false, bool store_groups = false, bool store_sequence = false);
+
+
+        /*!
+         * \brief Process a single marker
+         *
+         * If a marker is present in more than 75% of individuals, store individual depths in results.
+         *
+         * \param marker Current marker info stored in a Marker instance.
+         */
 
         void process_marker(Marker& marker);
 
+
         /*!
-         * \brief generate_output
+         * \brief Generate the output file
+         *
+         * Compute minimum, maximum, median, and average depth for all markers retained in process_marker. \n
+         * Generate a tabulated output file with columns: \n
+         * Individual | Group | Markers | Retained | Min_depth | Max_depth | Median_depth | Average_depth
          */
 
         void generate_output();
 
     private:
 
-        DepthResults results;  ///< Structure to store analysis results
+        DepthResults results;  ///< DepthResults instance to store individual marker depths and total number of retained markers
 };

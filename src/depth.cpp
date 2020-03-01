@@ -16,14 +16,36 @@
 * along with RADSex.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+/*!
+ * @file depth.cpp
+ * @brief Implements the Depth class.
+*/
+
 #include "depth.h"
 
 
-Depth::Depth(Parameters& parameters, bool check_groups, bool store_groups, bool store_sequence) : Analysis(parameters, check_groups, store_groups, store_sequence) {
+Depth::Depth(Parameters& parameters, bool compare_groups, bool store_groups, bool store_sequence) : Analysis(parameters, compare_groups, store_groups, store_sequence) {
 
     this->results = DepthResults(this->markers_table.header.n_individuals);
 
 }
+
+
+
+
+
+void Depth::process_marker(Marker& marker) {
+
+    for (uint i = 0; i < marker.individual_depths.size(); ++i) {
+
+        if (marker.n_individuals >= 0.75 * this->markers_table.header.n_individuals) this->results.depths[i].push_back(marker.individual_depths[i]); // Only consider markers present in at least 75% of individuals
+        if (marker.individual_depths[i] > 0) ++this->results.individual_markers_count[i];  // Increment total number of markers for this individual
+
+    }
+
+}
+
+
 
 
 
@@ -46,25 +68,11 @@ void Depth::generate_output() {
         const uint16_t max_depth = *(end - 1);  // Sorted vector: maximum depth is the last element
         const uint64_t total_depth = static_cast<uint64_t>(std::accumulate(start, end, 0));
 
-//        uint16_t median_depth = find_median(this->results.depths[i]);
-        uint16_t median_depth = 0;
+        const uint16_t median_depth = find_median(this->results.depths[i]);
 
         // Output metrics
         output_file << this->markers_table.header.header[i+2] << "\t" << this->popmap.get_group(this->markers_table.header.header[i + 2]) << "\t" << this->results.individual_markers_count[i] << "\t"
                     << size << "\t" << min_depth << "\t" << max_depth << "\t" << median_depth << "\t" << total_depth / size << "\n";
-
-    }
-
-}
-
-
-
-void Depth::process_marker(Marker& marker) {
-
-    for (uint i = 0; i < marker.individual_depths.size(); ++i) {
-
-        if (marker.n_individuals >= 0.75 * this->markers_table.header.n_individuals) this->results.depths[i].push_back(marker.individual_depths[i]); // Only consider markers present in at least 75% of individuals
-        if (marker.individual_depths[i] > 0) ++this->results.individual_markers_count[i];  // Increment total number of markers for this individual
 
     }
 

@@ -16,7 +16,10 @@
 * along with RADSex.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-/** @file */
+/*!
+ * @file arg_parser.h
+ * @brief Implements CLI11 overriding classes for CLI parsing.
+*/
 
 #pragma once
 #include <iostream>
@@ -24,6 +27,7 @@
 #include "CLI11/CLI11.hpp"
 #include "parameters.h"
 #include "utils.h"
+
 
 /*!
  * \brief Print CLI parsing failure message
@@ -60,7 +64,6 @@ inline std::string failure_message(const CLI::App* parser, const CLI::Error& err
 
 
 
-
 /*!
  * \brief Custom CLI11 Formatter
  *
@@ -73,6 +76,7 @@ class CustomFormatter : public CLI::Formatter {
 
         uint column_widths[3] {0, 0, 0};  ///< Maximum width of each column, in order: flags, type, description
         uint border_width = 4;  ///< Define number of spaces between two columns
+
 
         /*!
          * \brief Format help message for an option
@@ -124,13 +128,11 @@ class CustomFormatter : public CLI::Formatter {
         /*!
          * \brief Format command description
          *
-         * Remove command description in CLI help message (not useful).
-         *
-         * \param app Pointer to a CLI::App instance
+         * Remove command description in CLI help message.
          * \return An empty string
          */
 
-        virtual std::string make_description(const CLI::App *app) const {
+        virtual std::string make_description(const CLI::App*) const {
 
             return "";
         }
