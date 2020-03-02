@@ -11,103 +11,135 @@ Please contact me by email or on Github, or open an issue if you encounter bugs 
 ## Overview
 
 RADSex is a software package for the analysis of sex-determination using RAD-Sequencing data.
-The `process` function generates a data structure summarizing a set of demultiplexed RAD reads,
-and other functions use this data structure to infer information about the type of sex-determination system, identify sex-biased sequences, and map the RAD sequences to a reference genome.
-The results of RADSex are meant to be visualized with the `radsex-vis` R package, available here: https://github.com/RomainFeron/RADSex-vis.
+The `process` command generates a data structure summarizing a set of demultiplexed RAD reads,
+and other commands use this data structure to:
+
+- infer the type of sex-determination system
+- identify sex-biased markers
+- align markers to a genome and identify genomic regions differentiated between sexes
+- compute marker depth statistics
+
+RADSex results can be visualized with the `radsex-vis` R package available here: https://github.com/RomainFeron/RADSex-vis.
+
+Although RADSex has been developed specifically to study sex-determination, it was designed to be flexibla and can be used to compare any two populations.
 
 This pipeline was developed in the [LPGP](https://www6.rennes.inra.fr/lpgp/) lab from INRA, Rennes, France for the PhyloSex project, which investigates sex determining factors in a wide range of fish species.
 
 ## Documentation
 
-This README file contains a simple documentation, including a basic installation guide as well as a quick start section.
-
-The full documentation for RADSex (still under construction) is available [there](https://radsex.readthedocs.io/en/latest).
-It contains a complete Getting Started section, a detailed usage for all functions, and real-life datasets examples covering many situations.
-
-
-## Requirements
-
-- A C++11 compliant compiler (GCC >= 4.8.1, Clang >= 3.3)
-- The zlib library (which should be installed on linux by default)
+This README file includes a basic installation guide and a quick start section. The full documentation for RADSex, including a complete example walktrhough, is available [here](https://romainferon.github.io/RADSex/).
 
 ## Installation
 
-- Clone: `git clone https://github.com/RomainFeron/RadSex.git`
-- *Alternative: download the archive and unzip it*
-- Go to the RadSex directory (`cd RadSex`)
+### Requirements
+
+- A C++11 compliant compiler (GCC >= 4.8.1, Clang >= 3.3)
+- The zlib library (usually installed on linux by default)
+
+### Install the latest official release
+
+- Download the [latest release](https://github.com/RomainFeron/RadSex/releases)
+- Unzip the archive
+- Navigate to the `RADSex` directory
 - Run `make`
-- The compiled `radsex` binary is located in `RadSex/bin/`
+
+The compiled `radsex` binary will be located in **RADSex/bin/**.
+
+### Install the latest stable development version
+
+```bash
+git clone https://github.com/RomainFeron/RADSex.git
+cd RADSex
+make
+```
+
+The compiled `radsex` binary will be located in **RADSex/bin/**.
+
+### Install RADSex with Conda
+
+RADSex is available in [Bioconda](https://bioconda.github.io/recipes/radsex/README.html?#recipe-Recipe%20&#x27;radsex&#x27;). To install RADSex with Conda, run the following command:
+
+```bash
+conda install -c bioconda radsex
+```
 
 ## Quick start
 
-#### Before starting
+### Preparing the data
 
 Before running the pipeline, you should prepare the following elements:
+
 - A **set of demultiplexed reads**. The current version of RADSex does not implement demultiplexing;
   raw sequencing reads can be demultiplexed using [Stacks](http://catchenlab.life.illinois.edu/stacks/comp/process_radtags.php)
   or [pyRAD](http://nbviewer.jupyter.org/gist/dereneaton/af9548ea0e94bff99aa0/pyRAD_v.3.0.ipynb#The-seven-steps-described).
-- A **population map** (popmap): a tabulated file with individual ID as the first column and sex as the second column.
-  It is important that the individual IDs in the popmap are the same as the names of the demultiplexed reads files (see the doc for details).
-- If you want to map the sequences to a reference genome: a **reference genome** in fasta format.
-  Note that when visualizing `mapping` results with `radsex-vis`, linkage groups / chromosomes are automatically inferred from scaffold names in the reference sequence
-  if their name starts with *LG*, *chr*, or *chromosome* (case unsensitive).
-  If chromosomes are named differently in the reference genome, you should prepare a tabulated file with reference scaffold ID in the first column and corresponding chromosome name in the second column (see the doc for details)
 
-#### Computing the coverage table
+- A **population map** (popmap): a tabulated file with individual IDs in the first column and sex (or group) in the second column. Individual IDs in the popmap must be the same as the names of the demultiplexed reads files (*e.g.* 'individual1' for the reads file 'individual1.fq.gz')
 
-The first step of RADSex is to create a table of coverage for the dataset using the `process` command:
+- To align the markers to a genome: the **genome** sequence in a FASTA file.
+  Note that when visualizing `map` results with `radsex-vis`, linkage groups / chromosomes are automatically inferred from scaffold names in the reference sequence
+  if their name starts with *LG*, *CHR*, or *NC* (case unsensitive).
+  If chromosomes are named differently in the reference genome, you can use a tabulated file with contig ID in the first column and corresponding chromosome name in the second column (see the doc for details)
 
-`radsex process --input-dir ./samples --output-file coverage_table.tsv --threads 16 --min-coverage 1`
+### Computing the marker depths table
 
-In this example, demultiplexed reads are stored in `./samples` and the coverage table generated by `process` will be stored in `coverage_table.tsv`. The parameter `--threads` specifies the number of threads to use.
+The first step of RADSex is to create a table of marker depths for the entire dataset using the `process` command:
 
-The parameter `--min-coverage` specifies the minimum coverage value to consider a sequence present in an individual:
-sequences which are not present with coverage higher than this value in at least one individual will not be retained in the coverage table.
-It is advised to keep the minimum coverage to 1 for this step, as it can be adjusted for each analysis later.
+```bash
+radsex process --input-dir ./samples --output-file markers_table.tsv --threads 16 --min-depth 1
+```
 
-#### Computing the distribution of sequences between sexes
+In this example, demultiplexed reads are located in **./samples** and the markers table generated by `process` will be saved to **markers_table.tsv**. The parameter `--threads` specifies the number of threads to use, and `--min-depth` specifies the minimum depth to consider a marker present in an individual: markers which are not present with depth higher than this value in at least one individual will not be retained in the markers table.
+It is advised to keep the minimum depth to the default value of 1 for this step, as it can be adjusted for each analysis later.
 
-After generating the coverage table, the `distrib` command is used to compute the distribution of sequences between sexes:
 
-`radsex distrib --input-file coverage_table.tsv --output-file distribution.tsv --popmap-file popmap.tsv --min-coverage 5`
+### Computing the distribution of markers between sexes
 
-In this example, the input file `--input-file` is the coverage table generated in the [previous step](#computing-the-coverage-table), and the distribution of sequences between sexes will be stored in `distribution.tsv`.
-The sex of each individual in the population is given by `popmap.tsv` (see the [popmap section](#population-map) for details).
-The minimum coverage to consider a sequence present in an individual is set to 5, meaning that sequences present with coverage (depth) lower than 5 in one individual will not be counted in this individual.
+The `distrib` command computes the distribution of markers between males and females from a marker depths table:
 
-This distribution can be visualized with the `plot_sex_distribution()` function of `radsex-vis`, which generates a tile plot.
+```bash
+radsex distrib --markers-table markers_table.tsv --output-file distribution.tsv --popmap popmap.tsv --min-depth 5 --groups M,F
+```
 
-#### Extracting sequences significantly associated with sex
+In this example, `--markers-table` is the table generated with `process` and the distribution of markers between males and females will be saved to **distribution.tsv**. The sex of each individual in the population is given by **popmap.tsv**. Groups of individuals to compare (as defined in the popmap) are specified manually with the parameter `--groups`. The minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual.
 
-Sequences significantly associated with sex can be obtained with the `signif` command:
+The resulting distribution can be visualized with the `plot_sex_distribution()` function of [RADSex-vis](https://github.com/RomainFeron/RADSex-vis), which generates a tile plot of marker counts with number of males on the x-axis and number of females on the y-axis.
 
-`radsex signif --input-file coverage_table.tsv --output-file sequences.tsv --popmap-file popmap.tsv --min-coverage 5 [ --output-format fasta ]`
 
-In this example, the input file `--input-file` is the coverage table generated in the [first step](#computing-the-coverage-table), and the sequences significantly associated with sex will be stored in `sequences.tsv`.
-The sex of each individual in the population is given by `popmap.tsv` (see the [popmap section](#population-map) for details),
-and the minimum coverage to consider a sequence present in an individual is set to 5 (see the [previous section](#computing-the-distribution-of-sequences-between-sexes)).
-By default, the `signif` function exports a small coverage table; sequences can be exported to fasta using the `--output-format` parameter.
+### Extracting markers significantly associated with sex
 
-The coverage table generated by `signif` can be visualized with the `plot_coverage()` function of `radsex-vis`, which generates a heatmap of coverage.
+Markers significantly associated with sex are obtained with the `signif` command:
 
-#### Mapping sequences to a reference genome
+```bash
+radsex signif --markers-table markers_table.tsv --output-file markers.tsv --popmap popmap.tsv --min-depth 5 --groups M,F [ --output-fasta ]
+```
 
-Sequences can be mapped to a reference genome using the `map` command:
+In this example, `--markers-table` is the table generated with `process` and markers significantly associated with sex are saved to **markers.tsv**. The sex of each individual in the population is given by **popmap.tsv** (see the :ref:`population-map` section). Groups of individuals to compare (as defined in popmap) are specified manually with the parameter `--groups`. The minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual.
 
-`radsex map --input-file coverage_table.tsv --output-file mapping.tsv --popmap-file popmap.tsv --genome-file genome.fasta --min-quality 20 --min-frequency 0.1 --min-coverage 5`
+By default, the `signif` function generates an output file in the same format as the markers depth table. Markers can also be exported to a fasta file using the parameter `--output-fasta`.
 
-In this example, the input file `--input-file` is the coverage table generated in the [first step](#computing-the-coverage-table), the mapping results will be stored in `sequences.tsv`,
-and the path to the reference genome file is given by `--genome-file`. The sex of each individual in the population is given by `popmap.tsv` (see the [popmap section](#population-map) for details),
-and the minimum coverage to consider a sequence present in an individual is set to 5 (see the [previous section](#computing-the-distribution-of-sequences-between-sexes)).
-The parameter `--min-quality` specifies the minimum mapping quality (as defined in [BWA](http://bio-bwa.sourceforge.net/bwa.shtml)) to consider a sequence mapped (`--min-quality`), here set to 20.
-The parameter `--min-frequency` specifies the minimum frequency of a sequence in at least one sex; it is set to 0.1 here, meaning that only sequences present in at least 10% of individuals of one sex are retained for mapping.
+The markers table generated by `signif` can be visualized with the `plot_depth()` function of [RADSex-vis](https://github.com/RomainFeron/RADSex-vis), which generates a heatmap showing the depth of each marker in each individual.
 
-The mapping results generated by `map` can be visualized with the `plot_genome()` function of `radsex-vis`, which generates a circos plot for the entire genome.
-Mapping results for a specific scaffold can be visualized with the `plot_contig()` function to generate a linear plot for the specified scaffold.
+
+### Aligning markers to a genome
+
+Markers can be aligned to a genome using the `map` command:
+
+```bash
+radsex map --markers-file markers_table.tsv --output-file alignment_results.tsv --popmap popmap.tsv --genome-file genome.fasta --min-quality 20 --min-frequency 0.1 --min-depth 5 --groups M,F
+```
+
+In this example, `--markers-file` is the markers depth table generated with `process` and the path to the reference genome file is given by `--genome-file`; results will are saved to **alignment_results.tsv**. The sex of each individual in the population is given by **popmap.tsv** and the minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual. Groups of individuals to compare (as defined in the popmap) are specified manually with the parameter `--groups`
+
+The parameter `--min-quality` specifies the minimum mapping quality (as defined in [BWA](http://bio-bwa.sourceforge.net/bwa.shtml)) to consider a marker properly aligned and is set to 20 in this example. The parameter `--min-frequency` specifies the minimum frequency of a marker in the population to retain this marker and is set to 0.1 here, meaning that only sequences present in at least 10% of individuals of the population are aligned to the genome.
+
+Alignment results from `map` can be visualized with the `plot_genome()` function of [RADSex-vis](https://github.com/RomainFeron/RADSex-vis), which generates a circular plot showing bias and association with sex for each marker aligned to the genome.
+
+Alignment results for a specific contig can be visualized with the `plot_contig()` function to show the same metrics for a single contig.
+
 
 ## LICENSE
 
-Copyright (C) 2018 Romain Feron
+Copyright (C) 2018-2020 Romain Feron
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation,
 either version 3 of the License, or (at your option) any later version.

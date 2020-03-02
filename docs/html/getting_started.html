@@ -17,34 +17,36 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Example walkthrough" href="example.html" />
     <link rel="prev" title="RADSex documentation" href="index.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -101,9 +103,9 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="example.html">Example walkthrough</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">RADSex usage details</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input_files.html">Input file formats</a></li>
-<li class="toctree-l1"><a class="reference internal" href="output_files.html">Output file formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">RADSex usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_files.html">Input files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_files.html">Output files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 
@@ -176,21 +178,21 @@
 <div class="section" id="requirements">
 <h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>A C++11 compliant compiler (GCC &gt;= 4.8.1, Clang &gt;= 3.3)</li>
-<li>The zlib library (usually installed on linux by default)</li>
+<li><p>A C++11 compliant compiler (GCC &gt;= 4.8.1, Clang &gt;= 3.3)</p></li>
+<li><p>The zlib library (usually installed on linux by default)</p></li>
 </ul>
 </div>
 <div class="section" id="install-release">
 <span id="id1"></span><h3>Installation<a class="headerlink" href="#install-release" title="Permalink to this headline">¶</a></h3>
-<p>RADSex can be installed from one of the <a class="reference external" href="https://github.com/RomainFeron/RadSex/releases">release packages</a>.
-The latest stable development version can be installed directly from the GitHub repository.</p>
+<p>There are three ways to install RADSex:</p>
 <p><strong>1. Install the latest release</strong></p>
 <ul class="simple">
-<li>Download the latest release from <a class="reference external" href="https://github.com/RomainFeron/RadSex/releases">GitHub</a></li>
-<li>Unzip the archive</li>
-<li>Navigate to the <cite>RADSex</cite> directory</li>
-<li>Run <code class="docutils literal notranslate"><span class="pre">make</span></code></li>
+<li><p>Download the latest release from <a class="reference external" href="https://github.com/RomainFeron/RadSex/releases">GitHub</a></p></li>
+<li><p>Unzip the archive</p></li>
+<li><p>Navigate to the <cite>RADSex</cite> directory</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">make</span></code></p></li>
 </ul>
+<p>The compiled <code class="docutils literal notranslate"><span class="pre">radsex</span></code> binary will be located in <strong>RADSex/bin/</strong>.</p>
 <p><strong>2. Install the latest stable development version</strong></p>
 <p>To install the latest stable version of RADSex directly from the GitHub repository, run the following commands:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">RomainFeron</span><span class="o">/</span><span class="n">RADSex</span><span class="o">.</span><span class="n">git</span>
@@ -199,6 +201,11 @@ The latest stable development version can be installed directly from the GitHub 
 </pre></div>
 </div>
 <p>The compiled <code class="docutils literal notranslate"><span class="pre">radsex</span></code> binary will be located in <strong>RADSex/bin/</strong>.</p>
+<p><strong>3. Install RADSex with conda</strong></p>
+<p>RADSex is available in <a class="reference external" href="https://bioconda.github.io/recipes/radsex/README.html?#recipe-Recipe%20&amp;#x27;radsex&amp;#x27;">Bioconda</a>. To install RADSex with Conda, run the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">bioconda</span> <span class="n">radsex</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="update-radsex">
 <h3>Update RADSex<a class="headerlink" href="#update-radsex" title="Permalink to this headline">¶</a></h3>
@@ -208,19 +215,23 @@ The latest stable development version can be installed directly from the GitHub 
 <span class="n">make</span> <span class="n">rebuild</span>
 </pre></div>
 </div>
+<p>If you installed RADSex with Conda, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">update</span> <span class="o">-</span><span class="n">c</span> <span class="n">bioconda</span> <span class="n">radsex</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="before-starting">
 <h2>Before starting<a class="headerlink" href="#before-starting" title="Permalink to this headline">¶</a></h2>
 <p>Before running the pipeline, you should prepare the following files:</p>
 <ul class="simple">
-<li>A <strong>set of demultiplexed reads</strong>. The current version of RADSex does not implement demultiplexing. Raw sequencing reads can be demultiplexed using <a class="reference external" href="http://catchenlab.life.illinois.edu/stacks/comp/process_radtags.php">Stacks</a> or <a class="reference external" href="http://nbviewer.jupyter.org/gist/dereneaton/af9548ea0e94bff99aa0/pyRAD_v.3.0.ipynb#The-seven-steps-described">pyRAD</a>.</li>
-<li>A <strong>group information file (popmap)</strong>: a tabulated file with individual ID as the first column and group as the second column. It is important that the individual IDs in the popmap are the same as the names of the demultiplexed reads files (see the <a class="reference internal" href="input_files.html#population-map"><span class="std std-ref">Population map</span></a> section).</li>
-<li>To align markers to a genome: the <strong>genome file</strong> in fasta format.</li>
+<li><p>A <strong>set of demultiplexed reads</strong>. The current version of RADSex does not implement demultiplexing. Raw sequencing reads can be demultiplexed using <a class="reference external" href="http://catchenlab.life.illinois.edu/stacks/comp/process_radtags.php">Stacks</a> or <a class="reference external" href="http://nbviewer.jupyter.org/gist/dereneaton/af9548ea0e94bff99aa0/pyRAD_v.3.0.ipynb#The-seven-steps-described">pyRAD</a>.</p></li>
+<li><p>A <strong>group information file (popmap)</strong>: a tabulated file with individual ID as the first column and group as the second column. It is important that the individual IDs in the popmap are the same as the names of the demultiplexed reads files (see the <a class="reference internal" href="input_files.html#population-map"><span class="std std-ref">Population map</span></a> section).</p></li>
+<li><p>To align markers to a genome: the <strong>genome file</strong> in fasta format.</p></li>
 </ul>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">When visualizing <code class="docutils literal notranslate"><span class="pre">map</span></code> results with <code class="docutils literal notranslate"><span class="pre">radsex-vis</span></code>, linkage groups / chromosomes are automatically inferred from scaffold names in the reference sequence if their name starts with <em>LG</em>, <em>CHR</em>, or <em>NC</em> (case unsensitive). If chromosomes are named differently in the reference genome, you should prepare a tabulated file with reference contig ID in the first column and corresponding chromosome name in the second column (see the <a class="reference internal" href="input_files.html#chromosomes-names"><span class="std std-ref">Chromosomes names file</span></a>).</p>
+<p class="admonition-title">Note</p>
+<p>When visualizing <code class="docutils literal notranslate"><span class="pre">map</span></code> results with <code class="docutils literal notranslate"><span class="pre">radsex-vis</span></code>, linkage groups / chromosomes are automatically inferred from scaffold names in the reference sequence if their name starts with <em>LG</em>, <em>CHR</em>, or <em>NC</em> (case unsensitive). If chromosomes are named differently in the reference genome, you should prepare a tabulated file with reference contig ID in the first column and corresponding chromosome name in the second column (see the <a class="reference internal" href="input_files.html#chromosomes-names"><span class="std std-ref">Chromosomes names file</span></a>).</p>
 </div>
 </div>
 <div class="section" id="running-radsex">
@@ -238,31 +249,30 @@ It is advised to keep the minimum depth to the default value of 1 for this step,
 <div class="section" id="computing-the-distribution-of-markers-between-groups">
 <h3>Computing the distribution of markers between groups<a class="headerlink" href="#computing-the-distribution-of-markers-between-groups" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">distrib</span></code> command computes the distribution of markers between groups from a markers depth table:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>radsex distrib --markers-table markers_table.tsv --output-file distribution.tsv --popmap popmap.tsv --min-depth 5``
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>radsex distrib --markers-table markers_table.tsv --output-file distribution.tsv --popmap popmap.tsv --min-depth 5 --groups M,F``
 </pre></div>
 </div>
-<p>In this example, <code class="docutils literal notranslate"><span class="pre">--markers-table</span></code> is the table generated in the <a class="reference internal" href="#computing-depth-table"><span class="std std-ref">Computing the markers depth table</span></a> section, and the distribution of markers between groups will be saved to <strong>distribution.tsv</strong>. The group of each individual in the population is given by <strong>popmap.tsv</strong> (see the <a class="reference internal" href="input_files.html#population-map"><span class="std std-ref">Population map</span></a> section). The minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual.</p>
+<p>In this example, <code class="docutils literal notranslate"><span class="pre">--markers-table</span></code> is the table generated in the <a class="reference internal" href="#computing-depth-table"><span class="std std-ref">Computing the markers depth table</span></a> section, and the distribution of markers between groups will be saved to <strong>distribution.tsv</strong>. The group of each individual in the population is given by <strong>popmap.tsv</strong> (see the <a class="reference internal" href="input_files.html#population-map"><span class="std std-ref">Population map</span></a> section). Groups of individuals to compare (as defined in the <a class="reference internal" href="input_files.html#population-map"><span class="std std-ref">Population map</span></a>) are specified manually with the parameter <code class="docutils literal notranslate"><span class="pre">--groups</span></code>. The minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual.</p>
 <p>The resulting file <strong>distribution.tsv</strong> is a table described in the <a class="reference internal" href="output_files.html#sex-distribution-file"><span class="std std-ref">Distribution of markers between groups</span></a> section.</p>
 <p>This distribution can be visualized with the <code class="docutils literal notranslate"><span class="pre">plot_sex_distribution()</span></code> function of <a class="reference external" href="https://github.com/RomainFeron/RADSex-vis">RADSex-vis</a>, which generates a tile plot of marker counts with number of males on the x-axis and number of females on the y-axis.</p>
 </div>
 <div class="section" id="extracting-markers-significantly-associated-with-sex">
 <h3>Extracting markers significantly associated with sex<a class="headerlink" href="#extracting-markers-significantly-associated-with-sex" title="Permalink to this headline">¶</a></h3>
 <p>Markers significantly associated with sex are obtained with the <code class="docutils literal notranslate"><span class="pre">signif</span></code> command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">signif</span> <span class="o">--</span><span class="n">markers</span><span class="o">-</span><span class="n">table</span> <span class="n">markers_table</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">markers</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="n">popmap</span> <span class="n">popmap</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="mi">5</span> <span class="p">[</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">fasta</span> <span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">signif</span> <span class="o">--</span><span class="n">markers</span><span class="o">-</span><span class="n">table</span> <span class="n">markers_table</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">markers</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="n">popmap</span> <span class="n">popmap</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="mi">5</span> <span class="o">--</span><span class="n">groups</span> <span class="n">M</span><span class="p">,</span><span class="n">F</span> <span class="p">[</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">fasta</span> <span class="p">]</span>
 </pre></div>
 </div>
-<p>In this example, <code class="docutils literal notranslate"><span class="pre">--markers-table</span></code> is the table generated in the <a class="reference internal" href="#computing-depth-table"><span class="std std-ref">Computing the markers depth table</span></a> section, and markers significantly associated with sex are saved to <strong>markers.tsv</strong>. The sex of each individual in the population is given by <strong>popmap.tsv</strong> (see the <a class="reference internal" href="input_files.html#population-map"><span class="std std-ref">Population map</span></a> section).
-The minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual.</p>
-<p>By default, the <code class="docutils literal notranslate"><span class="pre">signif</span></code> function generates an output file in the same format as the markers depth table. Markers can also be exported to a fasta file using the <code class="docutils literal notranslate"><span class="pre">--output-fasta</span></code> parameter (see the <a class="reference internal" href="output_files.html#fasta-file"><span class="std std-ref">Fasta files</span></a> section).</p>
+<p>In this example, <code class="docutils literal notranslate"><span class="pre">--markers-table</span></code> is the table generated in the <a class="reference internal" href="#computing-depth-table"><span class="std std-ref">Computing the markers depth table</span></a> section, and markers significantly associated with sex are saved to <strong>markers.tsv</strong>. The sex of each individual in the population is given by <strong>popmap.tsv</strong> (see the <a class="reference internal" href="input_files.html#population-map"><span class="std std-ref">Population map</span></a> section). Groups of individuals to compare (as defined in the <a class="reference internal" href="input_files.html#population-map"><span class="std std-ref">Population map</span></a>) are specified manually with the parameter <code class="docutils literal notranslate"><span class="pre">--groups</span></code>. The minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual.</p>
+<p>By default, the <code class="docutils literal notranslate"><span class="pre">signif</span></code> function generates an output file in the same format as the markers depth table. Markers can also be exported to a fasta file using the <code class="docutils literal notranslate"><span class="pre">--output-fasta</span></code> parameter (see the <a class="reference internal" href="output_files.html#fasta-file"><span class="std std-ref">Fasta file</span></a> section).</p>
 <p>The markers table generated by <code class="docutils literal notranslate"><span class="pre">signif</span></code> can be visualized with the <code class="docutils literal notranslate"><span class="pre">plot_depth()</span></code> function of <a class="reference external" href="https://github.com/RomainFeron/RADSex-vis">RADSex-vis</a>, which generates a heatmap showing the depth of each marker in each individual.</p>
 </div>
 <div class="section" id="aligning-markers-to-a-genome">
 <h3>Aligning markers to a genome<a class="headerlink" href="#aligning-markers-to-a-genome" title="Permalink to this headline">¶</a></h3>
 <p>Markers can be aligned to a genome using the <code class="docutils literal notranslate"><span class="pre">map</span></code> command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="nb">map</span> <span class="o">--</span><span class="n">markers</span><span class="o">-</span><span class="n">file</span> <span class="n">markers_table</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">alignment_results</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="n">popmap</span> <span class="n">popmap</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="n">genome</span><span class="o">-</span><span class="n">file</span> <span class="n">genome</span><span class="o">.</span><span class="n">fasta</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">quality</span> <span class="mi">20</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">frequency</span> <span class="mf">0.1</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="mi">5</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="nb">map</span> <span class="o">--</span><span class="n">markers</span><span class="o">-</span><span class="n">file</span> <span class="n">markers_table</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">alignment_results</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="n">popmap</span> <span class="n">popmap</span><span class="o">.</span><span class="n">tsv</span> <span class="o">--</span><span class="n">genome</span><span class="o">-</span><span class="n">file</span> <span class="n">genome</span><span class="o">.</span><span class="n">fasta</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">quality</span> <span class="mi">20</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">frequency</span> <span class="mf">0.1</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="mi">5</span> <span class="o">--</span><span class="n">groups</span> <span class="n">M</span><span class="p">,</span><span class="n">F</span>
 </pre></div>
 </div>
-<p>In this example, <code class="docutils literal notranslate"><span class="pre">--markers-file</span></code> is the markers depth table generated in the <a class="reference internal" href="#computing-depth-table"><span class="std std-ref">Computing the markers depth table</span></a> step, and the path to the reference genome file is given by <code class="docutils literal notranslate"><span class="pre">--genome-file</span></code>; results will are saved to <strong>alignment_results.tsv</strong>. The sex of each individual in the population is given by <strong>popmap.tsv</strong> (see the <a class="reference internal" href="input_files.html#population-map"><span class="std std-ref">Population map</span></a> section), and the minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual.</p>
+<p>In this example, <code class="docutils literal notranslate"><span class="pre">--markers-file</span></code> is the markers depth table generated in the <a class="reference internal" href="#computing-depth-table"><span class="std std-ref">Computing the markers depth table</span></a> step, and the path to the reference genome file is given by <code class="docutils literal notranslate"><span class="pre">--genome-file</span></code>; results will are saved to <strong>alignment_results.tsv</strong>. The sex of each individual in the population is given by <strong>popmap.tsv</strong> (see the <a class="reference internal" href="input_files.html#population-map"><span class="std std-ref">Population map</span></a> section), and the minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual. Groups of individuals to compare (as defined in the <a class="reference internal" href="input_files.html#population-map"><span class="std std-ref">Population map</span></a>) are specified manually with the parameter <code class="docutils literal notranslate"><span class="pre">--groups</span></code></p>
 <p>The parameter <code class="docutils literal notranslate"><span class="pre">--min-quality</span></code> specifies the minimum mapping quality (as defined in <a class="reference external" href="http://bio-bwa.sourceforge.net/bwa.shtml">BWA</a>) to consider a marker properly aligned and is set to 20 in this example. The parameter <code class="docutils literal notranslate"><span class="pre">--min-frequency</span></code> specifies the minimum frequency of a marker in the population to retain this marker and is set to 0.1 here, meaning that only sequences present in at least 10% of individuals of the population are aligned to the genome.</p>
 <p>The resulting file <code class="docutils literal notranslate"><span class="pre">mapping.tsv</span></code> is a table described in the <a class="reference internal" href="output_files.html#mapping-results-file"><span class="std std-ref">Alignment results</span></a> section.</p>
 <p>Alignment results from <code class="docutils literal notranslate"><span class="pre">map</span></code> can be visualized with the <code class="docutils literal notranslate"><span class="pre">plot_genome()</span></code> function of <a class="reference external" href="https://github.com/RomainFeron/RADSex-vis">RADSex-vis</a>, which generates a circular plot showing bias and association with sex for each marker aligned to the genome.</p>
@@ -282,7 +292,7 @@ The minimum depth to consider a marker present in an individual is set to 5, mea
         <a href="example.html" class="btn btn-neutral float-right" title="Example walkthrough" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="RADSex documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="RADSex documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -308,26 +318,16 @@ The minimum depth to consider a marker present in an individual is set to 5, mea
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

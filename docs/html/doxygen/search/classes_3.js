@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['freq',['Freq',['../classFreq.html',1,'']]]
+  ['freq_177',['Freq',['../classFreq.html',1,'']]]
 ];

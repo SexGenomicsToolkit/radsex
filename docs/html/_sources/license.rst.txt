@@ -2,7 +2,7 @@ License
 =======
 
 This software is released under GPLv3 license.
-Copyrights Romain Feron and INRA LPGP.
+Copyrights Romain Feron.
 
 ::
 

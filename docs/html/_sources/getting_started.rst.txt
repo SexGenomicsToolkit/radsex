@@ -15,8 +15,7 @@ Requirements
 Installation
 ~~~~~~~~~~~~
 
-RADSex can be installed from one of the `release packages <https://github.com/RomainFeron/RadSex/releases>`_.
-The latest stable development version can be installed directly from the GitHub repository.
+There are three ways to install RADSex:
 
 **1. Install the latest release**
 
@@ -24,6 +23,8 @@ The latest stable development version can be installed directly from the GitHub 
 * Unzip the archive
 * Navigate to the `RADSex` directory
 * Run ``make``
+
+The compiled ``radsex`` binary will be located in **RADSex/bin/**.
 
 **2. Install the latest stable development version**
 
@@ -37,6 +38,14 @@ To install the latest stable version of RADSex directly from the GitHub reposito
 
 The compiled ``radsex`` binary will be located in **RADSex/bin/**.
 
+**3. Install RADSex with conda**
+
+RADSex is available in `Bioconda <https://bioconda.github.io/recipes/radsex/README.html?#recipe-Recipe%20&#x27;radsex&#x27;>`_. To install RADSex with Conda, run the following command:
+
+::
+
+    conda install -c bioconda radsex
+
 
 Update RADSex
 ~~~~~~~~~~~~~
@@ -49,6 +58,12 @@ If you installed RADSex directly from the GitHub repository, update RADSex by ru
 
     git pull
     make rebuild
+
+If you installed RADSex with Conda, run:
+
+::
+
+    conda update -c bioconda radsex
 
 
 Before starting
@@ -92,9 +107,9 @@ The ``distrib`` command computes the distribution of markers between groups from
 
 ::
 
-    radsex distrib --markers-table markers_table.tsv --output-file distribution.tsv --popmap popmap.tsv --min-depth 5``
+    radsex distrib --markers-table markers_table.tsv --output-file distribution.tsv --popmap popmap.tsv --min-depth 5 --groups M,F``
 
-In this example, ``--markers-table`` is the table generated in the :ref:`computing-depth-table` section, and the distribution of markers between groups will be saved to **distribution.tsv**. The group of each individual in the population is given by **popmap.tsv** (see the :ref:`population-map` section). The minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual.
+In this example, ``--markers-table`` is the table generated in the :ref:`computing-depth-table` section, and the distribution of markers between groups will be saved to **distribution.tsv**. The group of each individual in the population is given by **popmap.tsv** (see the :ref:`population-map` section). Groups of individuals to compare (as defined in the :ref:`population-map`) are specified manually with the parameter ``--groups``. The minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual.
 
 The resulting file **distribution.tsv** is a table described in the :ref:`sex-distribution-file` section.
 
@@ -108,10 +123,9 @@ Markers significantly associated with sex are obtained with the ``signif`` comma
 
 ::
 
-    radsex signif --markers-table markers_table.tsv --output-file markers.tsv --popmap popmap.tsv --min-depth 5 [ --output-fasta ]
+    radsex signif --markers-table markers_table.tsv --output-file markers.tsv --popmap popmap.tsv --min-depth 5 --groups M,F [ --output-fasta ]
 
-In this example, ``--markers-table`` is the table generated in the :ref:`computing-depth-table` section, and markers significantly associated with sex are saved to **markers.tsv**. The sex of each individual in the population is given by **popmap.tsv** (see the :ref:`population-map` section).
-The minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual.
+In this example, ``--markers-table`` is the table generated in the :ref:`computing-depth-table` section, and markers significantly associated with sex are saved to **markers.tsv**. The sex of each individual in the population is given by **popmap.tsv** (see the :ref:`population-map` section). Groups of individuals to compare (as defined in the :ref:`population-map`) are specified manually with the parameter ``--groups``. The minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual.
 
 By default, the ``signif`` function generates an output file in the same format as the markers depth table. Markers can also be exported to a fasta file using the ``--output-fasta`` parameter (see the :ref:`fasta-file` section).
 
@@ -125,9 +139,9 @@ Markers can be aligned to a genome using the ``map`` command:
 
 ::
 
-    radsex map --markers-file markers_table.tsv --output-file alignment_results.tsv --popmap popmap.tsv --genome-file genome.fasta --min-quality 20 --min-frequency 0.1 --min-depth 5
+    radsex map --markers-file markers_table.tsv --output-file alignment_results.tsv --popmap popmap.tsv --genome-file genome.fasta --min-quality 20 --min-frequency 0.1 --min-depth 5 --groups M,F
 
-In this example, ``--markers-file`` is the markers depth table generated in the :ref:`computing-depth-table` step, and the path to the reference genome file is given by ``--genome-file``; results will are saved to **alignment_results.tsv**. The sex of each individual in the population is given by **popmap.tsv** (see the :ref:`population-map` section), and the minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual.
+In this example, ``--markers-file`` is the markers depth table generated in the :ref:`computing-depth-table` step, and the path to the reference genome file is given by ``--genome-file``; results will are saved to **alignment_results.tsv**. The sex of each individual in the population is given by **popmap.tsv** (see the :ref:`population-map` section), and the minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual. Groups of individuals to compare (as defined in the :ref:`population-map`) are specified manually with the parameter ``--groups``
 
 The parameter ``--min-quality`` specifies the minimum mapping quality (as defined in `BWA <http://bio-bwa.sourceforge.net/bwa.shtml>`_) to consider a marker properly aligned and is set to 20 in this example. The parameter ``--min-frequency`` specifies the minimum frequency of a marker in the population to retain this marker and is set to 0.1 here, meaning that only sequences present in at least 10% of individuals of the population are aligned to the genome.
 
