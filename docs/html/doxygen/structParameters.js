@@ -1,0 +1,27 @@
+var structParameters =
+[
+    [ "command", "structParameters.html#acf51a3021f1aa0f5f7ed6ca63f729879", null ],
+    [ "disable_correction", "structParameters.html#a44b25c08718abd5476d0ee3eb2a1cec9", null ],
+    [ "genome_file_path", "structParameters.html#aa75557e0339e9d2350e7f7364d1e6ad2", null ],
+    [ "group1", "structParameters.html#a3ce2dc3d06c4b8f4398fb119931ce88a", null ],
+    [ "group2", "structParameters.html#aebb77195a9b4edb3f37df32bec3d9eba", null ],
+    [ "input_dir_path", "structParameters.html#ac1b064673202a025bfff903476ed4280", null ],
+    [ "map_min_frequency", "structParameters.html#a0496b0815bc59a06f8e0ad5aaa9133f2", null ],
+    [ "map_min_quality", "structParameters.html#a5c3497cfcad6e5e37c3c3cb38b0c50fe", null ],
+    [ "markers_table_path", "structParameters.html#af898f65acae946da6cd940d4eeea4f09", null ],
+    [ "min_depth", "structParameters.html#ab362fca31d273c139ca30abdf9d2966e", null ],
+    [ "n_threads", "structParameters.html#a9841f1cabb71715c8024fc569cb0d749", null ],
+    [ "output_fasta", "structParameters.html#a5da0bb1f08576f6646881a1e4f8b7c25", null ],
+    [ "output_file_path", "structParameters.html#a9cb286258590de65042051e194654fdc", null ],
+    [ "popmap_file_path", "structParameters.html#aba6dd6cc174c771aea293b0c6fd60982", null ],
+    [ "set_max_group1", "structParameters.html#ae2e67aa0e3619d41e2a8505502b51a71", null ],
+    [ "set_max_group2", "structParameters.html#ae18cd5ff2e6dc5b84a75f8bc0d20942b", null ],
+    [ "set_max_individuals", "structParameters.html#a368e1c811a8d649c6414cfd5a53c791e", null ],
+    [ "signif_threshold", "structParameters.html#a7a0aec37ff8b323f8924da94d0bc0d4d", null ],
+    [ "subset_max_group1", "structParameters.html#aeeeee54a3cbcaab3ded53ed2c26f1552", null ],
+    [ "subset_max_group2", "structParameters.html#a170572e118926662ffd368c52ec723aa", null ],
+    [ "subset_max_individuals", "structParameters.html#afbf134cf5d528a1017684df0abee87f5", null ],
+    [ "subset_min_group1", "structParameters.html#af3941b1b54d30c9a74f7eece26b27188", null ],
+    [ "subset_min_group2", "structParameters.html#a1fc6012130d2acde985ccf424cb72e1c", null ],
+    [ "subset_min_individuals", "structParameters.html#a1336aee1d040a69ee197e41ea20a01e0", null ]
+];

@@ -77,6 +77,4 @@ build/
 *.pro.user
 /include/*/*.o
 /include/*/*.a
-*html/*
-*_build/*
 callgrind*

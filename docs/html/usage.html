@@ -1,0 +1,560 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>RADSex usage &mdash; RADSex 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Input files" href="input_files.html" />
+    <link rel="prev" title="Example walkthrough" href="example.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RADSex
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Example walkthrough</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">RADSex usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#process">process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distrib">distrib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#subset">subset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#signif">signif</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#map">map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#freq">freq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#depth">depth</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="input_files.html">Input files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_files.html">Output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RADSex</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>RADSex usage</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/usage.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="radsex-usage">
+<span id="full-usage"></span><h1>RADSex usage<a class="headerlink" href="#radsex-usage" title="Permalink to this headline">¶</a></h1>
+<p>The RADSex software presents the general command-line interface:</p>
+<p><code class="docutils literal notranslate"><span class="pre">radsex</span> <span class="pre">&lt;command&gt;</span> <span class="pre">[options]</span></code></p>
+<p><strong>Available commands</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Command</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>depth</td>
+<td>Compute marker depth statistics for each individual</td>
+</tr>
+<tr class="row-odd"><td>distrib</td>
+<td>Compute the distribution of markers between compared groups</td>
+</tr>
+<tr class="row-even"><td>freq</td>
+<td>Compute the distribution of markers in all individuals</td>
+</tr>
+<tr class="row-odd"><td>map</td>
+<td>Align markers to a genome and compute metrics for each aligned marker</td>
+</tr>
+<tr class="row-even"><td>process</td>
+<td>Compute a table of marker depths from a set of demultiplexed reads files</td>
+</tr>
+<tr class="row-odd"><td>signif</td>
+<td>Extract markers significantly associated with phenotypic group from a marker depths table</td>
+</tr>
+<tr class="row-even"><td>subset</td>
+<td>Extract a subset of markers from a marker depths table</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="process">
+<span id="process-usage"></span><h2>process<a class="headerlink" href="#process" title="Permalink to this headline">¶</a></h2>
+<p>Generate a table containing the depth of each marker in each individual from the dataset.</p>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">process</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="nb">dir</span> <span class="n">input_dir_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="p">[</span> <span class="o">--</span><span class="n">threads</span> <span class="n">n_threads</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="n">min_depth</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Options</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Option</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">--input-dir,</span> <span class="pre">-i</span></code></td>
+<td>Path to a folder containing demultiplexed reads</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">--output-file,</span> <span class="pre">-o</span></code></td>
+<td>Path to the generated marker depths table</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">--threads,</span> <span class="pre">-T</span></code></td>
+<td>Number of threads to use (default: 1)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">--min-depth,</span> <span class="pre">-d</span></code></td>
+<td>Minimum depth to consider a marker present in an individual (default: 1)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Output</strong></p>
+<p>A <a class="reference internal" href="output_files.html#markers-depths-table-file"><span class="std std-ref">Markers depth table</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Number of markers : 4</span>
+<span class="nb">id</span>   <span class="n">sequence</span>     <span class="n">individual_1</span>    <span class="n">individual_2</span>    <span class="n">individual_3</span>    <span class="n">individual_4</span>    <span class="n">individual_5</span>
+ <span class="mi">0</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">TATT</span>              <span class="mi">0</span>              <span class="mi">15</span>              <span class="mi">24</span>              <span class="mi">17</span>              <span class="mi">21</span>
+ <span class="mi">1</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">GACC</span>             <span class="mi">20</span>              <span class="mi">18</span>               <span class="mi">3</span>              <span class="mi">26</span>               <span class="mi">4</span>
+ <span class="mi">2</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">ATCG</span>              <span class="mi">2</span>               <span class="mi">1</span>               <span class="mi">5</span>              <span class="mi">16</span>               <span class="mi">0</span>
+ <span class="mi">3</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">CCGA</span>             <span class="mi">14</span>              <span class="mi">29</span>              <span class="mi">23</span>               <span class="mi">2</span>              <span class="mi">19</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Input files are automatically dectected from the input directory based on their extensions. Supported extensions are <strong>.fa</strong>, <strong>.fa.gz</strong>, <strong>.fq</strong>, <strong>.fq.gz</strong>, <strong>.fasta</strong>, <strong>.fasta.gz</strong>, <strong>.fastq</strong>, <strong>.fastq.gz</strong>, <strong>.fna</strong>, and <strong>.fna.gz</strong>. Individual IDs in the output table will be inferred from the input files names after removing the extension. For instance, a file named <strong>individual_1.fastq.gz</strong> will be attributed the ID <strong>individual_1</strong>. Make sure to use the same IDs when creating the population map.</p>
+</div>
+</div>
+<div class="section" id="distrib">
+<span id="distrib-usage"></span><h2>distrib<a class="headerlink" href="#distrib" title="Permalink to this headline">¶</a></h2>
+<p>Generate a table containing the distribution of markers between two groups of individuals defined in a <span class="xref std std-ref">popmap-file</span>.</p>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">distrib</span> <span class="o">--</span><span class="n">markers</span><span class="o">-</span><span class="n">table</span> <span class="n">markers_table_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="o">--</span><span class="n">popmap</span> <span class="n">popmap_path</span> <span class="p">[</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="n">min_depth</span> <span class="o">--</span><span class="n">groups</span> <span class="n">group1</span><span class="p">,</span><span class="n">group2</span> <span class="o">--</span><span class="n">signif</span><span class="o">-</span><span class="n">threshold</span> <span class="n">signif_threshold</span> <span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">correction</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Options</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Option</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">--markers-table,</span> <span class="pre">-t</span></code></td>
+<td>Path to a marker depths table generated by “process”</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">--popmap,</span> <span class="pre">-p</span></code></td>
+<td>Path to a tabulated file specifying groups for all individuals</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">--output-file,</span> <span class="pre">-o</span></code></td>
+<td>Path to the output file (distribution of markers between groups)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">--min-depth,</span> <span class="pre">-d</span></code></td>
+<td>Minimum depth to consider a marker present in an individual</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">--groups,</span> <span class="pre">-G</span></code></td>
+<td>Names of the groups to compare if there are more than two groups in the popmap (–groups group1, group2)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">--signif-threshold,</span> <span class="pre">-S</span></code></td>
+<td>P-value threshold to consider a marker significantly associated with a phenotypic group</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">--disable-correction,</span> <span class="pre">-C</span></code></td>
+<td>If set, Bonferroni correction will NOT be used when assessing significance of association with phenotypic group</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Output</strong></p>
+<p>A <a class="reference internal" href="output_files.html#sex-distribution-file"><span class="std std-ref">Distribution of markers between groups</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Males</span>    <span class="n">Females</span>    <span class="n">Markers</span>       <span class="n">P</span>     <span class="n">Signif</span>      <span class="n">Bias</span>
+    <span class="mi">0</span>          <span class="mi">1</span>          <span class="mi">7</span>       <span class="mi">1</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">0.333</span>
+    <span class="mi">0</span>          <span class="mi">2</span>          <span class="mi">3</span>    <span class="mf">0.39</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">0.666</span>
+    <span class="mi">0</span>          <span class="mi">3</span>          <span class="mi">1</span>    <span class="mf">0.10</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">1.000</span>
+    <span class="mi">1</span>          <span class="mi">0</span>          <span class="mi">6</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.333</span>
+    <span class="mi">1</span>          <span class="mi">1</span>          <span class="mi">5</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.000</span>
+    <span class="mi">1</span>          <span class="mi">2</span>          <span class="mi">1</span>       <span class="mi">1</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">0.333</span>
+    <span class="mi">1</span>          <span class="mi">3</span>          <span class="mi">2</span>    <span class="mf">0.39</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">0.666</span>
+    <span class="mi">2</span>          <span class="mi">0</span>          <span class="mi">3</span>    <span class="mf">0.39</span>     <span class="kc">False</span>      <span class="mf">0.666</span>
+    <span class="mi">2</span>          <span class="mi">1</span>          <span class="mi">8</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.333</span>
+    <span class="mi">2</span>          <span class="mi">2</span>          <span class="mi">4</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.000</span>
+    <span class="mi">2</span>          <span class="mi">3</span>          <span class="mi">2</span>       <span class="mi">1</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">0.333</span>
+    <span class="mi">3</span>          <span class="mi">0</span>          <span class="mi">4</span>    <span class="mf">0.10</span>     <span class="kc">False</span>      <span class="mf">1.000</span>
+    <span class="mi">3</span>          <span class="mi">1</span>          <span class="mi">7</span>    <span class="mf">0.39</span>     <span class="kc">False</span>      <span class="mf">0.666</span>
+    <span class="mi">3</span>          <span class="mi">2</span>          <span class="mi">6</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.333</span>
+    <span class="mi">3</span>          <span class="mi">3</span>          <span class="mi">9</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.000</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="subset">
+<span id="subset-usage"></span><h2>subset<a class="headerlink" href="#subset" title="Permalink to this headline">¶</a></h2>
+<p>Extract a subset of markers from a markers depth table based on presence in individuals from each compared group.</p>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">distrib</span> <span class="o">--</span><span class="n">markers</span><span class="o">-</span><span class="n">table</span> <span class="n">markers_table_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="o">--</span><span class="n">popmap</span> <span class="n">popmap_path</span> <span class="p">[</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="n">min_depth</span> <span class="o">--</span><span class="n">groups</span> <span class="n">group1</span><span class="p">,</span><span class="n">group2</span> <span class="o">--</span><span class="n">signif</span><span class="o">-</span><span class="n">threshold</span> <span class="n">signif_threshold</span> <span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">correction</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">group1</span> <span class="n">min_group1</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">group2</span> <span class="n">min_group2</span> <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">group1</span> <span class="n">max_group1</span> <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">group2</span> <span class="n">max_group2</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">individuals</span> <span class="n">min_individuals</span> <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">individuals</span> <span class="n">max_individuals</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">fasta</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Options</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Option</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">--markers-table,</span> <span class="pre">-t</span></code></td>
+<td>Path to a marker depths table generated by “process”</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">--popmap,</span> <span class="pre">-p</span></code></td>
+<td>Path to a tabulated file specifying groups for all individuals</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">--output-file,</span> <span class="pre">-o</span></code></td>
+<td>Path to the output file (subset of markers)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">--min-depth,</span> <span class="pre">-d</span></code></td>
+<td>Minimum depth to consider a marker present in an individual</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">--groups,</span> <span class="pre">-G</span></code></td>
+<td>Names of the groups to compare if there are more than two groups in the popmap (–groups group1, group2)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">--signif-threshold,</span> <span class="pre">-S</span></code></td>
+<td>P-value threshold to consider a marker significantly associated with a phenotypic group</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">--disable-correction,</span> <span class="pre">-C</span></code></td>
+<td>If set, Bonferroni correction will NOT be used when assessing significance of association with phenotypic group</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">--output-fasta,</span> <span class="pre">-a</span></code></td>
+<td>If set, markers are saved to a fasta file instead of a markers depth table</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">--min-group1,</span> <span class="pre">-m</span></code></td>
+<td>Minimum number of individuals from the first group to retain a marker in the subset</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">--min-group2,</span> <span class="pre">-n</span></code></td>
+<td>Minimum number of individuals from the second group to retain a marker in the subset</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">--max-group1,</span> <span class="pre">-M</span></code></td>
+<td>Maximum number of individuals from the first group to retain a marker in the subset</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">--max-group2,</span> <span class="pre">-N</span></code></td>
+<td>Maximum number of individuals from the second group to retain a marker in the subset</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">--min-individuals,</span> <span class="pre">-i</span></code></td>
+<td>Minimum number of individuals to retain a marker in the subset</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">--max-individuals,</span> <span class="pre">-I</span></code></td>
+<td>Maximum number of individuals to retain a marker in the subset</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Output</strong></p>
+<p><a class="reference internal" href="output_files.html#markers-depths-table-file"><span class="std std-ref">Markers depth table</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Number of markers : 4</span>
+<span class="nb">id</span>   <span class="n">sequence</span>     <span class="n">individual_1</span>    <span class="n">individual_2</span>    <span class="n">individual_3</span>    <span class="n">individual_4</span>    <span class="n">individual_5</span>
+ <span class="mi">0</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">TATT</span>              <span class="mi">0</span>              <span class="mi">15</span>              <span class="mi">24</span>              <span class="mi">17</span>              <span class="mi">21</span>
+ <span class="mi">1</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">GACC</span>             <span class="mi">20</span>              <span class="mi">18</span>               <span class="mi">3</span>              <span class="mi">26</span>               <span class="mi">4</span>
+ <span class="mi">2</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">ATCG</span>              <span class="mi">2</span>               <span class="mi">1</span>               <span class="mi">5</span>              <span class="mi">16</span>               <span class="mi">0</span>
+ <span class="mi">3</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">CCGA</span>             <span class="mi">14</span>              <span class="mi">29</span>              <span class="mi">23</span>               <span class="mi">2</span>              <span class="mi">19</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="output_files.html#fasta-file"><span class="std std-ref">Fasta file</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="mi">4495827</span><span class="n">_F</span><span class="p">:</span><span class="mi">0</span><span class="n">_M</span><span class="p">:</span><span class="mi">21</span><span class="n">_p</span><span class="p">:</span><span class="mf">1.14577e-07</span><span class="n">_mindepth</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">TGCAG</span><span class="o">.....</span><span class="n">GGATGTGTATCCATA</span>
+<span class="o">&gt;</span><span class="mi">4609394</span><span class="n">_F</span><span class="p">:</span><span class="mi">0</span><span class="n">_M</span><span class="p">:</span><span class="mi">23</span><span class="n">_p</span><span class="p">:</span><span class="mf">1.08057e-08</span><span class="n">_mindepth</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">TGCAG</span><span class="o">.....</span><span class="n">GGTTCCATCCCAAAT</span>
+<span class="o">&gt;</span><span class="mi">4661391</span><span class="n">_F</span><span class="p">:</span><span class="mi">0</span><span class="n">_M</span><span class="p">:</span><span class="mi">26</span><span class="n">_p</span><span class="p">:</span><span class="mf">1.92225e-10</span><span class="n">_mindepth</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">TGCAG</span><span class="o">.....</span><span class="n">GTAGAGTGACCAGTT</span>
+<span class="o">&gt;</span><span class="mi">5182569</span><span class="n">_F</span><span class="p">:</span><span class="mi">0</span><span class="n">_M</span><span class="p">:</span><span class="mi">22</span><span class="n">_p</span><span class="p">:</span><span class="mf">3.62243e-08</span><span class="n">_mindepth</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">TGCAG</span><span class="o">.....</span><span class="n">ACATGCTGTAAATGC</span>
+<span class="o">&gt;</span><span class="mi">5625957</span><span class="n">_F</span><span class="p">:</span><span class="mi">0</span><span class="n">_M</span><span class="p">:</span><span class="mi">25</span><span class="n">_p</span><span class="p">:</span><span class="mf">7.91633e-10</span><span class="n">_mindepth</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">TGCAG</span><span class="o">.....</span><span class="n">CTGGAGAAGAGTAGG</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="signif">
+<span id="signif-usage"></span><h2>signif<a class="headerlink" href="#signif" title="Permalink to this headline">¶</a></h2>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">signif</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">file</span> <span class="n">input_file_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="o">--</span><span class="n">popmap</span><span class="o">-</span><span class="n">file</span> <span class="n">popmap_file_path</span> <span class="p">[</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="nb">format</span> <span class="n">output_format</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="n">min_depth</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">signif</span></code> command filters the coverage table to only export markers significantly associated with sex. The probability of association with sex is computed using a chi-squared test with Yate’s correction for continuity. Markers are significantly associated with sex when p ≤ (0.05 / total number of markers), to implement Bonferroni correction. Markers significantly associated with sex can be exported either in table format (same as the output of <code class="docutils literal notranslate"><span class="pre">process</span></code>) or in fasta format, with marker information contained in the sequence IDs.</p>
+<p><strong>Options</strong></p>
+<p><strong>Sample output</strong></p>
+<ul class="simple">
+<li>Table format :</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ID</span>    <span class="n">Sequence</span>    <span class="n">individual_1</span>    <span class="n">individual_2</span>    <span class="n">individual_3</span>    <span class="n">individual_4</span>    <span class="n">individual_5</span>
+<span class="mi">15</span>    <span class="n">TGCA</span><span class="o">..</span><span class="n">TATT</span>             <span class="mi">0</span>              <span class="mi">15</span>              <span class="mi">24</span>              <span class="mi">17</span>              <span class="mi">21</span>
+<span class="mi">27</span>    <span class="n">TGCA</span><span class="o">..</span><span class="n">GACC</span>            <span class="mi">20</span>              <span class="mi">18</span>               <span class="mi">3</span>              <span class="mi">26</span>               <span class="mi">4</span>
+<span class="mi">43</span>    <span class="n">TGCA</span><span class="o">..</span><span class="n">ATCG</span>             <span class="mi">2</span>               <span class="mi">1</span>               <span class="mi">5</span>              <span class="mi">16</span>               <span class="mi">0</span>
+<span class="mi">86</span>    <span class="n">TGCA</span><span class="o">..</span><span class="n">CCGA</span>            <span class="mi">14</span>              <span class="mi">29</span>              <span class="mi">23</span>               <span class="mi">2</span>              <span class="mi">19</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>FASTA format :</li>
+</ul>
+<p>In FASTA format, IDs are generated with the following pattern : &lt;marker_ID&gt;_&lt;number_of_males&gt;M_&lt;number_of_females&gt;F_cov:&lt;minimum_coverage&gt;.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="mi">15_5</span><span class="n">M_0F_cov</span><span class="p">:</span><span class="mi">5</span>
+<span class="n">TGCA</span><span class="o">..</span><span class="n">TATT</span>
+<span class="o">&gt;</span><span class="mi">27_5</span><span class="n">M_1F_cov</span><span class="p">:</span><span class="mi">5</span>
+<span class="n">TGCA</span><span class="o">..</span><span class="n">GACC</span>
+<span class="o">&gt;</span><span class="mi">43_5</span><span class="n">M_1F_cov</span><span class="p">:</span><span class="mi">5</span>
+<span class="n">TGCA</span><span class="o">..</span><span class="n">ATCG</span>
+<span class="o">&gt;</span><span class="mi">86_5</span><span class="n">M_0F_cov</span><span class="p">:</span><span class="mi">5</span>
+<span class="n">TGCA</span><span class="o">..</span><span class="n">CCGA</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="map">
+<span id="map-usage"></span><h2>map<a class="headerlink" href="#map" title="Permalink to this headline">¶</a></h2>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="nb">map</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">file</span> <span class="n">input_file_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="o">--</span><span class="n">popmap</span><span class="o">-</span><span class="n">file</span> <span class="n">popmap_file_path</span> <span class="o">--</span><span class="n">genome</span><span class="o">-</span><span class="n">file</span> <span class="n">genome_file_path</span> <span class="p">[</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="n">min_depth</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">quality</span> <span class="n">min_quality</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">frequency</span> <span class="n">min_frequency</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">map</span></code> command aligns all makers from a coverage table (obtained either from <code class="docutils literal notranslate"><span class="pre">process</span></code>, <code class="docutils literal notranslate"><span class="pre">subset</span></code>, or <code class="docutils literal notranslate"><span class="pre">signif</span></code>) to a reference genome provided in fasta format. The output is a tabulated file where each line gives a marker ID, the contig where the marker mapped, the mapping position of the marker on this contig, the sex-bias of the marker (defined as M / Tm - F / Tf where M and F are the number of males and females in which the marker is present, and Tm and Tf are the total number of males and females in the population), the probability of association with sex for this marker (obtained with a chi-square test with Yate’s correction for continuity), and the significativity of the association with sex after Bonferroni correction.</p>
+<p><strong>Options</strong></p>
+<p><strong>Sample output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Marker</span>        <span class="n">Contig</span>      <span class="n">Position</span>      <span class="n">SexBias</span>        <span class="n">P</span>     <span class="n">Signif</span>
+<span class="mi">0</span>             <span class="n">LG09</span>        <span class="mi">10052920</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">1</span>             <span class="n">LG45</span>         <span class="mi">4008419</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">2</span>             <span class="n">LG06</span>        <span class="mi">20521435</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">3</span>             <span class="n">LG24</span>         <span class="mi">7643946</span>         <span class="mf">0.13</span>     <span class="mf">0.44</span>     <span class="kc">False</span>
+<span class="mi">4</span>             <span class="n">LG06</span>        <span class="mi">16975491</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">5</span>             <span class="n">LG27</span>        <span class="mi">16580048</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">6</span>             <span class="n">LG49</span>         <span class="mi">7206356</span>         <span class="mf">0.03</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">7</span>             <span class="n">LG30</span>         <span class="mi">5571989</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">8</span>             <span class="n">LG05</span>        <span class="mi">20094761</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">9</span>             <span class="n">LG14</span>        <span class="mi">20088495</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">10</span>            <span class="n">LG34</span>        <span class="mi">11566459</span>        <span class="o">-</span><span class="mf">0.04</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">11</span>            <span class="n">LG21</span>        <span class="mi">17338149</span>            <span class="mi">0</span>        <span class="mi">1</span>     <span class="kc">False</span>
+<span class="mi">12</span>            <span class="n">LG05</span>        <span class="mi">14652417</span>         <span class="mf">0.13</span>     <span class="mf">0.55</span>     <span class="kc">False</span>
+<span class="mi">13</span>            <span class="n">LG25</span>        <span class="mi">23851527</span>         <span class="mf">0.75</span>    <span class="mf">0.001</span>     <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="freq">
+<span id="freq-usage"></span><h2>freq<a class="headerlink" href="#freq" title="Permalink to this headline">¶</a></h2>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">freq</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">file</span> <span class="n">input_file_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="p">[</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="n">min_depth</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">freq</span></code> command computes the distribution of markers in the population. The output is a tabulated file where the first column gives the number of individuals, and the second column gives the number of markers found in this number of individuals.</p>
+<p><strong>Options</strong></p>
+<p><strong>Sample output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Frequency</span>    <span class="n">Count</span>
+        <span class="mi">1</span>       <span class="mi">15</span>
+        <span class="mi">2</span>       <span class="mi">37</span>
+        <span class="mi">3</span>       <span class="mi">48</span>
+        <span class="mi">4</span>       <span class="mi">43</span>
+        <span class="mi">5</span>      <span class="mi">124</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="depth">
+<span id="depth-usage"></span><h2>depth<a class="headerlink" href="#depth" title="Permalink to this headline">¶</a></h2>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">freq</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">file</span> <span class="n">input_file_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="p">[</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="n">min_depth</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">freq</span></code> command computes the distribution of markers in the population. The output is a tabulated file where the first column gives the number of individuals, and the second column gives the number of markers found in this number of individuals.</p>
+<p><strong>Options</strong></p>
+<p><strong>Sample output</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Frequency</span>    <span class="n">Count</span>
+        <span class="mi">1</span>       <span class="mi">15</span>
+        <span class="mi">2</span>       <span class="mi">37</span>
+        <span class="mi">3</span>       <span class="mi">48</span>
+        <span class="mi">4</span>       <span class="mi">43</span>
+        <span class="mi">5</span>      <span class="mi">124</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="input_files.html" class="btn btn-neutral float-right" title="Input files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="example.html" class="btn btn-neutral" title="Example walkthrough" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018-2020, Romain Feron
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
