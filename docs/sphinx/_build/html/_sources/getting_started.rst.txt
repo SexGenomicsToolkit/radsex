@@ -8,30 +8,34 @@ Requirements
 ~~~~~~~~~~~~
 
 * A C++11 compliant compiler (GCC >= 4.8.1, Clang >= 3.3)
-* The zlib library (which should be installed on linux by default)
+* The zlib library (usually installed on linux by default)
 
 .. _install-release:
 
 Installation
 ~~~~~~~~~~~~
 
-RADSex can be installed from one of the release packages [TODO: link], or the latest stable development version can be installed directly from the GitHub repository.
+RADSex can be installed from one of the `release packages <https://github.com/RomainFeron/RadSex/releases>`_.
+The latest stable development version can be installed directly from the GitHub repository.
 
 **1. Install the latest release**
 
-RADSex is currently in beta and there is no available release yet. This section will be updated with the release of RADSex 1.0.
+* Download the latest release from `GitHub <https://github.com/RomainFeron/RadSex/releases>`_
+* Unzip the archive
+* Navigate to the `RADSex` directory
+* Run ``make``
 
-**2. Install from GitHub**
+**2. Install the latest stable development version**
 
-To install the latest stable version of RADSex from the GitHub repository, run the following commands:
+To install the latest stable version of RADSex directly from the GitHub repository, run the following commands:
 
 ::
 
-    git clone https://github.com/RomainFeron/RadSex.git
-    cd RadSex
+    git clone https://github.com/RomainFeron/RADSex.git
+    cd RADSex
     make
 
-The compiled **radsex** binary will be located in **RadSex/bin/**.
+The compiled ``radsex`` binary will be located in **RADSex/bin/**.
 
 
 Update RADSex
@@ -39,7 +43,7 @@ Update RADSex
 
 To update RADSex, you can download the latest stable release and install it as described in the :ref:`install-release` section.
 
-If you installed RADSex from Github, run the following commands from the RadSex directory:
+If you installed RADSex directly from the GitHub repository, update RADSex by running the following commands from the **RADSex** directory:
 
 ::
 
@@ -50,63 +54,66 @@ If you installed RADSex from Github, run the following commands from the RadSex 
 Before starting
 ---------------
 
-Before running the pipeline, you should prepare the following elements:
+Before running the pipeline, you should prepare the following files:
 
 * A **set of demultiplexed reads**. The current version of RADSex does not implement demultiplexing. Raw sequencing reads can be demultiplexed using `Stacks <http://catchenlab.life.illinois.edu/stacks/comp/process_radtags.php>`_ or `pyRAD <http://nbviewer.jupyter.org/gist/dereneaton/af9548ea0e94bff99aa0/pyRAD_v.3.0.ipynb#The-seven-steps-described>`_.
-* A **population map**: a tabulated file with individual ID as the first column and sex as the second column. It is important that the individual IDs in the popmap are the same as the names of the demultiplexed reads files (see the [popmap section](#population-map) for details).
-* If you want to map the sequences to a reference genome: a **reference genome** in fasta format.
 
-.. note:: When visualizing `map` results with `radsex-vis`, linkage groups / chromosomes are automatically inferred from scaffold names in the reference sequence if their name starts with *LG*, *CHR*, or *NC* (case unsensitive). If chromosomes are named differently in the reference genome, you should prepare a tabulated file with reference scaffold ID in the first column and corresponding chromosome name in the second column (see the [chromosomes names section](#chromosomes-names) for details).
+* A **group information file (popmap)**: a tabulated file with individual ID as the first column and sex as the second column. It is important that the individual IDs in the popmap are the same as the names of the demultiplexed reads files (see the [popmap section](#population-map)).
+
+* To align the sequences to a genome: the **genome file** in fasta format.
+
+.. note:: When visualizing ``map`` results with ``radsex-vis``, linkage groups / chromosomes are automatically inferred from scaffold names in the reference sequence if their name starts with *LG*, *CHR*, or *NC* (case unsensitive). If chromosomes are named differently in the reference genome, you should prepare a tabulated file with reference contig ID in the first column and corresponding chromosome name in the second column (see the [chromosomes names section](#chromosomes-names)).
 
 
 Running RADSex
 --------------
 
-.. _computing-cov-table:
+.. _computing-depth-table:
 
-Computing the markers table
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Computing the markers depth table
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The first step of RADSex is to create a table of marker depth for the dataset using the ``process`` command:
+The first step of RADSex is to create a table of marker depths for the dataset using the ``process`` command:
 
 ::
 
     radsex process --input-dir ./samples --output-file markers_table.tsv --threads 16 --min-depth 1
 
 In this example, demultiplexed reads are stored in **./samples** and the markers table generated by ``process`` will be stored in **markers_table.tsv**. The parameter ``--threads`` specifies the number of threads to use, and ``--min-depth`` specifies the minimum depth to consider a marker present in an individual: markers which are not present with depth higher than this value in at least one individual will not be retained in the markers table.
-It is advised to keep the minimum depth to 1 for this step, as it can be adjusted for each analysis later.
+It is advised to keep the minimum depth to 1 (default value) for this step, as it can be adjusted for each analysis later.
 
 The resulting file **markers_table.tsv** is a table with N + 2 columns, where *N* is the number of individuals in the dataset :
 
 * **ID** : marker ID.
 * **Sequence** : marker sequence.
-* For each individual, the depth of this marker.
+* For each individual, the depth of this marker in this individual.
 
 
 Computing the distribution of markers between sexes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-After generating the markers table, the ``distrib`` command is used to compute the distribution of markers between sexes:
+After generating the markers depth table, the ``distrib`` command computes the distribution of markers between groups:
 
 ::
 
     radsex distrib --markers-table markers_table.tsv --output-file distribution.tsv --popmap popmap.tsv --min-depth 5``
 
-In this example, the value of ``--markers-table`` is the table generated in the :ref:`computing-cov-table` section, and the distribution of markers between sexes will be stored in **distribution.tsv**.
-The sex of each individual in the population is given by **popmap.tsv** (see the [popmap section](#population-map) for details).
+In this example, ``--markers-table`` is the table generated in the :ref:`computing-depth-table` section, and the distribution of markers between groups will be stored in **distribution.tsv**.
+The group (here, the sex) of each individual in the population is given by **popmap.tsv** (see the :ref:`population-map` section).
 The minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual.
 
-The resulting file **distribution.tsv** is a table with five columns:
+The resulting file **distribution.tsv** is a table with six columns:
 
 * **Males** : number of males in which a marker was present.
 * **Females** : number of females in which a marker was present.
 * **Markers** : number of markers present in the corresponding number of males and females.
 * **P** : p-value of a chi-squared test for association with sex.
 * **Signif** : significant association with sex (True / False).
+* **Bias** : sex-bias of a marker [-1, 1].
 
-More details about the distribution file can be found in the [TODO SECTION].
+More details about the distribution file can be found in the :ref:`sex-distribution-file` section.
 
-This distribution can be visualized with the ``plot_sex_distribution()`` function of `RADSex-vis <https://github.com/RomainFeron/RADSex-vis>`_, which generates a heatmap of markers with males on the x-axis and females on the y-axis.
+This distribution can be visualized with the ``plot_sex_distribution()`` function of `RADSex-vis <https://github.com/RomainFeron/RADSex-vis>`_, which generates a tile plot of marker counts with number of males on the x-axis and number of females on the y-axis.
 
 
 Extracting markers significantly associated with sex
@@ -116,35 +123,42 @@ Markers significantly associated with sex can be obtained with the ``signif`` co
 
 ::
 
-    radsex signif --markers-table markers_table.tsv --output-file markers.tsv --popmap popmap.tsv --min-depth 5 [ --output-format fasta ]
+    radsex signif --markers-table markers_table.tsv --output-file markers.tsv --popmap popmap.tsv --min-depth 5 [ --output-fasta ]
 
-In this example, the value of ``--markers-table`` is the table generated in the :ref:`computing-cov-table` section, and the markers significantly associated with sex are output in **markers.tsv**. The sex of each individual in the population is given by **popmap.tsv** (see the [popmap section](#population-map) for details), and the minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual.
+In this example, ``--markers-table`` is the table generated in the :ref:`computing-depth-table` section, and the markers significantly associated with sex are output to **markers.tsv**. The sex of each individual in the population is given by **popmap.tsv** (see the :ref:`population-map` section).
+The minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual.
 
-By default, the ``signif`` function generates an output file in the same format as the markers table. However, the sequences can be exported to fasta using the ``--output-fasta`` parameter (see TODO SECTION).
+By default, the ``signif`` function generates an output file in the same format as the markers depth table. Markers can also be exported to a fasta file using the ``--output-fasta`` parameter (see the :ref:`fasta-file` section).
 
-The markers table generated by ``signif`` can be visualized with the ``plot_coverage()`` function of `RADSex-vis <https://github.com/RomainFeron/RADSex-vis>`_, which generates a heatmap showing the depth of each marker in each individual.
+The markers table generated by ``signif`` can be visualized with the ``plot_depth()`` function of `RADSex-vis <https://github.com/RomainFeron/RADSex-vis>`_, which generates a heatmap showing the depth of each marker in each individual.
 
 
-Mapping markers to a reference genome
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Aligning markers to a genome
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Markers can be aligned to a reference genome using the ``map`` command:
 
 ::
 
-    radsex map --input-file markers_table.tsv --output-file mapping.tsv --popmap popmap.tsv --genome-file genome.fasta --min-quality 20 --min-frequency 0.1 --min-depth 5
+    radsex map --markers-file markers_table.tsv --output-file mapping.tsv --popmap popmap.tsv --genome-file genome.fasta --min-quality 20 --min-frequency 0.1 --min-depth 5
 
-In this example, the input file ``--input-file`` is the coverage table generated in the :ref:`computing-cov-table` step, the mapping results will be stored in **sequences.tsv**, and the path to the reference genome file is given by ``--genome-file``. The sex of each individual in the population is given by **popmap.tsv** (see the [popmap section](#population-map) for details), and the minimum coverage to consider a marker present in an individual is set to 5, meaning that markers with coverage lower than 5 in an individual will not be considered present in this individual. The parameter ``--min-quality`` specifies the minimum mapping quality (as defined in `BWA <http://bio-bwa.sourceforge.net/bwa.shtml>`_) to consider a marker properly mapped, and is set to 20 in this example. The parameter ``--min-frequency`` specifies the minimum frequency of a marker in at least one sex; it is set to 0.1 here, meaning that only sequences present in at least 10% of individuals of one sex are retained for mapping.
+In this example, ``--markers-file`` is the markers depth table generated in the :ref:`computing-depth-table` step, and the path to the reference genome file is given by ``--genome-file``; results will be stored in **sequences.tsv**. The sex of each individual in the population is given by **popmap.tsv** (see the :ref:`population-map` section), and the minimum depth to consider a marker present in an individual is set to 5, meaning that markers with depth lower than 5 in an individual will not be considered present in this individual.
 
-The resulting file ``mapping.tsv`` is a table with five columns:
+The parameter ``--min-quality`` specifies the minimum mapping quality (as defined in `BWA <http://bio-bwa.sourceforge.net/bwa.shtml>`_) to consider a marker properly aligned and is set to 20 in this example. The parameter ``--min-frequency`` specifies the minimum frequency of a marker in the population to retain this marker and is set to 0.1 here, meaning that only sequences present in at least 10% of individuals of the population are aligned to the genome.
 
-* **Sequence :** ID of the mapped sequence.
-* **Contig :** ID of the contig where the sequence mapped.
-* **Position :** position of the mapped sequence on the contig.
-* **SexBias :** sex-bias of the mapped sequence, defined as (Males / Total males ) - (Females / Total females), where *Males* and *Females* are the number of males and number of females in which the sequence is present, respectively, and *Total males* and *Total females* are the total number of males and females in the population, respectively.
+The resulting file ``mapping.tsv`` is a table with seven columns:
+
+* **Contig :** name of the contig to which the marker was aligned.
+* **Position :** position where the marker was aligned on the contig.
+* **Length :** length of the contig to which the marker was aligned.
+* **Marker_ID :** ID of the marker in the markers depth table.
+* **Bias :** bias of the marker (see below).
 * **P :** p-value of a chi-squared test for association with sex.
-* **Signif** : significant association with sex (True / False).
+* **Signif** : *True* if the marker is significantly associated with sex, *False* otherwise.
 
-The mapping results generated by ``map`` can be visualized with the ``plot_genome()`` function of `RADSex-vis <https://github.com/RomainFeron/RADSex-vis>`_, which generates a circular plot with the sex-bias and association with sex of each marker mapped on the genome.
-Mapping results for a specific contig can be visualized with the ``plot_scaffold()`` function to show the same metrics for a single contig.
+The **bias** of a marker is defined as (Males / Total males ) - (Females / Total females), where *Males* and *Females* are the number of males and number of females in which the marker is present, and *Total males* and *Total females* are the total number of males and females in the population.
+
+The results generated by ``map`` can be visualized with the ``plot_genome()`` function of `RADSex-vis <https://github.com/RomainFeron/RADSex-vis>`_, which generates a circular plot showing bias and association with sex for each marker aligned to the genome.
+
+Mapping results for a specific contig can be visualized with the ``plot_contig()`` function to show the same metrics for a single contig.
 
