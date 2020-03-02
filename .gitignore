@@ -23,7 +23,6 @@ tags
 .DS_Store
 .directory
 *.debug
-Makefile*
 *.prl
 *.app
 moc_*.cpp
@@ -78,5 +77,6 @@ build/
 *.pro.user
 /include/*/*.o
 /include/*/*.a
-*/_build/*
+*html/*
+*_build/*
 callgrind*
