@@ -12,7 +12,7 @@ The main input of RADSex is a dataset of demultiplexed RAD reads, *i.e.* one rea
 
 Results from RADSex can be visualized with the `radsex-vis <https://github.com/INRA-LPGP/radsex-vis>`_ R package. This R package provides easy-to-use functions to generate visual representations of your data.
 
-RADSex's API documentation generated with Doxygen is available `here <../../../doxygen/html/index.html>`_
+RADSex's API documentation generated with Doxygen is available `here <index.html>`_
 
 Documentation summary
 ---------------------
