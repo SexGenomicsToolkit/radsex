@@ -159,7 +159,7 @@ void process(Parameters& parameters) {
             ++id;
         }
 
-        log_progress_bar(n_processed_markers, marker_processed_tick);
+        log_progress_bar(++n_processed_markers, marker_processed_tick);
 
     }
 
