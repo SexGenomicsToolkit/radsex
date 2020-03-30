@@ -49,7 +49,7 @@ void Freq::generate_output() {
     std::ofstream output_file = open_output(parameters.output_file_path);
     output_file << "Frequency" << "\t" << "Count" << "\n";
 
-    for (uint i=1; i < this->markers_table.header.n_individuals; ++i) output_file << i << "\t" << this->results[i] << "\n";  // Iterate over the map
+    for (uint i=1; i <= this->markers_table.header.n_individuals; ++i) output_file << i << "\t" << this->results[i] << "\n";  // Iterate over the map
 
     output_file.close();
 
