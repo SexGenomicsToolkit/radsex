@@ -39,7 +39,12 @@ void Depth::process_marker(Marker& marker) {
     for (uint i = 0; i < marker.individual_depths.size(); ++i) {
 
         if (marker.n_individuals >= 0.75 * this->markers_table.header.n_individuals) this->results.depths[i].push_back(marker.individual_depths[i]); // Only consider markers present in at least 75% of individuals
-        if (marker.individual_depths[i] > 0) ++this->results.individual_markers_count[i];  // Increment total number of markers for this individual
+        if (marker.individual_depths[i] > 0) {
+
+            ++this->results.individual_markers_count[i];  // Increment total number of markers for this individual
+            this->results.individual_reads_count[i] += marker.individual_depths[i];
+
+        }
 
     }
 
@@ -53,7 +58,7 @@ void Depth::generate_output() {
 
     // Generate output file
     std::ofstream output_file = open_output(this->parameters.output_file_path);
-    output_file << "Individual\tGroup\tMarkers\tRetained\tMin_depth\tMax_depth\tMedian_depth\tAverage_depth\n";
+    output_file << "Individual\tGroup\tReads\tMarkers\tRetained\tMin_depth\tMax_depth\tMedian_depth\tAverage_depth\n";
 
     // Compute metrics for each individual
     for (uint i = 0; i < this->results.depths.size(); ++i) {
@@ -71,7 +76,8 @@ void Depth::generate_output() {
         const uint16_t median_depth = find_median(this->results.depths[i]);
 
         // Output metrics
-        output_file << this->markers_table.header.header[i+2] << "\t" << this->popmap.get_group(this->markers_table.header.header[i + 2]) << "\t" << this->results.individual_markers_count[i] << "\t"
+        output_file << this->markers_table.header.header[i+2] << "\t" << this->popmap.get_group(this->markers_table.header.header[i + 2]) << "\t"
+                    << this->results.individual_reads_count[i] << "\t" << this->results.individual_markers_count[i] << "\t"
                     << size << "\t" << min_depth << "\t" << max_depth << "\t" << median_depth << "\t" << total_depth / size << "\n";
 
     }

@@ -41,6 +41,7 @@ struct DepthResults {
 
     std::vector<std::vector<uint16_t>> depths;  ///< Vector of size n_individuals storing the depth of each marker in each individual
     std::vector<uint32_t> individual_markers_count;   ///< Vector of size n_individuals storing the number of markers retained in each individual
+    std::vector<uint32_t> individual_reads_count;   ///< Vector of size n_individuals storing the number of reads in each individual
 
 
     /*!
@@ -62,6 +63,7 @@ struct DepthResults {
 
         this->depths = std::vector<std::vector<uint16_t>>(n_individuals);
         this->individual_markers_count = std::vector<uint32_t>(n_individuals);
+        this->individual_reads_count = std::vector<uint32_t>(n_individuals);
 
     };
 
