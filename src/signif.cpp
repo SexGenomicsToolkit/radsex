@@ -50,7 +50,7 @@ void Signif::generate_output() {
     if (not this->parameters.output_fasta) {
 
         output_file << "#source:signif;min_depth:" << parameters.min_depth << ";signif_threshold:" << parameters.signif_threshold <<
-                       ";bonferroni:" <<  std::boolalpha << (not parameters.disable_correction);
+                       ";bonferroni:" <<  std::boolalpha << (not parameters.disable_correction) << "\n";
         output_file << print_list(this->markers_table.header.header, "\t") << "\n";
 
     }

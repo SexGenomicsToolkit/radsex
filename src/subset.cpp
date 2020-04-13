@@ -24,17 +24,19 @@
 #include "subset.h"
 
 
-void Subset::extra_setup() {
+void Subset::process_marker(Marker& marker) {
 
-    this->output_file = open_output(parameters.output_file_path);
-    if (not parameters.output_fasta) {
+    if (marker.n_individuals > 0) ++this->results.n_markers;  // Increment total number of markers for Bonferroni correction
 
-        output_file << "#source:subset;min_depth:" << parameters.min_depth << ";filters:[" <<
-                       parameters.subset_min_group1 << "," << parameters.subset_max_group1 << "," <<
-                       parameters.subset_min_group2 << "," << parameters.subset_max_group2 << "," <<
-                       parameters.subset_min_individuals << "," << parameters.subset_max_individuals <<
-                       "];signif_threshold:" << parameters.signif_threshold << ";bonferroni:" <<  std::boolalpha << (not parameters.disable_correction);
-        this->output_file << print_list(this->markers_table.header.header, "\t") << "\n";
+    if (marker.group_counts[parameters.group1] >= this->parameters.subset_min_group1 and
+        marker.group_counts[parameters.group1] <= this->parameters.subset_max_group1 and
+        marker.group_counts[parameters.group2] >= this->parameters.subset_min_group2 and
+        marker.group_counts[parameters.group2] <= this->parameters.subset_max_group2 and
+        marker.n_individuals >= this->parameters.subset_min_individuals and
+        marker.n_individuals <= this->parameters.subset_max_individuals) {
+
+        marker.p = get_p_association(marker.group_counts[parameters.group1], marker.group_counts[parameters.group2], this->popmap.get_count(parameters.group1), this->popmap.get_count(parameters.group2));
+        this->results.markers.push_back(marker);
 
     }
 
@@ -43,18 +45,44 @@ void Subset::extra_setup() {
 
 
 
+void Subset::generate_output() {
 
-void Subset::process_marker(Marker& marker) {
+    std::ofstream output_file = open_output(this->parameters.output_file_path);
 
-    if (marker.group_counts[parameters.group1] >= this->parameters.subset_min_group1 and marker.group_counts[parameters.group1] <= this->parameters.subset_max_group1 and
-        marker.group_counts[parameters.group2] >= this->parameters.subset_min_group2 and marker.group_counts[parameters.group2] <= this->parameters.subset_max_group2 and
-        marker.n_individuals >= this->parameters.subset_min_individuals and marker.n_individuals <= this->parameters.subset_max_individuals) {
+    if (not this->parameters.output_fasta) {
 
-        marker.p = get_p_association(marker.group_counts[parameters.group1], marker.group_counts[parameters.group2], this->popmap.get_count(parameters.group1), this->popmap.get_count(parameters.group2));
+        output_file << "#source:subset;min_depth:" << parameters.min_depth << ";filters:[" <<
+                       parameters.subset_min_group1 << "," << parameters.subset_max_group1 << "," <<
+                       parameters.subset_min_group2 << "," << parameters.subset_max_group2 << "," <<
+                       parameters.subset_min_individuals << "," << parameters.subset_max_individuals <<
+                       "];signif_threshold:" << parameters.signif_threshold << ";bonferroni:" <<  std::boolalpha << (not parameters.disable_correction);
 
-        this->parameters.output_fasta ? marker.output_as_fasta(this->output_file, this->parameters.min_depth) : marker.output_as_table(this->output_file);
+        this->output_file << print_list(this->markers_table.header.header, "\t") << "\n";
 
     }
+
+    if (not this->parameters.disable_correction) {
+
+        // Bonferroni correction: divide threshold by total number of tests (i.e. number of retained markers)
+        this->parameters.signif_threshold /= this->results.n_markers;
+
+    } else {
+
+        // Set number of markers to 1 so corrected p-values are the same as original p-values
+        this->results.n_markers = 1;
+
+    }
+
+    // Second pass: filter markers with threshold corrected p < 0.05
+    for (auto marker: this->results.markers) {
+
+        marker.p_corr = std::min(1.0, marker.p * static_cast<double>(results.n_markers));
+
+        this->parameters.output_fasta ? marker.output_as_fasta(output_file, this->parameters.min_depth) : marker.output_as_table(output_file);
+
+    }
+
+    output_file.close();
 
 }
 

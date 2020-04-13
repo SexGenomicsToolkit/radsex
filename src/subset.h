@@ -35,6 +35,20 @@
 
 
 /*!
+ * \brief SubsetResults struct
+ *
+ * Store results for the "subset" analysis.
+ */
+
+struct SubsetResults {
+
+    std::vector<Marker> markers;   ///< Vector of markers retained after filtering
+    uint64_t n_markers = 0;   ///< Number of markers present in at least one individual with depth higher than min_depth (for Bonferroni correction)
+
+};
+
+
+/*!
  * \brief Implements the "subset" analysis
  *
  * Filter markers based on presence in individuals from each group \n
@@ -70,23 +84,28 @@ class Subset: public Analysis {
         /*!
          * \brief Process a single marker
          *
-         * Output markers verifying conditions defined with CLI arguments --min-group1, --max-group1, --min-group2, --max-group1, --min-individuals, and --max-individuals.
+         * Store markers verifying conditions defined with CLI arguments
+         * --min-group1, --max-group1, --min-group2, --max-group1, --min-individuals, and --max-individuals.
          *
          * \param marker Current marker info stored in a Marker instance.
          */
 
         void process_marker(Marker& marker);
 
-
         /*!
-         * \brief Extra setup steps
+         * \brief Generate the output file
          *
-         * Open output file and print header if not a FASTA file.
+         * Apply Bonferroni correction (if not disabled) to retained markers p-values. \n
+         * Export markers verifying the conditions defined with CLI arguments, either: \n
+         * - a markers depth table, i.e. tabulated file for columns "ID | Sequence | Depth in individual 1 | .... | Depth in individual N"
+         * - a FASTA file with headers formatted as
+         * "<id>_<group1:count>_<group2:count>_p:<p-value of association with group>_pcorr:<corrected p-value>_mindepth:<minimum depth to consider a marker present in the analysis>"
          */
 
-        void extra_setup();
+        void generate_output();
 
     private:
 
+        SubsetResults results;
         std::ofstream output_file;   ///< Output file stream
 };
