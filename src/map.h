@@ -73,7 +73,7 @@ struct MapResults {
  * Align all markers from a markers depth table to an assembly using the "mem" algorithm implemented in the BWA library (https://github.com/lh3/bwa). \n
  * For all aligned markers, compute probability of association with groups and group bias (bias score between -1 and 1). \n
  * After all markers are processed, generate a tabulated output file with columns: \n
- * Contig | Position | Length | Marker_id | Bias | P | Signif
+ * Contig | Position | Length | Marker_id | Bias | P | P corrected | Signif
  *
  */
 

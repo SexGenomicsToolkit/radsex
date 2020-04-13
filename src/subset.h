@@ -39,7 +39,8 @@
  *
  * Filter markers based on presence in individuals from each group \n
  * Markers are output either as a markers depth table (ID | Sequence | Depth in individual 1 | .... | Depth in individual N)
- * or in a FASTA file with headers formatted as "<id>_<group1:count>_<group2:count>_p:<p-value of association with group>_mindepth:<minimum depth to consider a marker present in the analysis"
+ * or in a FASTA file with headers formatted as
+ * "<id>_<group1:count>_<group2:count>_p:<p-value of association with group>_pcorr:<corrected p-value>_mindepth:<minimum depth to consider a marker present in the analysis>"
  *
  */
 

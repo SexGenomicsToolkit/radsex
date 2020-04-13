@@ -54,7 +54,7 @@ struct DistribResults {
  *
  * Compute the distribution of markers between two groups. \n
  * After all markers are processed, generate a tabulated output file with columns: \n
- * Group1 | Group2 | Markers | P | Signif | Bias
+ * Group1 | Group2 | Markers | P | P corrected | Signif | Bias
  *
  */
 
@@ -97,7 +97,7 @@ class Distrib: public Analysis {
          *
          * Compute probability of association with group for each combination of number of individuals from group1 and group2. \n
          * Generate a tabulated output file with columns: \n
-         * Group1 | Group2 | Markers | P | Signif | Bias
+         * Group1 | Group2 | Markers | P | P corrected | Signif | Bias
          */
 
         void generate_output();

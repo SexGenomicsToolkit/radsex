@@ -54,7 +54,8 @@ struct SignifResults {
  *
  * Find all markers significantly associated with groups. \n
  * After all markers are processed, significant markers are output either as a markers depth table (ID | Sequence | Depth in individual 1 | .... | Depth in individual N)
- * or in a FASTA file with headers formatted as "<id>_<group1:count>_<group2:count>_p:<p-value of association with group>_mindepth:<minimum depth to consider a marker present in the analysis"
+ * or in a FASTA file with headers formatted as
+ * "<id>_<group1:count>_<group2:count>_p:<p-value of association with group>_pcorr:<corrected p-value>_mindepth:<minimum depth to consider a marker present in the analysis>"
  *
  */
 
@@ -98,7 +99,8 @@ class Signif: public Analysis {
          * Apply Bonferroni correction (if not disabled) to assess significance of association with groups. \n
          * Export markers significantly associated with group to a file, either: \n
          * - a markers depth table, i.e. tabulated file for columns "ID | Sequence | Depth in individual 1 | .... | Depth in individual N"
-         * - a FASTA file with headers formatted as "<id>_<group1:count>_<group2:count>_p:<p-value of association with group>_mindepth:<minimum depth to consider a marker present in the analysis"
+         * - a FASTA file with headers formatted as
+         * "<id>_<group1:count>_<group2:count>_p:<p-value of association with group>_pcorr:<corrected p-value>_mindepth:<minimum depth to consider a marker present in the analysis>"
          */
 
         void generate_output();

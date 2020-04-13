@@ -121,7 +121,7 @@ class Depth: public Analysis {
          *
          * Compute minimum, maximum, median, and average depth for all markers retained in process_marker. \n
          * Generate a tabulated output file with columns: \n
-         * Individual | Group | Markers | Retained | Min_depth | Max_depth | Median_depth | Average_depth
+         * Individual | Group | Reads | Markers | Retained | Min_depth | Max_depth | Median_depth | Average_depth
          */
 
         void generate_output();
