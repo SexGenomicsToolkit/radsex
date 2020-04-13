@@ -27,7 +27,16 @@
 void Subset::extra_setup() {
 
     this->output_file = open_output(parameters.output_file_path);
-    if (not parameters.output_fasta) this->output_file << print_list(this->markers_table.header.header, "\t") << "\n";
+    if (not parameters.output_fasta) {
+
+        output_file << "#source:subset;min_depth:" << parameters.min_depth << ";filters:[" <<
+                       parameters.subset_min_group1 << "," << parameters.subset_max_group1 << "," <<
+                       parameters.subset_min_group2 << "," << parameters.subset_max_group2 << "," <<
+                       parameters.subset_min_individuals << "," << parameters.subset_max_individuals <<
+                       "];signif_threshold:" << parameters.signif_threshold << ";bonferroni:" <<  std::boolalpha << (not parameters.disable_correction);
+        this->output_file << print_list(this->markers_table.header.header, "\t") << "\n";
+
+    }
 
 }
 
