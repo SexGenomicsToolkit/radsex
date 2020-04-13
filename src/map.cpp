@@ -38,10 +38,6 @@ void Map::extra_setup() {
     // Compute contig lengths from genome file
     this->load_contig_lengths();
 
-    // Open output file and output the header
-    this->output_file = open_output(this->parameters.output_file_path);
-    this->output_file << "Contig\tPosition\tLength\tMarker_id\tBias\tP\tSignif\n";
-
 }
 
 
@@ -105,12 +101,27 @@ void Map::process_marker(Marker& marker) {
 
 void Map::generate_output() {
 
-    if (not this->parameters.disable_correction) this->parameters.signif_threshold /= this->results.n_markers;
+    // Open output file and output the header
+    this->output_file = open_output(this->parameters.output_file_path);
+    this->output_file << "Contig\tPosition\tLength\tMarker_id\tBias\tP\tPcorr\tSignif\n";
+
+    if (not this->parameters.disable_correction) {
+
+        // Bonferroni correction: divide threshold by total number of tests (i.e. number of retained markers)
+        this->parameters.signif_threshold /= this->results.n_markers;
+
+    } else {
+
+        // Set number of markers to 1 so corrected p-values are the same as original p-values
+        this->results.n_markers = 1;
+
+    }
 
     for (auto marker: this->results.aligned_markers) {
 
         output_file << marker.contig << "\t" << marker.position << "\t" << this->contig_lengths[marker.contig] << "\t" << marker.id << "\t"
-                    << marker.bias << "\t" << marker.p << "\t" << (static_cast<float>(marker.p) < this->parameters.signif_threshold ? "True" : "False") << "\n";
+                    << marker.bias << "\t" << marker.p << "\t" << std::min(1.0, marker.p * this->results.n_markers) << "\t"
+                    << (static_cast<float>(marker.p) < this->parameters.signif_threshold ? "True" : "False") << "\n";
 
     }
 

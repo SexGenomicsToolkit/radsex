@@ -47,14 +47,32 @@ void Signif::generate_output() {
 
     std::ofstream output_file = open_output(this->parameters.output_file_path);
 
-    if (not this->parameters.output_fasta) output_file << print_list(this->markers_table.header.header, "\t") << "\n";
+    if (not this->parameters.output_fasta) {
 
-    if (not this->parameters.disable_correction) this->parameters.signif_threshold /= this->results.n_markers; // Bonferroni correction: divide threshold by number of tests
+        output_file << "#source:signif;min_depth:" << parameters.min_depth << ";signif_threshold:" << parameters.signif_threshold <<
+                       ";bonferroni:" <<  std::boolalpha << (not parameters.disable_correction);
+        output_file << print_list(this->markers_table.header.header, "\t") << "\n";
+
+    }
+
+    if (not this->parameters.disable_correction) {
+
+        // Bonferroni correction: divide threshold by total number of tests (i.e. number of retained markers)
+        this->parameters.signif_threshold /= this->results.n_markers;
+
+    } else {
+
+        // Set number of markers to 1 so corrected p-values are the same as original p-values
+        this->results.n_markers = 1;
+
+    }
 
     // Second pass: filter markers with threshold corrected p < 0.05
     for (auto marker: this->results.candidate_markers) {
 
         if (static_cast<float>(marker.p) < this->parameters.signif_threshold) {
+
+            marker.p_corr = std::min(1.0, marker.p * static_cast<double>(results.n_markers));
 
             this->parameters.output_fasta ? marker.output_as_fasta(output_file, this->parameters.min_depth) : marker.output_as_table(output_file);
 

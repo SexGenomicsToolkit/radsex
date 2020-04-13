@@ -69,6 +69,6 @@ void Marker::output_as_fasta(std::ofstream& output_file, const uint min_depth) c
 
     output_file << ">" << this->id;
     for (auto group: this->group_counts) output_file << "_" << group.first << ":" << group.second;
-    output_file << "_p:" << this->p << "_mindepth:" << min_depth << "\n" << this->sequence << "\n";
+    output_file << "_p:" << this->p << "_pcorr:" << this->p_corr << "_mindepth:" << min_depth << "\n" << this->sequence << "\n";
 
 }

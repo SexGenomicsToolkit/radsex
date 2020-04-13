@@ -41,11 +41,22 @@ void Distrib::process_marker(Marker& marker) {
 
 void Distrib::generate_output() {
 
-    if (not this->parameters.disable_correction) this->parameters.signif_threshold /= this->results.n_markers; // Bonferroni correction: divide threshold by total number of tests (i.e. number of retained markers)
+    if (not this->parameters.disable_correction) {
+
+        // Bonferroni correction: divide threshold by total number of tests (i.e. number of retained markers)
+        this->parameters.signif_threshold /= this->results.n_markers;
+
+    } else {
+
+        // Set number of markers to 1 so corrected p-values are the same as original p-values
+        this->results.n_markers = 1;
+
+    }
 
     // Generate the output file
     std::ofstream output_file = open_output(this->parameters.output_file_path);
-    output_file << this->parameters.group1 << "\t" << this->parameters.group2 << "\t" << "Markers" << "\t" << "P" << "\t" << "Signif" << "\t" << "Bias" << "\n";
+    output_file << this->parameters.group1 << "\t" << this->parameters.group2 << "\t" << "Markers" << "\t" <<
+                   "P" << "\t" << "CorrectedP" << "\t" << "Signif" << "\t" << "Bias" << "\n";
 
     for (uint g = 0; g <= this->popmap.get_count(this->parameters.group1); ++g) {
 
@@ -56,6 +67,7 @@ void Distrib::generate_output() {
                 this->results.distribution[g][h].second = get_p_association(g, h, this->popmap.get_count(parameters.group1), this->popmap.get_count(parameters.group2));
 
                 output_file << g << "\t" << h << "\t" << this->results.distribution[g][h].first << "\t" << this->results.distribution[g][h].second << "\t"
+                            << std::min(1.0, this->results.distribution[g][h].second * this->results.n_markers) << "\t"
                             << (static_cast<float>(this->results.distribution[g][h].second) < this->parameters.signif_threshold ? "True" : "False") << "\t"
                             << static_cast<float>(g) / static_cast<float>(this->popmap.get_count(this->parameters.group1)) - (static_cast<float>(h) / static_cast<float>(this->popmap.get_count(this->parameters.group2))) << "\n";
 

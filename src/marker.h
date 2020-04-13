@@ -44,6 +44,7 @@ class Marker {
         std::unordered_map<std::string, uint> group_counts;  ///< Map storing group counts for the marker {group -> number of individuals in which the marker is present for this group}
         uint n_individuals = 0;  ///< Total number of individuals in which the marker is present
         float p = 0;  ///< P-value of association with group
+        float p_corr = 0;   ///< P-value of association with group after Bonferroni correction
 
         /*!
          * \brief Default Marker constructor
@@ -90,6 +91,7 @@ class Marker {
          *
          * \param output_file Output file stream
          * \param min_depth   Minimum depth to consider a marker present in the current analysis
+         * \param n_markers   Number of markers retained from the dataset to compute corrected p-value
          */
 
         void output_as_fasta(std::ofstream& output_file, const uint min_depth) const;
