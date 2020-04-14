@@ -58,7 +58,7 @@ void Depth::generate_output() {
 
     // Generate output file
     std::ofstream output_file = open_output(this->parameters.output_file_path);
-    output_file << "Individual\tGroup\tReads\tMarkers\tRetained\tMin_depth\tMax_depth\tMedian_depth\tAverage_depth\n";
+    output_file << "Sample\tGroup\tReads\tMarkers\tRetained\tMin_depth\tMax_depth\tMedian_depth\tAverage_depth\n";
 
     // Compute metrics for each individual
     for (uint i = 0; i < this->results.depths.size(); ++i) {
