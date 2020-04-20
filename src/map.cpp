@@ -103,7 +103,7 @@ void Map::generate_output() {
 
     // Open output file and output the header
     this->output_file = open_output(this->parameters.output_file_path);
-    this->output_file << "Contig\tPosition\tLength\tMarker_id\tBias\tP\tPcorr\tSignif\n";
+    this->output_file << "Contig\tPosition\tLength\tMarker_id\tBias\tP\tCorrectedP\tSignif\n";
 
     if (not this->parameters.disable_correction) {
 
