@@ -92,7 +92,6 @@ class Marker {
          *
          * \param output_file Output file stream
          * \param min_depth   Minimum depth to consider a marker present in the current analysis
-         * \param n_markers   Number of markers retained from the dataset to compute corrected p-value
          */
 
         void output_as_fasta(std::ofstream& output_file, const uint min_depth) const;

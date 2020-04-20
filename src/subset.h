@@ -106,6 +106,6 @@ class Subset: public Analysis {
 
     private:
 
-        SubsetResults results;
+        SubsetResults results;   ///< SubsetResults instance to store retained markers before output in order to compute corrected P-values
         std::ofstream output_file;   ///< Output file stream
 };
