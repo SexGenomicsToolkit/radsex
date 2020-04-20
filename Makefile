@@ -1,7 +1,9 @@
 # Compiler options
-CC = g++
-OPTCFLAGS = -O2
-CFLAGS = -Wall -Wno-maybe-uninitialized -std=c++11 $(OPTCFLAGS)
+CC = gcc
+CXX = g++
+OPTCXXFLAGS += -O2
+CXXFLAGS += -Wall -std=c++11 $(OPTCXXFLAGS)
+CFLAGS = -Wall -Wno-maybe-uninitialized 
 LDFLAGS = -pthread -lstdc++ -lz -L$(INCLUDE)/bwa -lbwa
 
 # Directory organisation
@@ -45,7 +47,7 @@ $(BIN):
 
 # Build BWA
 $(INCLUDE)/bwa/libbwa.a:
-	(cd $(INCLUDE)/bwa && $(MAKE) -j $(JOBS))
+	(cd $(INCLUDE)/bwa && $(MAKE) CC=$(CC) -j $(JOBS))
 
 # Clean BWA
 clean-bwa:
@@ -79,11 +81,11 @@ rebuild-all:
 
 # Linking
 $(BIN)/radsex: $(OBJS) $(INCLUDE)/kfun/kfun.o
-	$(CC) $(CFLAGS) -I $(INCLUDE) -o $(BIN)/radsex $^ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -I $(INCLUDE) -o $(BIN)/radsex $^ $(LDFLAGS)
 
 # Build a single object file. Added libs as dependency so they are built before object files
 $(BUILD)/%.o: $(SRC)/%.cpp $(INCLUDE)/bwa/libbwa.a
-	$(CC) $(CFLAGS) -I $(INCLUDE) -c -o $@ $<
+	$(CXX) $(CXXFLAGS) -I $(INCLUDE) -c -o $@ $<
 
 # Build doc with sphinx and doxygen
 docs:
