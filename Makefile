@@ -3,8 +3,8 @@ CC = gcc
 CXX = g++
 OPTCXXFLAGS += -O2
 CXXFLAGS += -Wall -std=c++11 $(OPTCXXFLAGS)
-CFLAGS = -Wall -Wno-maybe-uninitialized 
-LDFLAGS = -pthread -lstdc++ -lz -L$(INCLUDE)/bwa -lbwa
+CFLAGS += -Wall -Wno-maybe-uninitialized
+LDFLAGS += -pthread -lstdc++ -lz -L$(INCLUDE)/bwa -lbwa
 
 # Directory organisation
 BASEDIR = .
@@ -12,7 +12,7 @@ BIN = $(BASEDIR)/bin
 BUILD = $(BASEDIR)/build
 INCLUDE = $(BASEDIR)/include
 SRC = $(BASEDIR)/src
-CPP = $(wildcard $(SRC)/*.cpp)
+CPPFILES = $(wildcard $(SRC)/*.cpp)
 
 # Get number of parallel jobs
 MAKE_PID := $(shell echo $$PPID)
@@ -22,7 +22,7 @@ ifeq ($(JOBS),)
 endif
 
 # Object files inferred from cpp files
-OBJS = $(addprefix $(BUILD)/, $(notdir $(CPP:.cpp=.o)))
+OBJS = $(addprefix $(BUILD)/, $(notdir $(CPPFILES:.cpp=.o)))
 
 # Target
 TARGETS = $(BIN)/radsex
