@@ -143,7 +143,7 @@ class Map: public Analysis {
         int best_alignments[3] {0, -1, 0};  ///< Store information about best alignments in a mem_alnreg_v object: {index, score, count}
         AlignedMarker aligned_marker;   ///< Store information about an aligned marker
 
-        std::ofstream output_file;   /// "map" output file
+        std::ofstream output_file;   ///< "map" output file
 
 
         /*!
