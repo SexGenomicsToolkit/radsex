@@ -1,0 +1,337 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Output files &mdash; RADSex 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="Input files" href="input_files.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RADSex
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Example walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">RADSex usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_files.html">Input files</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Output files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#markers-depth-table">Markers depth table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distribution-of-markers-between-groups">Distribution of markers between groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fasta-file">Fasta file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alignment-results">Alignment results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distribution-of-markers-in-the-population">Distribution of markers in the population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distribution-of-marker-depth-in-each-individual">Distribution of marker depth in each individual</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RADSex</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Output files</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/output_files.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="output-files">
+<h1>Output files<a class="headerlink" href="#output-files" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="markers-depth-table">
+<span id="markers-depths-table-file"></span><h2>Markers depth table<a class="headerlink" href="#markers-depth-table" title="Permalink to this headline">¶</a></h2>
+<p>A markers depth table is a tabulated file (<em>i.e.</em> a tabulated file using “\t” - the “tab” character - as a separator) with a comment line and a header line. The comment line indicates the total number of markers in the table. A markers depth table can be generated for the entire dataset using the <code class="docutils literal notranslate"><span class="pre">process</span></code> command, and for specific subsets of markers using the <code class="docutils literal notranslate"><span class="pre">subset</span></code> and <code class="docutils literal notranslate"><span class="pre">signif</span></code> commands.</p>
+<p>The first column in the table contains marker IDs, and the second column contains marker sequences itself. Each additional column contains the depth of the corresponding marker in a given individual. An example of markers depth table is given below for 4 markers and 5 individuals (sequences were shortened for readability):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Number of markers : 4</span>
+<span class="nb">id</span>   <span class="n">sequence</span>     <span class="n">individual_1</span>    <span class="n">individual_2</span>    <span class="n">individual_3</span>    <span class="n">individual_4</span>    <span class="n">individual_5</span>
+ <span class="mi">0</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">TATT</span>              <span class="mi">0</span>              <span class="mi">15</span>              <span class="mi">24</span>              <span class="mi">17</span>              <span class="mi">21</span>
+ <span class="mi">1</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">GACC</span>             <span class="mi">20</span>              <span class="mi">18</span>               <span class="mi">3</span>              <span class="mi">26</span>               <span class="mi">4</span>
+ <span class="mi">2</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">ATCG</span>              <span class="mi">2</span>               <span class="mi">1</span>               <span class="mi">5</span>              <span class="mi">16</span>               <span class="mi">0</span>
+ <span class="mi">3</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">CCGA</span>             <span class="mi">14</span>              <span class="mi">29</span>              <span class="mi">23</span>               <span class="mi">2</span>              <span class="mi">19</span>
+</pre></div>
+</div>
+<p>In this example, the marker “<strong>1</strong>”” corresponding to the sequence “TGCA..GACC” has a depth of <strong>20</strong> in <strong>individual_1</strong> and <strong>4</strong> in <strong>individual_5</strong>.</p>
+</div>
+<div class="section" id="distribution-of-markers-between-groups">
+<span id="sex-distribution-file"></span><h2>Distribution of markers between groups<a class="headerlink" href="#distribution-of-markers-between-groups" title="Permalink to this headline">¶</a></h2>
+<p>The distribution of markers between groups is a tabulated file (<em>i.e.</em> a tabulated file using “\t” - the “tab” character - as a separator) with a header line. This distribution is generated using the <code class="docutils literal notranslate"><span class="pre">distrib</span></code> command.</p>
+<p>The first and second columns indicate the number of individuals from the first and second compared groups in which a marker is present. The third column contains the number of markers present in the corresponding number of individuals from the first and second compared groups. The fourth column contains the p-value of a chi-squared test for association with group. The fifth column indicates whether this p-value is significant after Bonferroni correction. The last column contains the bias between groups, defined as:</p>
+<p><em>(Number of individuals from the first group / Total number of individuals from the first group) - (Number of individuals from the second group / Total number of individuals from the second group)</em></p>
+<p>An example of sex distribution table is given below for 3 from a “Males” group and 3 individuals from a “Females” group:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Males</span>    <span class="n">Females</span>    <span class="n">Markers</span>       <span class="n">P</span>     <span class="n">Signif</span>      <span class="n">Bias</span>
+    <span class="mi">0</span>          <span class="mi">1</span>          <span class="mi">7</span>       <span class="mi">1</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">0.333</span>
+    <span class="mi">0</span>          <span class="mi">2</span>          <span class="mi">3</span>    <span class="mf">0.39</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">0.666</span>
+    <span class="mi">0</span>          <span class="mi">3</span>          <span class="mi">1</span>    <span class="mf">0.10</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">1.000</span>
+    <span class="mi">1</span>          <span class="mi">0</span>          <span class="mi">6</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.333</span>
+    <span class="mi">1</span>          <span class="mi">1</span>          <span class="mi">5</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.000</span>
+    <span class="mi">1</span>          <span class="mi">2</span>          <span class="mi">1</span>       <span class="mi">1</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">0.333</span>
+    <span class="mi">1</span>          <span class="mi">3</span>          <span class="mi">2</span>    <span class="mf">0.39</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">0.666</span>
+    <span class="mi">2</span>          <span class="mi">0</span>          <span class="mi">3</span>    <span class="mf">0.39</span>     <span class="kc">False</span>      <span class="mf">0.666</span>
+    <span class="mi">2</span>          <span class="mi">1</span>          <span class="mi">8</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.333</span>
+    <span class="mi">2</span>          <span class="mi">2</span>          <span class="mi">4</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.000</span>
+    <span class="mi">2</span>          <span class="mi">3</span>          <span class="mi">2</span>       <span class="mi">1</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">0.333</span>
+    <span class="mi">3</span>          <span class="mi">0</span>          <span class="mi">4</span>    <span class="mf">0.10</span>     <span class="kc">False</span>      <span class="mf">1.000</span>
+    <span class="mi">3</span>          <span class="mi">1</span>          <span class="mi">7</span>    <span class="mf">0.39</span>     <span class="kc">False</span>      <span class="mf">0.666</span>
+    <span class="mi">3</span>          <span class="mi">2</span>          <span class="mi">6</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.333</span>
+    <span class="mi">3</span>          <span class="mi">3</span>          <span class="mi">9</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.000</span>
+</pre></div>
+</div>
+<p>In this example, there are 68 sequences in total, therefore sequences are significantly associated with sex if the p-value of a chi-squared test on the number of males and females is lower than 0.05 / 68 = 0.00074 (Bonferroni correction).</p>
+</div>
+<div class="section" id="fasta-file">
+<span id="id1"></span><h2>Fasta file<a class="headerlink" href="#fasta-file" title="Permalink to this headline">¶</a></h2>
+<p>FASTA files are generated by the <code class="docutils literal notranslate"><span class="pre">subset</span></code> and <code class="docutils literal notranslate"><span class="pre">signif</span></code> commands for a subset of markers using the parameter <code class="docutils literal notranslate"><span class="pre">--output-fasta</span></code>.</p>
+<p>FASTA headers are generated with the following pattern:</p>
+<p><code class="docutils literal notranslate"><span class="pre">&gt;&lt;ID&gt;_&lt;G1&gt;:&lt;G1_C&gt;_&lt;G2&gt;:&lt;G2_C&gt;_p:&lt;P&gt;_mindepth:&lt;D&gt;</span></code></p>
+<ul class="simple">
+<li><p>&lt;ID&gt;: marker ID in the markers depth table</p></li>
+<li><p>&lt;G1&gt;: name of the first compared group</p></li>
+<li><p>&lt;G1_C&gt;: number of individuals from the first compared group in which the marker is present</p></li>
+<li><p>&lt;G2&gt;: name of the second compared group</p></li>
+<li><p>&lt;G2_C&gt;: number of individuals from the second compared group in which the marker is present</p></li>
+<li><p>&lt;P&gt;: p-value of association with group</p></li>
+<li><p>&lt;D&gt;: minimum depth to consider a marker present in an individual</p></li>
+</ul>
+<p>Example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">&gt;4495827_F:0_M:21_p:1.14577e-07_mindepth:10</span></code></p>
+</div>
+<div class="section" id="alignment-results">
+<span id="mapping-results-file"></span><h2>Alignment results<a class="headerlink" href="#alignment-results" title="Permalink to this headline">¶</a></h2>
+<p>Alignment results from the <code class="docutils literal notranslate"><span class="pre">map</span></code> command are stored as a tabulated file (<em>i.e.</em> a tabulated file using “\t” - the “tab” character - as a separator) with a header line.</p>
+<p>The first and second columns indicate the contig and position on this contig where the markers was aligned, and the third column gives the length of this contig. The fourth column contains the marker ID from the markers depth table. The fifth column contains the bias between groups, as defined in the <a class="reference internal" href="#sex-distribution-file"><span class="std std-ref">Distribution of markers between groups</span></a> section. The sixth column contains the p-value of a chi-squared test for association with group, and the last column indicates whether this p-value is significant after Bonferroni correction.</p>
+<p>An example of alignment results is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Contig</span>    <span class="n">Position</span>       <span class="n">Length</span>     <span class="n">Marker_id</span>       <span class="n">Bias</span>             <span class="n">P</span>      <span class="n">Signif</span>
+<span class="n">LG03</span>      <span class="mi">18366992</span>     <span class="mi">36623554</span>       <span class="mi">4335174</span>     <span class="o">-</span><span class="mf">0.202</span>         <span class="mf">0.073</span>      <span class="kc">False</span>
+<span class="n">LG05</span>      <span class="mi">28289991</span>     <span class="mi">33792114</span>       <span class="mi">4335919</span>          <span class="mi">0</span>             <span class="mi">1</span>      <span class="kc">False</span>
+<span class="n">LG05</span>      <span class="mi">29738230</span>     <span class="mi">33792114</span>       <span class="mi">4336169</span>      <span class="mf">0.149</span>         <span class="mf">0.356</span>      <span class="kc">False</span>
+<span class="n">LG22</span>         <span class="mi">71119</span>     <span class="mi">28810691</span>       <span class="mi">4336631</span>      <span class="mf">0.159</span>         <span class="mf">0.162</span>      <span class="kc">False</span>
+<span class="n">LG15</span>      <span class="mi">20142338</span>     <span class="mi">30000224</span>       <span class="mi">4336732</span>          <span class="mi">0</span>             <span class="mi">1</span>      <span class="kc">False</span>
+<span class="n">LG02</span>      <span class="mi">26668964</span>     <span class="mi">31118443</span>       <span class="mi">4337320</span>          <span class="mi">0</span>             <span class="mi">1</span>      <span class="kc">False</span>
+<span class="n">LG03</span>       <span class="mi">4463700</span>     <span class="mi">36623554</span>       <span class="mi">4337383</span>     <span class="o">-</span><span class="mf">0.033</span>         <span class="mf">0.973</span>      <span class="kc">False</span>
+<span class="n">LG13</span>      <span class="mi">32240045</span>     <span class="mi">33409148</span>       <span class="mi">4338936</span>     <span class="o">-</span><span class="mf">0.073</span>         <span class="mf">0.704</span>      <span class="kc">False</span>
+<span class="n">LG13</span>      <span class="mi">19113343</span>     <span class="mi">33409148</span>       <span class="mi">4340342</span>      <span class="mf">0.064</span>         <span class="mf">0.479</span>      <span class="kc">False</span>
+<span class="n">LG22</span>      <span class="mi">22503191</span>     <span class="mi">28810691</span>       <span class="mi">4341087</span>     <span class="o">-</span><span class="mf">0.080</span>         <span class="mf">0.704</span>      <span class="kc">False</span>
+<span class="n">LG01</span>      <span class="mi">17881236</span>     <span class="mi">39973033</span>       <span class="mi">8678129</span>     <span class="o">-</span><span class="mf">0.736</span>     <span class="mf">3.417e-08</span>      <span class="kc">True</span>
+<span class="n">LG01</span>      <span class="mi">16475480</span>     <span class="mi">39973033</span>       <span class="mi">8888270</span>     <span class="o">-</span><span class="mf">0.705</span>     <span class="mf">1.462e-07</span>      <span class="kc">True</span>
+<span class="n">LG01</span>      <span class="mi">15761951</span>     <span class="mi">39973033</span>       <span class="mi">8954765</span>     <span class="o">-</span><span class="mf">0.769</span>     <span class="mf">8.054e-09</span>      <span class="kc">True</span>
+<span class="n">LG01</span>      <span class="mi">16562550</span>     <span class="mi">39973033</span>       <span class="mi">8990122</span>     <span class="o">-</span><span class="mf">0.736</span>     <span class="mf">3.417e-08</span>      <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="distribution-of-markers-in-the-population">
+<span id="freq-results-file"></span><h2>Distribution of markers in the population<a class="headerlink" href="#distribution-of-markers-in-the-population" title="Permalink to this headline">¶</a></h2>
+<p>The distribution of markers in the population is a tabulated file (<em>i.e.</em> a tabulated file using “\t” - the “tab” character - as a separator) with a header line. This distribution is generated using the <code class="docutils literal notranslate"><span class="pre">freq</span></code> command.</p>
+<p>The first column indicates the number of individuals in which a marker was present and the second columns give the number of markers present in the corresponding number of individuals.</p>
+<p>An example of distribution table is given below for a population with 10 individuals:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Frequency</span>     <span class="n">Count</span>
+        <span class="mi">1</span>     <span class="mi">10389</span>
+        <span class="mi">2</span>      <span class="mi">3869</span>
+        <span class="mi">3</span>      <span class="mi">2884</span>
+        <span class="mi">4</span>      <span class="mi">1824</span>
+        <span class="mi">5</span>      <span class="mi">1672</span>
+        <span class="mi">6</span>      <span class="mi">1276</span>
+        <span class="mi">7</span>      <span class="mi">1261</span>
+        <span class="mi">8</span>      <span class="mi">1278</span>
+        <span class="mi">9</span>      <span class="mi">1355</span>
+        <span class="mi">10</span>     <span class="mi">1291</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="distribution-of-marker-depth-in-each-individual">
+<span id="depth-results-file"></span><h2>Distribution of marker depth in each individual<a class="headerlink" href="#distribution-of-marker-depth-in-each-individual" title="Permalink to this headline">¶</a></h2>
+<p>The distribution of marker depth in each individual is a tabulated file (<em>i.e.</em> a tabulated file using “\t” - the “tab” character - as a separator) with a header line. This distribution is generated using the <code class="docutils literal notranslate"><span class="pre">depth</span></code> command.</p>
+<p>The first and second columns contain the ID and group of each individual. The third and fourth columns indicate the total number of markers in the individual and the number of markers retained to compute these depth statistics (<em>i.e.</em> markers present in at least 75% of individuals). The last four columns give the minimum, maximum, median, and average depth of a retained marker in the individual.</p>
+<p>An example of depth distribution table is given below for a population with 10 individuals and two groups (M and F):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Individual</span>    <span class="n">Group</span>    <span class="n">Markers</span>    <span class="n">Retained</span>    <span class="n">Min_depth</span>    <span class="n">Max_depth</span>    <span class="n">Median_depth</span>    <span class="n">Average_depth</span>
+<span class="n">SRR1519834</span>    <span class="n">M</span>        <span class="mi">1084439</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">60604</span>              <span class="mi">60</span>               <span class="mi">71</span>
+<span class="n">SRR1519837</span>    <span class="n">M</span>         <span class="mi">914664</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">48628</span>              <span class="mi">44</span>               <span class="mi">53</span>
+<span class="n">SRR1519830</span>    <span class="n">F</span>        <span class="mi">1165312</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">35358</span>              <span class="mi">54</span>               <span class="mi">72</span>
+<span class="n">SRR1519853</span>    <span class="n">M</span>         <span class="mi">500353</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">27276</span>              <span class="mi">28</span>               <span class="mi">33</span>
+<span class="n">SRR1519824</span>    <span class="n">F</span>         <span class="mi">498666</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">23912</span>              <span class="mi">21</span>               <span class="mi">27</span>
+<span class="n">SRR1519819</span>    <span class="n">F</span>         <span class="mi">552423</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">36001</span>              <span class="mi">24</span>               <span class="mi">32</span>
+<span class="n">SRR1519846</span>    <span class="n">M</span>         <span class="mi">522372</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">30307</span>              <span class="mi">31</span>               <span class="mi">36</span>
+<span class="n">SRR1519829</span>    <span class="n">F</span>         <span class="mi">944099</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">64723</span>              <span class="mi">45</span>               <span class="mi">61</span>
+<span class="n">SRR1519812</span>    <span class="n">F</span>         <span class="mi">781177</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">44358</span>              <span class="mi">36</span>               <span class="mi">46</span>
+<span class="n">SRR1519862</span>    <span class="n">M</span>        <span class="mi">1313850</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">64356</span>              <span class="mi">69</span>               <span class="mi">81</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="input_files.html" class="btn btn-neutral float-left" title="Input files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018-2020, Romain Feron
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,697 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>RADSex usage &mdash; RADSex 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Input files" href="input_files.html" />
+    <link rel="prev" title="Example walkthrough" href="example.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RADSex
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Example walkthrough</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">RADSex usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#process">process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distrib">distrib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#signif">signif</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#map">map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#subset">subset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#freq">freq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#depth">depth</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="input_files.html">Input files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_files.html">Output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RADSex</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>RADSex usage</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/usage.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="radsex-usage">
+<span id="full-usage"></span><h1>RADSex usage<a class="headerlink" href="#radsex-usage" title="Permalink to this headline">¶</a></h1>
+<p>The RADSex software implements the general command-line interface:</p>
+<p><code class="docutils literal notranslate"><span class="pre">radsex</span> <span class="pre">&lt;command&gt;</span> <span class="pre">[options]</span></code></p>
+<p><strong>Available commands</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 7%" />
+<col style="width: 93%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Command</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>depth</p></td>
+<td><p>Compute marker depth statistics for each individual</p></td>
+</tr>
+<tr class="row-odd"><td><p>distrib</p></td>
+<td><p>Compute the distribution of markers between compared groups</p></td>
+</tr>
+<tr class="row-even"><td><p>freq</p></td>
+<td><p>Compute the distribution of markers in all individuals</p></td>
+</tr>
+<tr class="row-odd"><td><p>map</p></td>
+<td><p>Align markers to a genome and compute metrics for each aligned marker</p></td>
+</tr>
+<tr class="row-even"><td><p>process</p></td>
+<td><p>Compute a table of marker depths from a set of demultiplexed reads files</p></td>
+</tr>
+<tr class="row-odd"><td><p>signif</p></td>
+<td><p>Extract markers significantly associated with phenotypic group from a marker depths table</p></td>
+</tr>
+<tr class="row-even"><td><p>subset</p></td>
+<td><p>Extract a subset of markers from a marker depths table</p></td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<div class="section" id="process">
+<span id="process-usage"></span><h2>process<a class="headerlink" href="#process" title="Permalink to this headline">¶</a></h2>
+<p>Generate a table containing the depth of each marker in each individual from the dataset.</p>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">process</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="nb">dir</span> <span class="n">input_dir_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="p">[</span> <span class="o">--</span><span class="n">threads</span> <span class="n">n_threads</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="n">min_depth</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Options</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 77%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--input-dir,</span> <span class="pre">-i</span></code></p></td>
+<td><p>Path to a folder containing demultiplexed reads</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--output-file,</span> <span class="pre">-o</span></code></p></td>
+<td><p>Path to the generated marker depths table</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--threads,</span> <span class="pre">-T</span></code></p></td>
+<td><p>Number of threads to use (default: 1)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--min-depth,</span> <span class="pre">-d</span></code></p></td>
+<td><p>Minimum depth to consider a marker present in an individual (default: 1)</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Output</strong></p>
+<p>A <a class="reference internal" href="output_files.html#markers-depths-table-file"><span class="std std-ref">Markers depth table</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Number of markers : 4</span>
+<span class="nb">id</span>   <span class="n">sequence</span>     <span class="n">individual_1</span>    <span class="n">individual_2</span>    <span class="n">individual_3</span>    <span class="n">individual_4</span>    <span class="n">individual_5</span>
+ <span class="mi">0</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">TATT</span>              <span class="mi">0</span>              <span class="mi">15</span>              <span class="mi">24</span>              <span class="mi">17</span>              <span class="mi">21</span>
+ <span class="mi">1</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">GACC</span>             <span class="mi">20</span>              <span class="mi">18</span>               <span class="mi">3</span>              <span class="mi">26</span>               <span class="mi">4</span>
+ <span class="mi">2</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">ATCG</span>              <span class="mi">2</span>               <span class="mi">1</span>               <span class="mi">5</span>              <span class="mi">16</span>               <span class="mi">0</span>
+ <span class="mi">3</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">CCGA</span>             <span class="mi">14</span>              <span class="mi">29</span>              <span class="mi">23</span>               <span class="mi">2</span>              <span class="mi">19</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Input files are automatically dectected from the input directory based on their extensions. Supported extensions are <strong>.fa</strong>, <strong>.fa.gz</strong>, <strong>.fq</strong>, <strong>.fq.gz</strong>, <strong>.fasta</strong>, <strong>.fasta.gz</strong>, <strong>.fastq</strong>, <strong>.fastq.gz</strong>, <strong>.fna</strong>, and <strong>.fna.gz</strong>. Individual IDs in the output table will be inferred from the input files names after removing the extension. For instance, a file named <strong>individual_1.fastq.gz</strong> will be attributed the ID <strong>individual_1</strong>. Make sure to use the same IDs when creating the population map.</p>
+</div>
+<hr class="docutils" />
+</div>
+<div class="section" id="distrib">
+<span id="distrib-usage"></span><h2>distrib<a class="headerlink" href="#distrib" title="Permalink to this headline">¶</a></h2>
+<p>Generate a table containing the distribution of markers between two groups of individuals defined in a <a class="reference internal" href="input_files.html#population-map"><span class="std std-ref">Population map</span></a>.</p>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">distrib</span> <span class="o">--</span><span class="n">markers</span><span class="o">-</span><span class="n">table</span> <span class="n">markers_table_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="o">--</span><span class="n">popmap</span> <span class="n">popmap_path</span> <span class="p">[</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="n">min_depth</span> <span class="o">--</span><span class="n">groups</span> <span class="n">group1</span><span class="p">,</span><span class="n">group2</span> <span class="o">--</span><span class="n">signif</span><span class="o">-</span><span class="n">threshold</span> <span class="n">signif_threshold</span> <span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">correction</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Options</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--markers-table,</span> <span class="pre">-t</span></code></p></td>
+<td><p>Path to a marker depths table generated by “process”</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--popmap,</span> <span class="pre">-p</span></code></p></td>
+<td><p>Path to a tabulated file specifying groups for all individuals</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--output-file,</span> <span class="pre">-o</span></code></p></td>
+<td><p>Path to the output file (distribution of markers between groups)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--min-depth,</span> <span class="pre">-d</span></code></p></td>
+<td><p>Minimum depth to consider a marker present in an individual</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--groups,</span> <span class="pre">-G</span></code></p></td>
+<td><p>Names of the groups to compare if there are more than two groups in the popmap (–groups group1, group2)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--signif-threshold,</span> <span class="pre">-S</span></code></p></td>
+<td><p>P-value threshold to consider a marker significantly associated with a phenotypic group</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--disable-correction,</span> <span class="pre">-C</span></code></p></td>
+<td><p>If set, Bonferroni correction will NOT be used when assessing significance of association with phenotypic group</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Output</strong></p>
+<p>A <a class="reference internal" href="output_files.html#sex-distribution-file"><span class="std std-ref">Distribution of markers between groups</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Males</span>    <span class="n">Females</span>    <span class="n">Markers</span>       <span class="n">P</span>     <span class="n">Signif</span>      <span class="n">Bias</span>
+    <span class="mi">0</span>          <span class="mi">1</span>          <span class="mi">7</span>       <span class="mi">1</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">0.333</span>
+    <span class="mi">0</span>          <span class="mi">2</span>          <span class="mi">3</span>    <span class="mf">0.39</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">0.666</span>
+    <span class="mi">0</span>          <span class="mi">3</span>          <span class="mi">1</span>    <span class="mf">0.10</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">1.000</span>
+    <span class="mi">1</span>          <span class="mi">0</span>          <span class="mi">6</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.333</span>
+    <span class="mi">1</span>          <span class="mi">1</span>          <span class="mi">5</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.000</span>
+    <span class="mi">1</span>          <span class="mi">2</span>          <span class="mi">1</span>       <span class="mi">1</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">0.333</span>
+    <span class="mi">1</span>          <span class="mi">3</span>          <span class="mi">2</span>    <span class="mf">0.39</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">0.666</span>
+    <span class="mi">2</span>          <span class="mi">0</span>          <span class="mi">3</span>    <span class="mf">0.39</span>     <span class="kc">False</span>      <span class="mf">0.666</span>
+    <span class="mi">2</span>          <span class="mi">1</span>          <span class="mi">8</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.333</span>
+    <span class="mi">2</span>          <span class="mi">2</span>          <span class="mi">4</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.000</span>
+    <span class="mi">2</span>          <span class="mi">3</span>          <span class="mi">2</span>       <span class="mi">1</span>     <span class="kc">False</span>     <span class="o">-</span><span class="mf">0.333</span>
+    <span class="mi">3</span>          <span class="mi">0</span>          <span class="mi">4</span>    <span class="mf">0.10</span>     <span class="kc">False</span>      <span class="mf">1.000</span>
+    <span class="mi">3</span>          <span class="mi">1</span>          <span class="mi">7</span>    <span class="mf">0.39</span>     <span class="kc">False</span>      <span class="mf">0.666</span>
+    <span class="mi">3</span>          <span class="mi">2</span>          <span class="mi">6</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.333</span>
+    <span class="mi">3</span>          <span class="mi">3</span>          <span class="mi">9</span>       <span class="mi">1</span>     <span class="kc">False</span>      <span class="mf">0.000</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</div>
+<div class="section" id="signif">
+<span id="signif-usage"></span><h2>signif<a class="headerlink" href="#signif" title="Permalink to this headline">¶</a></h2>
+<p>Find markers significantly associated with groups of individuals defined in a <a class="reference internal" href="input_files.html#population-map"><span class="std std-ref">Population map</span></a>.</p>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">signif</span> <span class="o">--</span><span class="n">markers</span><span class="o">-</span><span class="n">table</span> <span class="n">markers_table_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="o">--</span><span class="n">popmap</span> <span class="n">popmap_path</span> <span class="p">[</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="n">min_depth</span> <span class="o">--</span><span class="n">groups</span> <span class="n">group1</span><span class="p">,</span><span class="n">group2</span> <span class="o">--</span><span class="n">signif</span><span class="o">-</span><span class="n">threshold</span> <span class="n">signif_threshold</span> <span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">correction</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">fasta</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Options</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--markers-table,</span> <span class="pre">-t</span></code></p></td>
+<td><p>Path to a marker depths table generated by “process”</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--popmap,</span> <span class="pre">-p</span></code></p></td>
+<td><p>Path to a tabulated file specifying groups for all individuals</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--output-file,</span> <span class="pre">-o</span></code></p></td>
+<td><p>Path to the output file (distribution of markers between groups)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--min-depth,</span> <span class="pre">-d</span></code></p></td>
+<td><p>Minimum depth to consider a marker present in an individual</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--groups,</span> <span class="pre">-G</span></code></p></td>
+<td><p>Names of the groups to compare if there are more than two groups in the popmap (–groups group1, group2)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--signif-threshold,</span> <span class="pre">-S</span></code></p></td>
+<td><p>P-value threshold to consider a marker significantly associated with a phenotypic group</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--disable-correction,</span> <span class="pre">-C</span></code></p></td>
+<td><p>If set, Bonferroni correction will NOT be used when assessing significance of association with phenotypic group</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--output-fasta,</span> <span class="pre">-a</span></code></p></td>
+<td><p>If set, markers are saved to a fasta file instead of a markers depth table</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Output</strong></p>
+<p><a class="reference internal" href="output_files.html#markers-depths-table-file"><span class="std std-ref">Markers depth table</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Number of markers : 4</span>
+<span class="nb">id</span>   <span class="n">sequence</span>     <span class="n">individual_1</span>    <span class="n">individual_2</span>    <span class="n">individual_3</span>    <span class="n">individual_4</span>    <span class="n">individual_5</span>
+ <span class="mi">0</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">TATT</span>              <span class="mi">0</span>              <span class="mi">15</span>              <span class="mi">24</span>              <span class="mi">17</span>              <span class="mi">21</span>
+ <span class="mi">1</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">GACC</span>             <span class="mi">20</span>              <span class="mi">18</span>               <span class="mi">3</span>              <span class="mi">26</span>               <span class="mi">4</span>
+ <span class="mi">2</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">ATCG</span>              <span class="mi">2</span>               <span class="mi">1</span>               <span class="mi">5</span>              <span class="mi">16</span>               <span class="mi">0</span>
+ <span class="mi">3</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">CCGA</span>             <span class="mi">14</span>              <span class="mi">29</span>              <span class="mi">23</span>               <span class="mi">2</span>              <span class="mi">19</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="output_files.html#fasta-file"><span class="std std-ref">Fasta file</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="mi">4495827</span><span class="n">_F</span><span class="p">:</span><span class="mi">0</span><span class="n">_M</span><span class="p">:</span><span class="mi">21</span><span class="n">_p</span><span class="p">:</span><span class="mf">1.14577e-07</span><span class="n">_mindepth</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">TGCAG</span><span class="o">.....</span><span class="n">GGATGTGTATCCATA</span>
+<span class="o">&gt;</span><span class="mi">4609394</span><span class="n">_F</span><span class="p">:</span><span class="mi">0</span><span class="n">_M</span><span class="p">:</span><span class="mi">23</span><span class="n">_p</span><span class="p">:</span><span class="mf">1.08057e-08</span><span class="n">_mindepth</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">TGCAG</span><span class="o">.....</span><span class="n">GGTTCCATCCCAAAT</span>
+<span class="o">&gt;</span><span class="mi">4661391</span><span class="n">_F</span><span class="p">:</span><span class="mi">0</span><span class="n">_M</span><span class="p">:</span><span class="mi">26</span><span class="n">_p</span><span class="p">:</span><span class="mf">1.92225e-10</span><span class="n">_mindepth</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">TGCAG</span><span class="o">.....</span><span class="n">GTAGAGTGACCAGTT</span>
+<span class="o">&gt;</span><span class="mi">5182569</span><span class="n">_F</span><span class="p">:</span><span class="mi">0</span><span class="n">_M</span><span class="p">:</span><span class="mi">22</span><span class="n">_p</span><span class="p">:</span><span class="mf">3.62243e-08</span><span class="n">_mindepth</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">TGCAG</span><span class="o">.....</span><span class="n">ACATGCTGTAAATGC</span>
+<span class="o">&gt;</span><span class="mi">5625957</span><span class="n">_F</span><span class="p">:</span><span class="mi">0</span><span class="n">_M</span><span class="p">:</span><span class="mi">25</span><span class="n">_p</span><span class="p">:</span><span class="mf">7.91633e-10</span><span class="n">_mindepth</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">TGCAG</span><span class="o">.....</span><span class="n">CTGGAGAAGAGTAGG</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</div>
+<div class="section" id="map">
+<span id="map-usage"></span><h2>map<a class="headerlink" href="#map" title="Permalink to this headline">¶</a></h2>
+<p>Align markers to a genome and compute bias and probability of association with group for each aligned marker.</p>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="nb">map</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">file</span> <span class="n">input_file_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="o">--</span><span class="n">population</span><span class="o">-</span><span class="nb">map</span> <span class="n">popmap_file_path</span> <span class="o">--</span><span class="n">genome</span><span class="o">-</span><span class="n">file</span> <span class="n">genome_file_path</span> <span class="p">[</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="n">min_depth</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">quality</span> <span class="n">min_quality</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">frequency</span> <span class="n">min_frequency</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Options</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--markers-table,</span> <span class="pre">-t</span></code></p></td>
+<td><p>Path to a marker depths table generated by “process”</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--popmap,</span> <span class="pre">-p</span></code></p></td>
+<td><p>Path to a tabulated file specifying groups for all individuals</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--output-file,</span> <span class="pre">-o</span></code></p></td>
+<td><p>Path to the output file (distribution of markers between groups)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--genome-file,</span> <span class="pre">-g</span></code></p></td>
+<td><p>Path to the genome file</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--min-depth,</span> <span class="pre">-d</span></code></p></td>
+<td><p>Minimum depth to consider a marker present in an individual</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--groups,</span> <span class="pre">-G</span></code></p></td>
+<td><p>Names of the groups to compare if there are more than two groups in the popmap (–groups group1, group2)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--min-quality,</span> <span class="pre">-q</span></code></p></td>
+<td><p>Minimum mapping quality to retain a marker</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--min-frequency,</span> <span class="pre">-Q</span></code></p></td>
+<td><p>Minimum frequency of individuals in which a marker is present to retain a marker</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--signif-threshold,</span> <span class="pre">-S</span></code></p></td>
+<td><p>P-value threshold to consider a marker significantly associated with a phenotypic group</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--disable-correction,</span> <span class="pre">-C</span></code></p></td>
+<td><p>If set, Bonferroni correction will NOT be used when assessing significance of association with phenotypic group</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Output</strong></p>
+<p>A <a class="reference internal" href="output_files.html#mapping-results-file"><span class="std std-ref">Alignment results</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Contig</span>    <span class="n">Position</span>       <span class="n">Length</span>     <span class="n">Marker_id</span>       <span class="n">Bias</span>             <span class="n">P</span>      <span class="n">Signif</span>
+<span class="n">LG03</span>      <span class="mi">18366992</span>     <span class="mi">36623554</span>       <span class="mi">4335174</span>     <span class="o">-</span><span class="mf">0.202</span>         <span class="mf">0.073</span>      <span class="kc">False</span>
+<span class="n">LG05</span>      <span class="mi">28289991</span>     <span class="mi">33792114</span>       <span class="mi">4335919</span>          <span class="mi">0</span>             <span class="mi">1</span>      <span class="kc">False</span>
+<span class="n">LG05</span>      <span class="mi">29738230</span>     <span class="mi">33792114</span>       <span class="mi">4336169</span>      <span class="mf">0.149</span>         <span class="mf">0.356</span>      <span class="kc">False</span>
+<span class="n">LG22</span>         <span class="mi">71119</span>     <span class="mi">28810691</span>       <span class="mi">4336631</span>      <span class="mf">0.159</span>         <span class="mf">0.162</span>      <span class="kc">False</span>
+<span class="n">LG15</span>      <span class="mi">20142338</span>     <span class="mi">30000224</span>       <span class="mi">4336732</span>          <span class="mi">0</span>             <span class="mi">1</span>      <span class="kc">False</span>
+<span class="n">LG02</span>      <span class="mi">26668964</span>     <span class="mi">31118443</span>       <span class="mi">4337320</span>          <span class="mi">0</span>             <span class="mi">1</span>      <span class="kc">False</span>
+<span class="n">LG03</span>       <span class="mi">4463700</span>     <span class="mi">36623554</span>       <span class="mi">4337383</span>     <span class="o">-</span><span class="mf">0.033</span>         <span class="mf">0.973</span>      <span class="kc">False</span>
+<span class="n">LG13</span>      <span class="mi">32240045</span>     <span class="mi">33409148</span>       <span class="mi">4338936</span>     <span class="o">-</span><span class="mf">0.073</span>         <span class="mf">0.704</span>      <span class="kc">False</span>
+<span class="n">LG13</span>      <span class="mi">19113343</span>     <span class="mi">33409148</span>       <span class="mi">4340342</span>      <span class="mf">0.064</span>         <span class="mf">0.479</span>      <span class="kc">False</span>
+<span class="n">LG22</span>      <span class="mi">22503191</span>     <span class="mi">28810691</span>       <span class="mi">4341087</span>     <span class="o">-</span><span class="mf">0.080</span>         <span class="mf">0.704</span>      <span class="kc">False</span>
+<span class="n">LG01</span>      <span class="mi">17881236</span>     <span class="mi">39973033</span>       <span class="mi">8678129</span>     <span class="o">-</span><span class="mf">0.736</span>     <span class="mf">3.417e-08</span>      <span class="kc">True</span>
+<span class="n">LG01</span>      <span class="mi">16475480</span>     <span class="mi">39973033</span>       <span class="mi">8888270</span>     <span class="o">-</span><span class="mf">0.705</span>     <span class="mf">1.462e-07</span>      <span class="kc">True</span>
+<span class="n">LG01</span>      <span class="mi">15761951</span>     <span class="mi">39973033</span>       <span class="mi">8954765</span>     <span class="o">-</span><span class="mf">0.769</span>     <span class="mf">8.054e-09</span>      <span class="kc">True</span>
+<span class="n">LG01</span>      <span class="mi">16562550</span>     <span class="mi">39973033</span>       <span class="mi">8990122</span>     <span class="o">-</span><span class="mf">0.736</span>     <span class="mf">3.417e-08</span>      <span class="kc">True</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</div>
+<div class="section" id="subset">
+<span id="subset-usage"></span><h2>subset<a class="headerlink" href="#subset" title="Permalink to this headline">¶</a></h2>
+<p>Extract a subset of markers from a markers depth table based on presence in individuals from each compared group.</p>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">distrib</span> <span class="o">--</span><span class="n">markers</span><span class="o">-</span><span class="n">table</span> <span class="n">markers_table_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="o">--</span><span class="n">popmap</span> <span class="n">popmap_path</span> <span class="p">[</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="n">min_depth</span> <span class="o">--</span><span class="n">groups</span> <span class="n">group1</span><span class="p">,</span><span class="n">group2</span> <span class="o">--</span><span class="n">signif</span><span class="o">-</span><span class="n">threshold</span> <span class="n">signif_threshold</span> <span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">correction</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">group1</span> <span class="n">min_group1</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">group2</span> <span class="n">min_group2</span> <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">group1</span> <span class="n">max_group1</span> <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">group2</span> <span class="n">max_group2</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">individuals</span> <span class="n">min_individuals</span> <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">individuals</span> <span class="n">max_individuals</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">fasta</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Options</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--markers-table,</span> <span class="pre">-t</span></code></p></td>
+<td><p>Path to a marker depths table generated by “process”</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--popmap,</span> <span class="pre">-p</span></code></p></td>
+<td><p>Path to a tabulated file specifying groups for all individuals</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--output-file,</span> <span class="pre">-o</span></code></p></td>
+<td><p>Path to the output file (subset of markers)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--min-depth,</span> <span class="pre">-d</span></code></p></td>
+<td><p>Minimum depth to consider a marker present in an individual</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--groups,</span> <span class="pre">-G</span></code></p></td>
+<td><p>Names of the groups to compare if there are more than two groups in the popmap (–groups group1, group2)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--signif-threshold,</span> <span class="pre">-S</span></code></p></td>
+<td><p>P-value threshold to consider a marker significantly associated with a phenotypic group</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--disable-correction,</span> <span class="pre">-C</span></code></p></td>
+<td><p>If set, Bonferroni correction will NOT be used when assessing significance of association with phenotypic group</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--output-fasta,</span> <span class="pre">-a</span></code></p></td>
+<td><p>If set, markers are saved to a fasta file instead of a markers depth table</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--min-group1,</span> <span class="pre">-m</span></code></p></td>
+<td><p>Minimum number of individuals from the first group to retain a marker in the subset</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--min-group2,</span> <span class="pre">-n</span></code></p></td>
+<td><p>Minimum number of individuals from the second group to retain a marker in the subset</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--max-group1,</span> <span class="pre">-M</span></code></p></td>
+<td><p>Maximum number of individuals from the first group to retain a marker in the subset</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--max-group2,</span> <span class="pre">-N</span></code></p></td>
+<td><p>Maximum number of individuals from the second group to retain a marker in the subset</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--min-individuals,</span> <span class="pre">-i</span></code></p></td>
+<td><p>Minimum number of individuals to retain a marker in the subset</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--max-individuals,</span> <span class="pre">-I</span></code></p></td>
+<td><p>Maximum number of individuals to retain a marker in the subset</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Output</strong></p>
+<p><a class="reference internal" href="output_files.html#markers-depths-table-file"><span class="std std-ref">Markers depth table</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Number of markers : 4</span>
+<span class="nb">id</span>   <span class="n">sequence</span>     <span class="n">individual_1</span>    <span class="n">individual_2</span>    <span class="n">individual_3</span>    <span class="n">individual_4</span>    <span class="n">individual_5</span>
+ <span class="mi">0</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">TATT</span>              <span class="mi">0</span>              <span class="mi">15</span>              <span class="mi">24</span>              <span class="mi">17</span>              <span class="mi">21</span>
+ <span class="mi">1</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">GACC</span>             <span class="mi">20</span>              <span class="mi">18</span>               <span class="mi">3</span>              <span class="mi">26</span>               <span class="mi">4</span>
+ <span class="mi">2</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">ATCG</span>              <span class="mi">2</span>               <span class="mi">1</span>               <span class="mi">5</span>              <span class="mi">16</span>               <span class="mi">0</span>
+ <span class="mi">3</span>   <span class="n">TGCA</span><span class="o">..</span><span class="n">CCGA</span>             <span class="mi">14</span>              <span class="mi">29</span>              <span class="mi">23</span>               <span class="mi">2</span>              <span class="mi">19</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="output_files.html#fasta-file"><span class="std std-ref">Fasta file</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="mi">4495827</span><span class="n">_F</span><span class="p">:</span><span class="mi">0</span><span class="n">_M</span><span class="p">:</span><span class="mi">21</span><span class="n">_p</span><span class="p">:</span><span class="mf">1.14577e-07</span><span class="n">_mindepth</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">TGCAG</span><span class="o">.....</span><span class="n">GGATGTGTATCCATA</span>
+<span class="o">&gt;</span><span class="mi">4609394</span><span class="n">_F</span><span class="p">:</span><span class="mi">0</span><span class="n">_M</span><span class="p">:</span><span class="mi">23</span><span class="n">_p</span><span class="p">:</span><span class="mf">1.08057e-08</span><span class="n">_mindepth</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">TGCAG</span><span class="o">.....</span><span class="n">GGTTCCATCCCAAAT</span>
+<span class="o">&gt;</span><span class="mi">4661391</span><span class="n">_F</span><span class="p">:</span><span class="mi">0</span><span class="n">_M</span><span class="p">:</span><span class="mi">26</span><span class="n">_p</span><span class="p">:</span><span class="mf">1.92225e-10</span><span class="n">_mindepth</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">TGCAG</span><span class="o">.....</span><span class="n">GTAGAGTGACCAGTT</span>
+<span class="o">&gt;</span><span class="mi">5182569</span><span class="n">_F</span><span class="p">:</span><span class="mi">0</span><span class="n">_M</span><span class="p">:</span><span class="mi">22</span><span class="n">_p</span><span class="p">:</span><span class="mf">3.62243e-08</span><span class="n">_mindepth</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">TGCAG</span><span class="o">.....</span><span class="n">ACATGCTGTAAATGC</span>
+<span class="o">&gt;</span><span class="mi">5625957</span><span class="n">_F</span><span class="p">:</span><span class="mi">0</span><span class="n">_M</span><span class="p">:</span><span class="mi">25</span><span class="n">_p</span><span class="p">:</span><span class="mf">7.91633e-10</span><span class="n">_mindepth</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">TGCAG</span><span class="o">.....</span><span class="n">CTGGAGAAGAGTAGG</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</div>
+<div class="section" id="freq">
+<span id="freq-usage"></span><h2>freq<a class="headerlink" href="#freq" title="Permalink to this headline">¶</a></h2>
+<p>Generate a table containing the distribution of markers in the entire dataset.</p>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">freq</span> <span class="o">--</span><span class="n">markers</span><span class="o">-</span><span class="n">table</span> <span class="n">markers_table_path</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span> <span class="p">[</span> <span class="o">--</span><span class="nb">min</span><span class="o">-</span><span class="n">depth</span> <span class="n">min_depth</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Options</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 70%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--markers-table,</span> <span class="pre">-t</span></code></p></td>
+<td><p>Path to a marker depths table generated by “process”</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--output-file,</span> <span class="pre">-o</span></code></p></td>
+<td><p>Path to the output file (distribution of markers between groups)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--min-depth,</span> <span class="pre">-d</span></code></p></td>
+<td><p>Minimum depth to consider a marker present in an individual</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Output</strong></p>
+<p>A <a class="reference internal" href="output_files.html#freq-results-file"><span class="std std-ref">Distribution of markers in the population</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Frequency</span>     <span class="n">Count</span>
+        <span class="mi">1</span>     <span class="mi">10389</span>
+        <span class="mi">2</span>      <span class="mi">3869</span>
+        <span class="mi">3</span>      <span class="mi">2884</span>
+        <span class="mi">4</span>      <span class="mi">1824</span>
+        <span class="mi">5</span>      <span class="mi">1672</span>
+        <span class="mi">6</span>      <span class="mi">1276</span>
+        <span class="mi">7</span>      <span class="mi">1261</span>
+        <span class="mi">8</span>      <span class="mi">1278</span>
+        <span class="mi">9</span>      <span class="mi">1355</span>
+        <span class="mi">10</span>     <span class="mi">1291</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</div>
+<div class="section" id="depth">
+<span id="depth-usage"></span><h2>depth<a class="headerlink" href="#depth" title="Permalink to this headline">¶</a></h2>
+<p>Compute the minimum, maximum, median, and average marker depth in each individual from the dataset.</p>
+<p><strong>Command</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">radsex</span> <span class="n">depth</span> <span class="o">--</span><span class="n">markers</span><span class="o">-</span><span class="n">table</span> <span class="n">markers_table_path</span> <span class="o">--</span><span class="n">popmap</span> <span class="n">popmap_file</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">output_file_path</span>
+</pre></div>
+</div>
+<p><strong>Options</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 70%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--markers-table,</span> <span class="pre">-t</span></code></p></td>
+<td><p>Path to a marker depths table generated by “process”</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--popmap,</span> <span class="pre">-p</span></code></p></td>
+<td><p>Path to a tabulated file specifying groups for all individuals</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--output-file,</span> <span class="pre">-o</span></code></p></td>
+<td><p>Path to the output file (distribution of markers between groups)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--min-depth,</span> <span class="pre">-d</span></code></p></td>
+<td><p>Minimum depth to consider a marker present in an individual</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Output</strong></p>
+<p>A <a class="reference internal" href="output_files.html#depth-results-file"><span class="std std-ref">Distribution of marker depth in each individual</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Individual</span>    <span class="n">Group</span>    <span class="n">Markers</span>    <span class="n">Retained</span>    <span class="n">Min_depth</span>    <span class="n">Max_depth</span>    <span class="n">Median_depth</span>    <span class="n">Average_depth</span>
+<span class="n">SRR1519834</span>    <span class="n">M</span>        <span class="mi">1084439</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">60604</span>              <span class="mi">60</span>               <span class="mi">71</span>
+<span class="n">SRR1519837</span>    <span class="n">M</span>         <span class="mi">914664</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">48628</span>              <span class="mi">44</span>               <span class="mi">53</span>
+<span class="n">SRR1519830</span>    <span class="n">F</span>        <span class="mi">1165312</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">35358</span>              <span class="mi">54</span>               <span class="mi">72</span>
+<span class="n">SRR1519853</span>    <span class="n">M</span>         <span class="mi">500353</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">27276</span>              <span class="mi">28</span>               <span class="mi">33</span>
+<span class="n">SRR1519824</span>    <span class="n">F</span>         <span class="mi">498666</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">23912</span>              <span class="mi">21</span>               <span class="mi">27</span>
+<span class="n">SRR1519819</span>    <span class="n">F</span>         <span class="mi">552423</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">36001</span>              <span class="mi">24</span>               <span class="mi">32</span>
+<span class="n">SRR1519846</span>    <span class="n">M</span>         <span class="mi">522372</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">30307</span>              <span class="mi">31</span>               <span class="mi">36</span>
+<span class="n">SRR1519829</span>    <span class="n">F</span>         <span class="mi">944099</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">64723</span>              <span class="mi">45</span>               <span class="mi">61</span>
+<span class="n">SRR1519812</span>    <span class="n">F</span>         <span class="mi">781177</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">44358</span>              <span class="mi">36</span>               <span class="mi">46</span>
+<span class="n">SRR1519862</span>    <span class="n">M</span>        <span class="mi">1313850</span>       <span class="mi">72938</span>            <span class="mi">0</span>        <span class="mi">64356</span>              <span class="mi">69</span>               <span class="mi">81</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="input_files.html" class="btn btn-neutral float-right" title="Input files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="example.html" class="btn btn-neutral float-left" title="Example walkthrough" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018-2020, Romain Feron
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

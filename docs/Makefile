@@ -1,19 +1,25 @@
-# Minimal makefile for Sphinx documentation
-#
+SPHINXOPTS        = -b html -c .
+SPHINXBUILD       = sphinx-build
+SOURCEDIR         = src
+BUILDDIR          = html
+DOXYGEN_BUILDDIR  = html/doxygen
+DOXYGEN_HTMLDIR   = html/doxygen
+DOXYGEN_SOURCEDIR = ../src
 
-# You can set these variables from the command line.
-SPHINXOPTS    =
-SPHINXBUILD   = sphinx-build
-SOURCEDIR     = .
-BUILDDIR      = _build
+.PHONY: all clean
 
-# Put it first so that "make" without argument is like "make help".
-help:
-	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+all: $(BUILDDIR) $(DOXYGEN_BUILDDIR)
 
-.PHONY: help Makefile
+clean:
+	rm -rf $(BUILDDIR)
+	rm -rf $(DOXYGEN_BUILDDIR)
 
-# Catch-all target: route all unknown targets to Sphinx using the new
-# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-%: Makefile
-	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+rebuild: clean $(BUILDDIR) $(DOXYGEN_BUILDDIR)
+
+$(BUILDDIR): $(SOURCEDIR)/*.rst
+	@$(SPHINXBUILD) "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS)
+
+$(DOXYGEN_BUILDDIR): Doxyfile $(DOXYGEN_SOURCEDIR)/*.h $(DOXYGEN_SOURCEDIR)/*.cpp
+	doxygen $^
+	mv $(DOXYGEN_BUILDDIR)/html/* $(DOXYGEN_HTMLDIR)
+	rm -rf $(DOXYGEN_BUILDDIR)/html

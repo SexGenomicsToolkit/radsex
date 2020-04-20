@@ -16,13 +16,12 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+import os
 
 # -- Project information -----------------------------------------------------
 
-source_suffix = ['.rst']
-
 project = 'RADSex'
-copyright = '2018, Romain Feron'
+copyright = '2018-2020, Romain Feron'
 author = 'Romain Feron'
 
 # The short X.Y version

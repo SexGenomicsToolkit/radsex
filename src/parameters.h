@@ -1,187 +1,73 @@
-#pragma once
-#include "parameter.h"
-#include <vector>
-#include <iostream>
-#include <algorithm>
-#include <sstream>
+/*
+* Copyright (C) 2020 Romain Feron
+* This file is part of RADSex.
 
+* RADSex is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+
+* RADSex is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+
+* You should have received a copy of the GNU General Public License
+* along with RADSex.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/*!
+ * @file parameters.h
+ * @brief Defines the Parameters class storing information on all RADSex parameters.
+*/
+
+#pragma once
+#include <string>
+
+
+/*!
+ * \brief Parameters
+ *
+ * Store the value of all RADSex parameters.
+ *
+ */
 
 struct Parameters {
 
-    /* The Parameters structure store all parameters to be used in the analyses and provides a few methods
-     * to access these parameters easily.
-     */
+    // Subcommand
+    std::string command = "";   ///< Name of the command being run (i.e. analysis)
 
-    // Initialize all possible parameters to be used in the analyses
-    // Arguments: name, help message, flag, default value, type, internal type, value, required
-    // Flags : -h, -f, -d, -o, -u, -t, -c, -p, -b, -a, -m, -g, --min-males, --min-females, --max-males, --max-females, --min-individuals, --output-matrix, -q,
-    // Parameter constructor: Parameter(name, description, flag, default_value, type, internal_type, value, required)
-    std::vector<Parameter> list {Parameter("help", "Prints this message", "--help", "0", "bool", "bool", "", false),
-                                 Parameter("input_file_path", "Path to an input file", "--input-file", "", "string", "ifile", "", true),
-                                 Parameter("input_dir_path", "Path to an input directory", "--input-dir", "", "string", "dir", "", true),
-                                 Parameter("output_file_path", "Path to an output file", "--output-file", "", "string", "ofile", "", true),
-                                 Parameter("output_dir_path", "Path to an output directory", "--output-dir", "", "string", "dir", "", true),
-                                 Parameter("coverage_matrix_path", "Path to an coverage table file", "--coverage-table", "", "string", "ifile", "", true),
-                                 Parameter("n_threads", "Number of threads", "--threads", "1", "int", "int", "", false),
-                                 Parameter("min_cov", "Minimum coverage to consider a marker", "--min-cov", "1", "int", "int", "", false),
-                                 Parameter("max_distance", "Maximum Levenstein distance between two sequences in a locus", "--max-distance", "1", "int", "int", "", false),
-                                 Parameter("popmap_file_path", "Path to a popmap file", "--popmap-file", "", "string", "ifile", "", true),
-                                 Parameter("barcodes_file_path", "Path to a barcodes file", "--barcodes-file", "", "string", "ifile", "", true),
-                                 Parameter("genome_file_path", "Path to a genome file in fasta format", "--genome-file", "", "string", "ifile", "", true),
-                                 Parameter("min_males", "Minimum number of males in the subset", "--min-males", "0", "int", "int", "", false),
-                                 Parameter("min_females", "Minimum number of females in the subset", "--min-females", "0", "int", "int", "", false),
-                                 Parameter("max_males", "Maximum number of males in the subset", "--max-males", "n.males", "int", "int", "", false),
-                                 Parameter("max_females", "Maximum number of females in the subset", "--max-females", "n.females", "int", "int", "", false),
-                                 Parameter("min_individuals", "Minimum number of individuals in the subset (overrides sex parameters)", "--min-individuals", "0", "int", "int", "", false),
-                                 Parameter("max_individuals", "Maxmimum number of individuals in the subset (overrides sex parameters)", "--max-individuals", "n.individual", "int", "int", "", false),
-                                 Parameter("output_matrix", "Output the sex distribution table as a matrix", "--output-matrix", "0", "bool", "bool", "", false),
-                                 Parameter("min_quality", "Minimum mapping quality to keep a mapped read", "--min-quality", "20", "int", "int", "", false),
-                                 Parameter("min_frequency", "Minimum frequency of a sequence in at least one sex", "--min-frequency", "0.25", "float", "float", "", false),
-                                 Parameter("output_format", "Output format, either \"table\" or \"fasta\"", "--output-format", "table", "string", "string", "", false)
-                                 };
+    // I/O parameters
+    std::string input_dir_path = "";   ///< Path to an input directory for "process"
+    std::string output_file_path = "";   ///< Path to the output file for any analysis
+    std::string markers_table_path = "";   ///< Path to a markers depth table for any analysis
+    std::string popmap_file_path = "";   ///< Path to a popmap file specifying group for each individual
+    std::string genome_file_path = "";   ///< Path to a genome in FASTA format for "map"
+    bool output_fasta= false;   ///< If true, markers are outputted in FASTA format
 
+    // Group names (when more than two groups in popmap or to override popmap order)
+    std::string group1 = "";   ///< Name of the first group for analysis comparing two groups
+    std::string group2 = "";   ///< Name of the secondfirst group for analysis comparing two groups
 
-    // Return a parameter from its flag
-    Parameter get_from_flag(std::string& flag) {
-        for (auto p: this->list) {
-            if (p.flag == flag) return p;
-        }
-        return Parameter(); // If the parameter was not found (meaning it's not a valid parameter) a dummy is returned, to be tested with "is_real()" method from the Parameter structure
-    }
+    // Common analyses parameters
+    uint n_threads = 1;   ///< Number of threads to use for "process"
+    uint min_depth = 1;   ///< Minimum depth to consider a marker present in an individual
+    float signif_threshold = static_cast<float>(0.05);   ///< P-value threshold to consider a marker significantly associated with group
+    bool disable_correction = false;   ///< If true, Bonferroni correction will NOT be applied when estimating significance of association with group
 
+    // "subset" specific parameters
+    uint subset_min_group1 = 0;   ///< Minimum number of individuals from the first group in which a marker is present to retain a marker
+    uint subset_min_group2 = 0;   ///< Minimum number of individuals from the second group in which a marker is present to retain a marker
+    uint subset_max_group1 = 9999;   ///< Maximum number of individuals from the first group in which a marker is present to retain a marker
+    uint subset_max_group2 = 9999;   ///< Maximum number of individuals from the second group in which a marker is present to retain a marker
+    uint subset_min_individuals = 0;   ///< Minimum number of individuals from the entire dataset in which a marker is present to retain a marker
+    uint subset_max_individuals = 9999;   ///< Maximum number of individuals from the entire dataset in which a marker is present to retain a marker
+    bool set_max_group1 = true;   ///< If true, set subset_max_group1 to the number of group1 individuals in the popmap (i.e. it was not specified by the user)
+    bool set_max_group2 = true;   ///< If true, set subset_max_group2 to the number of group1 individuals in the popmap (i.e. it was not specified by the user)
+    bool set_max_individuals = true;   ///< If true, set subset_max_individuals to the number of group1 individuals in the popmap (i.e. it was not specified by the user)
 
-    // Check if a flag is in the list of parameters
-    bool find_flag(std::string& flag) {
-        for (auto p: this->list) {
-            if (p.flag == flag) return true;
-        }
-        return false;
-    }
+    // "map" specific parameters
+    uint map_min_quality = 20;   ///< Minimum mapping quality to retained an aligned marker
+    float map_min_frequency = static_cast<float>(0.1);   ///< Minimum frequency of a marker in the population to retain the marker
 
-
-    // Return a parameter from its name
-    Parameter get_from_name(std::string& name) {
-        for (auto p: this->list) {
-            if (p.name == name) return p;
-        }
-        return Parameter(); // If the parameter was not found (meaning it's not a valid parameter) a dummy is returned, to be tested with "is_real()" method from the Parameter structure
-    }
-
-
-    // Check if a parameter name is in the list of parameters
-    bool find_name(std::string& name) {
-        for (auto p: this->list) {
-            if (p.name == name) return true;
-        }
-        return false;
-    }
-
-
-    // Check if a parameter is required for the analysis
-    bool is_required(std::string& name) {
-        return this->get_from_name(name).required;
-    }
-
-
-    // Get the value of a parameter from its name
-    template<typename T>
-    T get_value_from_name(const std::string& name) {
-        T output;
-        for (auto p: this->list) {
-            if (p.name == name) {
-                std::string v = p.value;
-                std::stringstream ss(v);
-                if (ss >> output) return output;
-                // TODO: Handle fail case
-            }
-        }
-        std::cout << " ** Error: looking for the value of parameter \"" << name <<"\" which does not exist." << std::endl;
-        exit(0);
-    }
-
-
-    // Get the value of a parameter from its name
-    template<typename T>
-    T get_value_from_flag(std::string& flag) {
-        for (auto p: this->list) {
-            if (p.flag == flag) {
-                if (p.internal_type == "bool") {
-                    return p.value != "0"; // TODO: handle more bool values in the future
-                } else if (p.internal_type == "int") {
-                    return std::stoi(p.value);
-                } else if (p.internal_type == "float") {
-                    return std::stod(p.value);
-                } else {
-                    return p.value;
-                }
-            }
-        }
-        std::cout << " ** Error: looking for the value of parameter \"" << flag <<"\" which does not exist." << std::endl;
-        exit(0);
-    }
-
-
-    // Set the value of a parameter from its flag
-    void set_value_from_flag(std::string& flag, std::string& value) {
-        for (auto it = this->list.begin(); it != this->list.end(); ++it) {
-            if ((*it).flag == flag) {
-                (*it).set_value(value);
-                return;
-            }
-        }
-        std::cout << "Error: trying to set the value " << value << " for parameter " << flag << " which does not exist." << std::endl;
-        exit(0);
-    }
-
-
-    // Set the value of a parameter from its flag
-    void set_value_from_name(std::string& name, std::string& value) {
-        for (auto it = this->list.begin(); it != this->list.end(); ++it) {
-            if ((*it).name == name) {
-                (*it).set_value(value);
-                return;
-            }
-        }
-        std::cout << "Error: trying to set the value " << value << " for parameter " << name << " which does not exist." << std::endl;
-        exit(0);
-    }
-
-
-    // Print information about parameters
-    void print() {
-        std::cout << std::endl;
-        for (auto parameter: this->list) {
-            std::cout << parameter.flag << "\t" << parameter.name << "\t" << parameter.description << "\t" << parameter.value << "\t" << parameter.default_value << "\t" <<
-                         parameter.type << "\t" << parameter.internal_type << "\t" << parameter.required << "\n";
-        }
-        std::cout << "\n";
-    }
-
-
-    // Print information about specific parameters given by a list
-    void print(std::vector<std::string>& parameters_to_print) {
-        std::cout << std::endl;
-        for (auto parameter: this->list) {
-            if (std::find(parameters_to_print.begin(), parameters_to_print.end(), parameter.name) != parameters_to_print.end()) {
-                std::cout << parameter.flag << "\t" << parameter.name << "\t" << parameter.description << "\t" << parameter.value << "\t" << parameter.default_value << "\t" <<
-                             parameter.type << "\t" << parameter.internal_type << "\t" << parameter.required << "\n";
-            }
-        }
-        std::cout << "\n";
-    }
-
-    // Print information about parameters given by a list
-    void simple_print(std::vector<std::string>& parameters_to_print) {
-        std::cout << std::endl;
-        for (auto parameter: this->list) {
-            if (std::find(parameters_to_print.begin(), parameters_to_print.end(), parameter.name) != parameters_to_print.end()) {
-                std::cout << parameter.name << " :\t" << parameter.value << std::endl;
-            }
-        }
-        std::cout << "\n";
-    }
 };
-
-// Template specialization for converting string in order to handle spaces in strings
-template<>
-std::string Parameters::get_value_from_name<std::string>(const std::string& name);
