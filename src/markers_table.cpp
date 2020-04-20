@@ -212,7 +212,7 @@ void MarkersTable::get_batch(std::vector<Marker>& batch) {
 
     this->mutex.lock();
 
-    ulong batch_size_real = std::min(BATCH_SIZE, static_cast<int>(this->markers_queue.size()));
+    unsigned long batch_size_real = std::min(BATCH_SIZE, static_cast<int>(this->markers_queue.size()));
     batch.resize(batch_size_real);
 
     if (batch_size_real > 0) {
