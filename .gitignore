@@ -79,3 +79,4 @@ build/
 /include/*/*.o
 /include/*/*.a
 callgrind*
+test/
