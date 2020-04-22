@@ -6,7 +6,7 @@ CXXFLAGS += -Wall -std=c++11 $(OPTCXXFLAGS)
 CFLAGS += -Wall -Wno-maybe-uninitialized
 LDFLAGS += -pthread -lstdc++ -lz -L$(INCLUDE)/bwa -lbwa
 
-# Directory organisation
+# Directory organization
 BASEDIR = .
 BIN = $(BASEDIR)/bin
 BUILD = $(BASEDIR)/build
@@ -61,7 +61,7 @@ $(INCLUDE)/kfun/kfun.o: $(INCLUDE)/kfun/kfun.cpp
 clean-kfun:
 	(rm $(INCLUDE)/kfun/kfun.o)
 
-# Clean RADSex files
+# Clean radsex files
 clean:
 	rm -rf $(BUILD)/*.o
 	rm -rf $(BIN)/*
@@ -69,12 +69,12 @@ clean:
 # Clean all files
 clean-all: clean clean-bwa clean-kfun
 
-# Rebuild RADSex only
+# Rebuild radsex only
 rebuild:
 	$(MAKE) clean
 	$(MAKE) -j $(JOBS)
 
-# Rebuild RADSex and dependencies
+# Rebuild radsex and dependencies
 rebuild-all:
 	$(MAKE) clean-all
 	$(MAKE) -j $(JOBS)
@@ -87,7 +87,7 @@ $(BIN)/radsex: $(OBJS) $(INCLUDE)/kfun/kfun.o
 $(BUILD)/%.o: $(SRC)/%.cpp $(INCLUDE)/bwa/libbwa.a
 	$(CXX) $(CXXFLAGS) -I $(INCLUDE) -c -o $@ $<
 
-# Build doc with sphinx and doxygen
+# Build doc with doxygen
 docs:
 	(cd docs && make)
 
