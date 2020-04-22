@@ -25,6 +25,8 @@ The RADSex computational workflow was developed in the [LPGP](https://www6.renne
 
 This README file includes a basic installation guide and a quick start section. The full documentation for RADSex, including a complete example walkthrough, is available [here](https://sexgenomicstoolkit.github.io/html/radsex/introduction.html).
 
+Internal documentation generated with Doxygen is provided [here](https://sexgenomicstoolkit.github.io/radsex).
+
 ## Installation
 
 ### Requirements
