@@ -56,7 +56,8 @@ void Subset::generate_output() {
                              parameters.group2 << "=[" << parameters.subset_min_group2 << "," << parameters.subset_max_group2 << "]," <<
                              "individuals=[" << parameters.subset_min_individuals << "," << parameters.subset_max_individuals <<
                              "];signif_threshold:" << parameters.signif_threshold << ";bonferroni:" <<
-                             std::boolalpha << (not parameters.disable_correction) << "\n";
+                             std::boolalpha << (not parameters.disable_correction) <<
+                             ";n_markers:" << this->results.n_markers << "\n";
 
         this->output_file << print_list(this->markers_table.header.header, "\t") << "\n";
 
