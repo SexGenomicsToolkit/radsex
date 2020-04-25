@@ -103,6 +103,12 @@ void Map::generate_output() {
 
     // Open output file and output the header
     this->output_file = open_output(this->parameters.output_file_path);
+    this->output_file << "#source:radsex-map;min_depth:" << parameters.min_depth <<
+                         ";min_qual:" << parameters.map_min_quality <<
+                         ";min_freq:" << parameters.map_min_frequency <<
+                         ";signif_threshold:" << parameters.signif_threshold <<
+                         ";bonferroni:" << std::boolalpha << (not parameters.disable_correction) <<
+                         ";n_markers:" << this->results.n_markers << "\n";
     this->output_file << "Contig\tPosition\tLength\tMarker_id\tBias\tP\tCorrectedP\tSignif\n";
 
     if (not this->parameters.disable_correction) {
