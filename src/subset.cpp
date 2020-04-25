@@ -51,10 +51,10 @@ void Subset::generate_output() {
 
     if (not this->parameters.output_fasta) {
 
-        this->output_file << "#source:subset;min_depth:" << parameters.min_depth << ";filters:[" <<
-                             parameters.subset_min_group1 << "," << parameters.subset_max_group1 << "," <<
-                             parameters.subset_min_group2 << "," << parameters.subset_max_group2 << "," <<
-                             parameters.subset_min_individuals << "," << parameters.subset_max_individuals <<
+        this->output_file << "#source:radsex-subset;min_depth:" << parameters.min_depth << ";filters:" <<
+                             parameters.group1 << "=[" << parameters.subset_min_group1 << "," << parameters.subset_max_group1 << "]," <<
+                             parameters.group2 << "=[" << parameters.subset_min_group2 << "," << parameters.subset_max_group2 << "]," <<
+                             "individuals=[" << parameters.subset_min_individuals << "," << parameters.subset_max_individuals <<
                              "];signif_threshold:" << parameters.signif_threshold << ";bonferroni:" <<
                              std::boolalpha << (not parameters.disable_correction) << "\n";
 

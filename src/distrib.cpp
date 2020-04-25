@@ -55,6 +55,10 @@ void Distrib::generate_output() {
 
     // Generate the output file
     std::ofstream output_file = open_output(this->parameters.output_file_path);
+    output_file << "#source:distrib;min_depth:" << parameters.min_depth <<
+                   ";signif_threshold:" << parameters.signif_threshold <<
+                   ";bonferroni:" << std::boolalpha << (not parameters.disable_correction) <<
+                   ";n_markers:" << this->results.n_markers << "\n";
     output_file << this->parameters.group1 << "\t" << this->parameters.group2 << "\t" << "Markers" << "\t" <<
                    "P" << "\t" << "CorrectedP" << "\t" << "Signif" << "\t" << "Bias" << "\n";
 

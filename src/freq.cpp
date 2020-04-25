@@ -47,6 +47,7 @@ void Freq::process_marker(Marker& marker) {
 void Freq::generate_output() {
 
     std::ofstream output_file = open_output(parameters.output_file_path);
+    output_file << "#source:radsex-freq;min_depth:" << parameters.min_depth <<  "\n";
     output_file << "Frequency" << "\t" << "Count" << "\n";
 
     for (uint i=1; i <= this->markers_table.header.n_individuals; ++i) output_file << i << "\t" << this->results[i] << "\n";  // Iterate over the map
