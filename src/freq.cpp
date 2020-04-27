@@ -26,7 +26,7 @@
 
 Freq::Freq(Parameters& parameters, bool compare_groups, bool store_groups, bool store_sequence) : Analysis(parameters, compare_groups, store_groups, store_sequence) {
 
-    this->results = std::vector<uint32_t>(this->markers_table.header.n_individuals, 0);
+    this->results = std::vector<uint32_t>(this->markers_table.header.n_individuals + 1, 0);
 
 };
 
