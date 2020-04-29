@@ -134,6 +134,17 @@ uint Popmap::get_count(const std::string& group) const {
 
 
 
+std::vector<std::string> Popmap::get_groups() const {
+
+    std::vector<std::string> groups;
+    for (auto g: this->group_counts) groups.push_back(g.first);
+
+    return groups;
+
+}
+
+
+
 
 std::string Popmap::print_groups(const bool counts) const {
 

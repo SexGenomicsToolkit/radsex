@@ -27,7 +27,7 @@
 void Map::extra_setup() {
 
     // Filtering
-    this->min_individuals = static_cast<uint16_t>(this->popmap.n_individuals * this->parameters.map_min_frequency);
+    this->min_individuals = std::max(static_cast<uint16_t>(1), static_cast<uint16_t>(this->popmap.n_individuals * this->parameters.map_min_frequency));
 
     // Loading bwa index
     this->load_bwa_index();

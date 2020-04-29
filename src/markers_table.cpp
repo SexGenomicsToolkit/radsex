@@ -84,6 +84,7 @@ void MarkersTable::start_parser(bool store_sequence, bool compute_groups) {
     char buffer[65536];
     uint k = 0, field_n = 0, marker_n = 0;
     Marker marker(this->header.n_individuals);
+    for (auto g: this->popmap->get_groups()) marker.group_counts[g] = 0;  // Initialize group counts
     std::vector<Marker> tmp_queue(TMP_QUEUE_SIZE);  // Temporary block queue to avoid locking the shared blocks queue too often
     uint tmp_queue_real_size = 0;
     uint marker_queue_size = 0;

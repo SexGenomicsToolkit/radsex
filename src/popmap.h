@@ -81,6 +81,15 @@ class Popmap {
 
 
         /*!
+         * \brief Get a list of all groups found in the popmap
+         *
+         * \return A vector of group names
+         */
+
+        std::vector<std::string> get_groups() const;
+
+
+        /*!
          * \brief Print all the groups in the popmap
          *
          * \param counts If true, counts are printed along groups (e.g. "Group1: 15, Group2: 20")
