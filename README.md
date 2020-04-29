@@ -31,7 +31,7 @@ Internal documentation generated with Doxygen is provided [here](https://sexgeno
 
 ### Requirements
 
-- A C++11 compliant compiler (GCC >= 4.8.1, Clang >= 3.3)
+- A C++11 compliant compiler (GCC >= 6.1.0, Clang >= 6.0)
 - The zlib library (usually installed on linux by default)
 
 ### Install the latest official release

@@ -58,8 +58,10 @@ $(INCLUDE)/kfun/kfun.o: $(INCLUDE)/kfun/kfun.cpp
 	$(CC) $(CFLAGS) -I $(INCLUDE) -c -o $@ $^
 
 # Clean BWA
-clean-kfun:
-	(rm $(INCLUDE)/kfun/kfun.o)
+clean-kfun: $(INCLUDE)/kfun/kfun.o
+	if [ -e $^ ]; then \
+		rm -f $^;        \
+	fi;
 
 # Clean radsex files
 clean:
