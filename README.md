@@ -26,7 +26,7 @@ The RADSex computational workflow was developed in the [LPGP](https://www6.renne
 If you use RADSex in your work, please cite the [preprint describing RADSex](https://www.biorxiv.org/content/10.1101/2020.04.22.054866v1.abstract):
 
 
-> Feron, Romain, Qiaowei Pan, Ming Wen, Boudjema Imarazene, Elodie Jouanno, Jennifer Anderson, Amaury Herpin et al. "RADSex: a computational workflow to study sex determination using Restriction Site-Associated DNA Sequencing data." BioRxiv (2020).
+> Feron, R., Pan, Q., Wen, M., Imarazene, B., Jouanno, E., Anderson, J., Herpin, A., *et al.*, 2020. RADSex: a computational workflow to study sex determination using Restriction Site-Associated DNA Sequencing data. BioRxiv.
 
 
 To properly cite RADSex, you should also cite the software and its version using the DOI provided in the badges above:
