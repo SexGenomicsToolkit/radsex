@@ -21,6 +21,18 @@ Although RADSex was developed specifically to study sex-determination, it was de
 
 The RADSex computational workflow was developed in the [LPGP](https://www6.rennes.inra.fr/lpgp/) lab from INRA, Rennes, France for the PhyloSex project, which investigates sex determining factors in a wide range of fish species.
 
+### Citing RADSex
+
+If you use RADSex in your work, please cite the [preprint describing RADSex](https://www.biorxiv.org/content/10.1101/2020.04.22.054866v1.abstract):
+
+
+> Feron, R., Pan, Q., Wen, M., Imarazene, B., Jouanno, E., Anderson, J., Herpin, A., Journot, L., Parrinello, H., Klopp, C. and Kottler, V.A., 2020. RADSex: a computational workflow to study sex determination using Restriction Site-Associated DNA Sequencing data. BioRxiv.
+
+
+To properly cite RADSex, you should also cite the software and its version using the DOI provided in the badges above:
+
+> Romain Feron. (2020, April 29). SexGenomicsToolkit/radsex: 1.1.2 (Version 1.1.2). Zenodo. http://doi.org/10.5281/zenodo.3775206
+
 ## Documentation
 
 This README file includes a basic installation guide and a quick start section. The full documentation for RADSex, including a complete example walkthrough, is available [here](https://sexgenomicstoolkit.github.io/html/radsex/introduction.html).
