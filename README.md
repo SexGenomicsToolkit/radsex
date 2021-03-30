@@ -1,6 +1,6 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/SexGenomicsToolkit/RADSex?color=lightorange)](https://github.com/SexGenomicsToolkit/RADSex/releases)
 [![Conda (channel only)](https://img.shields.io/conda/vn/bioconda/radsex?color=lightorange)](https://bioconda.github.io/recipes/radsex/README.html)
-[![DOI](https://zenodo.org/badge/86720601.svg)](https://zenodo.org/badge/latestdoi/86720601)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4628297.svg)](https://doi.org/10.5281/zenodo.4628297)
 
 # radsex
 
@@ -23,10 +23,9 @@ The RADSex computational workflow was developed in the [LPGP](https://www6.renne
 
 ### Citing RADSex
 
-If you use RADSex in your work, please cite the [preprint describing RADSex](https://www.biorxiv.org/content/10.1101/2020.04.22.054866v1.abstract):
+If you use RADSex in your work, please cite the [manuscript describing RADSex](https://onlinelibrary.wiley.com/doi/abs/10.1111/1755-0998.13360):
 
-
-> Feron, R., Pan, Q., Wen, M., Imarazene, B., Jouanno, E., Anderson, J., Herpin, A., *et al.*, 2020. RADSex: a computational workflow to study sex determination using Restriction Site-Associated DNA Sequencing data. BioRxiv.
+> Feron, R., Pan, Q., Wen, M., Imarazene, B., Jouanno, E., Anderson, J., Herpin, A., *et al.* (2021), RADSex: A computational workflow to study sex determination using restriction site‐associated DNA sequencing data. Mol Ecol Resour. https://doi.org/10.1111/1755-0998.13360
 
 
 To properly cite RADSex, you should also cite the software and its version using the DOI provided in the badges above:
@@ -43,8 +42,10 @@ Internal documentation generated with Doxygen is provided [here](https://sexgeno
 
 ### Requirements
 
+RADSex was tested on Linux (ubuntu >= 18.04, Arch) and OSX. To install RADSex, you will need:
+
 - A C++11 compliant compiler (GCC >= 6.1.0, Clang >= 6.0)
-- The zlib library (usually installed on linux by default)
+- The zlib library (usually installed on linux and osx by default)
 
 ### Install the latest official release
 
