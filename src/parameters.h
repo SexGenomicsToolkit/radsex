@@ -50,24 +50,24 @@ struct Parameters {
     std::string group2 = "";   ///< Name of the secondfirst group for analysis comparing two groups
 
     // Common analyses parameters
-    uint n_threads = 1;   ///< Number of threads to use for "process"
-    uint min_depth = 1;   ///< Minimum depth to consider a marker present in an individual
+    unsigned int n_threads = 1;   ///< Number of threads to use for "process"
+    unsigned int min_depth = 1;   ///< Minimum depth to consider a marker present in an individual
     float signif_threshold = static_cast<float>(0.05);   ///< P-value threshold to consider a marker significantly associated with group
     bool disable_correction = false;   ///< If true, Bonferroni correction will NOT be applied when estimating significance of association with group
 
     // "subset" specific parameters
-    uint subset_min_group1 = 0;   ///< Minimum number of individuals from the first group in which a marker is present to retain a marker
-    uint subset_min_group2 = 0;   ///< Minimum number of individuals from the second group in which a marker is present to retain a marker
-    uint subset_max_group1 = 9999;   ///< Maximum number of individuals from the first group in which a marker is present to retain a marker
-    uint subset_max_group2 = 9999;   ///< Maximum number of individuals from the second group in which a marker is present to retain a marker
-    uint subset_min_individuals = 0;   ///< Minimum number of individuals from the entire dataset in which a marker is present to retain a marker
-    uint subset_max_individuals = 9999;   ///< Maximum number of individuals from the entire dataset in which a marker is present to retain a marker
+    unsigned int subset_min_group1 = 0;   ///< Minimum number of individuals from the first group in which a marker is present to retain a marker
+    unsigned int subset_min_group2 = 0;   ///< Minimum number of individuals from the second group in which a marker is present to retain a marker
+    unsigned int subset_max_group1 = 9999;   ///< Maximum number of individuals from the first group in which a marker is present to retain a marker
+    unsigned int subset_max_group2 = 9999;   ///< Maximum number of individuals from the second group in which a marker is present to retain a marker
+    unsigned int subset_min_individuals = 0;   ///< Minimum number of individuals from the entire dataset in which a marker is present to retain a marker
+    unsigned int subset_max_individuals = 9999;   ///< Maximum number of individuals from the entire dataset in which a marker is present to retain a marker
     bool set_max_group1 = true;   ///< If true, set subset_max_group1 to the number of group1 individuals in the popmap (i.e. it was not specified by the user)
     bool set_max_group2 = true;   ///< If true, set subset_max_group2 to the number of group1 individuals in the popmap (i.e. it was not specified by the user)
     bool set_max_individuals = true;   ///< If true, set subset_max_individuals to the number of group1 individuals in the popmap (i.e. it was not specified by the user)
 
     // "map" specific parameters
-    uint map_min_quality = 20;   ///< Minimum mapping quality to retained an aligned marker
+    unsigned int map_min_quality = 20;   ///< Minimum mapping quality to retained an aligned marker
     float map_min_frequency = static_cast<float>(0.1);   ///< Minimum frequency of a marker in the population to retain the marker
 
 };
