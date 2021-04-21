@@ -62,8 +62,8 @@ struct DepthResults {
     DepthResults(const uint16_t& n_individuals) {
 
         this->depths = std::vector<std::vector<uint16_t>>(n_individuals);
-        this->individual_markers_count = std::vector<uint32_t>(n_individuals);
-        this->individual_reads_count = std::vector<uint32_t>(n_individuals);
+        this->individual_markers_count = std::vector<uint32_t>(n_individuals, 0);
+        this->individual_reads_count = std::vector<uint32_t>(n_individuals, 0);
 
     };
 
@@ -129,4 +129,5 @@ class Depth: public Analysis {
     private:
 
         DepthResults results;  ///< DepthResults instance to store individual marker depths and total number of retained markers
+        uint min_individuals;  ///< Minimum number of individuals with a marker to retain this marker in computations
 };

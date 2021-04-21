@@ -70,4 +70,6 @@ struct Parameters {
     unsigned int map_min_quality = 20;   ///< Minimum mapping quality to retained an aligned marker
     float map_min_frequency = static_cast<float>(0.1);   ///< Minimum frequency of a marker in the population to retain the marker
 
+    // "depth" specific parameters
+    float depth_min_frequency = static_cast<float>(0.75);   ///< Minimum frequency of a marker in the population to retain this marker when computing depths
 };

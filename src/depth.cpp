@@ -27,6 +27,7 @@
 Depth::Depth(Parameters& parameters, bool compare_groups, bool store_groups, bool store_sequence) : Analysis(parameters, compare_groups, store_groups, store_sequence) {
 
     this->results = DepthResults(this->markers_table.header.n_individuals);
+    this->min_individuals = static_cast<uint>(this->parameters.depth_min_frequency * this->markers_table.header.n_individuals);
 
 }
 
@@ -38,12 +39,11 @@ void Depth::process_marker(Marker& marker) {
 
     for (uint i = 0; i < marker.individual_depths.size(); ++i) {
 
-        if (marker.n_individuals >= 0.75 * this->markers_table.header.n_individuals) this->results.depths[i].push_back(marker.individual_depths[i]); // Only consider markers present in at least 75% of individuals
+        if (marker.n_individuals >= this->min_individuals) this->results.depths[i].push_back(marker.individual_depths[i]); // Only consider markers present in a fraction of individuals for computations
+
         if (marker.individual_depths[i] > 0) {
-
             ++this->results.individual_markers_count[i];  // Increment total number of markers for this individual
-            this->results.individual_reads_count[i] += marker.individual_depths[i];
-
+            this->results.individual_reads_count[i] += marker.individual_depths[i];  // Add marker depth to total reads count for this individual
         }
 
     }
@@ -56,7 +56,24 @@ void Depth::process_marker(Marker& marker) {
 
 void Depth::generate_output() {
 
+    // Check that there are actually markers retained for the analysis
+    bool fail_exit = false;
+    for (uint i = 0; i < this->results.depths.size(); ++i) {
+        if (this->results.depths[i].size() == 0) fail_exit = true;
+    }
+    if (fail_exit) {
+        std::string msg = "No markers were present in at least <" +
+                          std::to_string(static_cast<uint>(this->parameters.depth_min_frequency * 100)) +
+                          ">% of all individuals (" +
+                          std::to_string(this->min_individuals) +
+                          "/" + std::to_string(this->markers_table.header.n_individuals) +
+                          " individuals)";
+        log(msg, LOG_ERROR);
+        exit(1);
+    }
+
     // Generate output file
+    log("Writing depth results to output file <" + this->parameters.output_file_path + ">");
     std::ofstream output_file = open_output(this->parameters.output_file_path);
     output_file << "Sample\tGroup\tReads\tMarkers\tRetained\tMin_depth\tMax_depth\tMedian_depth\tAverage_depth\n";
 
@@ -65,9 +82,9 @@ void Depth::generate_output() {
 
         std::sort(this->results.depths[i].begin(), this->results.depths[i].end());  // Sort depth vector to easily compute all metrics (necessary for median anyway)
 
+        const auto size = this->results.depths[i].size();
         const auto start = this->results.depths[i].begin();
         const auto end = this->results.depths[i].end();
-        const auto size = this->results.depths[i].size();
 
         const uint16_t min_depth = *start;  // Sorted vector: minimum depth is the first element
         const uint16_t max_depth = *(end - 1);  // Sorted vector: maximum depth is the last element

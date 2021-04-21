@@ -26,6 +26,7 @@
 #include <chrono>
 #include <cmath>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <map>
 #include <string>
@@ -124,12 +125,12 @@ template<typename T>
  * \param flushline If true, std::endl is added at the end of the log line
  */
 
-inline void log(T line, const std::string level = LOG_INFO, bool flushline = true) {
+inline void log(T line, const std::string level = LOG_INFO, bool flushline = true, uint float_precision = 2) {
 
     char logtime[MAX_TIME_SIZE];
     std::string indent((8 - level.size()), ' ');  // Nicely align messages for all log levels
 
-    std::cerr << "[" << print_time(logtime) << "]::" << level << indent << std::boolalpha << line;
+    std::cerr << "[" << print_time(logtime) << "]::" << level << indent << std::boolalpha << std::fixed << std::setprecision(float_precision) << line;
     if (flushline) std::cerr << std::endl;
 }
 
