@@ -1,6 +1,6 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/SexGenomicsToolkit/RADSex?color=lightorange)](https://github.com/SexGenomicsToolkit/RADSex/releases)
 [![Conda (channel only)](https://img.shields.io/conda/vn/bioconda/radsex?color=lightorange)](https://bioconda.github.io/recipes/radsex/README.html)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4628297.svg)](https://doi.org/10.5281/zenodo.4628297)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4707041.svg)](https://doi.org/10.5281/zenodo.4707041)
 
 # radsex
 
@@ -30,7 +30,7 @@ If you use RADSex in your work, please cite the [manuscript describing RADSex](h
 
 To properly cite RADSex, you should also cite the software and its version using the DOI provided in the badges above:
 
-> Romain Feron. (2020, April 29). SexGenomicsToolkit/radsex: 1.1.2 (Version 1.1.2). Zenodo. http://doi.org/10.5281/zenodo.3775206
+> Romain Feron. (2021, April 21). SexGenomicsToolkit/radsex: 1.2.0 (Version 1.2.0). Zenodo. http://doi.org/10.5281/zenodo.4707041
 
 ## Documentation
 
